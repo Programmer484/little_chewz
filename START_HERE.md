@@ -92,3 +92,5 @@ The workflow currently validates source and regenerates only the *existing appro
 For an optional manual build, use **Actions → PDF previews → Run workflow**. No PDF files are committed automatically, and the workflow never writes to Google Drive. To avoid redundant usage it deliberately does **not** run again on every push to `main` after a pull request has passed.
 
 See `SYSTEM_IMPROVEMENTS.md` for the next phase (dependency-aware targeted builds). Each Actions run on the private repository consumes GitHub-hosted runner minutes; artifact retention is kept short to limit storage usage.
+
+**Initial measured run (2026-10-18):** 10.9 seconds of runner log time, which uses approximately **one billable Linux minute** after per-job rounding; three PDF files produced a **740 KB** compressed artifact. Actual runtime may rise as resources are added. GitHub Free currently includes 2,000 Actions minutes monthly across the account; overage for standard 2-core Linux is $0.006/minute. Check GitHub Billing for your plan and remaining allowance.
