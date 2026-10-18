@@ -9,7 +9,7 @@ A dedicated backlog for improvements to the Little Chewz **source editing, valid
 
 ## SYS-001 — GitHub Actions regeneration and validation for cloud-chat edits
 
-**Status:** Phase 1 implemented; Phase 2 deferred until needed  
+**Status:** Implemented (Phase 1 + Phase 2 targeted PDF selection)  
 **Priority:** P1  
 **Owner:** To be assigned  
 **Requested:** 2026-10-18
@@ -32,7 +32,7 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 5. Verify that produced PDFs exist and can be opened; audit internal/external PDF link annotations to the extent supported locally. This does not prove Google Drive sharing permissions.
 6. Upload the generated PDFs as ephemeral GitHub Actions artifacts associated with the exact commit/PR. Report validation/build errors clearly.
 
-**Phase 2 — Targeted edits and dependency-aware builds (deferred; only when needed)**
+**Phase 2 — Targeted edits and dependency-aware builds (implemented for existing three approved PDFs)**
 1. Determine affected outputs from changed lesson/resource JSON, referenced assets, resource registry, templates, and renderers. A shared renderer/config change should rebuild every dependent output.
 2. Support a manual `all` rebuild and a single-resource preview for cloud-chat changes.
 3. Provide a concise PR status/summary listing source files changed, generated outputs, warnings, unresolved references, and artifacts.
@@ -55,6 +55,10 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 
 - [x] GitHub Actions workflow and pinned runner dependencies implemented and verified
 - [x] Validation and generated-preview artifacts verified on PR #2 (3 PDFs; 7-day artifact)
-- [ ] Targeted dependency-aware regeneration implemented and tested
+- [x] Targeted dependency-aware regeneration implemented with regression tests
 - [x] Review workflow documented in `START_HERE.md`
 
+
+### Targeted-build implementation note (2026-10-18)
+
+Selection lives in `scripts/select_builds.py` and verified rendering in `scripts/build_selected.py`. PR builds compare file changes against the PR's base commit; validation always runs. One resource edit builds that resource, changed shared renderers build their consumers, and only changed resource-registry entries referenced by a document trigger its rebuild. Unrelated source/doc changes create no PDF artifacts. Unknown dependencies conservatively rebuild all currently approved PDFs. Manual dispatch rebuilds all. The unapproved songwriting draft remains excluded. Existing source content and Drive publishing are not changed.

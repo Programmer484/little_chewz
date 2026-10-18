@@ -47,49 +47,44 @@ jobs:
       - name: Validate source references
         run: python scripts/validate.py
 
-      - name: Render approved Activate guide
-        run: |
-          python scripts/build.py teacher --lesson content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/00-activate/lesson.json
+      - name: Test dependency selector
+        run: python -m unittest discover -s tests -v
 
-      - name: Render approved teacher companions
+      - name: Determine affected PDF outputs
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         shell: bash
         run: |
-          mkdir -p exports
-          python scripts/renderers/teacher_companion.py \
-            content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/mission-video-questions.json \
-            -o exports/mission-video-questions.pdf --registry catalog/resources.json
-          python scripts/renderers/teacher_companion.py \
-            content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/confetti-file-questions.json \
-            -o exports/confetti-file-questions.pdf --registry catalog/resources.json
-
-      - name: Check generated PDFs
-        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            python scripts/select_builds.py --all --output build-selection.json
+          else
+            # Explicit base SHA allows precise comparisons even when a PR has
+            # multiple commits; fail rather than silently skipping changes.
+            git fetch --no-tags --depth=1 origin "$BASE_SHA"
+            git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files.txt
+            mapfile -t changed < /tmp/changed-files.txt
+            python scripts/select_builds.py --base-ref "$BASE_SHA" --changed "${changed[@]}" --output build-selection.json
+          fi
           python - <<'PY'
+          import json, os
           from pathlib import Path
-          import fitz
-          outputs = sorted(Path("exports").glob("*.pdf"))
-          assert {p.name for p in outputs} == {
-              "00-activate-teacher-guide.pdf",
-              "mission-video-questions.pdf",
-              "confetti-file-questions.pdf",
-          }, f"Unexpected PDF outputs: {outputs}"
-          for path in outputs:
-              with fitz.open(path) as doc:
-                  assert doc.page_count >= 1, f"Empty PDF: {path}"
-                  links = [link for page in doc for link in page.get_links()]
-                  for link in links:
-                      if link["kind"] == fitz.LINK_URI:
-                          assert link.get("uri", "").startswith("https://"), (
-                              f"Unsupported external link in {path}: {link}"
-                          )
-                  if path.name == "00-activate-teacher-guide.pdf":
-                      assert any(link["kind"] == fitz.LINK_URI for link in links), (
-                          "Activate Teacher Guide lost its resource hyperlinks"
-                      )
-                  print(f"PASS {path}: {doc.page_count} pages, {len(links)} links, {path.stat().st_size} bytes")
+          outputs = json.loads(Path("build-selection.json").read_text())["outputs"]
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"has_outputs={'true' if outputs else 'false'}\n")
+          summary = "Targeted PDF previews: " + (", ".join(outputs) if outputs else "none; validation only")
+          print(summary)
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
+              f.write("### " + summary + "\n")
           PY
 
+      - name: Render and verify only affected PDFs
+        if: steps.select.outputs.has_outputs == 'true'
+        run: python scripts/build_selected.py --manifest build-selection.json
+
       - name: Attach PDFs for review (7 days)
+        if: steps.select.outputs.has_outputs == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: little-chewz-approved-pdf-previews
