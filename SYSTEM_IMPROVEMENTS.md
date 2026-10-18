@@ -9,7 +9,7 @@ A dedicated backlog for improvements to the Little Chewz **source editing, valid
 
 ## SYS-001 — GitHub Actions regeneration and validation for cloud-chat edits
 
-**Status:** In progress (Phase 1 test)  
+**Status:** Phase 1 implemented; Phase 2 deferred until needed  
 **Priority:** P1  
 **Owner:** To be assigned  
 **Requested:** 2026-10-18
@@ -32,7 +32,7 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 5. Verify that produced PDFs exist and can be opened; audit internal/external PDF link annotations to the extent supported locally. This does not prove Google Drive sharing permissions.
 6. Upload the generated PDFs as ephemeral GitHub Actions artifacts associated with the exact commit/PR. Report validation/build errors clearly.
 
-**Phase 2 — Targeted edits and dependency-aware builds**
+**Phase 2 — Targeted edits and dependency-aware builds (deferred; only when needed)**
 1. Determine affected outputs from changed lesson/resource JSON, referenced assets, resource registry, templates, and renderers. A shared renderer/config change should rebuild every dependent output.
 2. Support a manual `all` rebuild and a single-resource preview for cloud-chat changes.
 3. Provide a concise PR status/summary listing source files changed, generated outputs, warnings, unresolved references, and artifacts.
@@ -53,8 +53,8 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 
 ### Completion record
 
-- [x] Workflow and pinned runner dependencies committed on test branch (verification pending)
-- [ ] Validation and generated-preview artifacts verified on a test PR
+- [x] GitHub Actions workflow and pinned runner dependencies implemented and verified
+- [x] Validation and generated-preview artifacts verified on PR #2 (3 PDFs; 7-day artifact)
 - [ ] Targeted dependency-aware regeneration implemented and tested
 - [x] Review workflow documented in `START_HERE.md`
 
