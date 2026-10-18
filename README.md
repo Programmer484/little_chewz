@@ -1,7 +1,9 @@
-# Little Chewz — AI Source System
+# Little Chewz — AI-first editable source
 
-This repository hosts the editable, AI-first source for Little Chewz lesson plans, teaching resources, and generation tools.
+Start with **[START_HERE.md](START_HERE.md)**, then read **[AGENTS.md](AGENTS.md)**.
 
-**Start with [START_HERE.md](START_HERE.md)**, then read [AGENTS.md](AGENTS.md) before editing content.
+This repository separates lesson data, reusable templates, rendering scripts, and published exports. It contains approved Activate JSON, three companion resource sources, and explicitly unapproved skeletons for six later stages. **No published Drive files are replaced by this repository.**
 
-This is a migration starter, not a published replacement for the live Google Drive teacher materials.
+**Workflow:** `content/` = actual lesson/resource wording; `templates/` = structures; `scripts/` = actions; `exports/` = generated PDFs. The target slideshow is one continuous deck per quest; current Activate 7-slide and historical 44-slide sources are not yet reconciled.
+
+See [migration report](MIGRATION_REPORT.md) and run `python scripts/validate.py`. Build instructions are in START_HERE.

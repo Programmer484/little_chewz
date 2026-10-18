@@ -1,0 +1,25 @@
+{
+  "title": "Confetti File 001 — Additional Questions",
+  "section": "Activate",
+  "eyebrow": "OPTIONAL QUESTIONS",
+  "intro": "Choose questions that fit the discussion; there is no need to use them all.",
+  "blocks": [
+    {
+      "type": "questions",
+      "items": [
+        "What do we learn about the bakery in 1958?",
+        "What clues suggest Callie is unusual?",
+        "Why do you think M.T. wasn't worried about Callie moving?",
+        "What questions do you still have after hearing this log?",
+        "What clue do you think might become important later?"
+      ]
+    }
+  ],
+  "source_note": "Five original Zenix Observations, Full Guide page 17, retained without additions.",
+  "resource_id": "ccc-q01-activate-confetti-questions",
+  "resource_type": "teacher_companion",
+  "audience": "teacher",
+  "stage": "00-activate",
+  "review_status": "approved_source",
+  "published_ref": "ccc-q01-activate-confetti-questions"
+}

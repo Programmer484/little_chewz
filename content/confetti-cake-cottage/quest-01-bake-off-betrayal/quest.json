@@ -1,0 +1,71 @@
+{
+  "id": "ccc-q01",
+  "product": "Little Chewz",
+  "program": "Chewlandia Academy",
+  "school": "Confetti Cake Cottage School",
+  "quest_number": 1,
+  "title": "The Bake-Off Betrayal",
+  "mission": "Restore the Sparkle",
+  "audience": {
+    "grades": [
+      4,
+      5,
+      6
+    ]
+  },
+  "learning_sequence": [
+    {
+      "folder": "00-activate",
+      "title": "Activate",
+      "status": "approved_source",
+      "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf."
+    },
+    {
+      "folder": "01-set-the-table",
+      "title": "Set the Table",
+      "status": "migration_needed",
+      "source_note": "Revised Guide pages 5–8; slideshow pages 8–13 in older continuous deck."
+    },
+    {
+      "folder": "02-secret-ingredients",
+      "title": "Secret Ingredients",
+      "status": "migration_needed",
+      "source_note": "Revised Guide pages 9–13; slideshow pages 14–18 in older continuous deck."
+    },
+    {
+      "folder": "03-the-showdown",
+      "title": "The Showdown",
+      "status": "migration_needed",
+      "source_note": "Revised Guide pages 14–17; slideshow pages 19–21 in older continuous deck."
+    },
+    {
+      "folder": "04-chew-on-this",
+      "title": "Chew On This",
+      "status": "migration_needed",
+      "source_note": "Revised Guide pages 18–21; slideshow pages 22–29 in older continuous deck."
+    },
+    {
+      "folder": "05-plate-it-forward",
+      "title": "Plate It Forward",
+      "status": "migration_needed",
+      "source_note": "Revised Guide pages 22–25; slideshow pages 30–32 in older continuous deck."
+    },
+    {
+      "folder": "06-celebrate",
+      "title": "Celebrate",
+      "status": "migration_needed",
+      "source_note": "Revised Guide pages 26–29; slideshow pages 33–44 in older continuous deck."
+    }
+  ],
+  "editorial_benchmark": "Full Guide Revised.pdf (29 pages)",
+  "legacy_reference": "Full Guide.pdf (109 pages)",
+  "slide_conflict_note": "Decision: target is ONE continuous quest slideshow. Seven-slide current Activate segment remains approved for Activate, and old 44-slide deck slide ranges are legacy references only until reconciled.",
+  "slideshow_policy": {
+    "scope": "quest",
+    "structure": "continuous",
+    "slide_numbering": "continuous_across_stages",
+    "current_approved_segment": "Activate slides 1–7 (published seven-slide asset)",
+    "full_deck_status": "migration_needed",
+    "warning": "The former 44-slide continuous deck is a legacy reference, not verified current content. Do not assert a completed full deck or publish revised slide numbers without review."
+  }
+}

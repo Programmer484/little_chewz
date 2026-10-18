@@ -1,0 +1,185 @@
+{
+  "key": "activate",
+  "title": "ACTIVATE",
+  "grade": "4–6",
+  "duration": "approximately 30 minutes",
+  "print_note": "NO STUDENT PRINTING REQUIRED",
+  "goal": "Spark curiosity about Confetti Cake Cottage School and introduce the Zenix approach to solving mysteries through careful observation, thoughtful questions, and understanding different perspectives.",
+  "outcomes": [
+    "Ask thoughtful questions about the school and its mysteries.",
+    "Identify an unusual detail about Callie Cupcake.",
+    "Explain why Zenix gather information and consider different perspectives before judging."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-activate-slides",
+      "description": "Activate slides 1–7"
+    },
+    {
+      "ref": "ccc-q01-mrs-tongsleys-letter",
+      "description": "Opening read-aloud"
+    }
+  ],
+  "optional_prep": [
+    {
+      "ref": "ccc-school-pass-instructions",
+      "description": "Instructions + print options"
+    },
+    {
+      "ref": "ccc-callie-cupcake-poster",
+      "description": "Optional display"
+    }
+  ],
+  "prep_note": "Preview the two videos before class.",
+  "focus": "Encourage students to seek understanding before making judgments.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Social Studies"
+  ],
+  "cover": "cover.png",
+  "output": "activate-teacher-guide.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Welcome to Confetti Cake Cottage",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slides 1–3 — Introduce Chewlandia Academy and Confetti Cake Cottage School."
+        },
+        {
+          "kind": "KEEP",
+          "text": "Slide 3 — Display during the welcome letter."
+        },
+        {
+          "kind": "READ",
+          "ref": "ccc-q01-mrs-tongsleys-letter",
+          "description": "Opening read-aloud"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mrs. Tongsley's Video",
+      "mins": "7",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 4 — Play Mrs. Tongsley's video transmission."
+        },
+        {
+          "kind": "ASK",
+          "text": "What are you wondering about after her message?"
+        },
+        {
+          "kind": "MORE",
+          "links": [
+            {
+              "ref": "ccc-q01-mrs-tongsley-video",
+              "description": "Direct video preview"
+            },
+            {
+              "ref": "ccc-q01-activate-video-questions",
+              "description": "Additional questions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Confetti File 001 + Meet Callie",
+      "mins": "7",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 5 — Play the Bakery Log and Callie reveal video."
+        },
+        {
+          "kind": "ASK",
+          "text": "What unusual detail stood out about Callie?"
+        },
+        {
+          "kind": "MORE",
+          "links": [
+            {
+              "ref": "ccc-q01-callie-cupcake-video",
+              "description": "Direct video preview"
+            },
+            {
+              "ref": "ccc-q01-bakery-log-1958",
+              "description": "Read-aloud alternative to video"
+            },
+            {
+              "ref": "ccc-q01-activate-confetti-questions",
+              "description": "Additional questions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "From Callie to the Zenix",
+      "mins": "2",
+      "rows": [
+        {
+          "kind": "KEEP",
+          "text": "Slide 5 — Display during the transition."
+        },
+        {
+          "kind": "QUOTE",
+          "text": "Callie has been a mystery at Confetti Cake Cottage for years. A cupcake that seems to move on her own? That's enough to make anyone wonder!\n\nBut Chewlandia has mysteries bigger than a wandering cupcake. When friendships begin to crack and a celebration loses its sparkle, guessing won't put things right. Sometimes, the sweetest answer comes from listening first.\n\nThere's a name for those trusted to search carefully, one question at a time..."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Quest Debrief: Meet the Zenix",
+      "mins": "4",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 6 — Reveal the Zenix and their first rule."
+        },
+        {
+          "kind": "QUOTE",
+          "text": "Long before the villages of Chewlandia worked together, people believed every celebration was held together by an invisible ingredient. Without it, even the finest recipes fell flat.\n\nThose entrusted with finding it were called the Zenix. Their first rule was simple:\n\nNever repair what you do not yet understand.",
+          "bold_text": "Never repair what you do not yet understand."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Quest Debrief: Your First Mission",
+      "mins": "4",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 7 — Introduce the mission."
+        },
+        {
+          "kind": "QUOTE",
+          "text": "The Battle of the Bakers is only days away. Then... everything changes. One unexpected team switch leaves friendships strained and trust shaken.\n\nAs Chewlandia's newest Zenix, your first assignment isn't to decide who was right or wrong. Gather clues, explore every perspective, and uncover the missing ingredient behind The Bake-Off Betrayal.\n\nMission: Restore the Sparkle.",
+          "bold_text": "Mission: Restore the Sparkle."
+        },
+        {
+          "kind": "ASK",
+          "text": "Why does the Zenix rule matter when people disagree?"
+        }
+      ]
+    }
+  ],
+  "bonuses": [
+    {
+      "ref": "ccc-school-pass-instructions",
+      "description": "— Create a school identity and collect quest badges; add 10–20 minutes."
+    },
+    {
+      "ref": "ccc-callie-cupcake-poster",
+      "description": "— Display Callie throughout Quest One."
+    }
+  ]
+}
