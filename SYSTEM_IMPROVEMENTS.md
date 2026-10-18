@@ -9,7 +9,7 @@ A dedicated backlog for improvements to the Little Chewz **source editing, valid
 
 ## SYS-001 — GitHub Actions regeneration and validation for cloud-chat edits
 
-**Status:** Planned  
+**Status:** Phase 1 implemented; Phase 2 deferred until needed  
 **Priority:** P1  
 **Owner:** To be assigned  
 **Requested:** 2026-10-18
@@ -25,14 +25,14 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 ### Proposed implementation
 
 **Phase 1 — Reliable CI and previews**
-1. Add `.github/workflows/build-resources.yml` triggered by pull requests and relevant pushes to `main`. Allow manual dispatch.
+1. Add `.github/workflows/build-resources.yml` triggered by relevant pull requests, plus manual runs (no duplicate push-to-main build). Allow manual dispatch.
 2. Set up a supported Python runtime, install pinned project dependencies, and make a compatible Lato font family available to the teacher-guide renderer (without committing font binaries to this repository).
 3. Run `python scripts/validate.py` and fail the check on errors.
 4. Regenerate all *currently buildable and approved* teacher-guide and teacher-companion sources using `scripts/build.py`. Include draft outputs only when explicitly requested; never treat six lesson-stage skeletons as buildable lessons.
 5. Verify that produced PDFs exist and can be opened; audit internal/external PDF link annotations to the extent supported locally. This does not prove Google Drive sharing permissions.
 6. Upload the generated PDFs as ephemeral GitHub Actions artifacts associated with the exact commit/PR. Report validation/build errors clearly.
 
-**Phase 2 — Targeted edits and dependency-aware builds**
+**Phase 2 — Targeted edits and dependency-aware builds (deferred; only when needed)**
 1. Determine affected outputs from changed lesson/resource JSON, referenced assets, resource registry, templates, and renderers. A shared renderer/config change should rebuild every dependent output.
 2. Support a manual `all` rebuild and a single-resource preview for cloud-chat changes.
 3. Provide a concise PR status/summary listing source files changed, generated outputs, warnings, unresolved references, and artifacts.
@@ -53,8 +53,8 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 
 ### Completion record
 
-- [ ] Workflow and reproducible runner environment implemented
-- [ ] Validation and generated-preview artifacts verified on a test PR
+- [x] GitHub Actions workflow and pinned runner dependencies implemented and verified
+- [x] Validation and generated-preview artifacts verified on PR #2 (3 PDFs; 7-day artifact)
 - [ ] Targeted dependency-aware regeneration implemented and tested
-- [ ] Review workflow documented in `START_HERE.md`
+- [x] Review workflow documented in `START_HERE.md`
 
