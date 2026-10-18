@@ -82,3 +82,13 @@ The teacher-guide generator requires locally installed Lato fonts, which are not
 ## Migration warning
 
 Do not move/delete/rename the current public Drive files yet. The current teacher guides link directly to Drive file IDs; migration should preserve those IDs. This package is a reviewable source-system draft, not an approved content rewrite.
+
+## Automated PDF previews in GitHub
+
+When a pull request modifies current lesson/resource sources, rendering code, templates, schemas, the resource registry, or the build workflow, **PDF previews** runs automatically. Open the pull request's **Checks** tab, select the run, and download the `little-chewz-approved-pdf-previews` artifact. It is kept for **7 days**.
+
+The workflow currently validates source and regenerates only the *existing approved outputs*: the Activate Teacher Guide, Mission Video Questions and Confetti File Questions. The Songwriting Extension is a draft and is intentionally excluded. The six later lesson skeletons, worksheets and slides do not have build targets.
+
+For an optional manual build, use **Actions → PDF previews → Run workflow**. No PDF files are committed automatically, and the workflow never writes to Google Drive. To avoid redundant usage it deliberately does **not** run again on every push to `main` after a pull request has passed.
+
+See `SYSTEM_IMPROVEMENTS.md` for the next phase (dependency-aware targeted builds). Each Actions run on the private repository consumes GitHub-hosted runner minutes; artifact retention is kept short to limit storage usage.
