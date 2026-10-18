@@ -9,7 +9,7 @@ A dedicated backlog for improvements to the Little Chewz **source editing, valid
 
 ## SYS-001 — GitHub Actions regeneration and validation for cloud-chat edits
 
-**Status:** Planned  
+**Status:** In progress (Phase 1 test)  
 **Priority:** P1  
 **Owner:** To be assigned  
 **Requested:** 2026-10-18
@@ -25,7 +25,7 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 ### Proposed implementation
 
 **Phase 1 — Reliable CI and previews**
-1. Add `.github/workflows/build-resources.yml` triggered by pull requests and relevant pushes to `main`. Allow manual dispatch.
+1. Add `.github/workflows/build-resources.yml` triggered by relevant pull requests, plus manual runs (no duplicate push-to-main build). Allow manual dispatch.
 2. Set up a supported Python runtime, install pinned project dependencies, and make a compatible Lato font family available to the teacher-guide renderer (without committing font binaries to this repository).
 3. Run `python scripts/validate.py` and fail the check on errors.
 4. Regenerate all *currently buildable and approved* teacher-guide and teacher-companion sources using `scripts/build.py`. Include draft outputs only when explicitly requested; never treat six lesson-stage skeletons as buildable lessons.
@@ -53,8 +53,8 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 
 ### Completion record
 
-- [ ] Workflow and reproducible runner environment implemented
+- [x] Workflow and pinned runner dependencies committed on test branch (verification pending)
 - [ ] Validation and generated-preview artifacts verified on a test PR
 - [ ] Targeted dependency-aware regeneration implemented and tested
-- [ ] Review workflow documented in `START_HERE.md`
+- [x] Review workflow documented in `START_HERE.md`
 
