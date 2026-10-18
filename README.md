@@ -7,3 +7,5 @@ This repository separates lesson data, reusable templates, rendering scripts, an
 **Workflow:** `content/` = actual lesson/resource wording; `templates/` = structures; `scripts/` = actions; `exports/` = generated PDFs. The target slideshow is one continuous deck per quest; current Activate 7-slide and historical 44-slide sources are not yet reconciled.
 
 See [migration report](MIGRATION_REPORT.md) and run `python scripts/validate.py`. Build instructions are in START_HERE.
+
+System tooling improvements (including GitHub Actions validation and PDF previews) are tracked in **[SYSTEM_IMPROVEMENTS.md](SYSTEM_IMPROVEMENTS.md)**. These are proposed/planned tasks, not enabled features.
