@@ -37,7 +37,7 @@ class SelectionTests(unittest.TestCase):
     def test_registry_only_affected_refs(self):
         with patch.object(sb, "changed_registry_ids", return_value={"ccc-q01-mrs-tongsleys-letter"}):
             self.assertEqual(sb.select(["catalog/resources.json"], "origin/main"), [sb.GUIDE])
-        with patch.object(sb, "changed_registry_ids", return_value={"ccc-q01-activate-confetti-questions"}):
+        with patch.object(sb, "changed_registry_ids", return_value={"ccc-q01-activate-teacher-guide"}):
             self.assertEqual(sb.select(["catalog/resources.json"], "origin/main"), [])
 
     def test_registry_unknown_rebuilds_all(self):
