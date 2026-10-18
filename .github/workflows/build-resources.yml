@@ -29,10 +29,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out proposed commit
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
@@ -90,7 +90,7 @@ jobs:
           PY
 
       - name: Attach PDFs for review (7 days)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: little-chewz-approved-pdf-previews
           path: exports/*.pdf
