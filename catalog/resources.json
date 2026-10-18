@@ -1,0 +1,144 @@
+{
+  "ccc-q01-activate-slides": {
+    "title": "Classroom Slideshow",
+    "url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
+    "resource_id": "ccc-q01-activate-slides",
+    "type": "slide_deck",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "slides"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "This currently points to the seven-slide Activate_Slides.pdf, not the older continuous 44-slide slideshow.",
+    "legacy_alias": "slides"
+  },
+  "ccc-q01-mrs-tongsleys-letter": {
+    "title": "Mrs. Tongsley's Letter",
+    "url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
+    "resource_id": "ccc-q01-mrs-tongsleys-letter",
+    "type": "story",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "read-aloud"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "letter"
+  },
+  "ccc-school-pass-instructions": {
+    "title": "Chewlandia Passport",
+    "url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
+    "resource_id": "ccc-school-pass-instructions",
+    "type": "teacher_reference",
+    "audience": "teacher",
+    "tags": [
+      "passport",
+      "print-instructions"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review.",
+    "legacy_alias": "passport"
+  },
+  "ccc-callie-cupcake-poster": {
+    "title": "Callie Cupcake Poster",
+    "url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
+    "resource_id": "ccc-callie-cupcake-poster",
+    "type": "visual_asset",
+    "audience": "teacher",
+    "tags": [
+      "mascot",
+      "display"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "poster"
+  },
+  "ccc-q01-mrs-tongsley-video": {
+    "title": "Mrs. Tongsley's Video",
+    "url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
+    "resource_id": "ccc-q01-mrs-tongsley-video",
+    "type": "media",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "video"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "tongsley_video"
+  },
+  "ccc-q01-callie-cupcake-video": {
+    "title": "Callie Cupcake Video",
+    "url": "https://youtu.be/qXq3cCxg8l8",
+    "resource_id": "ccc-q01-callie-cupcake-video",
+    "type": "media",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "video"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "callie_video"
+  },
+  "ccc-q01-bakery-log-1958": {
+    "title": "Bakery Log (1958)",
+    "url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
+    "resource_id": "ccc-q01-bakery-log-1958",
+    "type": "story",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "historic-log"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "bakery_log"
+  },
+  "ccc-q01-activate-video-questions": {
+    "title": "Mission Video Questions",
+    "url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
+    "resource_id": "ccc-q01-activate-video-questions",
+    "type": "teacher_companion",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "questions"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "mission_video_questions"
+  },
+  "ccc-q01-activate-confetti-questions": {
+    "title": "Confetti File Questions",
+    "url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
+    "resource_id": "ccc-q01-activate-confetti-questions",
+    "type": "teacher_companion",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "questions"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "confetti_file_questions"
+  },
+  "ccc-q01-activate-teacher-guide": {
+    "title": "Activate Teacher Guide",
+    "url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
+    "resource_id": "ccc-q01-activate-teacher-guide",
+    "type": "published_export",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "guide"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "legacy_alias": "activate_teacher_guide"
+  }
+}

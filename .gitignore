@@ -1,0 +1,6 @@
+# Generated outputs and Python caches
+exports/*.pdf
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/

@@ -1,14 +1,29 @@
-# Instructions for AI editors
+# Little Chewz — Mandatory AI instructions
 
-This GitHub repository is the future editable source for Little Chewz learning resources.
+You are editing a **source-first educational content repository**, not a PDF as the source of truth.
 
-1. Start with `START_HERE.md` and any instructions under `system/`.
-2. Treat approved JSON/Markdown lesson content as editable source; treat PDF exports as generated outputs or historical references.
-3. Preserve story canon, characters, approved educational wording, and lesson sequence. Never fabricate a resource link.
-4. Keep one canonical registry of stable resource IDs and URLs in `catalog/resources.json` when populated.
-5. Separate educational content in `content/` from reusable templates and build scripts.
-6. Do not overwrite Drive resources or change live publication links without explicit approval.
-7. Mark incomplete migration, uncertain transcriptions, and missing assets clearly; do not silently promote drafts to approved source.
-8. For teacher guides, write concise, actionable teacher directions; keep additional questions, worksheets, chapter texts and answer keys as separate resources.
+## Read in this order
 
-These are minimal bootstrap instructions. The full editorial rules remain in the [existing Google Drive source](https://drive.google.com/drive/folders/1UnvISlulp9QMFzMl3SwZ_170vqHHFiwW) until the reviewed source package is migrated.
+1. `START_HERE.md` for navigation and system intent.
+2. `system/CONTENT_CONTRACT.md` for types, paths, and version rules.
+3. `system/EDITORIAL_GUIDE.md` and, for companions, `system/RESOURCE_GUIDELINES.md`.
+4. `catalog/quests.json` -> targeted `quest.json` -> editable lesson/resource file.
+5. `catalog/resources.json` for the only authoritative URLs and linked names.
+6. Relevant renderer in `scripts/renderers/` **only if editing layout/generation**.
+
+## Hard rules
+
+- Use **only** approved source facts, canon, names, dialogue, existing activities, and approved resource URLs. Do not extrapolate or create 'missing' worksheets.
+- `status: migration_needed` or `status: draft_transcription` means NOT APPROVED for final teaching/publishing. Never silently upgrade it.
+- Edit lesson-level text/steps in `content/**/lessons/**/lesson.json`; companion blocks in `content/**/resources/**.json`; stories and raw letters in Markdown.
+- Single content owner: Never duplicate whole resource text inside the teacher flow. Teacher Guide links to resources by stable ID; slideshow navigation uses slide numbers only.
+- PDFs are generated exports, **except a legacy PDF still waiting to be converted**. Visual artwork belongs in image assets; links belong in the registry. Don't copy large PDFs into this edit-source package.
+- Use **one continuous slideshow per quest**, with stable continuous numbering. The live seven-slide Activate export is a legacy segment; do not conflate it with the approved completed continuous quest deck. Later slide ranges remain unverified until the continuous deck is reconciled.
+- Missing, stale, or unapproved links MUST be flagged; never invent URLs or quietly fall back to unlinked text.
+- Preserve teacher-guide structure and exact approved editorial rules described in `system/EDITORIAL_GUIDE.md`.
+- Use `system/action_labels.json` as the single authority for action vocabulary (renderer and validator must consult the same list when validation applies).
+- Separate **content changes** from **visual design changes** and **publishing actions**; verify the regenerated document before publication.
+
+## Required output from each future AI edit
+
+State: files edited; source and review status; validation result; generated outputs; remaining unresolved issues. If changing the published Drive PDF, document the exact file ID and confirm it was replaced in place.

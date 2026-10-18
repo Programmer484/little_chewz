@@ -1,0 +1,18 @@
+{
+  "teacher_guide_actions": [
+    "SHOW",
+    "KEEP",
+    "READ",
+    "ASK",
+    "DO",
+    "GIVE",
+    "PLAY",
+    "CHOOSE",
+    "MORE",
+    "NEXT"
+  ],
+  "internal_row_types": [
+    "QUOTE"
+  ],
+  "note": "Central source for editorial action labels; QUOTE is a renderer-only long read-aloud row rendered as READ."
+}

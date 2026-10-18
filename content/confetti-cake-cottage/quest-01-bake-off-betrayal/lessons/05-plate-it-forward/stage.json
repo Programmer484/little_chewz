@@ -1,0 +1,17 @@
+{
+  "id": "ccc-q01-05-plate-it-forward",
+  "title": "Plate It Forward",
+  "status": "migration_needed",
+  "lesson_source": null,
+  "source_note": "Revised Guide pages 22–25; slideshow pages 30–32 in older continuous deck.",
+  "required_fields": [
+    "learning_goal",
+    "learning_outcomes",
+    "preparation",
+    "teaching_focus",
+    "teaching_flow",
+    "resource_refs",
+    "continuous_slide_references"
+  ],
+  "next_action": "Migrate from the verified legacy guide, compare against current continuous slideshow and seek editorial approval; do not invent content."
+}

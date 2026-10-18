@@ -1,0 +1,10 @@
+{
+  "program": "Chewlandia Academy",
+  "school_index": [
+    {
+      "school_id": "ccc",
+      "name": "Confetti Cake Cottage School",
+      "quest_manifest": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "title": "Mrs. Tongsley's Video — Additional Questions",
+  "section": "Activate",
+  "eyebrow": "OPTIONAL QUESTIONS",
+  "intro": "Choose questions that fit the class discussion; there is no need to use them all.",
+  "blocks": [
+    {
+      "type": "questions",
+      "items": [
+        "What is the name of the school?",
+        "What clues tell us this isn't an ordinary school?",
+        "What words would you use to describe the atmosphere?",
+        "What do you think students learn at Confetti Cake Cottage?",
+        "The sign says, ‘Where every celebration hides a little chaos.’ What do you think that means?",
+        "Based on the video, what clues do you think might become important later in the story?"
+      ]
+    }
+  ],
+  "source_note": "Six original Zenix Observations, Full Guide page 16, retained without additions.",
+  "resource_id": "ccc-q01-activate-video-questions",
+  "resource_type": "teacher_companion",
+  "audience": "teacher",
+  "stage": "00-activate",
+  "review_status": "approved_source",
+  "published_ref": "ccc-q01-activate-video-questions"
+}

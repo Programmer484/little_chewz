@@ -1,23 +1,84 @@
-# Little Chewz — AI Source System
+# Little Chewz — AI Source System (starter v1)
 
-This repository is an editable source-of-truth workspace, not the live teacher distribution folder.
+**START HERE for humans and AI.** This is a proposed source-first migration package based on the current Google Drive inventory on 2026-10-15. It does not alter or republish the live Drive materials.
 
-## How to work
+## 90-second orientation
 
-1. Read `AGENTS.md` for editorial and source authority rules.
-2. Find the relevant quest and lesson under `content/`.
-3. Edit structured lesson or resource content, not exported PDFs.
-4. Reuse `templates/`, and run code under `scripts/` to validate/build.
-5. Check resource IDs and approved URLs before publishing.
+1. Read `AGENTS.md` (mandatory AI start) and `system/EDITORIAL_GUIDE.md`.
+2. Read `catalog/quests.json` and the relevant `content/**/quest.json` to locate the quest/stage and its revision status.
+3. Read `catalog/resources.json` to look up a resource's stable ID, approved destination, format and audience. Never invent a URL.
+4. Read the selected lesson `lesson.json` or resource `*.json` and its schema. **Edit these sources**, not PDFs.
+5. Use the shared generator under `scripts/renderers/` and review the generated result before publishing.
 
-## Planned layout
+## Directory map
 
-- `system/`: cross-project editorial and architectural instructions
-- `catalog/`: quest and resource indexes
-- `schemas/`: validation contracts
-- `templates/`: reusable resource structures and layouts
-- `content/`: quest-specific editable source
-- `scripts/`: validation and generation commands
-- `exports/`: generated outputs, not editorial authority
+```text
+AGENTS.md                         Master rules for future AI
+START_HERE.md                     Orientation
+system/
+  EDITORIAL_GUIDE.md              Existing approved teacher-guide writing rules
+  RESOURCE_GUIDELINES.md          Existing companion resource guidelines
+  CONTENT_CONTRACT.md             File types, statuses, naming and precedence
+  action_labels.json              One editable allowed-label registry
+catalog/
+  quests.json                     Navigation index (no duplicated lesson bodies)
+  resources.json                  SINGLE canonical registry of approved resource URLs
+  migration_inventory.json        What exists and what is not yet migrated
+schemas/                         JSON validation contracts
+templates/                       JSON/Markdown content blueprints (no renderer code)
+  teacher_guide/TEMPLATE.json
+  teacher_companion/TEMPLATE.json
+  student_worksheet/TEMPLATE.json
+  teacher_reference/TEMPLATE.json
+  slide_deck/TEMPLATE.json
+  story/TEMPLATE.md
+  media/TEMPLATE.json
+scripts/renderers/
+  teacher_guide.py                Existing approved PyMuPDF renderer (adapted paths)
+  teacher_companion.py            Existing ReportLab renderer
+content/
+  confetti-cake-cottage/
+    quest-01-bake-off-betrayal/
+      quest.json                  Quest-level facts and status
+      lessons/00-activate/        One working current lesson JSON + image cover
+      lessons/01-... etc         Placeholders/statuses, NOT invented sources
+      resources/teacher_companion/ Three editable source JSON files
+      story/                     Draft transcriptions for human verification
+scripts/renderers/               PDF generation code shared by all quests
+scripts/validate.py              Local checks for ID/URL/label/step consistency
+scripts/build.py                 Generate available PDFs into exports/ only
+exports/                         Generated outputs; ignore as editorial source
+```
 
-Existing Drive PDFs remain live until a reviewed migration is approved.
+## Commands (local, Python 3.10+)
+
+```bash
+python scripts/validate.py
+pip install pymupdf reportlab
+python scripts/build.py teacher --lesson content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/00-activate/lesson.json
+python scripts/build.py companions
+```
+
+The teacher-guide generator requires locally installed Lato fonts, which are not bundled.
+
+## Editorial authority and version priority
+
+1. Explicit newly approved human decisions and recorded status in `quest.json`.
+2. The approved current editable JSON/Markdown in `content/`.
+3. Latest matching slideshow/source media for slide-specific references.
+4. `Full Guide Revised.pdf` for the *editorial and visual benchmark*; it is not the newest authority for every slide number.
+5. `Full Guide.pdf` and older PDF exports only for recovering materials that have no editable source yet.
+
+**Do not treat a PDF extraction as an automatically approved canonical source.** Flag migration status and verify every source/slide/version discrepancy.
+
+## New resource workflow
+
+1. Assign a permanent `resource_id` (e.g. `ccc-q01-activate-video-questions`).
+2. Choose resource type and audience from `system/CONTENT_CONTRACT.md`.
+3. Copy a matching template, and edit its raw JSON/Markdown.
+4. Add its source location and review status to the stage/quest manifest; add an approved URL to `catalog/resources.json` **only after it is published**.
+5. Run validation, generate output, visually QA it, check links, and publish by replacing the existing Drive file *in place* where applicable (preserves file IDs).
+
+## Migration warning
+
+Do not move/delete/rename the current public Drive files yet. The current teacher guides link directly to Drive file IDs; migration should preserve those IDs. This package is a reviewable source-system draft, not an approved content rewrite.
