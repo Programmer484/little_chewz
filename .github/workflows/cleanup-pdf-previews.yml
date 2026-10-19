@@ -1,0 +1,35 @@
+name: Clean up PDF previews
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  remove-preview-branch:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Delete preview branch for closed PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ref="heads/pdf-preview-pr-${PR_NUMBER}"
+          # A missing branch is normal when no PDF preview was produced.
+          status="$(gh api -X DELETE "repos/${GH_REPO}/git/refs/${ref}" --silent 2>&1)" && {
+            echo "Deleted preview branch pdf-preview-pr-${PR_NUMBER}"
+            exit 0
+          }
+          if [[ "$status" == *"404"* || "$status" == *"Reference does not exist"* ]]; then
+            echo "No preview branch to delete for PR #${PR_NUMBER}"
+            exit 0
+          fi
+          echo "$status" >&2
+          exit 1
