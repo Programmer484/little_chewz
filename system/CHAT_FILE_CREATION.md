@@ -12,16 +12,41 @@ This procedure applies when an assistant creates, extracts, or updates repositor
 
 ## GitHub text upload
 
-For UTF-8 text, use the connected GitHub `create_file` / `update_file` actions. Fetch the existing file SHA before replacing it. Do not use those actions for PNG, PDF, ZIP, font, or other binary bytes; interpreting arbitrary binary as UTF-8 can corrupt it.
+For a **single UTF-8 file**, use the connected GitHub `create_file` / `update_file` actions. Fetch the existing file SHA before replacing it. For **multiple UTF-8 files or a mix of templates and images**, prefer the tested batch procedure below: a Git tree entry with `content` creates each editable text blob without a separate `create_file` call. Text-based JSON, Markdown, CSS, HTML, Python and ordinary SVG can be included this way. Verify UTF-8 encoding, trusted content, and intended file paths.
+
+Do not pass PNG, JPG, PDF, ZIP, font, or other binary bytes to the text-file actions or Git tree `content` field; interpreting arbitrary binary as UTF-8 can corrupt it.
+
+## Faster default: batch images and editable templates in one commit (verified)
+
+**Use for 2+ source files**, especially when a new lesson includes multiple images plus JSON/Markdown templates. The tested method uploads separate binary blobs **concurrently**, inserts both the blob SHAs and the UTF-8 template contents into **one Git tree**, and advances the review branch **once**. This minimizes sequential GitHub writes; speed depends on transfer size and network latency, so do not promise a fixed time saving.
+
+1. **Prepare exact assets and local hashes.** For each PNG or other binary, optionally calculate the expected Git blob SHA locally: SHA-1 of `"blob " + byte_length + "\\0" + file_bytes`. Keep template sources in UTF-8 and use their intended repository paths. Do not alter the original art just to make it uploadable.
+2. **Get Base64 for all binaries.** Prefer direct Base64 from the actual file source or from a Drive file already available. For locally generated/chat files when a direct handoff is unavailable, send **multiple** `files.manage_library` `upload` operations in **one request** to uniquely named temporary files under `/Google Drive/`. Use `source_file_ref.file_id` when exported file snapshots provide it; otherwise use `container_path`. Keep temporary uploads non-public, track every returned ID, and confirm sizes.
+3. **Parallelize independent work.** Fetch all temporary Drive files using `Google_Drive.fetch({url, download_raw_file:true, include_base64:true})` via `Promise.all` or an equivalent batch mechanism. Check expected MIME/file signatures/sizes. Then upload all binaries with independent `GitHub.create_blob({repository_full_name,content:b64_string,encoding:"base64"})` calls **in parallel**. Await all results and retain the per-file blob SHA and path. Do not print Base64 payloads into chat, logs or commits.
+4. **Get a fresh base tree.** Read the current target branch-head **commit SHA**, then obtain the corresponding **Git tree SHA** (for example: GitHub GET `/repos/{owner}/{repo}/git/commits/{head_sha}`, `tree.sha`). Use the actual tree SHA for `base_tree_sha`; do not depend on a connector accepting a commit SHA in place of a tree.
+5. **Build a single tree** using `GitHub.create_tree({repository_full_name,base_tree_sha,tree_elements})`. Include one element per binary: `{path,mode:"100644",type:"blob",sha:<uploaded blob SHA>}`. Include one element per editable template: `{path,mode:"100644",type:"blob",content:<UTF-8 string>}`. File entries can create or replace files, so check intended paths and preserve unrelated sources.
+6. **Commit and advance once.** Call `GitHub.create_commit({repository_full_name,message,tree_sha,parent_sha:<head commit SHA>})`. Then `GitHub.update_ref({repository_full_name,branch_name,sha:<new commit SHA>,force:false,expected_sha:<old head commit SHA>})`. If the branch changed, fetch the new head and rebuild from its current tree; do not force-overwrite other changes. Use a feature branch and PR, never quietly change `main`.
+7. **Verify each file independently.** `GitHub.fetch_file({repository_full_name,path,ref:branch,encoding:"base64"})` for binary files; require its blob SHA to equal the `create_blob` SHA (and the local expected SHA where available). For UTF-8 templates, fetch and compare or parse the committed content. Inspect important images visually when possible and ensure **one commit actually contains all intended paths**.
+8. **Clean up every temporary file** with `Google_Drive.delete_file` using the exact returned temporary IDs; verify each deletion. If validation used temporary Git test fixtures, delete those paths on the test branch before merging documentation. Report cleanup failures explicitly.
+
+### Verified batch test — 2026-10-19
+
+An isolated test branch received **two distinct PNGs and one editable JSON template in a single commit**: [test commit `fe197fec`](https://github.com/Programmer484/little_chewz/commit/fe197fec38888fd2bd64d63c797a8b63a2ed2d22). Both PNGs originated from temporary crops of the supplied Set the Table cover; no published art was changed. A single library request transferred both PNGs temporarily, the two Base64 files were fetched concurrently, and the two Git blobs were created concurrently. Both blob SHAs matched Git's locally computed expected SHA-1; the JSON was inserted directly via Git tree `content`. After advancing the branch once, **all three committed files were read back and passed verification**:
+
+- 13,778-byte PNG: `f361e2c6ef9a167c71fd3d4f5c8909803cccb651`
+- 606-byte PNG: `2a7727eb90997b86639a400f31564f27488f0758`
+- `template.json`: parsed correctly as JSON and contained the expected test data.
+
+The two temporary Drive files were deleted successfully. The test fixtures are temporary branch-only files and must **not** be part of the final documentation PR diff. This is a tested reduction in **sequential commit/ref operations**, not a benchmark claiming a precise elapsed-time improvement.
 
 ## GitHub binary upload: verified chat workflow
 
 The connected GitHub API supports **`create_blob` with `encoding: "base64"`**, followed by tree, commit, and branch-ref actions. This successfully committed a Set the Table `cover.png` on 2026-10-19. **A local path is not itself a GitHub upload.**
 
 1. **Prepare the exact bytes** of the image or other binary file, from the supplied source or a tool-produced file. Keep the image intact unless a changed version has been requested/approved.
-2. **Obtain Base64 without printing it in the chat or logs.** Prefer a direct binary-to-Base64 handoff where available. In the confirmed fallback, `files.manage_library` uploaded the local PNG via `container_path` to a uniquely named **temporary Google Drive file** under `/Google Drive/`. Fetch that exact returned Drive file ID with `Google_Drive.fetch({url, download_raw_file:true, include_base64:true})`; take its `b64_string` and confirm the expected file type. This temporary transfer is NOT a published Little Chewz asset. Do not create a public sharing link.
+2. **Obtain Base64 without printing it in the chat or logs.** Prefer a direct binary-to-Base64 handoff where available. In the confirmed fallback, `files.manage_library` uploads the local PNG to a uniquely named **temporary Google Drive file** under `/Google Drive/` (prefer an exported `source_file_ref`, or use `container_path` when unavailable). Fetch that exact returned Drive file ID with `Google_Drive.fetch({url, download_raw_file:true, include_base64:true})`; take its `b64_string` and confirm the expected file type. This temporary transfer is NOT a published Little Chewz asset. Do not create a public sharing link.
 3. **Upload the Git blob:** call `GitHub.create_blob({repository_full_name, content: b64_string, encoding:"base64"})`. Keep the returned **blob SHA**.
-4. **Attach it to the correct branch:** read the **current branch-head commit SHA** (e.g., via `get_pr_info` for an existing PR). Call `GitHub.create_tree` with an entry `{path:"content/.../cover.png",mode:"100644",type:"blob",sha:<blob SHA>}` and `base_tree_sha` set to the current base tree; the tested connector also accepted the current head commit SHA for this parameter. Next call `GitHub.create_commit` with that tree SHA and `parent_sha` equal to the head commit SHA.
+4. **Attach it to the correct branch:** read the **current branch-head commit SHA** (e.g., via `get_pr_info` for an existing PR), then read the Git commit's **`tree.sha`**. Call `GitHub.create_tree` with an entry `{path:"content/.../cover.png",mode:"100644",type:"blob",sha:<blob SHA>}` and `base_tree_sha` set to that **Git tree SHA**. Next call `GitHub.create_commit` with the new tree SHA and `parent_sha` equal to the original branch-head commit SHA. For multi-file changes, use the batch procedure above instead.
 5. **Advance the branch carefully:** call `GitHub.update_ref` with the new commit SHA, `force:false`, and `expected_sha` equal to the prior head SHA. If the branch moved, re-read it and **rebase/recreate the tree and commit**; never force-push over someone else's work.
 6. **Verify the file in GitHub:** fetch the committed path on the branch using `GitHub.fetch_file({encoding:"base64"})`. Check the returned blob SHA equals the SHA from `create_blob`; check the intended repository path and image when feasible. Only then mark the cover/asset as committed in its stage metadata.
 7. **Delete the temporary transfer file:** use `Google_Drive.delete_file` on the precise temporary Drive file URL/ID, and verify success. The Library deletion action was not supported for Google Drive files in the tested workflow. If cleanup fails, report the exact leftover temporary file and address it; never leave hidden transfer copies unreported. Never delete existing teacher-facing files.
@@ -32,7 +57,7 @@ The connected GitHub API supports **`create_blob` with `encoding: "base64"`**, f
 local binary file
   -> Base64 bytes (directly, or temporary private Drive transfer -> raw fetch)
   -> GitHub.create_blob(encoding="base64") -> blob SHA
-  -> GitHub.create_tree(base_tree_sha=branch tree/head; entry=path + blob SHA)
+  -> GitHub.create_tree(base_tree_sha=branch's Git tree SHA; entry=path + blob SHA)
   -> GitHub.create_commit(parent_sha=previous branch head; tree_sha=new tree)
   -> GitHub.update_ref(force=false, expected_sha=previous branch head)
   -> GitHub.fetch_file(path, ref=branch, encoding="base64") -> verify SHA
