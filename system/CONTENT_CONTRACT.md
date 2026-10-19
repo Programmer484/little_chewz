@@ -24,7 +24,7 @@ The source directory matches the learning sequence. A shared template never live
 | `teacher_companion` | JSON blocks | teacher_companion renderer | Mission Video Questions |
 | `student_worksheet` | JSON | future worksheet renderer | KWLS Starter |
 | `teacher_reference` | JSON or Markdown | future reference renderer | Teacher Answer Key |
-| `slide_deck` | JSON manifest + assets | future deck renderer | Quest One slides |
+| `slide_deck` | JSON manifest + assets per lesson | future lesson-slide renderer | Set the Table slides |
 | `story` | Markdown | story/audio workflow | Bakery Log (1958) |
 | `media` | JSON metadata + external URL | external media tools | Song/audio/video |
 | `visual_asset` | PNG/SVG/JPG with source metadata | renderers | Cover artwork |
@@ -44,7 +44,8 @@ New types are added by supplying (a) a new `templates/<type>/` blueprint and sch
 ## Rules for source / output separation
 
 - All approved destinations live in `catalog/resources.json`, indexed by stable IDs (`resource_id`), one record each. No literal Google Drive URL inside lesson flow.
-- Teaching Flow stores `ref` IDs for external resources; `SHOW slide(s)` is navigation, not a resource record.
+- Teaching Flow stores `ref` IDs for external resources; `SHOW slide(s)` is navigation within the specific lesson's slide set, not a resource record.
+- **Future slide generation contract:** Generate one independent slide set/deck for each stage, with lesson-local slide numbering, editable lesson-specific sources/assets, and a stable resource ID per lesson set. Regenerate only the changed slide(s) or affected lesson's slides, never an entire quest by default. Historical global slide positions are migration references, not approved current numbers. Do not invent slides or assume a renderer/build target already exists.
 - Renderer code lives under `scripts/renderers/`; templates define reusable content structure. Never copy generator code into a quest.
 - **PDF build dependency rule:** Commit every image used to generate a PDF to GitHub as a versioned source asset, whether it is a cover, full-page image, background, illustration, character art, or reusable layout artwork. Store generated text separately when it must remain editable. All PDF generation must work with repository-local assets; a Drive link alone is not sufficient for a required PDF input.
 - **Standalone image exception:** AI-generated images distributed directly as finished images, without being consumed by a PDF build, may stay in Google Drive. Keep their approved link and stable resource ID in `catalog/resources.json`; do not copy them into GitHub solely for distribution.
@@ -56,6 +57,6 @@ New types are added by supplying (a) a new `templates/<type>/` blueprint and sch
 
 - Resource URL must be an approved HTTP(S) link; `approved` does not assert its external sharing setting was tested.
 - Publishing updates an existing Drive file in place when maintaining old links. Don't duplicate a live file and leave two apparent current versions.
-- Lesson `slides` and stage references must match the current deck version, not an older guide.
+- Lesson `slides` and stage references must match the **current approved slides for that lesson**, not the older continuous quest deck.
 - PDF typography/artwork changes belong in renderer/assets, not the educational content JSON.
 - Human validation is required before promoting `draft_transcription` to `approved_source`.

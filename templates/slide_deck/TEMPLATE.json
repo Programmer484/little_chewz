@@ -3,18 +3,19 @@
   "resource_type": "slide_deck",
   "audience": "student",
   "review_status": "draft_unpublished",
-  "title": "Untitled Deck",
+  "title": "Untitled Lesson Slides",
   "sequence": "ccc-qNN",
   "slides": [
     {
-      "slide_id": "ccc-q01-slide-001",
+      "slide_id": "ccc-q01-activate-slide-001",
       "layout": "title",
       "heading": "",
       "body": [],
       "media_refs": []
     }
   ],
-  "source_note": "One quest, one slideshow; never create separate per-lesson decks or invent slide numbers.",
-  "scope": "one_deck_per_quest",
-  "continuous_slide_numbering": true
+  "source_note": "One lesson, one independently maintained slide set. Use lesson-local numbering; never invent slide content or copy global numbering from a historical full-quest deck.",
+  "scope": "one_deck_per_lesson",
+  "lesson_stage": "REPLACE-WITH-LESSON-FOLDER",
+  "slide_numbering": "lesson_local"
 }

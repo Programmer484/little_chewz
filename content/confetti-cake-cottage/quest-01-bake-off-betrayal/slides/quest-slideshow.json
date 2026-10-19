@@ -1,15 +1,15 @@
 {
   "resource_id": "ccc-q01-continuous-slideshow",
   "resource_type": "slide_deck",
-  "title": "The Bake-Off Betrayal — Continuous Classroom Slideshow",
+  "title": "The Bake-Off Betrayal — Historical Continuous Slideshow Reference",
   "sequence": "ccc-q01",
-  "scope": "one_deck_per_quest",
+  "scope": "legacy_quest_deck_reference",
   "continuous_slide_numbering": true,
   "review_status": "migration_needed",
   "source_status": {
     "current_activate_segment": "Seven-slide Activate_Slides.pdf; see ccc-q01-activate-slides in registry",
     "older_legacy_deck": "44-slide Bake off Betrayal.pdf; NOT reconciled or approved as current",
-    "current_continuous_deck": "not yet prepared"
+    "current_continuous_deck": "not planned; superseded by independently generated slides per lesson"
   },
   "stage_ranges": [
     {
@@ -56,5 +56,6 @@
     }
   ],
   "slides": [],
-  "source_note": "Skeleton for the requested single continuous quest slideshow. The 7 current Activate slides and 44 historical slides are not silently merged."
+  "source_note": "Historical quest-wide slide range crosswalk only. Do not generate a full deck from this manifest or copy global numbers to current lesson-local references. Keep published Activate unchanged.",
+  "generation_target": false
 }

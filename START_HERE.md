@@ -30,7 +30,7 @@ templates/                       JSON/Markdown content blueprints (no renderer c
   teacher_companion/TEMPLATE.json
   student_worksheet/TEMPLATE.json
   teacher_reference/TEMPLATE.json
-  slide_deck/TEMPLATE.json
+  slide_deck/TEMPLATE.json      Future lesson-specific slide blueprint
   story/TEMPLATE.md
   media/TEMPLATE.json
 scripts/renderers/
@@ -70,6 +70,12 @@ The teacher-guide generator requires locally installed Lato fonts, which are not
 5. `Full Guide.pdf` and older PDF exports only for recovering materials that have no editable source yet.
 
 **Do not treat a PDF extraction as an automatically approved canonical source.** Flag migration status and verify every source/slide/version discrepancy.
+
+## Slideshow policy (decision made 2026-10-19)
+
+Generate and maintain **a separate set of classroom slides per lesson**, with numbering local to that lesson. Make individual-slide edits where practical and regenerate only the affected lesson's slides; **do not assemble or regenerate the entire quest deck by default**. In each Teacher Guide, link the relevant lesson's approved slide resource in Preparation and verify `SHOW`/`KEEP` references against it. Never infer current numbers from historical quest-wide ranges.
+
+The existing seven-slide Activate PDF remains unchanged; the former 44-slide quest deck and `slides/quest-slideshow.json` are historical references, not generation targets. A slide renderer, build targets, resource links for later lessons, preview QA, and publication will be implemented only when real approved slides are ready. Current GitHub Actions builds **PDF resources only**, not slides. Do not alter published Google Drive materials as part of this decision.
 
 ## New resource workflow
 
