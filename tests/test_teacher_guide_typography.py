@@ -37,5 +37,29 @@ class TeachingFlowTypographyTests(unittest.TestCase):
         self.assertEqual(body_size, linked_size)
 
 
+    def test_multiple_more_links_match_do_body_size(self):
+        step = {
+            "id": 1, "title": "Optional resource", "mins": "3",
+            "rows": [
+                {"kind": "MORE", "links": [
+                    {"ref": "first"}, {"ref": "second"},
+                ]},
+                {"kind": "DO", "text": "Discuss the resource."},
+            ],
+        }
+        with (
+            patch.object(guide, "step_begin", return_value=0),
+            patch.object(guide, "label"),
+            patch.object(guide, "resource_line", return_value=12) as linked,
+            patch.object(guide, "para", return_value=12) as body,
+        ):
+            guide.draw_step(None, step, 0, {})
+
+        self.assertEqual(linked.call_count, 2)
+        for call in linked.call_args_list:
+            self.assertEqual(call.kwargs["size"], guide.FLOW_BODY_SIZE)
+            self.assertEqual(call.kwargs["description_size"], body.call_args.kwargs["size"])
+
+
 if __name__ == "__main__":
     unittest.main()

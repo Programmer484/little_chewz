@@ -254,7 +254,7 @@ def draw_step(p,step,y,reg,accent=CORAL,separator=False):
         if row.get('links') is not None:
             label(p,kind,ACTIONS_X,y,accent)
             for it in row['links']:
-                y=resource_line(p,it,reg,CONTENT_X,y,CONTENT_WIDTH)+7.5
+                y=resource_line(p,it,reg,CONTENT_X,y,CONTENT_WIDTH,size=FLOW_BODY_SIZE,description_size=FLOW_BODY_SIZE)+7.5
             y+=6
         elif kind=='QUOTE':
             # A single READ label and a continuous rule frame the entire speech.
