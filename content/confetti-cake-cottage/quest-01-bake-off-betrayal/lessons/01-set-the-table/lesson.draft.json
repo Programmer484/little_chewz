@@ -65,8 +65,8 @@
       "mins": "12",
       "rows": [
         {
-          "kind": "CHOOSE",
-          "text": "A — School Song OR B — Mission Vocabulary."
+          "kind": "DO",
+          "text": "Select one: A — School Song or B — Mission Vocabulary."
         },
         {
           "kind": "SHOW",
@@ -105,8 +105,8 @@
       "mins": "13",
       "rows": [
         {
-          "kind": "CHOOSE",
-          "text": "A — Which Word Fits? OR B — Party Planner."
+          "kind": "DO",
+          "text": "Select one: A — Which Word Fits? or B — Party Planner."
         },
         {
           "kind": "SHOW",
@@ -146,10 +146,6 @@
         {
           "kind": "DO",
           "text": "Share one new word, idea, or prediction."
-        },
-        {
-          "kind": "NEXT",
-          "text": "Part 2: Secret Ingredients."
         }
       ]
     }
