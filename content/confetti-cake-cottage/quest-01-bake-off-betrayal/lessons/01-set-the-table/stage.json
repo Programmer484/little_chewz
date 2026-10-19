@@ -1,8 +1,8 @@
 {
   "id": "ccc-q01-01-set-the-table",
   "title": "Set the Table",
-  "status": "migration_needed",
-  "lesson_source": null,
+  "status": "draft_transcription",
+  "lesson_source": "lesson.draft.json",
   "source_note": "New supplied Set_The_Table_Guide.pdf (4 pages) supersedes older guide text for migration review. Current lesson slides not verified; references to slides 8–13 are historical quest-wide numbers.",
   "required_fields": [
     "learning_goal",
@@ -13,7 +13,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Register/verify lesson-local slides and resource links; commit cover.png; create reviewable lesson.json using this four-page guide, then validate and generate a Teacher Guide preview.",
+  "next_action": "Review draft, verify resource registry and lesson-local slides, commit approved cover.png, then promote to lesson.json and register the targeted PDF build.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -73,7 +73,7 @@
   "unresolved": [
     "Approved lesson-local slide deck and numbering not yet verified.",
     "KWLS, School Song, vocabulary reference, Vocabulary Cards, Party Planner and Songwriting Extension do not have approved Set the Table resource IDs/URLs in catalog/resources.json.",
-    "Cover image must be committed before regeneration.",
+    "Cover extracted locally from supplied PDF, but not yet committed to GitHub.",
     "Editorial review required before approving migrated lesson content."
   ]
 }
