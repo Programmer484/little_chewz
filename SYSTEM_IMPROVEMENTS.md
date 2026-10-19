@@ -48,7 +48,7 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 ### Dependencies / design boundaries
 
 - Current build entry point: `scripts/build.py`; validator: `scripts/validate.py`; renderers: `scripts/renderers/`.
-- For any future Drive-hosted art referenced by PDF builds, a separate approved-asset fetch/cache workflow is needed; not part of SYS-001 until its access model is decided.
+- PDF builds use repository-local, versioned image assets under `system/CONTENT_CONTRACT.md`; use `system/CHAT_FILE_CREATION.md` to transfer source artwork when needed.
 - Image generation itself, slideshow rendering, student worksheet rendering, and Drive publication are **out of scope** for this entry.
 
 ### Completion record
