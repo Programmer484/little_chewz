@@ -148,6 +148,7 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 
 - Use **MORE**, not **EXTEND**, as the standard Teaching Flow label for optional linked resources. The generator already supports multiple resource lines under a single MORE label.
 - Present each resource as **bold, underlined linked title** followed by a short light-grey `— description`, such as `Mission Video Questions — Additional questions`.
+- In Teaching Flow, the linked resource title and description (including **MORE** rows) use the same standard body font size as **DO** instructions. Do not shrink linked descriptions to fit; shorten the wording or adjust the shared layout instead.
 - Put supplementary discussion questions in separate linked PDFs, not in the core teacher-guide flow.
 - When a video has a written alternative, keep the video in SHOW and link the readable source under MORE, e.g. `Bakery Log (1958) — Read-aloud alternative to video`.
 - Do not create a new mandatory teaching step for an optional extension or fallback.

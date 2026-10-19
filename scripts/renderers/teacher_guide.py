@@ -23,6 +23,9 @@ PAGE_W=R-L
 BG=(.988,.981,.971);BLACK=(.118,.122,.126);MID=(.39,.40,.405)
 SOFT=(.77,.77,.77);CORAL=(.91,.405,.33);DEEP=(.77,.31,.255)
 ACTIONS_X=L+61;CONTENT_X=L+109;CONTENT_WIDTH=R-CONTENT_X
+# Linked resources (including MORE) and ordinary DO instructions share body sizing.
+FLOW_BODY_SIZE=11.1
+FLOW_ASK_SIZE=11.5
 FONT_FILES={};FONTMETRICS={};FONTNAMES={}
 AUDIT=[]
 
@@ -263,10 +266,10 @@ def draw_step(p,step,y,reg,accent=CORAL,separator=False):
             y+=6
         elif row.get('ref'):
             label(p,kind,ACTIONS_X,y,accent)
-            y=resource_line(p,row,reg,CONTENT_X,y,CONTENT_WIDTH,size=11.1,description_size=10.8)+12
+            y=resource_line(p,row,reg,CONTENT_X,y,CONTENT_WIDTH,size=FLOW_BODY_SIZE,description_size=FLOW_BODY_SIZE)+12
         else:
             label(p,kind,ACTIONS_X,y,accent)
-            y=para(p,row.get('text',''),CONTENT_X,y,CONTENT_WIDTH,size=11.5 if kind=='ASK' else 11.1,lh=17 if kind=='ASK' else 16.,font='semibold' if kind=='ASK' else 'regular')+12
+            y=para(p,row.get('text',''),CONTENT_X,y,CONTENT_WIDTH,size=FLOW_ASK_SIZE if kind=='ASK' else FLOW_BODY_SIZE,lh=17 if kind=='ASK' else 16.,font='semibold' if kind=='ASK' else 'regular')+12
     return y+17
 
 def bonuses(p,items,y,reg,title='MORE TIME?  YOU CHEWZ!'):
