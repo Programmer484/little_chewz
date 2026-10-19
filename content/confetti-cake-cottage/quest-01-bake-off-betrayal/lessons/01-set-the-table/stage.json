@@ -3,7 +3,7 @@
   "title": "Set the Table",
   "status": "migration_needed",
   "lesson_source": null,
-  "source_note": "Revised Guide pages 5–8; slideshow pages 8–13 in older continuous deck.",
+  "source_note": "New supplied Set_The_Table_Guide.pdf (4 pages) supersedes older guide text for migration review. Current lesson slides not verified; references to slides 8–13 are historical quest-wide numbers.",
   "required_fields": [
     "learning_goal",
     "learning_outcomes",
@@ -13,5 +13,67 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Migrate from the verified legacy guide, verify slide references against this lesson's independently approved slide set, and seek editorial approval. Historical full-deck page numbers are not verified lesson-local slide numbers; do not invent content."
+  "next_action": "Register/verify lesson-local slides and resource links; commit cover.png; create reviewable lesson.json using this four-page guide, then validate and generate a Teacher Guide preview.",
+  "source_pdf": {
+    "filename": "Set_The_Table_Guide.pdf",
+    "pages": 4,
+    "document_title": "Little Chewz | PART 1 / SET THE TABLE",
+    "content_pages": [
+      2,
+      3,
+      4
+    ],
+    "cover_page": 1,
+    "review_status": "draft_transcription",
+    "repository_asset_status": "not_committed"
+  },
+  "guide_metadata": {
+    "audience": "Grades 4–6",
+    "duration_minutes": 45,
+    "learning_goal": "Activate prior knowledge about friendship and teamwork, build curiosity about the mystery, and introduce key mission vocabulary.",
+    "learning_outcomes": [
+      "Share prior knowledge and questions about friendship and teamwork.",
+      "Explain selected mission words using examples.",
+      "Make a prediction about the upcoming mystery."
+    ],
+    "curriculum": [
+      "English Language Arts",
+      "Health / SEL",
+      "Music (School Song option)"
+    ],
+    "teaching_flow": [
+      {
+        "title": "Mission Hook",
+        "minutes": 5
+      },
+      {
+        "title": "KWLS Starter",
+        "minutes": 10
+      },
+      {
+        "title": "Small Bite 1 — School Song or Mission Vocabulary",
+        "minutes": 12
+      },
+      {
+        "title": "Small Bite 2 — Vocabulary Cards or Party Planner",
+        "minutes": 13
+      },
+      {
+        "title": "Wrap-Up",
+        "minutes": 5
+      }
+    ],
+    "print_note": "Print only chosen activities"
+  },
+  "cover": {
+    "source": "Set_The_Table_Guide.pdf page 1",
+    "target_filename": "cover.png",
+    "status": "extracted_locally_not_committed"
+  },
+  "unresolved": [
+    "Approved lesson-local slide deck and numbering not yet verified.",
+    "KWLS, School Song, vocabulary reference, Vocabulary Cards, Party Planner and Songwriting Extension do not have approved Set the Table resource IDs/URLs in catalog/resources.json.",
+    "Cover image must be committed before regeneration.",
+    "Editorial review required before approving migrated lesson content."
+  ]
 }
