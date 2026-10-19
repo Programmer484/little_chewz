@@ -6,6 +6,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/build-resources.yml"
+      - ".github/workflows/cleanup-pdf-previews.yml"
       - "content/**"
       - "scripts/**"
       - "schemas/**"
