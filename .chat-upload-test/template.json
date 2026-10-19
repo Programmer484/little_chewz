@@ -1,0 +1,9 @@
+{
+  "kind": "upload_test_template",
+  "status": "temporary_test_only",
+  "image_assets": [
+    "fixture-a.png",
+    "fixture-b.png"
+  ],
+  "note": "Batched Git tree text and binary upload verification; not educational content."
+}
