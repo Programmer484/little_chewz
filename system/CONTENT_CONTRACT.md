@@ -50,6 +50,7 @@ New types are added by supplying (a) a new `templates/<type>/` blueprint and sch
 - **PDF build dependency rule:** Commit every image used to generate a PDF to GitHub as a versioned source asset, whether it is a cover, full-page image, background, illustration, character art, or reusable layout artwork. Store generated text separately when it must remain editable. All PDF generation must work with repository-local assets; a Drive link alone is not sufficient for a required PDF input.
 - **Standalone image exception:** AI-generated images distributed directly as finished images, without being consumed by a PDF build, may stay in Google Drive. Keep their approved link and stable resource ID in `catalog/resources.json`; do not copy them into GitHub solely for distribution.
 - **Existing cover:** PNG/SVG/JPG is a visual source; a PDF cover in the old package can be converted once and kept as a versioned source image in GitHub.
+- **Chat file transfers:** When a connector cannot upload local binary files directly, use the verified GitHub Base64 blob + tree/commit/ref procedure in [`CHAT_FILE_CREATION.md`](CHAT_FILE_CREATION.md), including SHA verification and removal of any temporary transfer copy. Uploading the asset does not change its approval status.
 - Generated PDFs live in `exports/` only. They are not canonical text sources.
 - For files that have no editable source yet, a **legacy PDF may remain the migration input**. Conversion is a one-time audited step, not the future workflow.
 

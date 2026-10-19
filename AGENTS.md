@@ -10,6 +10,7 @@ You are editing a **source-first educational content repository**, not a PDF as 
 4. `catalog/quests.json` -> targeted `quest.json` -> editable lesson/resource file.
 5. `catalog/resources.json` for the only authoritative URLs and linked names.
 6. Relevant renderer in `scripts/renderers/` **only if editing layout/generation**.
+7. `system/CHAT_FILE_CREATION.md` **when creating or transferring files through chat**, especially images or other binary assets.
 
 ## Hard rules
 
@@ -24,6 +25,7 @@ You are editing a **source-first educational content repository**, not a PDF as 
 - Preserve teacher-guide structure and exact approved editorial rules described in `system/EDITORIAL_GUIDE.md`.
 - Use `system/action_labels.json` as the single authority for action vocabulary (renderer and validator must consult the same list when validation applies).
 - Separate **content changes** from **visual design changes** and **publishing actions**; verify the regenerated document before publication.
+- **Files made in chat:** Use `system/CHAT_FILE_CREATION.md` for source creation, binary assets, verification, and temporary-transfer cleanup. Never stop at “the connector cannot upload binary” without checking its verified Base64 blob + tree/commit/ref workflow. Do not claim an uploaded asset is approved or publish it automatically.
 
 ## Required output from each future AI edit
 

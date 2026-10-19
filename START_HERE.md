@@ -9,6 +9,7 @@
 3. Read `catalog/resources.json` to look up a resource's stable ID, approved destination, format and audience. Never invent a URL.
 4. Read the selected lesson `lesson.json` or resource `*.json` and its schema. **Edit these sources**, not PDFs.
 5. Use the shared generator under `scripts/renderers/` and review the generated result before publishing.
+6. For files produced or extracted via chat (including covers and other binary assets), follow [`system/CHAT_FILE_CREATION.md`](system/CHAT_FILE_CREATION.md).
 
 ## Directory map
 
@@ -19,6 +20,7 @@ system/
   EDITORIAL_GUIDE.md              Existing approved teacher-guide writing rules
   RESOURCE_GUIDELINES.md          Existing companion resource guidelines
   CONTENT_CONTRACT.md             File types, statuses, naming and precedence
+  CHAT_FILE_CREATION.md           Chat file creation, binary uploads, and cleanup
   action_labels.json              One editable allowed-label registry
 catalog/
   quests.json                     Navigation index (no duplicated lesson bodies)
@@ -82,8 +84,13 @@ The existing seven-slide Activate PDF remains unchanged; the former 44-slide que
 1. Assign a permanent `resource_id` (e.g. `ccc-q01-activate-video-questions`).
 2. Choose resource type and audience from `system/CONTENT_CONTRACT.md`.
 3. Copy a matching template, and edit its raw JSON/Markdown.
+   If this resource needs a cover or other image input for PDF rendering, commit the original/extracted asset to GitHub through the [chat file creation procedure](system/CHAT_FILE_CREATION.md); a local image path or Drive URL is not sufficient.
 4. Add its source location and review status to the stage/quest manifest; add an approved URL to `catalog/resources.json` **only after it is published**.
 5. Run validation, generate output, visually QA it, check links, and publish by replacing the existing Drive file *in place* where applicable (preserves file IDs).
+
+## Creating files through chat
+
+Text sources can use the GitHub text-file actions. PNG/PDF/other binary source files require a **Base64 Git blob + tree/commit/ref** operation when direct binary upload is unavailable. This was tested with Set the Table `cover.png`, including SHA verification and deletion of the temporary Google Drive transfer. Follow **[system/CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md)** before declaring an image upload impossible. It does not authorize republishing or approving material.
 
 ## Migration warning
 
