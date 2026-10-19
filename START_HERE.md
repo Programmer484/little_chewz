@@ -95,7 +95,7 @@ When a pull request modifies current lesson/resource sources, rendering code, te
 
 The workflow currently validates source and regenerates only the *existing approved outputs*: the Activate Teacher Guide, Mission Video Questions and Confetti File Questions. The Songwriting Extension is a draft and is intentionally excluded. The six later lesson skeletons, worksheets and slides do not have build targets.
 
-For an optional manual build, use **Actions → PDF previews → Run workflow**. No PDF files are committed automatically, and the workflow never writes to Google Drive. To avoid redundant usage it deliberately does **not** run again on every push to `main` after a pull request has passed.
+For an optional manual build, use **Actions → PDF previews → Run workflow**. In addition to the ZIP artifact, generated PDFs are committed to isolated `pdf-preview-pr-N` branches (or the reusable `pdf-preview-manual` branch) and linked in the workflow run summary for in-browser review. PR preview branches are deleted automatically when their PR closes; manual previews are overwritten on the next manual run. These generated previews never enter `main` and the workflow never writes to Google Drive. To avoid redundant usage it deliberately does **not** run again on every push to `main` after a pull request has passed.
 
 See `SYSTEM_IMPROVEMENTS.md` for the next phase (dependency-aware targeted builds). Each Actions run on the private repository consumes GitHub-hosted runner minutes; artifact retention is kept short to limit storage usage.
 
