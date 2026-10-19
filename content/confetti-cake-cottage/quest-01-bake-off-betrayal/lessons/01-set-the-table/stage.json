@@ -3,7 +3,7 @@
   "title": "Set the Table",
   "status": "draft_transcription",
   "lesson_source": "lesson.draft.json",
-  "source_note": "Supplied four-page Set_The_Table_Guide.pdf is the editorial basis; current independent Set_The_Table_Slides.pdf found on Drive, with lesson-local six-scene sequence.",
+  "source_note": "Four-page Set_The_Table_Guide.pdf and lesson-specific seven-slide PDF from user conversation are the editorial and slide references. Slide 6 Which Word Fits? is newly inserted; slide 7 is closing mystery.",
   "required_fields": [
     "learning_goal",
     "learning_outcomes",
@@ -13,7 +13,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Verify current student-resource URLs and link status; promote lesson.draft.json to lesson.json only after all resource references can pass validation; register targeted build and visually QA PDF preview.",
+  "next_action": "Review the updated teaching flow and local PDF preview; verify linked student-resource URLs and update approved seven-slide Drive destination, then promote to lesson.json and register targeted build only after editorial approval.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -55,7 +55,7 @@
         "minutes": 12
       },
       {
-        "title": "Small Bite 2 — Vocabulary Cards or Party Planner",
+        "title": "Small Bite 2 — Which Word Fits? or Party Planner",
         "minutes": 13
       },
       {
@@ -72,10 +72,10 @@
     "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/cover.png"
   },
   "unresolved": [
-    "Current six-slide lesson-specific PDF found on Google Drive; content sequence inspected but formal approval and external access not verified.",
-    "Core Workbook KWLS sheet and School Song sheet, vocabulary reference, Vocabulary Cards, Party Planner lack separate verified current links.",
-    "Optional Songwriting Extension found on Drive but marked unapproved.",
-    "Editorial approval required before promoting source and registering PDF build."
+    "Current registry link still points to an older six-slide PDF; seven-slide deck from conversation must be verified and published separately.",
+    "KWLS, School Song, Our Vocabulary and Party Planner sheets do not yet have verified standalone approved registry links.",
+    "Optional Songwriting Extension remains draft/unapproved.",
+    "Editorial review and validation are required before promotion to lesson.json or approved PDF publication."
   ],
   "slide_resource_ref": "ccc-q01-set-the-table-slides",
   "optional_extension_ref": "ccc-q01-set-the-table-songwriting-extension",
@@ -102,7 +102,19 @@
     },
     {
       "lesson_slide": 6,
+      "content": "Which Word Fits? (two scenarios + eight word bank)"
+    },
+    {
+      "lesson_slide": 7,
       "content": "Friendship Mystery #1"
     }
-  ]
+  ],
+  "activity_decision": {
+    "old": "Vocabulary Cards",
+    "new": "Which Word Fits?",
+    "reference": "Our Vocabulary — one copy per group of 3–4, used after initial choice",
+    "writing_required": false,
+    "new_worksheet": false,
+    "minutes": 13
+  }
 }
