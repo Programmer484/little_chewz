@@ -7,22 +7,23 @@ import sys
 from pathlib import Path
 
 import fitz
-from select_builds import ROOT, SOURCES, GUIDE
+from select_builds import ROOT, targets
 
 OUT = ROOT / "exports"
 
 
 def render(manifest):
     names = manifest["outputs"]
-    if set(names) - set(SOURCES):
-        raise ValueError(f"Unknown outputs: {set(names) - set(SOURCES)}")
+    registered = targets()
+    if set(names) - set(registered):
+        raise ValueError(f"Unknown outputs: {set(names) - set(registered)}")
     OUT.mkdir(exist_ok=True)
     for old in OUT.glob("*.pdf"):
         old.unlink()  # Avoid stale PDFs appearing in review artifacts.
     for name in names:
-        source = ROOT / SOURCES[name]
+        source = ROOT / registered[name]["source"]
         output = OUT / name
-        if name == GUIDE:
+        if registered[name]["kind"] == "teacher_guide":
             cmd = [sys.executable, str(ROOT / "scripts/renderers/teacher_guide.py"),
                    "--root", str(ROOT), "--content", str(source),
                    "--output", str(output)]
@@ -43,11 +44,11 @@ def render(manifest):
             for link in links:
                 if link["kind"] == fitz.LINK_URI and not link.get("uri", "").startswith("https://"):
                     raise ValueError(f"Invalid external link in {name}: {link}")
-            if name == GUIDE and not any(link["kind"] == fitz.LINK_URI for link in links):
+            if registered[name]["kind"] == "teacher_guide" and not any(link["kind"] == fitz.LINK_URI for link in links):
                 raise ValueError(f"Guide lost resource hyperlinks: {name}")
             print(f"PASS {name}: {pdf.page_count} pages, {len(links)} links, {file.stat().st_size} bytes")
     if not names:
-        print("No affected approved PDFs; validation completed without rendering.")
+        print("No affected eligible PDFs; validation completed without rendering.")
 
 
 if __name__ == "__main__":

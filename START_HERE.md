@@ -19,7 +19,7 @@ Edit the source, review the generated document, then publish only when authorize
 | `templates/` | Starting structures for new content; not approved activities |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
-| `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected approved PDFs |
+| `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
 | `tests/` | Checks for the tools |
 | `.github/workflows/` | Automated validation, PDF previews, and preview cleanup |
 | `exports/` | Generated PDFs; never the editable source |
@@ -33,10 +33,10 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 ## Current capabilities
 
-- Automated builds support three approved PDFs: Activate Teacher Guide, Mission Video Questions, and Confetti File Questions.
-- Set the Table has a draft transcription; later lessons still need conversion. Songwriting Extension is a draft excluded from approved builds.
+- Automated builds discover approved lessons and companions through the quest catalog and existing status records. Current approved outputs: Activate Teacher Guide, Mission Video Questions, and Confetti File Questions.
+- Set the Table is explicitly enabled for draft previews in its stage metadata; it remains unapproved. Later lessons and Songwriting Extension remain excluded.
 - Slides are maintained per lesson under the content contract. Slide and worksheet generation are not implemented.
-- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It does not fully validate every content structure, inspect draft lessons, test Drive access, or grant editorial approval.
+- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json` and `lesson.draft.json` equally, but does not fully validate every content structure, test Drive access, or grant editorial approval.
 
 ## Local checks and approved previews
 
@@ -54,8 +54,8 @@ Teacher Guide rendering requires installed Lato fonts. The selected builder repl
 
 ## GitHub previews
 
-Relevant PR changes trigger **PDF previews**: validation and tool tests run, then only affected registered PDFs are rebuilt. A shared dependency can select all three; documentation-only changes may produce no PDFs. Manual **Actions → PDF previews → Run workflow** builds all three.
+Relevant PR changes trigger **PDF previews**: validation and tool tests run, then only affected registered PDFs are rebuilt. Only actual rendering dependencies select PDFs; documentation, templates, tests, validators, and selectors alone do not. Manual **Actions → PDF previews → Run workflow** accepts an output filename (for example `01-set-the-table-teacher-guide.pdf`) or `all-approved`, which excludes drafts. See [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection) for eligibility and dependency rules.
 
-Download the artifact from the PR's Checks run within seven days, or open the PDF links in the run summary. Browser previews live on disposable `pdf-preview-pr-N` branches, deleted when the PR closes; manual previews reuse `pdf-preview-manual`. These outputs never enter `main` or update Drive. New, unregistered resources are not covered by a passing preview run.
+Download the artifact from the PR's Checks run within seven days, or open the PDF links in the run summary. Browser previews live on disposable `pdf-preview-pr-N` branches, deleted when the PR closes; manual previews reuse `pdf-preview-manual`. These outputs never enter `main` or update Drive. Disabled drafts are not rendered by a passing preview run.
 
 [MIGRATION_REPORT.md](MIGRATION_REPORT.md) records the original migration findings; it is historical context, not current operating instructions.

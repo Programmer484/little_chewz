@@ -2,6 +2,7 @@
   "id": "ccc-q01-01-set-the-table",
   "title": "Set the Table",
   "status": "draft_transcription",
+  "preview_enabled": true,
   "lesson_source": "lesson.draft.json",
   "source_note": "Four-page Set_The_Table_Guide.pdf and lesson-specific seven-slide PDF from user conversation are the editorial and slide references. Slide 6 Which Word Fits? is newly inserted; slide 7 is closing mystery.",
   "required_fields": [
@@ -13,7 +14,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Review the updated teaching flow and local PDF preview; verify linked student-resource URLs and update approved seven-slide Drive destination, then promote to lesson.json and register targeted build only after editorial approval.",
+  "next_action": "Review the updated teaching flow and local PDF preview; verify linked student-resource URLs and update approved seven-slide Drive destination, then promote to lesson.json only after editorial approval. Draft previews are independently enabled.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
