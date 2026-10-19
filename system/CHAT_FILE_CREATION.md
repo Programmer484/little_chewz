@@ -9,6 +9,7 @@ This procedure applies when an assistant creates, extracts, or updates repositor
 3. **Store all PDF-rendering image dependencies in GitHub**, including covers, backgrounds, and illustrations, next to their relevant source or in the existing asset location. For a legacy PDF cover, extract its original page to a faithful PNG rather than inventing a replacement. Standalone image files delivered directly from Drive remain subject to the exception in `CONTENT_CONTRACT.md`.
 4. **Work on a branch and a PR** for substantive changes, never silently mutate `main`. Keep newly migrated educational material unapproved until reviewed. Keep published Drive resources unchanged without explicit publishing instructions.
 5. **Validate and review** the updated sources and generated outputs before approval. Report the files, commit/PR, validation, visual checks, any missing links, and unresolved status.
+6. **Finish with saved work:** follow [AGENTS.md — Save work and finish through PRs](../AGENTS.md#save-work-and-finish-through-prs). Verify all intended files are committed and pushed, merge when authorized and ready, or leave a visible draft/review PR with blockers. Report any local-only assets or failed cleanup. A merged draft remains unapproved.
 
 ## GitHub text upload
 

@@ -81,6 +81,8 @@ The existing seven-slide Activate PDF remains unchanged; the former 44-slide que
 
 ## New resource workflow
 
+Use PRs as the work/review queue and temporary branches for edits. Before ending a session, push the intended source and assets and provide the PR link. Merge completed changes when authorized; unfinished educational material can be stored as explicitly unapproved draft source with recorded blockers. GitHub automatically deletes merged source branches, and the existing workflow deletes their PDF preview branches. Follow [AGENTS.md — Save work and finish through PRs](AGENTS.md#save-work-and-finish-through-prs) for verification and cleanup. A source merge does not approve or publish teaching material.
+
 1. Assign a permanent `resource_id` (e.g. `ccc-q01-activate-video-questions`).
 2. Choose resource type and audience from `system/CONTENT_CONTRACT.md`.
 3. Copy a matching template, and edit its raw JSON/Markdown.

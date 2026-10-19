@@ -27,6 +27,15 @@ You are editing a **source-first educational content repository**, not a PDF as 
 - Separate **content changes** from **visual design changes** and **publishing actions**; verify the regenerated document before publication.
 - **Files made in chat:** Use `system/CHAT_FILE_CREATION.md` for source creation, binary assets, verification, and temporary-transfer cleanup. Never stop at “the connector cannot upload binary” without checking its verified Base64 blob + tree/commit/ref workflow. Do not claim an uploaded asset is approved or publish it automatically.
 
+## Save work and finish through PRs
+
+- Use PRs as the review queue; branches are temporary working locations. Create one branch and PR per coherent change. Open a draft PR when work is unfinished so it is visible and recoverable.
+- Before ending an editing session, commit and push all intended source changes and required assets. Verify the remote branch contains the commits. A local file, local commit, chat attachment, or PR description alone is not a saved GitHub source. Preserve unrelated user changes; never include secrets or temporary/generated files merely to make the working tree clean.
+- Run applicable validation and checks. When merging is authorized and the change is ready, merge the PR and verify it reached `main`. Otherwise leave a pushed draft/review PR with a clear summary and remaining blockers. Existing user authorization applies; do not request the same permission again.
+- Useful unfinished educational content may be merged as explicitly marked draft source, with unresolved work recorded in its stage/source metadata. Merging stores the work; it does not promote `draft_transcription` or `draft_unpublished` to approved content, enable a build target, or authorize Drive publication. Keep drafts excluded from approved-output builds until their separate approval requirements are met.
+- GitHub's **Automatically delete head branches** setting is enabled. After merging, verify source-branch deletion and the existing PDF-preview cleanup workflow. Never merge `pdf-preview-pr-*` branches into `main`; they contain disposable generated outputs. Do not delete an unmerged source branch just because it is old or its PR is closed. For squash merges, verify the merged PR and any subsequent branch commits rather than relying only on `git branch --merged`.
+- After cleanup, fetch/prune remote refs and update local `main` when safe. Report any remaining PRs, unpushed commits, local-only source/assets, or cleanup failures explicitly. Never claim all work is saved when verification failed.
+
 ## Required output from each future AI edit
 
-State: files edited; source and review status; validation result; generated outputs; remaining unresolved issues. If changing the published Drive PDF, document the exact file ID and confirm it was replaced in place.
+State: files edited; source and review status; validation result; generated outputs; remaining unresolved issues; commit/PR link and whether it is pushed or merged; any unsaved work or remaining branch cleanup. If changing the published Drive PDF, document the exact file ID and confirm it was replaced in place.
