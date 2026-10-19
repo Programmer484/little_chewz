@@ -140,5 +140,34 @@
     "status": "published_legacy",
     "approved_link": true,
     "legacy_alias": "activate_teacher_guide"
+  },
+  "ccc-q01-set-the-table-slides": {
+    "title": "Set the Table Classroom Slides",
+    "url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
+    "resource_id": "ccc-q01-set-the-table-slides",
+    "type": "slide_deck",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "slides"
+    ],
+    "status": "draft_unpublished",
+    "approved_link": false,
+    "link_note": "Current lesson-specific six-scene deck located in Set the Table Drive folder (2026-10-19); text verified, explicit human approval and external sharing not verified."
+  },
+  "ccc-q01-set-the-table-songwriting-extension": {
+    "title": "Songwriting Extension",
+    "url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
+    "resource_id": "ccc-q01-set-the-table-songwriting-extension",
+    "type": "teacher_companion",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "optional",
+      "school-song"
+    ],
+    "status": "draft_unpublished",
+    "approved_link": false,
+    "link_note": "Existing Drive PDF; linked editable companion is draft, not approved for publication."
   }
 }
