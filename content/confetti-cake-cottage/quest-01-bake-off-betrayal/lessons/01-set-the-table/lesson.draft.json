@@ -1,0 +1,137 @@
+{
+  "key": "set-the-table",
+  "title": "SET THE TABLE",
+  "grade": "4–6",
+  "duration": "about 45 minutes",
+  "print_note": "PRINT ONLY CHOSEN ACTIVITIES",
+  "goal": "Activate prior knowledge about friendship and teamwork, build curiosity about the mystery, and introduce key mission vocabulary.",
+  "outcomes": [
+    "Share prior knowledge and questions about friendship and teamwork.",
+    "Explain selected mission words using examples.",
+    "Make a prediction about the upcoming mystery."
+  ],
+  "core": [],
+  "optional_prep": [],
+  "prep_heading": "PREPARE YOUR CHOICES",
+  "prep_note": "KWLS sheets in the Core Workbook; pencils; School Song sheet or vocabulary reference; selected Vocabulary Cards or Party Planner. Prepare only the activities you choose. Resource links pending verification.",
+  "focus": "Listen for meaningful connections between vocabulary, friendship, and teamwork.",
+  "assessment": "During the closing share, check whether students can explain a word or support an idea. Clarify unfamiliar vocabulary as needed.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Music (School Song option)"
+  ],
+  "cover": "cover.png",
+  "output": "set-the-table-teacher-guide.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Mission Hook",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Introduce “Team Switch Detected!” using the current Set the Table lesson slides once approved."
+        },
+        {
+          "kind": "ASK",
+          "text": "How might you feel if a teammate switched teams without telling you?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "KWLS Starter",
+      "mins": "10",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Core Workbook KWLS: complete K with prior ideas and W with a question. Save L and S for Part 5."
+        },
+        {
+          "kind": "ASK",
+          "text": "What are you most curious to find out?"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Small Bite 1 · Choose One",
+      "mins": "12",
+      "rows": [
+        {
+          "kind": "CHOOSE",
+          "text": "A — School Song OR B — Mission Vocabulary."
+        },
+        {
+          "kind": "DO",
+          "text": "A — School Song: Play “Triple C”. Students collect 10 words or phrases on their School Song sheet; share and clarify selected words."
+        },
+        {
+          "kind": "ASK",
+          "text": "What do these words tell us about the school's values?"
+        },
+        {
+          "kind": "DO",
+          "text": "B — Mission Vocabulary: Introduce adaptability, communication, emotional regulation, and collaboration through definitions and brief examples. Partners explain one word in their own words; look for the ideas in Chapter 1."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Small Bite 2 · Choose One",
+      "mins": "13",
+      "rows": [
+        {
+          "kind": "CHOOSE",
+          "text": "A — Vocabulary Cards OR B — Party Planner."
+        },
+        {
+          "kind": "DO",
+          "text": "A — Vocabulary Cards: Give each group a selected set of word cards. Sort into “Know,” “Think We Know,” and “New”; check unfamiliar meanings."
+        },
+        {
+          "kind": "DO",
+          "text": "A — Choose two words and explain what they might look like when a team's plan changes."
+        },
+        {
+          "kind": "DO",
+          "text": "B — Party Planner: Give students the Party Planner sheet. Partners choose six words, sort them, and explain which three they would invite onto a strong team."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Wrap-Up",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Revisit Friendship Mystery #1 using the approved lesson slide once verified."
+        },
+        {
+          "kind": "DO",
+          "text": "Share one new word, idea, or prediction."
+        },
+        {
+          "kind": "NEXT",
+          "text": "Part 2: Secret Ingredients."
+        }
+      ]
+    }
+  ],
+  "bonuses": [],
+  "migration_review": {
+    "status": "draft_transcription",
+    "source": "Set_The_Table_Guide.pdf pages 2–4",
+    "cover_source": "Set_The_Table_Guide.pdf page 1",
+    "unresolved": "Slide navigation, approved slide deck, Core Workbook and other activity resource links, optional Songwriting Extension link. Historical quest-wide slide positions 8–13 must not be used as lesson-local numbers.",
+    "historical_slide_mapping_only": {
+      "mission_hook": "8–10",
+      "school_song": "11",
+      "mission_vocabulary": "12",
+      "wrap_up": "13"
+    },
+    "not_buildable_until": "cover.png and approved linked resources verified"
+  }
+}
