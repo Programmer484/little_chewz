@@ -1,4 +1,5 @@
 name: PDF previews
+# Temporary end-to-end preview cleanup test; not for merge.
 
 # One run per relevant PR update, plus manual runs.
 # Deliberately no main push trigger: avoid a duplicate billed run after merge.
