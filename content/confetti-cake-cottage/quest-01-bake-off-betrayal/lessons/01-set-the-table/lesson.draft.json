@@ -1,6 +1,6 @@
 {
-  "key": "set-the-table",
-  "title": "SET THE TABLE",
+  "key": "p1",
+  "title": "PART 1 / SET THE TABLE",
   "grade": "4–6",
   "duration": "about 45 minutes",
   "print_note": "PRINT ONLY CHOSEN ACTIVITIES",
@@ -13,14 +13,14 @@
   "core": [
     {
       "ref": "ccc-q01-set-the-table-slides",
-      "description": "Current independent Set the Table slide deck; publication status pending"
+      "description": "Seven-slide lesson deck; updated Drive file pending"
     }
   ],
   "optional_prep": [],
   "prep_heading": "PREPARE YOUR CHOICES",
-  "prep_note": "KWLS sheets in the Core Workbook; pencils; School Song sheet or vocabulary reference; selected Vocabulary Cards or Party Planner. Prepare only the activities you choose. Student resource links pending verification.",
-  "focus": "Listen for meaningful connections between vocabulary, friendship, and teamwork.",
-  "assessment": "During the closing share, check whether students can explain a word or support an idea. Clarify unfamiliar vocabulary as needed.",
+  "prep_note": "KWLS in the Core Workbook: one per student; pencils. If chosen: School Song or Party Planner sheet, one per student; Which Word Fits? uses one Our Vocabulary reference per group of 3–4. Mission Vocabulary needs no printing.",
+  "focus": "Listen for accurate explanations and applications of mission vocabulary to teamwork.",
+  "assessment": "Check whether students can explain a selected word and apply it to an example. For Which Word Fits?, listen as partners justify and revise choices.",
   "curriculum": [
     "English Language Arts",
     "Health / SEL",
@@ -65,24 +65,37 @@
       "mins": "12",
       "rows": [
         {
-          "kind": "DO",
-          "text": "Choose one: A — School Song OR B — Mission Vocabulary."
+          "kind": "CHOOSE",
+          "text": "A — School Song OR B — Mission Vocabulary."
         },
         {
           "kind": "SHOW",
-          "text": "Slide 4 — Play “Triple C” if choosing School Song; Slide 5 — Display the mission vocabulary if choosing Vocabulary."
+          "text": "A — Slide 4 — Play “Triple C”."
         },
         {
           "kind": "DO",
-          "text": "A — School Song: Play “Triple C”. Students collect 10 words or phrases on their School Song sheet; share and clarify selected words."
+          "text": "A — Students collect 10 words or phrases on the School Song sheet, then share and clarify selected words."
         },
         {
           "kind": "ASK",
-          "text": "What do these words tell us about the school's values?"
+          "text": "A — What do these words tell us about the school’s values?"
+        },
+        {
+          "kind": "SHOW",
+          "text": "B — Slide 5 — Introduce adaptability, communication, emotional regulation, and collaboration."
         },
         {
           "kind": "DO",
-          "text": "B — Mission Vocabulary: Introduce adaptability, communication, emotional regulation, and collaboration through definitions and brief examples. Partners explain one word in their own words; look for the ideas in Chapter 1."
+          "text": "B — Review the definitions. Partners explain one skill in their own words and how it could help when a teammate unexpectedly changes groups."
+        },
+        {
+          "kind": "DO",
+          "text": "B — Share a few examples. Watch for these skills when reading Chapter 1 in Part 2."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-set-the-table-songwriting-extension",
+          "description": "Optional School Song extension; 15–25 extra minutes"
         }
       ]
     },
@@ -92,20 +105,32 @@
       "mins": "13",
       "rows": [
         {
-          "kind": "DO",
-          "text": "Choose one: A — Vocabulary Cards OR B — Party Planner."
+          "kind": "CHOOSE",
+          "text": "A — Which Word Fits? OR B — Party Planner."
+        },
+        {
+          "kind": "SHOW",
+          "text": "A — Slide 6 — Display the two scenarios and eight-word bank."
         },
         {
           "kind": "DO",
-          "text": "A — Vocabulary Cards: Give each group a selected set of word cards. Sort into “Know,” “Think We Know,” and “New”; check unfamiliar meanings."
+          "text": "A — Students choose which word best describes each situation, then explain their reasons to a partner before checking definitions."
+        },
+        {
+          "kind": "GIVE",
+          "text": "A — Our Vocabulary reference: one per group of 3–4 for checking and revising choices."
         },
         {
           "kind": "DO",
-          "text": "A — Choose two words and explain what they might look like when a team's plan changes."
+          "text": "A — Partners invent another situation for a word to identify and explain. Circulate and listen for accurate explanations."
+        },
+        {
+          "kind": "GIVE",
+          "text": "B — Party Planner sheet: one per student."
         },
         {
           "kind": "DO",
-          "text": "B — Party Planner: Give students the Party Planner sheet. Partners choose six words, sort them, and explain which three they would invite onto a strong team."
+          "text": "B — Partners choose six words, place them on the scale, and explain which three they would invite onto a strong team."
         }
       ]
     },
@@ -116,11 +141,15 @@
       "rows": [
         {
           "kind": "SHOW",
-          "text": "Slide 6 — Revisit Friendship Mystery #1."
+          "text": "Slide 7 — Revisit Friendship Mystery #1."
         },
         {
           "kind": "DO",
           "text": "Share one new word, idea, or prediction."
+        },
+        {
+          "kind": "NEXT",
+          "text": "Part 2: Secret Ingredients."
         }
       ]
     }
@@ -130,12 +159,13 @@
     "status": "draft_transcription",
     "source": "Set_The_Table_Guide.pdf pages 2–4",
     "cover_source": "Set_The_Table_Guide.pdf page 1",
-    "unresolved": "Slides 1–6 match the current lesson-specific PDF's text and sequence, but approval/sharing not confirmed. Activity worksheet/Core Workbook URLs still missing. Cover is committed as cover.png; see stage.json for provenance.",
+    "unresolved": "Seven-slide Set the Table lesson PDF is available in this conversation but not yet the published Drive slide resource; registry still links a six-slide deck. KWLS, School Song, Our Vocabulary and Party Planner lack individually verified approved resource links. Songwriting Extension remains unapproved. Preview only; require editorial and resource-access review before publishing.",
     "historical_slide_mapping_only": {
-      "old-global-8-to-13": "current lesson-local 1–6"
+      "old-global-8-to-13": "current lesson-local 1–5 and 7, with new Which Word Fits? slide 6"
     },
-    "not_buildable_until": "Approved linked resources and editorial review verified; targeted PDF build registered",
+    "not_buildable_until": "Verify linked student materials and approved seven-slide Drive destination; editorial sign-off and registration for targeted build.",
     "verified_current_slides_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
-    "optional_extension_available_unapproved": "ccc-q01-set-the-table-songwriting-extension"
+    "optional_extension_available_unapproved": "ccc-q01-set-the-table-songwriting-extension",
+    "proposed_activity": "Which Word Fits? replaces physical Vocabulary Cards; slide 6 carries two scenarios and the eight-word bank. Print one fifteen-word reference per group for checking."
   }
 }
