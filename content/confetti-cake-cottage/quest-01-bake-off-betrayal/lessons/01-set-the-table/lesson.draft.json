@@ -63,39 +63,48 @@
       "id": 3,
       "title": "Small Bite 1 · Choose One",
       "mins": "12",
-      "rows": [
+      "rows": [],
+      "options": [
         {
-          "kind": "DO",
-          "text": "Select one: A — School Song or B — Mission Vocabulary."
+          "label": "A",
+          "title": "School Song",
+          "rows": [
+            {
+              "kind": "SHOW",
+              "text": "Slide 4 — Play “Triple C”."
+            },
+            {
+              "kind": "DO",
+              "text": "Students collect 10 words or phrases on the School Song sheet, then share and clarify selected words."
+            },
+            {
+              "kind": "ASK",
+              "text": "What do these words tell us about the school’s values?"
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-set-the-table-songwriting-extension",
+              "description": "Add 15–25 min"
+            }
+          ]
         },
         {
-          "kind": "SHOW",
-          "text": "A — Slide 4 — Play “Triple C”."
-        },
-        {
-          "kind": "DO",
-          "text": "A — Students collect 10 words or phrases on the School Song sheet, then share and clarify selected words."
-        },
-        {
-          "kind": "ASK",
-          "text": "A — What do these words tell us about the school’s values?"
-        },
-        {
-          "kind": "SHOW",
-          "text": "B — Slide 5 — Introduce adaptability, communication, emotional regulation, and collaboration."
-        },
-        {
-          "kind": "DO",
-          "text": "B — Review the definitions. Partners explain one skill in their own words and how it could help when a teammate unexpectedly changes groups."
-        },
-        {
-          "kind": "DO",
-          "text": "B — Share a few examples. Watch for these skills when reading Chapter 1 in Part 2."
-        },
-        {
-          "kind": "MORE",
-          "ref": "ccc-q01-set-the-table-songwriting-extension",
-          "description": "Optional School Song extension; 15–25 extra minutes"
+          "label": "B",
+          "title": "Mission Vocabulary",
+          "rows": [
+            {
+              "kind": "SHOW",
+              "text": "Slide 5 — Introduce adaptability, communication, emotional regulation, and collaboration."
+            },
+            {
+              "kind": "DO",
+              "text": "Review the definitions. Partners explain one skill in their own words and how it could help when a teammate unexpectedly changes groups."
+            },
+            {
+              "kind": "DO",
+              "text": "Share a few examples. Watch for these skills when reading Chapter 1 in Part 2."
+            }
+          ]
         }
       ]
     },
@@ -103,34 +112,43 @@
       "id": 4,
       "title": "Small Bite 2 · Choose One",
       "mins": "13",
-      "rows": [
+      "rows": [],
+      "options": [
         {
-          "kind": "DO",
-          "text": "Select one: A — Which Word Fits? or B — Party Planner."
+          "label": "A",
+          "title": "Which Word Fits?",
+          "rows": [
+            {
+              "kind": "SHOW",
+              "text": "Slide 6 — Display the two scenarios and eight-word bank."
+            },
+            {
+              "kind": "DO",
+              "text": "Students choose which word best describes each situation, then explain their reasons to a partner before checking definitions."
+            },
+            {
+              "kind": "GIVE",
+              "text": "Our Vocabulary reference: one per group of 3–4 for checking and revising choices."
+            },
+            {
+              "kind": "DO",
+              "text": "Partners invent another situation for a word to identify and explain. Circulate and listen for accurate explanations."
+            }
+          ]
         },
         {
-          "kind": "SHOW",
-          "text": "A — Slide 6 — Display the two scenarios and eight-word bank."
-        },
-        {
-          "kind": "DO",
-          "text": "A — Students choose which word best describes each situation, then explain their reasons to a partner before checking definitions."
-        },
-        {
-          "kind": "GIVE",
-          "text": "A — Our Vocabulary reference: one per group of 3–4 for checking and revising choices."
-        },
-        {
-          "kind": "DO",
-          "text": "A — Partners invent another situation for a word to identify and explain. Circulate and listen for accurate explanations."
-        },
-        {
-          "kind": "GIVE",
-          "text": "B — Party Planner sheet: one per student."
-        },
-        {
-          "kind": "DO",
-          "text": "B — Partners choose six words, place them on the scale, and explain which three they would invite onto a strong team."
+          "label": "B",
+          "title": "Party Planner",
+          "rows": [
+            {
+              "kind": "GIVE",
+              "text": "Party Planner sheet: one per student."
+            },
+            {
+              "kind": "DO",
+              "text": "Partners choose six words, place them on the scale, and explain which three they would invite onto a strong team."
+            }
+          ]
         }
       ]
     },
@@ -163,5 +181,6 @@
     "verified_current_slides_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
     "optional_extension_available_unapproved": "ccc-q01-set-the-table-songwriting-extension",
     "proposed_activity": "Which Word Fits? replaces physical Vocabulary Cards; slide 6 carries two scenarios and the eight-word bank. Print one fifteen-word reference per group for checking."
-  }
+  },
+  "flow_style": "compact"
 }

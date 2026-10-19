@@ -272,6 +272,72 @@ def draw_step(p,step,y,reg,accent=CORAL,separator=False):
             y=para(p,row.get('text',''),CONTENT_X,y,CONTENT_WIDTH,size=FLOW_ASK_SIZE if kind=='ASK' else FLOW_BODY_SIZE,lh=17 if kind=='ASK' else 16.,font='semibold' if kind=='ASK' else 'regular')+12
     return y+17
 
+
+# Original Set the Table compact Teaching Flow, measured from its four-page PDF.
+# Keep the established default flow unchanged for previously approved guides.
+COMPACT_ACTIONS_X, COMPACT_CONTENT_X = 82., 129.
+COMPACT_OPTION_RULE = (.87,.85,.83)
+
+def compact_row(p,row,y,reg,accent,option=False):
+    kind=row['kind'].upper()
+    x,w=COMPACT_CONTENT_X,R-COMPACT_CONTENT_X
+    label(p,'READ' if kind=='QUOTE' else kind,COMPACT_ACTIONS_X,y,accent)
+    if row.get('links') is not None:
+        for item in row['links']:
+            y=resource_line(p,item,reg,x,y,w,
+                            size=10.25 if option else FLOW_BODY_SIZE,
+                            description_size=9.8 if option else FLOW_BODY_SIZE)+(6.9 if option else 7.5)
+        return y+6
+    if kind=='QUOTE':
+        start=y
+        for paragraph in row['text'].split('\\n\\n'):
+            font='bold' if paragraph.strip()==row.get('bold_text','') else 'regular'
+            y=para(p,paragraph,x+14,y,w-20,size=10.85,lh=16.8,font=font)+8.4
+        if p is not None:
+            p.draw_line((x-2,start),(x-2,y-8),color=accent,width=1.65)
+        return y+6
+    if row.get('ref'):
+        return resource_line(p,row,reg,x,y,w,
+                             size=10.25 if option else FLOW_BODY_SIZE,
+                             description_size=9.8 if option else FLOW_BODY_SIZE)+(6.9 if option else 12)
+    if option:
+        return para(p,row.get('text',''),x,y,w,
+                    size=10.9 if kind=='ASK' else 10.7,lh=16.1,
+                    font='semibold' if kind=='ASK' else 'regular')+6
+    return para(p,row.get('text',''),x,y,w,
+                size=FLOW_ASK_SIZE if kind=='ASK' else FLOW_BODY_SIZE,
+                lh=17 if kind=='ASK' else 16,
+                font='semibold' if kind=='ASK' else 'regular')+12
+
+
+def draw_compact_step(p,step,y,reg,accent=CORAL,separator=False):
+    # Exact original horizontal grid (PDF points): 44 / 64.3 / 82 / 129 / 551.
+    if separator:line(p,y+3)
+    txt(p,f"{step['id']:02d}",L,y+16,17.5,'heavy',accent)
+    value=str(step['mins']);time=value.upper() if value.upper()=='OPTIONAL' else value+' MIN'
+    time_w=tw(time,9.4,'bold')
+    title_x=64.3
+    title_w=R-title_x-time_w-18
+    title_lines=wrap(step['title'],title_w,15.5,'bold')
+    for i,ln in enumerate(title_lines):
+        txt(p,ln,title_x,y+18+i*20,15.5,'bold',max_right=title_x+title_w)
+    txt(p,time,R-time_w,y+21,9.4,'bold',MID)
+    y+=54+max(0,len(title_lines)-1)*20
+    for row in step.get('rows',[]):
+        y=compact_row(p,row,y,reg,accent)
+    for n,option in enumerate(step.get('options',[])):
+        if n:
+            line(p,y+14.6,x=COMPACT_ACTIONS_X,x2=R,c=COMPACT_OPTION_RULE,thick=.5)
+            heading_y=y+31.8
+        else:
+            heading_y=y+7
+        txt(p,option['label'],55.,heading_y+1,12.2,'heavy',accent)
+        txt(p,option['title'],COMPACT_ACTIONS_X,heading_y,13.,'heavy')
+        y=heading_y+22.9
+        for row in option['rows']:
+            y=compact_row(p,row,y,reg,accent,option=True)
+    return y+11
+
 def bonuses(p,items,y,reg,title='MORE TIME?  YOU CHEWZ!'):
     if not items:return y
     line(p,y,thick=.65);y+=10
@@ -288,7 +354,10 @@ def bonuses(p,items,y,reg,title='MORE TIME?  YOU CHEWZ!'):
 def flow(doc,d,reg):
     """Flow as many complete steps as fit, with reserved bottom padding."""
     accent=section_accent(d['key'])
-    p=None; y=127.; no=0; count_on_page=0
+    compact=d.get('flow_style')=='compact'
+    render_step=draw_compact_step if compact else draw_step
+    first_y=124. if compact else 127.
+    p=None; y=first_y; no=0; count_on_page=0
     limit=751.
     if d['key'].startswith('p') and d['key'][1:].isdigit():
         part,topic=d['title'].split(' / ',1)
@@ -302,13 +371,13 @@ def flow(doc,d,reg):
         nonlocal p,y,no,count_on_page
         if p is not None:finish_continuation()
         p=newp(doc);no+=1;hdr(p,eyebrow,'Teaching Flow',accent=accent)
-        y=127.;count_on_page=0
+        y=first_y;count_on_page=0
     for st in d['steps']:
         if p is None:next_page()
-        h=draw_step(None,st,0,reg,accent)
-        if h>limit-127:raise LayoutError(f'Step too large for flow page: {st["title"]}')
+        h=render_step(None,st,0,reg,accent)
+        if h>limit-first_y:raise LayoutError(f'Step too large for flow page: {st["title"]}')
         if y+h>limit:next_page()
-        y=draw_step(p,st,y,reg,accent,separator=count_on_page>0)
+        y=render_step(p,st,y,reg,accent,separator=count_on_page>0)
         count_on_page+=1
     its=d.get('bonuses',[])
     if its:

@@ -30,7 +30,15 @@ for path in lesson_paths:
         for item in d.get(section,[]): check_ref(item['ref'],path)
     for st in d.get('steps',[]):
         ids.append(st.get('id'))
-        for row in st.get('rows',[]):
+        options=st.get('options',[])
+        labels=[option.get('label') for option in options]
+        if len(labels)!=len(set(labels)) or any(k not in ('A','B','C','D') for k in labels):
+            errors.append(f'{path}: option labels must be unique A/B/C/D')
+        for option in options:
+            if not option.get('title') or not option.get('rows'):
+                errors.append(f'{path}: option must have a title and rows')
+        rows=st.get('rows',[])+[row for option in options for row in option.get('rows',[])]
+        for row in rows:
             k=row.get('kind','').upper()
             if k not in allowed: errors.append(f'{path}: unsupported action label {k}')
             if row.get('ref'):check_ref(row['ref'],path)
