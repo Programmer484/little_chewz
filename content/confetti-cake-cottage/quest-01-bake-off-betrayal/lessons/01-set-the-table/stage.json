@@ -13,7 +13,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Commit cover.png with repository-local assets; verify current student-resource URLs and link status; promote lesson.draft.json to lesson.json only after validator can pass; run renderer and preview QA.",
+  "next_action": "Verify current student-resource URLs and link status; promote lesson.draft.json to lesson.json only after all resource references can pass validation; register targeted build and visually QA PDF preview.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -25,7 +25,7 @@
     ],
     "cover_page": 1,
     "review_status": "draft_transcription",
-    "repository_asset_status": "not_committed"
+    "repository_asset_status": "cover_committed"
   },
   "guide_metadata": {
     "audience": "Grades 4–6",
@@ -68,13 +68,13 @@
   "cover": {
     "source": "Set_The_Table_Guide.pdf page 1",
     "target_filename": "cover.png",
-    "status": "extracted_locally_upload_pending"
+    "status": "committed",
+    "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/cover.png"
   },
   "unresolved": [
     "Current six-slide lesson-specific PDF found on Google Drive; content sequence inspected but formal approval and external access not verified.",
     "Core Workbook KWLS sheet and School Song sheet, vocabulary reference, Vocabulary Cards, Party Planner lack separate verified current links.",
     "Optional Songwriting Extension found on Drive but marked unapproved.",
-    "Cover extracted from source PDF locally; connector cannot upload the local PNG to GitHub.",
     "Editorial approval required before promoting source and registering PDF build."
   ],
   "slide_resource_ref": "ccc-q01-set-the-table-slides",
