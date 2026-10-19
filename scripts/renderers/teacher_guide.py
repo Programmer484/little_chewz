@@ -290,7 +290,7 @@ def compact_row(p,row,y,reg,accent,option=False):
         return y+6
     if kind=='QUOTE':
         start=y
-        for paragraph in row['text'].split('\\n\\n'):
+        for paragraph in row['text'].split('\n\n'):
             font='bold' if paragraph.strip()==row.get('bold_text','') else 'regular'
             y=para(p,paragraph,x+14,y,w-20,size=10.85,lh=16.8,font=font)+8.4
         if p is not None:
@@ -320,7 +320,7 @@ def draw_compact_step(p,step,y,reg,accent=CORAL,separator=False):
     title_w=R-title_x-time_w-18
     title_lines=wrap(step['title'],title_w,15.5,'bold')
     for i,ln in enumerate(title_lines):
-        txt(p,ln,title_x,y+18+i*20,15.5,'bold',max_right=title_x+title_w)
+        txt(p,' '+ln,title_x,y+18+i*20,15.5,'bold',max_right=title_x+title_w)
     txt(p,time,R-time_w,y+21,9.4,'bold',MID)
     y+=54+max(0,len(title_lines)-1)*20
     for row in step.get('rows',[]):
