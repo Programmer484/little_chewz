@@ -48,10 +48,10 @@
     }
   ],
   "needs_decisions": [
-    "Choose continuous slideshow vs stage-specific decks, then update link labels and slide numbering everywhere.",
     "The passport registry link is to School Pass instructions, not printable passport sheets; add a chooser/actual variants.",
     "Decide whether to replace two live supplementary question PDFs in place with JSON-generated revisions.",
     "Confirm future public teacher-guide URLs and who can access resources before publishing.",
     "Select an owner/approval convention for draft versus approved content."
-  ]
+  ],
+  "slideshow_decision_2026_10_19": "Independent slide set per lesson, lesson-local numbering, targeted edits/rebuilds. No full quest deck regeneration. Old global numbering remains historical, and slide generation is not implemented yet."
 }

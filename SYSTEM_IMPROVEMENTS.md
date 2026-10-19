@@ -62,3 +62,13 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 ### Targeted-build implementation note (2026-10-18)
 
 Selection lives in `scripts/select_builds.py` and verified rendering in `scripts/build_selected.py`. PR builds compare file changes against the PR's base commit; validation always runs. One resource edit builds that resource, changed shared renderers build their consumers, and only changed resource-registry entries referenced by a document trigger its rebuild. Unrelated source/doc changes create no PDF artifacts. Unknown dependencies conservatively rebuild all currently approved PDFs. Manual dispatch rebuilds all. The unapproved songwriting draft remains excluded. Existing source content and Drive publishing are not changed.
+
+## SYS-002 — Lesson-scoped slide generation
+
+**Status:** Planned (policy decided; generator not implemented)  
+**Priority:** P2  
+**Requested:** 2026-10-19
+
+Build independent, editable slide sets **per lesson**, not a complete continuous quest deck. Support surgical edits and regenerate only changed slides or the affected lesson. Preserve source assets, stable resource IDs, lesson-local slide numbers, review status and existing published links. The old 44-slide quest deck is a historical reference, not a generation target.
+
+Implement slide rendering and targeted build registration only when a real, reviewed lesson-slide source requires them. Validate and review generated previews before publishing. Do not generate placeholder slides, renumber legacy assets automatically, change the existing PDF workflow, or publish to Drive without instruction.

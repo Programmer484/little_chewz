@@ -59,13 +59,15 @@
   ],
   "editorial_benchmark": "Full Guide Revised.pdf (29 pages)",
   "legacy_reference": "Full Guide.pdf (109 pages)",
-  "slide_conflict_note": "Decision: target is ONE continuous quest slideshow. Seven-slide current Activate segment remains approved for Activate, and old 44-slide deck slide ranges are legacy references only until reconciled.",
+  "slide_conflict_note": "2026-10-19: future slides are generated and maintained per lesson, not as a full quest deck. The approved seven-slide Activate asset is unchanged; the old 44-slide global ranges are historical only.",
   "slideshow_policy": {
-    "scope": "quest",
-    "structure": "continuous",
-    "slide_numbering": "continuous_across_stages",
-    "current_approved_segment": "Activate slides 1–7 (published seven-slide asset)",
-    "full_deck_status": "migration_needed",
-    "warning": "The former 44-slide continuous deck is a legacy reference, not verified current content. Do not assert a completed full deck or publish revised slide numbers without review."
+    "scope": "lesson",
+    "structure": "independent_slide_sets",
+    "slide_numbering": "lesson_local",
+    "generation_unit": "changed_slide_or_affected_lesson",
+    "current_approved_segment": "Activate slides 1–7 (published lesson-specific asset)",
+    "full_deck_status": "not_planned",
+    "implementation_status": "policy_only_no_slide_renderer_or_build_target",
+    "warning": "Old continuous-deck slide positions are not verified current lesson-local numbers; do not infer links or numbering for unapproved lessons."
   }
 }

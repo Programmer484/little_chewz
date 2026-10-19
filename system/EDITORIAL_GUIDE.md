@@ -66,7 +66,7 @@ Assessment: Omitted — Teaching focus is sufficient for Activate.
 - Keep descriptions brief and functional: e.g. `Mrs. Tongsley's Letter — Opening read-aloud`, `Chapter One — Full chapter`, `Teacher Answer Key — Teacher reference`.
 - Never invent link targets or replace a missing approved resource with a guessed URL.
 - Keep extra questions, full stories, student-facing material, worksheets, answer keys, and supporting resources in their **separate linked files**.
-- The slideshow is **one continuous file**. Link to the single classroom slideshow in Preparation. In Teaching Flow, use slide numbers or ranges to navigate within it.
+- Each lesson has **its own slide set/deck**. Link only that lesson's approved slideshow in Preparation. In Teaching Flow, `SHOW`/`KEEP` slide numbers are local to the lesson and must be verified against its current approved slides. Historical quest-wide slide numbers are not current lesson numbers.
 - A command such as `SHOW Slides 1–3 — Introduce the school.` is slide navigation, **not** a separately linked resource entry. `KEEP Slide 3 — Display during the welcome letter.` is likewise slide navigation.
 
 ## 4. Approved Teaching Flow action labels
@@ -100,7 +100,7 @@ Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, and `CHOICE` as action labe
 - Give **one strong ASK question**. Put optional extra questions under MORE as linked resources.
 - Say what teachers need to *do*, not why each step is pedagogically important.
 - Do not repeat the wording on the slide or narrate what the video already says.
-- Use exact slide numbers/ranges from the **current** slideshow, not from an obsolete guide.
+- Use exact slide numbers/ranges from the **current approved lesson slide set**, not from a historical quest-wide deck.
 - Only include NEXT when a genuine transition or reference helps.
 - Follow the concise writing of **Full Guide Revised.pdf**, not the wordier Activate Teacher Guide phrasing.
 
@@ -132,7 +132,7 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 
 ## 7. Content and file architecture
 
-- **One slideshow:** continuous slide numbers across the quest; do not split by lesson.
+- **Slides per lesson:** independently generate/maintain each lesson's slide set, with lesson-local numbering. Do not require or regenerate a single full-quest deck.
 - **Separate linked student resources:** worksheets, full chapters, student workbooks, story/audio/video and activity materials.
 - **Separate linked teacher resources:** additional questions, answers, extended passages, reference guides and extensions.
 - **Teacher Guide:** a clean, navigable roadmap with only necessary instructions and short approved excerpts.
@@ -160,7 +160,7 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 - Have explanatory filler and redundant rows been removed?
 - Does `KEEP Slide N` clearly cover each important continuity instruction?
 - Are all resource references linked, bold and underlined, with concise grey `— descriptions` where useful?
-- Are slide numbers current and the slideshow treated as one file?
+- Are slide numbers verified against the corresponding lesson-specific slideshow?
 - Are passages short, properly indented, and faithful to approved source text?
 - Are links, resource names, page breaks, accents and wording checked before publishing?
 

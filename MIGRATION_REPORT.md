@@ -48,3 +48,7 @@
 - Remaining six stages: **explicit skeletons**, not rewritten lesson content and not buildable `lesson.json`.
 - Layout/content design of further resource types and link reconciliation: later work.
 - Replacing/archiving published Drive files: **not part of this migration**.
+
+## Superseding slideshow decision (2026-10-19)
+
+The October 18 decision for a continuous quest-wide deck is superseded. Future slides will be independently generated and maintained **per lesson**, using lesson-local numbering. Edit individual slides and regenerate only the affected lesson's slides. Retain the approved Activate segment unchanged; the historical 44-slide quest deck is a legacy reference only. No slide renderer, new generated slide set or Drive publication is implied by this policy change.
