@@ -81,14 +81,11 @@ Prefer this deliberately small vocabulary; use the label only when the action ge
 | **ASK** | Ask the strongest, most relevant discussion question. |
 | **DO** | Give a short, concrete classroom direction. |
 | **GIVE** | Distribute or direct students to a linked student resource. |
-| **PLAY** | Play standalone audio not already handled by SHOW. |
-| **CHOOSE** | Specify an actual choice among activities or formats. |
 | **MORE** | Link supplementary teacher resources or additional prompts. |
-| **NEXT** | Identify the next meaningful teaching stage or lesson. |
 
-Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, and `CHOICE` as action labels. Do not create near-synonyms. For alternatives, use `CHOOSE` followed by clearly identified options (A/B/C/D as option names, not extra action verbs). The choices must reflect real alternatives available to the teacher.
+Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, and `CHOICE` as action labels. Do not create near-synonyms. For genuine alternatives, use `DO` to direct the teacher to select one, and identify the options (A/B/C/D) in the instruction text rather than as separate action labels. The choices must reflect real alternatives available to the teacher. Use `SHOW` for media on a slide, or `DO` with a linked resource for standalone audio.
 
-**For engineering:** The table above is the editorial list. If code-side validation is added, put the allowed labels in **one external config/list** and have the renderer/validator read that list. Update this document to reference the config as the canonical list rather than maintaining a second hard-coded copy. Do not write individual `if label == ...` validity checks throughout the generator. The renderer may still need distinct rendering branches for specialized content types such as read-aloud passage blocks.
+**For engineering:** `system/action_labels.json` is the canonical allowlist for action labels and internal row types; the table above documents its teacher-facing actions. The validator reads that file. Do not add another hard-coded list or per-label validity checks. The renderer may still need distinct rendering branches for specialized content types such as read-aloud passage blocks.
 
 ## 5. How to write a Teaching Flow step
 
@@ -101,7 +98,7 @@ Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, and `CHOICE` as action labe
 - Say what teachers need to *do*, not why each step is pedagogically important.
 - Do not repeat the wording on the slide or narrate what the video already says.
 - Use exact slide numbers/ranges from the **current approved lesson slide set**, not from a historical quest-wide deck.
-- Only include NEXT when a genuine transition or reference helps.
+- Avoid navigation-only rows. Mention a transition only when it changes what the teacher needs to do.
 - Follow the concise writing of **Full Guide Revised.pdf**, not the wordier Activate Teacher Guide phrasing.
 
 **Example of preferred brevity**
