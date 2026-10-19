@@ -355,6 +355,8 @@ def flow(doc,d,reg):
     """Flow as many complete steps as fit, with reserved bottom padding."""
     accent=section_accent(d['key'])
     compact=d.get('flow_style')=='compact'
+    if not compact and any(step.get('options') for step in d['steps']):
+        raise LayoutError('Structured A/B options require flow_style: compact')
     render_step=draw_compact_step if compact else draw_step
     first_y=124. if compact else 127.
     p=None; y=first_y; no=0; count_on_page=0

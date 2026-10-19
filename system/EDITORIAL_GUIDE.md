@@ -112,6 +112,8 @@ READ   Mrs. Tongsley's Letter — Opening read-aloud. [linked resource]
 
 Use KEEP only when staying on the slide is a meaningful instruction, not on every row that happens to leave a slide visible.
 
+**A/B alternatives:** Preserve the original four-page Set the Table teaching-flow style. For a lesson with choices, set `flow_style: "compact"` and put each alternative under `step.options` with `label` (A/B), `title`, and its own `rows`. Do not flatten alternatives into ordinary rows prefixed `A —` or `B —`. The shared renderer uses the measured original x-coordinate grid (44 / 64.3 / 82 / 129 pt), 13 pt heavy option titles, 12.2 pt option letters, 10.7 pt option body text, and a 0.5 pt warm-grey separator. Existing guides without `compact` keep their own layout. Longer or revised activities may move later sections down without changing the option typography and spacing.
+
 ## 6. READ passages and excerpts
 
 - For an approved, short passage, use the existing **indented READ passage with a coloured vertical rule**, preserving paragraph breaks and selective bold emphasis. **Do not add literal quotation marks.**

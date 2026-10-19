@@ -31,6 +31,8 @@ for path in lesson_paths:
     for st in d.get('steps',[]):
         ids.append(st.get('id'))
         options=st.get('options',[])
+        if options and d.get('flow_style')!='compact':
+            errors.append(f'{path}: structured options require flow_style: compact')
         labels=[option.get('label') for option in options]
         if len(labels)!=len(set(labels)) or any(k not in ('A','B','C','D') for k in labels):
             errors.append(f'{path}: option labels must be unique A/B/C/D')
