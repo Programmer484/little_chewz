@@ -351,7 +351,7 @@ def build(content:Path,registry:dict,output:Path|None=None):
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2])
-    ap.add_argument('--content',type=Path,help='Lesson JSON (for example Activate/activate.json)')
+    ap.add_argument('--content',type=Path,help='Lesson JSON path under content/<school>/<quest>/lessons/<stage>/')
     ap.add_argument('--output',type=Path,help='Optional output path for a single lesson')
     ap.add_argument('--font-dir',type=Path)
     args=ap.parse_args()
@@ -364,7 +364,7 @@ def main():
         # New lessons can be added as sibling folders without changing the generator.
         paths=sorted(root.glob('content/**/lessons/**/lesson.json'))
     if not paths:
-        ap.error('No lesson JSON found; provide --content Activate/activate.json')
+        ap.error('No lesson JSON found; provide --content with the lesson.json path')
     if args.output and len(paths)!=1:
         ap.error('--output can only be used with a single --content')
     for content in paths:

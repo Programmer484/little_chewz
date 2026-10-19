@@ -3,14 +3,7 @@
 **Scope:** These instructions apply to every AI or editor drafting or revising Little Chewz teacher-guide content and to any AI working on the teacher-guide generator. Use **Full Guide Revised.pdf** as the editorial and visual benchmark; use the **latest approved** lesson sequence and slideshow for content. This file governs *writing*, while generator code governs *rendering*.
 
 
-## File structure for LLM edits
-
-- `Template/` contains shared code, approved editorial instructions and the central resource URL registry. Do not duplicate this folder inside individual lesson folders.
-- `Activate/activate.json` is the **only Activate content file to edit** for lesson wording, action rows, overview sections, and source references.
-- `Activate/cover.pdf` is a required visual asset for regeneration; retain it when rebuilding.
-- `Activate/Activate_Teacher_Guide.pdf` is a generated output/reference, not an editorial source to modify directly.
-- Do not bundle passports, videos or other separately hosted linked resources into the edit-source ZIP. Those are referenced through `Template/resources.json`.
-- For another section, create a sibling lesson folder with its own JSON and cover. Reuse `Template/`.
+File locations and source authority are defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Edit the current lesson source under `content/`; layout implementation lives in `scripts/renderers/teacher_guide.py`. Validation, review, and delivery follow [WORKFLOW.md](WORKFLOW.md).
 
 ## 1. Primary editorial rule
 
@@ -85,7 +78,7 @@ Prefer this deliberately small vocabulary; use the label only when the action ge
 
 Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, and `CHOICE` as action labels. Do not create near-synonyms. For genuine alternatives, use `DO` to direct the teacher to select one, and identify the options (A/B/C/D) in the instruction text rather than as separate action labels. The choices must reflect real alternatives available to the teacher. Use `SHOW` for media on a slide, or `DO` with a linked resource for standalone audio.
 
-**For engineering:** `system/action_labels.json` is the canonical allowlist for action labels and internal row types; the table above documents its teacher-facing actions. The validator reads that file. Do not add another hard-coded list or per-label validity checks. The renderer may still need distinct rendering branches for specialized content types such as read-aloud passage blocks.
+**For engineering:** [action_labels.json](action_labels.json) owns the allowed labels and internal row types; the table explains usage. The validator and renderer must consult that file when checking validity. Rendering branches for specialized content are still appropriate.
 
 ## 5. How to write a Teaching Flow step
 
@@ -127,27 +120,17 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 - Preserve the approved wording of any passage. Do not silently rewrite dialogue, lore, named characters, or the Zenix rule.
 - The presence of an excerpt does not make it an unlinked resource-registry item; an explicit resource reference still requires a link.
 
-## 7. Content and file architecture
-
-- **Slides per lesson:** independently generate/maintain each lesson's slide set, with lesson-local numbering. Do not require or regenerate a single full-quest deck.
-- **Separate linked student resources:** worksheets, full chapters, student workbooks, story/audio/video and activity materials.
-- **Separate linked teacher resources:** additional questions, answers, extended passages, reference guides and extensions.
-- **Teacher Guide:** a clean, navigable roadmap with only necessary instructions and short approved excerpts.
-- **Content source:** `Activate/activate.json` (future sections have their own folders). **Resource destinations:** `Template/resources.json`. **Presentation code:** `Template/little_chewz_teacher_template.py`.
-- Never fabricate a resource, file, slide reference or link. If unavailable, mark it unresolved for editorial review instead of publishing a plausible substitute.
-
-## 8. Generator engineering boundaries
+## 7. Generator engineering boundaries
 
 - Preserve existing PDF-native style, Lato typography, section-colour configuration, page margins and other deliberate design choices unless a change is requested.
 - Handle typesetting, mixed emphasis, hyperlinks, measurable fitting/wrapping, whole-step pagination, continuation cues and destination integrity **in code**.
 - Handle tone, step concision, vocabulary, passage length, exact educational priority and pedagogy **in these LLM instructions**, not in brittle heuristic validators.
 - **Keep missing-resource links as errors.** Do not weaken existing strict link behaviour.
-- If implementing label validation, **validate against one centralized allowlist**, preferably an editable data/config file. Do not hard-code the list in multiple code paths, or add per-verb ad-hoc validators.
 - Do **not** introduce a code-enforced 250-word limit, a banned-`NOTE` special case, or hard-coded length checks for Learning outcomes/Teaching focus.
 - Prefer minimal, localized changes and data-driven configuration. Keep content and layout responsibilities separate; do not duplicate source text inside rendering functions.
-- Review PDF output visually and check functioning hyperlinks. Report discrepancies rather than silently changing approved text to fit.
+- Follow the workflow for rendered-output review. Report layout discrepancies rather than silently changing approved text to fit.
 
-## 9. Final editorial review checklist (human / LLM, not automatic code enforcement)
+## 8. Editorial review
 
 - Are the goal, outcomes and Teaching focus **short** and tightly aligned to the actual activities?
 - If Assessment is included, does it identify evidence within the selected existing materials, without adding a task or duplicating Teaching focus?
@@ -161,7 +144,7 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 - Are passages short, properly indented, and faithful to approved source text?
 - Are links, resource names, page breaks, accents and wording checked before publishing?
 
-## 10. MORE resources and alternatives
+## 9. MORE resources and alternatives
 
 - Use **MORE**, not **EXTEND**, as the standard Teaching Flow label for optional linked resources. The generator already supports multiple resource lines under a single MORE label.
 - Present each resource as **bold, underlined linked title** followed by a short light-grey `— description`, such as `Mission Video Questions — Additional questions`.

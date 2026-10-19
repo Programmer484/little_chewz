@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """Lightweight, flexible Little Chewz teacher-resource PDF generator.
 
-Usage:
-    python resource_generator.py songwriting_extension.json
-    python resource_generator.py mission_video_questions.json -o MyResource.pdf
-    python resource_generator.py resource.json --registry /path/to/Template/resources.json
+Usage from the repository root (replace resource.json with the source path):
+    python scripts/renderers/teacher_companion.py resource.json -o exports/resource.pdf --registry catalog/resources.json
 
 Requires: pip install reportlab. Uses locally installed Lato fonts when available.
 This is a standalone companion generator; it does NOT modify the Teacher Guide.

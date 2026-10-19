@@ -23,7 +23,7 @@ SOURCES = {
 ALL = set(SOURCES)
 GUIDE = "00-activate-teacher-guide.pdf"
 COMPANIONS = ALL - {GUIDE}
-IGNORED_PREFIX = ("content/", "templates/", "schemas/", "system/")
+IGNORED_PREFIX = ("content/", "templates/", "system/")
 IGNORED = {".gitignore", "README.md", "START_HERE.md", "MIGRATION_REPORT.md", "SYSTEM_IMPROVEMENTS.md"}
 
 
