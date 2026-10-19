@@ -2,6 +2,7 @@
 """Local, dependency-free source checks. Validation is not editorial signoff."""
 from pathlib import Path
 import json,sys,re
+from select_builds import targets, resource_refs
 R=Path(__file__).resolve().parents[1]
 registry=json.loads((R/'catalog/resources.json').read_text())
 actions=json.loads((R/'system/action_labels.json').read_text())
@@ -16,10 +17,12 @@ for ref,item in registry.items():
     if item.get('approved_link') and not str(item.get('url','')).startswith('https://'):
         errors.append(f'{ref}: approved resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
-for path in R.glob('content/**/lessons/**/lesson.json'):
+lesson_paths = sorted(set(R.glob('content/**/lessons/**/lesson.json')) | set(R.glob('content/**/lessons/**/lesson.draft.json')))
+for path in lesson_paths:
     d=json.loads(path.read_text())
     for field in ['key','goal','steps','outcomes','cover','output']:
         if field not in d: errors.append(f'{path}: missing {field}')
+    for ref in resource_refs(d): check_ref(ref,path)
     cover=path.parent/d.get('cover','')
     if not cover.is_file(): errors.append(f'{path}: missing visual cover {cover.name}')
     ids=[]
@@ -39,7 +42,18 @@ for path in R.glob('content/**/resources/**/*.json'):
     if not d.get('resource_id') or not d.get('review_status'):
         errors.append(f'{path}: companion missing stable ID/status')
     if d.get('review_status')=='draft_unpublished':warnings.append(f'{path.name}: not approved for publishing')
-print(f'Validated {len(registry)} registry links; {len(list(R.glob("content/**/lessons/**/lesson.json")))} editable lesson; {len(list(R.glob("content/**/resources/**/*.json")))} companion sources')
+try:
+    registered = targets()
+    for name, target in registered.items():
+        for ref in resource_refs(target['data']):
+            record = registry.get(ref, {})
+            if not str(record.get('url', '')).startswith('https://'):
+                errors.append(f'{name}: unresolved HTTPS destination for {ref}')
+            elif not record.get('approved_link'):
+                warnings.append(f'{name}: {ref} is unapproved; preview only')
+except (ValueError, KeyError, OSError) as exc:
+    errors.append(f'PDF registration/eligibility: {exc}')
+print(f'Validated {len(registry)} registry links; {len(lesson_paths)} editable lesson; {len(list(R.glob("content/**/resources/**/*.json")))} companion sources')
 for m in warnings:print('WARN:',m)
 for m in errors:print('ERROR:',m)
 print('PASS' if not errors else 'FAILED')

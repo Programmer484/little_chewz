@@ -9,11 +9,18 @@ on:
       - ".github/workflows/cleanup-pdf-previews.yml"
       - "content/**"
       - "scripts/**"
+      - "tests/**"
       - "templates/**"
       - "system/**"
       - "catalog/**"
       - "requirements.txt"
   workflow_dispatch:
+    inputs:
+      document:
+        description: "PDF filename to preview, or all-approved"
+        required: true
+        default: all-approved
+        type: string
 
 permissions:
   contents: write
@@ -23,8 +30,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  approved-pdfs:
-    name: Validate and render approved PDFs
+  pdf-previews:
+    name: Validate and render affected PDFs
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -47,18 +54,19 @@ jobs:
       - name: Validate source references
         run: python scripts/validate.py
 
-      - name: Test dependency selector
+      - name: Test build tooling
         run: python -m unittest discover -s tests -v
 
       - name: Determine affected PDF outputs
         id: select
         env:
           EVENT_NAME: ${{ github.event_name }}
+          DOCUMENT: ${{ inputs.document }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         shell: bash
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            python scripts/select_builds.py --all --output build-selection.json
+            python scripts/select_builds.py --document "$DOCUMENT" --output build-selection.json
           else
             # Explicit base SHA allows precise comparisons even when a PR has
             # multiple commits; fail rather than silently skipping changes.
@@ -87,7 +95,7 @@ jobs:
         if: steps.select.outputs.has_outputs == 'true'
         uses: actions/upload-artifact@v6
         with:
-          name: little-chewz-approved-pdf-previews
+          name: little-chewz-pdf-previews
           path: exports/*.pdf
           if-no-files-found: error
           retention-days: 7

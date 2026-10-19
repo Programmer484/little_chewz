@@ -32,8 +32,8 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 5. Verify that produced PDFs exist and can be opened; audit internal/external PDF link annotations to the extent supported locally. This does not prove Google Drive sharing permissions.
 6. Upload the generated PDFs as ephemeral GitHub Actions artifacts associated with the exact commit/PR. Report validation/build errors clearly.
 
-**Phase 2 — Targeted edits and dependency-aware builds (implemented for existing three approved PDFs)**
-1. Determine affected outputs from changed lesson/resource JSON, referenced assets, resource registry, templates, and renderers. A shared renderer/config change should rebuild every dependent output.
+**Phase 2 — Targeted edits and dependency-aware builds (implemented for approved sources and opted-in draft previews)**
+1. Determine affected outputs from changed lesson/resource JSON, referenced assets, resource registry, and renderers (templates only if consumed dynamically). A shared renderer/config change should rebuild every dependent output.
 2. Support a manual `all` rebuild and a single-resource preview for cloud-chat changes.
 3. Provide a concise PR status/summary listing source files changed, generated outputs, warnings, unresolved references, and artifacts.
 
@@ -61,7 +61,7 @@ Make GitHub the authoritative, reproducible build-and-review environment for cha
 
 ### Targeted-build implementation note (2026-10-18)
 
-Selection lives in `scripts/select_builds.py` and verified rendering in `scripts/build_selected.py`. PR builds compare file changes against the PR's base commit; validation always runs. One resource edit builds that resource, changed shared renderers build their consumers, and only changed resource-registry entries referenced by a document trigger its rebuild. Unrelated source/doc changes create no PDF artifacts. Unknown dependencies conservatively rebuild all currently approved PDFs. Manual dispatch rebuilds all. The unapproved songwriting draft remains excluded. Existing source content and Drive publishing are not changed.
+Selection lives in `scripts/select_builds.py` and verified rendering in `scripts/build_selected.py`. PR builds compare file changes against the PR's base commit; validation always runs. One resource edit builds that resource, changed shared renderers build their consumers, and only changed resource-registry entries referenced by a document trigger its rebuild. Unrelated source/doc changes create no PDF artifacts. The original broad infrastructure fallback has been replaced by explicit rendering dependencies. Manual dispatch accepts one eligible output or all approved outputs. The unapproved songwriting draft remains excluded. Existing source content and Drive publishing are not changed.
 
 ## SYS-002 — Lesson-scoped slide generation
 
@@ -72,3 +72,7 @@ Selection lives in `scripts/select_builds.py` and verified rendering in `scripts
 Build independent, editable slide sets **per lesson**, not a complete continuous quest deck. Support surgical edits and regenerate only changed slides or the affected lesson. Preserve source assets, stable resource IDs, lesson-local slide numbers, review status and existing published links. The old 44-slide quest deck is a historical reference, not a generation target.
 
 Implement slide rendering and targeted build registration only when a real, reviewed lesson-slide source requires them. Validate and review generated previews before publishing. Do not generate placeholder slides, renumber legacy assets automatically, change the existing PDF workflow, or publish to Drive without instruction.
+
+### Unified preview selection update (2026-10-19)
+
+Approved sources and explicitly opted-in drafts now use the same discovery, selection, verification, and preview workflow. Draft lesson validation matches approved lesson validation. Build policy and registration instructions live in [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection). The obsolete standalone Set the Table job from PR #16 is removed by the tooling PR stacked on that source branch; its lesson edits remain separately reviewable.
