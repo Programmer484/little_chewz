@@ -6,10 +6,7 @@
     "ASK",
     "DO",
     "GIVE",
-    "PLAY",
-    "CHOOSE",
-    "MORE",
-    "NEXT"
+    "MORE"
   ],
   "internal_row_types": [
     "QUOTE"
