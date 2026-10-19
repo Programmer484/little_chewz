@@ -3,7 +3,7 @@
   "title": "Set the Table",
   "status": "draft_transcription",
   "lesson_source": "lesson.draft.json",
-  "source_note": "New supplied Set_The_Table_Guide.pdf (4 pages) supersedes older guide text for migration review. Current lesson slides not verified; references to slides 8–13 are historical quest-wide numbers.",
+  "source_note": "Supplied four-page Set_The_Table_Guide.pdf is the editorial basis; current independent Set_The_Table_Slides.pdf found on Drive, with lesson-local six-scene sequence.",
   "required_fields": [
     "learning_goal",
     "learning_outcomes",
@@ -13,7 +13,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Review draft, verify resource registry and lesson-local slides, commit approved cover.png, then promote to lesson.json and register the targeted PDF build.",
+  "next_action": "Commit cover.png with repository-local assets; verify current student-resource URLs and link status; promote lesson.draft.json to lesson.json only after validator can pass; run renderer and preview QA.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -68,12 +68,41 @@
   "cover": {
     "source": "Set_The_Table_Guide.pdf page 1",
     "target_filename": "cover.png",
-    "status": "extracted_locally_not_committed"
+    "status": "extracted_locally_upload_pending"
   },
   "unresolved": [
-    "Approved lesson-local slide deck and numbering not yet verified.",
-    "KWLS, School Song, vocabulary reference, Vocabulary Cards, Party Planner and Songwriting Extension do not have approved Set the Table resource IDs/URLs in catalog/resources.json.",
-    "Cover extracted locally from supplied PDF, but not yet committed to GitHub.",
-    "Editorial review required before approving migrated lesson content."
+    "Current six-slide lesson-specific PDF found on Google Drive; content sequence inspected but formal approval and external access not verified.",
+    "Core Workbook KWLS sheet and School Song sheet, vocabulary reference, Vocabulary Cards, Party Planner lack separate verified current links.",
+    "Optional Songwriting Extension found on Drive but marked unapproved.",
+    "Cover extracted from source PDF locally; connector cannot upload the local PNG to GitHub.",
+    "Editorial approval required before promoting source and registering PDF build."
+  ],
+  "slide_resource_ref": "ccc-q01-set-the-table-slides",
+  "optional_extension_ref": "ccc-q01-set-the-table-songwriting-extension",
+  "slide_sequence": [
+    {
+      "lesson_slide": 1,
+      "content": "Discover / Restore the Sparkle"
+    },
+    {
+      "lesson_slide": 2,
+      "content": "Cake & Chaos Club dossier"
+    },
+    {
+      "lesson_slide": 3,
+      "content": "Team Switch Detected"
+    },
+    {
+      "lesson_slide": 4,
+      "content": "Triple C school song"
+    },
+    {
+      "lesson_slide": 5,
+      "content": "Mission Vocabulary"
+    },
+    {
+      "lesson_slide": 6,
+      "content": "Friendship Mystery #1"
+    }
   ]
 }
