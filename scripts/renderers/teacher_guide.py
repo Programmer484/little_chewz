@@ -101,13 +101,17 @@ def para(p,s,x,y,w,size=11.,lh=None,font='regular',color=BLACK):
 #
 # Horizontal grid (pt), shared by every page and every lesson:
 #   44  margin: step numbers, option letters (centred under the number)
-#   82  step titles, option titles, action labels
+#   ~72 step titles, set just past the widest two-digit number so the
+#       number and title read as one heading and every title lines up
+#   82  option titles and action labels: indented under the step title,
+#       identical in every step so the label column never moves
 #   129 instruction text
 #   551 right margin: step times, page counter
 # Overview and bonus columns share one two-column grid with a 40 pt gutter.
 # ---------------------------------------------------------------------------
 CAP=.7165                      # Lato cap height / em
 COL_NUM,COL_ACT,COL_TXT=L,82.,129.
+NUM_TITLE_GAP=7.5
 GUTTER=40.
 COL_W=(PAGE_W-GUTTER)/2
 COL2_X=L+COL_W+GUTTER
@@ -319,17 +323,21 @@ def draw_row(p,row,b,reg,accent):
     ask=kind=='ASK'
     return lines(p,row.get('text',''),x,b,w,FLOW_ASK if ask else FLOW_BODY,FLOW_LH,'semibold' if ask else 'regular')
 
+def step_title_x():
+    """Fixed title x: just past the widest possible step number (Lato digits vary)."""
+    return COL_NUM+max(tw(f'{i:02d}',STEP_NUM,'heavy') for i in range(100))+NUM_TITLE_GAP
+
 def draw_step(p,step,cap_top,reg,accent=CORAL):
     """Draw a step whose title cap-top is `cap_top`; returns the last baseline."""
     value=str(step['mins']);time=value.upper() if value.upper()=='OPTIONAL' else value+' MIN'
     time_w=tw(time,TIME_SIZE,'bold')
-    title_w=R-COL_ACT-time_w-16
+    title_x=step_title_x();title_w=R-title_x-time_w-16
     b=cap_to_base(cap_top,STEP_TITLE)
     num=f"{step['id']:02d}";num_center=COL_NUM+tw(num,STEP_NUM,'heavy')/2
     at(p,num,COL_NUM,b,STEP_NUM,'heavy',accent)
     at(p,time,R-time_w,b,TIME_SIZE,'bold',MID)
     for i,ln in enumerate(wrap(step['title'],title_w,STEP_TITLE,'bold')):
-        at(p,ln,COL_ACT,b+i*STEP_TITLE_LH,STEP_TITLE,'bold',max_right=COL_ACT+title_w)
+        at(p,ln,title_x,b+i*STEP_TITLE_LH,STEP_TITLE,'bold',max_right=title_x+title_w)
     b+=i*STEP_TITLE_LH
     rows=step.get('rows',[]);options=step.get('options',[])
     for n,row in enumerate(rows):
