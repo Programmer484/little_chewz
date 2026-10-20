@@ -112,7 +112,7 @@ def para(p,s,x,y,w,size=11.,lh=None,font='regular',color=BLACK):
 # Overview and bonus columns share one two-column grid with a 40 pt gutter.
 # ---------------------------------------------------------------------------
 CAP=.7165                      # Lato cap height / em
-XH=.512                        # Lato x-height / em (Bold)
+BOX_MID=.387                   # Lato text-box middle above baseline / em ((0.987-0.213)/2)
 COL_NUM,COL_ACT,COL_TXT=L,82.,129.
 NUM_TITLE_GAP=7.5
 GUTTER=40.
@@ -331,8 +331,8 @@ def draw_row(p,row,b,reg,accent):
     return lines(p,row.get('text',''),x,b,w,FLOW_ASK if ask else FLOW_BODY,FLOW_LH,'semibold' if ask else 'regular')
 
 def marker_baseline(title_baseline,marker_size,title_size):
-    """Baseline that centres a cap-height marker on the title's x-height middle."""
-    return title_baseline-title_size*XH/2+marker_size*CAP/2
+    """Baseline that centres the marker's text box on the title's text box."""
+    return title_baseline+(marker_size-title_size)*BOX_MID
 
 def step_title_x():
     """Fixed title x: just past the widest possible step number (Lato digits vary)."""
@@ -345,9 +345,9 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
     title_x=step_title_x();title_w=R-title_x-time_w-16
     b=cap_to_base(cap_top,STEP_TITLE)
     num=f"{step['id']:02d}"
-    # Markers are vertically centred on their title, like CSS vertical-align:
-    # middle: the marker's cap-height midpoint sits at title baseline + half
-    # the title's x-height, so a larger marker hangs evenly above and below.
+    # Markers are vertically centred on their title: the middle of the marker's
+    # text box lines up with the middle of the title's text box (within 0.05 pt
+    # of centring the visible capitals and digits).
     at(p,num,COL_NUM,marker_baseline(b,STEP_NUM,STEP_TITLE),STEP_NUM,'heavy',accent)
     at(p,time,R-time_w,b,TIME_SIZE,'bold',MID)
     for i,ln in enumerate(wrap(step['title'],title_w,STEP_TITLE,'bold')):
