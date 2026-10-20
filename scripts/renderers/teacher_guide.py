@@ -101,8 +101,8 @@ def para(p,s,x,y,w,size=11.,lh=None,font='regular',color=BLACK):
 #
 # Horizontal grid (pt), shared by every page and every lesson:
 #   44  margin: step numbers
-#   ~66 option letters, right-aligned NUM_TITLE_GAP before their option title
-#       (the same number->title relationship as the step heading)
+#   ~63 option letters, right-aligned OPT_LETTER_GAP before their option title
+#       (the same marker->title relationship as the step heading)
 #   ~72 step titles, set just past the widest two-digit number so the
 #       number and title read as one heading and every title lines up
 #   82  option titles and action labels: indented under the step title,
@@ -128,7 +128,11 @@ FLOW_BODY,FLOW_ASK,FLOW_LH=10.9,11.2,16.   # every Teaching Flow row, in or out 
 ROW_STEP=25.                   # baseline -> baseline between consecutive rows
 LABEL_SIZE=8.9
 STEP_NUM,STEP_TITLE,STEP_TITLE_LH=17.5,15.5,19.
-OPT_LETTER,OPT_TITLE=12.6,13.
+# Options mirror the step heading one level down: a heavy accent marker
+# ~13% larger than a bold black title (17.5/15.5 at step level).
+OPT_TITLE=12.2
+OPT_LETTER=round(OPT_TITLE*STEP_NUM/STEP_TITLE,1)
+OPT_LETTER_GAP=10.
 TIME_SIZE=9.2
 OPTION_RULE=(.87,.85,.83)
 FLOW_FIRST_CAP=HDR_RULE+30.    # cap-top of the first step on a flow page
@@ -351,8 +355,8 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
         else:
             b+=30 if not rows else ROW_STEP+8
         letter=option['label']
-        at(p,letter,COL_ACT-NUM_TITLE_GAP-tw(letter,OPT_LETTER,'heavy'),b,OPT_LETTER,'heavy',accent)
-        at(p,option['title'],COL_ACT,b,OPT_TITLE,'heavy')
+        at(p,letter,COL_ACT-OPT_LETTER_GAP-tw(letter,OPT_LETTER,'heavy'),b,OPT_LETTER,'heavy',accent)
+        at(p,option['title'],COL_ACT,b,OPT_TITLE,'bold')
         for m,row in enumerate(option['rows']):
             b=draw_row(p,row,b+(23 if m==0 else ROW_STEP),reg,accent)
     return b
