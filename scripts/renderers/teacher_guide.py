@@ -100,7 +100,9 @@ def para(p,s,x,y,w,size=11.,lh=None,font='regular',color=BLACK):
 # and last baseline -> next rule, so space reads equal above and below dividers.
 #
 # Horizontal grid (pt), shared by every page and every lesson:
-#   44  margin: step numbers, option letters (centred under the number)
+#   44  margin: step numbers
+#   ~66 option letters, right-aligned NUM_TITLE_GAP before their option title
+#       (the same number->title relationship as the step heading)
 #   ~72 step titles, set just past the widest two-digit number so the
 #       number and title read as one heading and every title lines up
 #   82  option titles and action labels: indented under the step title,
@@ -333,7 +335,7 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
     time_w=tw(time,TIME_SIZE,'bold')
     title_x=step_title_x();title_w=R-title_x-time_w-16
     b=cap_to_base(cap_top,STEP_TITLE)
-    num=f"{step['id']:02d}";num_center=COL_NUM+tw(num,STEP_NUM,'heavy')/2
+    num=f"{step['id']:02d}"
     at(p,num,COL_NUM,b,STEP_NUM,'heavy',accent)
     at(p,time,R-time_w,b,TIME_SIZE,'bold',MID)
     for i,ln in enumerate(wrap(step['title'],title_w,STEP_TITLE,'bold')):
@@ -349,7 +351,7 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
         else:
             b+=30 if not rows else ROW_STEP+8
         letter=option['label']
-        at(p,letter,num_center-tw(letter,OPT_LETTER,'heavy')/2,b,OPT_LETTER,'heavy',accent)
+        at(p,letter,COL_ACT-NUM_TITLE_GAP-tw(letter,OPT_LETTER,'heavy'),b,OPT_LETTER,'heavy',accent)
         at(p,option['title'],COL_ACT,b,OPT_TITLE,'heavy')
         for m,row in enumerate(option['rows']):
             b=draw_row(p,row,b+(23 if m==0 else ROW_STEP),reg,accent)
