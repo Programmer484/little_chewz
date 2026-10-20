@@ -112,6 +112,7 @@ def para(p,s,x,y,w,size=11.,lh=None,font='regular',color=BLACK):
 # Overview and bonus columns share one two-column grid with a 40 pt gutter.
 # ---------------------------------------------------------------------------
 CAP=.7165                      # Lato cap height / em
+XH=.512                        # Lato x-height / em (Bold)
 COL_NUM,COL_ACT,COL_TXT=L,82.,129.
 NUM_TITLE_GAP=7.5
 GUTTER=40.
@@ -329,6 +330,10 @@ def draw_row(p,row,b,reg,accent):
     ask=kind=='ASK'
     return lines(p,row.get('text',''),x,b,w,FLOW_ASK if ask else FLOW_BODY,FLOW_LH,'semibold' if ask else 'regular')
 
+def marker_baseline(title_baseline,marker_size,title_size):
+    """Baseline that centres a cap-height marker on the title's x-height middle."""
+    return title_baseline-title_size*XH/2+marker_size*CAP/2
+
 def step_title_x():
     """Fixed title x: just past the widest possible step number (Lato digits vary)."""
     return COL_NUM+max(tw(f'{i:02d}',STEP_NUM,'heavy') for i in range(100))+NUM_TITLE_GAP
@@ -340,7 +345,10 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
     title_x=step_title_x();title_w=R-title_x-time_w-16
     b=cap_to_base(cap_top,STEP_TITLE)
     num=f"{step['id']:02d}"
-    at(p,num,COL_NUM,b,STEP_NUM,'heavy',accent)
+    # Markers are vertically centred on their title, like CSS vertical-align:
+    # middle: the marker's cap-height midpoint sits at title baseline + half
+    # the title's x-height, so a larger marker hangs evenly above and below.
+    at(p,num,COL_NUM,marker_baseline(b,STEP_NUM,STEP_TITLE),STEP_NUM,'heavy',accent)
     at(p,time,R-time_w,b,TIME_SIZE,'bold',MID)
     for i,ln in enumerate(wrap(step['title'],title_w,STEP_TITLE,'bold')):
         at(p,ln,title_x,b+i*STEP_TITLE_LH,STEP_TITLE,'bold',max_right=title_x+title_w)
@@ -355,7 +363,7 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
         else:
             b+=30 if not rows else ROW_STEP+8
         letter=option['label']
-        at(p,letter,COL_ACT-OPT_LETTER_GAP-tw(letter,OPT_LETTER,'heavy'),b,OPT_LETTER,'heavy',accent)
+        at(p,letter,COL_ACT-OPT_LETTER_GAP-tw(letter,OPT_LETTER,'heavy'),marker_baseline(b,OPT_LETTER,OPT_TITLE),OPT_LETTER,'heavy',accent)
         at(p,option['title'],COL_ACT,b,OPT_TITLE,'bold')
         for m,row in enumerate(option['rows']):
             b=draw_row(p,row,b+(23 if m==0 else ROW_STEP),reg,accent)
