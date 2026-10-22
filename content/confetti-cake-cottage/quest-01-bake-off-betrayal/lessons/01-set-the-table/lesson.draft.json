@@ -92,20 +92,16 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-set-the-table-school-song-activity",
-              "description": "One per student. Play the song and collect 10 words or phrases (4–5 min)."
-            },
-            {
-              "kind": "DO",
-              "text": "Invite students to share their words and clarify unfamiliar vocabulary (3–4 min)."
+              "description": "One per student; collect 10 words or phrases, then share and clarify selected words."
             },
             {
               "kind": "ASK",
-              "text": "What do these words tell us about the school’s values? (2–3 min discussion)"
+              "text": "What do these words tell us about the school’s values?"
             },
             {
               "kind": "MORE",
               "ref": "ccc-q01-set-the-table-songwriting-extension",
-              "description": "Add 15–25 min: create a short partner song (verse and chorus), then share or perform. Sentence writing is not required."
+              "description": "Add 15–25 min"
             }
           ]
         },
