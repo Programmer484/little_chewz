@@ -8,13 +8,16 @@ registry=json.loads((R/'catalog/resources.json').read_text())
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
 STATUSES={'unapproved','approved','published'}
-errors=[]; warnings=[];seen=set()
+errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
 for ref,item in registry.items():
-    rid=item.get('resource_id')
-    if not rid or rid in seen: errors.append(f'duplicate/missing resource_id: {ref} -> {rid}')
-    seen.add(rid)
+    if not ref:
+        errors.append('catalog contains an empty resource ID key')
+    if 'resource_id' in item:
+        errors.append(f'{ref}: redundant resource_id; the registry key is the stable ID')
+    if 'legacy_alias' in item:
+        errors.append(f'{ref}: legacy_alias belongs in archive/2026-10/resource-aliases.json')
     if item.get('status', 'unapproved') not in STATUSES:
         errors.append(f'{ref}: invalid status {item.get("status")}')
     if 'approved_link' in item:
