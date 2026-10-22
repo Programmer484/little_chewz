@@ -114,17 +114,17 @@
               "text": "Slide 5 — Introduce adaptability, communication, emotional regulation, and collaboration."
             },
             {
-              "kind": "MORE",
-              "ref": "ccc-q01-set-the-table-our-vocabulary",
-              "description": "Student reference"
-            },
-            {
               "kind": "DO",
               "text": "Review the definitions. Partners explain one skill in their own words and how it could help when a teammate unexpectedly changes groups."
             },
             {
               "kind": "DO",
               "text": "Share a few examples. Watch for these skills when reading Chapter 1 in Part 2."
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-set-the-table-our-vocabulary",
+              "description": "Optional student reference"
             }
           ]
         }
