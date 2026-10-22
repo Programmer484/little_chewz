@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Local, dependency-free source checks. Validation is not editorial signoff."""
 from pathlib import Path
-import json,sys,re
+import json,sys
 from select_builds import targets, resource_refs, read_json
 R=Path(__file__).resolve().parents[1]
 registry=json.loads((R/'catalog/resources.json').read_text())

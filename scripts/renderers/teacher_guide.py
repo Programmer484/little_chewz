@@ -85,13 +85,6 @@ def txt(p,s,x,y,size=11.,font='regular',color=BLACK,max_right=R):
         AUDIT.append({'page':p.number,'x':x,'y':y,'right':x+width,'bottom':y+size,'text':s})
     return y+size
 
-def para(p,s,x,y,w,size=11.,lh=None,font='regular',color=BLACK):
-    lh=lh or size*1.48
-    for value in wrap(s,w,size,font):
-        if value:txt(p,value,x,y,size,font,color,max_right=x+w)
-        y+=lh
-    return y
-
 # ---------------------------------------------------------------------------
 # Layout system
 #
