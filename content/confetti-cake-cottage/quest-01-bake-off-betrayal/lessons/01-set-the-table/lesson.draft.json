@@ -87,21 +87,25 @@
           "rows": [
             {
               "kind": "SHOW",
-              "text": "Slide 4 — Play “Triple C”."
+              "text": "Slide 11 — Play “Triple C”."
             },
             {
               "kind": "GIVE",
               "ref": "ccc-q01-set-the-table-school-song-activity",
-              "description": "One per student; collect 10 words or phrases, then share and clarify selected words."
+              "description": "One per student. Collect 10 words or phrases while listening."
+            },
+            {
+              "kind": "DO",
+              "text": "Invite students to share words and clarify unfamiliar vocabulary."
             },
             {
               "kind": "ASK",
-              "text": "What do these words tell us about the school’s values?"
+              "text": "What do these words tell us about the school's values?"
             },
             {
               "kind": "MORE",
               "ref": "ccc-q01-set-the-table-songwriting-extension",
-              "description": "Add 15–25 min"
+              "description": "Add 15–25 min."
             }
           ]
         },
