@@ -5,11 +5,17 @@ Applies to source, instruction, and tooling edits. Existing user authorization c
 ## Routine
 
 1. **Inspect.** Check the working tree and remote state. Read the task's owning instructions and source/status records. Identify whether the request changes content, presentation, tooling, or publication.
-2. **Edit.** Use one branch and PR per coherent change. Make the smallest complete change in the owning files; preserve unrelated work. For new resources, use the matching template, assign a stable ID, and record source/status and blockers in existing metadata.
+2. **Edit.** Multiple AIs can work simultaneously, using separate task branches and PRs. Edit the owning files and preserve unrelated changes. Before merging, compare against the latest `main` and reconcile parallel edits to avoid overwriting another AI's work. For new resources, use the matching template, assign a stable ID, and record source/status and blockers in existing metadata.
 3. **Verify.** Review the diff and run `python scripts/validate.py`. Run relevant tool tests for code changes. For document changes, build only affected supported outputs and inspect pages, text, artwork, and hyperlinks. **Generate Teacher Guide review copies with the repository renderer, including draft sources (`python scripts/renderers/teacher_guide.py --content <lesson.draft.json> --output <review.pdf>`); never use an independent ad-hoc layout script.** Drafts remain review-only and are not automatically covered by approved-output CI builds. Check changed instructions for conflicting rules, obsolete paths, and broken local links. Report check limits; do not imply unregistered drafts were validated or rendered.
 4. **Save.** Commit and push all intended source changes and required assets; exclude secrets and temporary/generated files. Verify the remote branch contains the commits. Open a draft PR if unfinished, or a review PR if ready, with checks and remaining blockers. Local files, commits, attachments, and PR descriptions alone are not saved GitHub source.
-5. **Finish.** If merge is authorized and checks pass, merge and verify the result on `main`. Otherwise leave the pushed PR with its remaining work stated. Useful unfinished content may be merged as explicitly unapproved draft source; retain its blockers and keep it excluded from approved-output builds.
-6. **Clean up.** After merge, verify automatic source-branch deletion and the PDF-preview cleanup workflow. Never merge `pdf-preview-pr-*` branches into `main`. Never delete an unmerged source branch solely because it is old or closed. For squash merges, verify the merged PR and any later branch commits before deleting a local branch. Fetch/prune and update local `main` when safe.
+5. **Finish.** The user prefers **merge-first, reconcile-on-`main`**. When authorized and checks pass, merge the PR promptly, verify `main` contains its intended changes and preserves concurrent updates, and review the resulting `main` Actions run. Do not delay an authorized merge just to preserve a temporary preview link. Otherwise leave the pushed PR and blockers stated. Unapproved draft source may be merged if authorized; retain its status and keep it excluded from approved-output builds.
+6. **Clean up.** Do **not** automatically delete GitHub PDF preview branches when PRs merge or close. Never merge `pdf-preview-run-*` (or legacy `pdf-preview-pr-*`) into `main`. Manual preview cleanup requires explicit user instruction. Source-branch cleanup is separate: preserve any unmerged work, check for commits added after squash merges, and synchronize local `main` safely.
+
+## Preview links and retention
+
+- Give the **actual GitHub Actions run URL** (`https://github.com/Programmer484/little_chewz/actions/runs/<run-id>`) as the **default first link** for PDF reviews. Prefer the relevant successful **post-merge `main` push run**, reflecting the combined AI edits. Use the PR run if it is the latest verified run and `main` has not generated a preview. For validation-only or failed runs, say so; never imply that a PDF exists. Never reuse an old example run for new work.
+- The run summary links to browser PDFs on **run-specific retained** `pdf-preview-run-<run-id>` branches. Direct PDF links can follow the run URL; do not lead with a PR Files tab or generated-branch link. Source merge and PDF preview are not teaching-content approval or Drive publication.
+- **No automatic preview-branch deletion** on PR closure or merge. Branches stay for historical review, with manual pruning only on request. Workflow artifacts expire after **seven days**, but browser previews stay accessible.
 
 ## Publication is separate
 
@@ -24,13 +30,13 @@ State concisely:
 
 - Files changed and source/review status.
 - Checks, generated outputs, and remaining issues.
-- Commit/PR link; whether pushed or merged and verified on `main`.
+- **Actions run URL first** for PDF previews (prefer post-merge `main`); then commit/PR link and whether `main` was verified.
 - Any unsaved work, remaining PRs, unpushed commits, local-only source/assets, or cleanup failures. Never claim all work is saved if verification failed.
 - For a published Drive replacement: exact file ID and confirmation of replacement in place.
 
 ## PDF build selection
 
-Run source validation and tool tests for relevant PR changes, including tests and tooling. Generate a review PDF only when one of its actual inputs changes or that output is explicitly requested. PR selection compares the complete proposed change against the PR base. Generation never changes source content, grants editorial approval, merges a PR, or publishes to Drive.
+Run source validation and tool tests for relevant PR updates **and pushes to `main`**, including tests and tooling. Render a review PDF only when one of its actual inputs changes or it is explicitly requested. PR selection compares the complete proposal against its base; `main` selection compares the before/after push commits. Generation never changes source content, grants editorial approval, merges a PR, or publishes to Drive.
 
 `scripts/select_builds.py` discovers lessons through `catalog/quests.json` → `quest.json` → stage/source records, and companions in those quests. Approved lessons require approved quest and stage statuses (and source status when present). Approved companions require `review_status: approved_source`. To enable an unapproved lesson preview, set `preview_enabled: true` in its existing `stage.json` and name its `lesson_source`; for a companion, set the flag in its source. Do not change approval status to enable a preview. Incomplete drafts without opt-in remain excluded. Set the Table is opted in; its outstanding editorial and resource-link blockers remain.
 
@@ -38,4 +44,4 @@ Sources and their local cover artwork select only their own outputs. Shared rend
 
 Status-only edits check eligibility without publication. Enabling a draft preview generates its first preview. Source metadata such as review status, provenance notes, and publication references does not itself change PDF content. Editorial documentation, unused templates, unrelated stories/worksheets/slides, tests, and validation/selection logic do not trigger PDF regeneration alone. Action-label data is validation-only; current renderers do not read it.
 
-Manual builds accept one exact eligible output filename or `all-approved`. Unknown, disabled, missing-source, or unresolved-link requests fail explicitly. Draft previews may show existing unapproved HTTPS links, with validation warnings; they do not authorize release. Every eligible draft receives the same source checks and PDF verification as approved-source review copies. `scripts/build_selected.py` rechecks eligibility before rendering. PR closure deletes its temporary preview branch through the existing cleanup workflow; source merge never publishes to Drive.
+Manual builds accept one exact eligible output filename or `all-approved`. Unknown, disabled, missing-source, or unresolved-link requests fail explicitly. Draft previews may show existing unapproved HTTPS links, with validation warnings; they do not authorize release. Every eligible draft receives the same source checks and PDF verification as approved-source review copies. `scripts/build_selected.py` rechecks eligibility before rendering. Each PDF-rendering Actions run saves a unique, retained browser preview branch. PR closure or merging does not delete it; source merge never publishes to Drive.

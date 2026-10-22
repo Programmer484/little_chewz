@@ -1,12 +1,22 @@
 name: PDF previews
 
-# One run per relevant PR update, plus manual runs.
-# Deliberately no main push trigger: avoid a duplicate billed run after merge.
+# PR updates and main merges validate; main runs show consolidated AI edits.
+# Every rendered PDF run keeps an immutable, run-specific review branch.
 on:
   pull_request:
     paths:
       - ".github/workflows/build-resources.yml"
-      - ".github/workflows/cleanup-pdf-previews.yml"
+      - "content/**"
+      - "scripts/**"
+      - "tests/**"
+      - "templates/**"
+      - "system/**"
+      - "catalog/**"
+      - "requirements.txt"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build-resources.yml"
       - "content/**"
       - "scripts/**"
       - "tests/**"
@@ -62,7 +72,7 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           DOCUMENT: ${{ inputs.document }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         shell: bash
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
@@ -102,20 +112,15 @@ jobs:
           compression-level: 6
 
       - name: Publish browser-viewable PDF previews
-        if: steps.select.outputs.has_outputs == 'true' && (github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository)
+        if: steps.select.outputs.has_outputs == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
         env:
           REPO: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          EVENT_NAME: ${{ github.event_name }}
+          RUN_ID: ${{ github.run_id }}
         shell: bash
         run: |
           set -euo pipefail
-          # Each PR owns a separate disposable preview branch; main is untouched.
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            preview_branch="pdf-preview-manual"
-          else
-            preview_branch="pdf-preview-pr-$PR_NUMBER"
-          fi
+          # One retained snapshot per run, independent of the PR lifecycle.
+          preview_branch="pdf-preview-run-$RUN_ID"
 
           temp_dir="$(mktemp -d)"
           cp exports/*.pdf "$temp_dir/"
@@ -127,15 +132,18 @@ jobs:
           cp "$temp_dir"/*.pdf previews/
           git add -f previews/*.pdf
           git commit -m "Preview generated PDFs for ${preview_branch}"
-          # Force-push only this dedicated, generated preview branch.
-          git push --force origin "HEAD:refs/heads/$preview_branch"
+          # Never overwrite an earlier preview snapshot.
+          git push origin "HEAD:refs/heads/$preview_branch"
 
           {
-            echo "### Open PDFs directly in GitHub"
+            echo "### PDF review links"
+            echo "**Primary review link:** [This Actions run](https://github.com/${REPO}/actions/runs/${RUN_ID})"
+            echo ""
+            echo "Open PDFs directly in GitHub:"
             for pdf in previews/*.pdf; do
               name="${pdf##*/}"
               echo "- [Preview ${name}](https://github.com/${REPO}/blob/${preview_branch}/${pdf})"
             done
             echo ""
-            echo "These are unapproved review copies on a temporary-purpose branch, not published teacher resources."
+            echo "These are unapproved review copies on a retained, run-specific branch, not published teacher resources."
           } >> "$GITHUB_STEP_SUMMARY"

@@ -21,7 +21,7 @@ Edit the source, review the generated document, then publish only when authorize
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
 | `tests/` | Checks for the tools |
-| `.github/workflows/` | Automated validation, PDF previews, and preview cleanup |
+| `.github/workflows/` | Automated validation and retained PDF previews after PR updates and `main` merges |
 | `exports/` | Generated PDFs; never the editable source |
 | [SYSTEM_IMPROVEMENTS.md](SYSTEM_IMPROVEMENTS.md) | Tooling backlog; each entry records its implementation status |
 
@@ -54,8 +54,8 @@ Teacher Guide rendering requires installed Lato fonts. The selected builder repl
 
 ## GitHub previews
 
-Relevant PR changes trigger **PDF previews**: validation and tool tests run, then only affected registered PDFs are rebuilt. Only actual rendering dependencies select PDFs; documentation, templates, tests, validators, and selectors alone do not. Manual **Actions → PDF previews → Run workflow** accepts an output filename (for example `01-set-the-table-teacher-guide.pdf`) or `all-approved`, which excludes drafts. See [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection) for eligibility and dependency rules.
+Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs. Merged `main` is the consolidated source after simultaneous AI edits; the successful post-merge `main` run is the preferred review point. Documentation-only changes can produce validation-only runs. Manual **Actions → PDF previews → Run workflow** accepts an eligible filename (such as `01-set-the-table-teacher-guide.pdf`) or `all-approved` (drafts excluded). See [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection).
 
-Download the artifact from the PR's Checks run within seven days, or open the PDF links in the run summary. Browser previews live on disposable `pdf-preview-pr-N` branches, deleted when the PR closes; manual previews reuse `pdf-preview-manual`. These outputs never enter `main` or update Drive. Disabled drafts are not rendered by a passing preview run.
+**Default AI preview link:** the **specific, successful Actions run URL**. [Example run with PDF summary](https://github.com/Programmer484/little_chewz/actions/runs/39824954037) (historical; do not reuse as the link for a different change). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml) to find the latest relevant run. Run summaries link directly to PDFs on unique, retained `pdf-preview-run-<run-id>` branches. **No automatic preview deletion after merging**; clean up only on explicit request. Downloadable run artifacts expire after seven days, but browser PDF branches remain. Review PDFs are not added to `main` or published to Drive.
 
 [MIGRATION_REPORT.md](MIGRATION_REPORT.md) records the original migration findings; it is historical context, not current operating instructions.
