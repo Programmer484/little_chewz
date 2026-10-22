@@ -75,7 +75,8 @@
   },
   "unresolved": [
     "Current registry link still points to an older six-slide PDF; seven-slide deck from conversation must be verified and published separately.",
-    "KWLS, School Song, Our Vocabulary and Party Planner sheets do not yet have verified standalone approved registry links.",
+    "Preparation links are registered as unapproved: KWLS Starter and Party Planner use legacy bundled PDFs, rather than verified standalone sheets. Confirm their replacements and access before publishing.",
+    "Our Vocabulary currently points to Mission_Vocabulary.pdf; verify its contents match the reference used for Which Word Fits? before approving.",
     "Optional Songwriting Extension remains draft/unapproved.",
     "Editorial review and validation are required before promotion to lesson.json or approved PDF publication."
   ],

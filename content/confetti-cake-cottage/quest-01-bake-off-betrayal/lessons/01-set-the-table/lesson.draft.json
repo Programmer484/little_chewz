@@ -14,11 +14,27 @@
     {
       "ref": "ccc-q01-set-the-table-slides",
       "description": "Slides 1–7"
+    },
+    {
+      "ref": "ccc-q01-set-the-table-kwls-starter",
+      "description": "One per student"
     }
   ],
-  "optional_prep": [],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-set-the-table-school-song-activity",
+      "description": "One per student"
+    },
+    {
+      "ref": "ccc-q01-set-the-table-our-vocabulary",
+      "description": "One per group of 3–4"
+    },
+    {
+      "ref": "ccc-q01-set-the-table-party-planner",
+      "description": "One per student"
+    }
+  ],
   "prep_heading": "PREPARE YOUR CHOICES",
-  "prep_note": "KWLS in the Core Workbook: one per student; pencils. If chosen: School Song or Party Planner sheet, one per student; Which Word Fits? uses one Our Vocabulary reference per group of 3–4. Mission Vocabulary needs no printing.",
   "focus": "Listen for accurate explanations and applications of mission vocabulary to teamwork.",
   "assessment": "Check whether students can explain a selected word and apply it to an example. For Which Word Fits?, listen as partners justify and revise choices.",
   "curriculum": [
