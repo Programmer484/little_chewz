@@ -9,7 +9,6 @@ Edit the source, review the generated document, then publish only when authorize
 | `content/` | Lesson wording, companions, stories, artwork, and local review status |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Authoritative linked names, stable resource IDs, and approved destinations |
-| `catalog/migration_inventory.json` | Inventory of materials awaiting conversion |
 | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) | Types, paths, version authority, statuses, and source/output boundaries |
 | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
@@ -17,7 +16,7 @@ Edit the source, review the generated document, then publish only when authorize
 | [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Reviewed slide PDF → image-based linked PowerPoint, with in-place Drive targets |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| `templates/` | Starting structures for new content; not approved activities |
+| `templates/` | Templates for supported lesson, companion, and raw-story sources only |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
@@ -51,7 +50,7 @@ python scripts/select_builds.py --all --output /tmp/little-chewz-build-selection
 python scripts/build_selected.py --manifest /tmp/little-chewz-build-selection.json
 ```
 
-Teacher Guide rendering requires installed Lato fonts. The selected builder replaces PDFs in `exports/`; keep review copies elsewhere if needed. `scripts/build.py` also supports direct builds, but its `companions` command includes drafts: use the selected builder for approved-output previews.
+Teacher Guide rendering requires installed Lato fonts. `scripts/build_selected.py` is the supported batch builder; it replaces PDFs in `exports/`, so keep review copies elsewhere. For direct iteration on a single PDF, invoke its renderer in `scripts/renderers/`.
 
 ## GitHub previews
 
@@ -59,4 +58,4 @@ Relevant PR updates **and merges to `main`** run validation and tests, then rend
 
 **Default AI preview link:** the **specific, successful Actions run URL**. [Example run with PDF summary](https://github.com/Programmer484/little_chewz/actions/runs/39824954037) (historical; do not reuse as the link for a different change). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml) to find the latest relevant run. Run summaries link directly to PDFs on unique, retained `pdf-preview-run-<run-id>` branches. **No automatic preview deletion after merging**; clean up only on explicit request. Downloadable run artifacts expire after seven days, but browser PDF branches remain. Review PDFs are not added to `main` or published to Drive.
 
-[MIGRATION_REPORT.md](MIGRATION_REPORT.md) records the original migration findings; it is historical context, not current operating instructions.
+The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.

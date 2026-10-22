@@ -39,4 +39,4 @@ The PDFs are in the folder above. The Set the Table PowerPoint was located separ
 
 ## Separate future system
 
-Editable slide-JSON generation remains **unimplemented** (see `SYSTEM_IMPROVEMENTS.md` SYS-002). This utility only packages an approved PDF into a PowerPoint and restores PDF link annotations; it is not a slide editor, an automatic GitHub preview target, or an autonomous Drive publisher.
+Editable slide-JSON generation remains **unimplemented** (see [SYS-002](../SYSTEM_IMPROVEMENTS.md#sys-002--editable-lesson-slide-generation)). This utility only packages an approved PDF into a PowerPoint and restores PDF link annotations; it is not a slide editor, an automatic GitHub preview target, or an autonomous Drive publisher.

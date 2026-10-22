@@ -16,8 +16,8 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Unapproved and approved lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
-| Linked names, destinations, stable IDs, and **only linked-resource lifecycle status** | `catalog/resources.json` |
-| Shared starting structures | `templates/<type>/` |
+| Linked names, destinations, stable ID object keys, and **only linked-resource lifecycle status** | `catalog/resources.json` |
+| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, and `templates/story/` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
 
@@ -31,15 +31,15 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 | --- | --- | --- |
 | `lesson` | JSON | Teacher Guide renderer |
 | `teacher_companion` | JSON blocks | Companion renderer |
-| `student_worksheet` | JSON | Future worksheet renderer |
-| `teacher_reference` | JSON or Markdown | Future reference renderer |
-| `slide_deck` | Lesson-specific JSON manifest and assets | Future slide renderer |
+| `student_worksheet` | Linked or externally authored files | No repository worksheet renderer |
+| `teacher_reference` | Linked or externally authored files | No repository reference renderer |
+| `slide_deck` | Human-reviewed lesson PDF and derived PPTX | `pdf_to_linked_slides.py`; no editable slide JSON renderer |
 | `story` | Markdown | Story/audio workflow |
-| `media` | Metadata and external URL | External media tools |
+| `media` | Registry and external URL | External provider; no repository renderer |
 | `visual_asset` | PNG/SVG/JPG and source metadata | Renderers or direct distribution |
 | `published_export` | Generated PDF/PPTX/etc. | Distribution |
 
-Add a type only for a real resource: provide its template, document it here, and index it. Add checks and a renderer when actually needed. Templates describe starting structure; `scripts/validate.py` owns implemented automatic checks. No unused schema layer is required.
+Only maintain templates for resource types with working source-authoring workflows. Linked-only and future types need no placeholder template or renderer. Add checks and a renderer when real sources need them; `scripts/validate.py` owns implemented automatic checks.
 
 ## Lifecycle status
 
@@ -51,7 +51,7 @@ Only three values are valid: `unapproved` → `approved` → `published`.
 | `approved` | Human approved this exact source revision; it has not yet been confirmed live. |
 | `published` | Human-approved current revision has been published to its intended Drive destination. |
 
-**One owner per item:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[resource_id].status` for linked resources/companions. A standalone raw story's frontmatter describes the local transcription, not its separate Drive distribution. Do not copy a lifecycle status into `lesson.json`, `stage.json`, or companion content.
+**One owner per item:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[<stable-id>].status` for linked resources/companions. A standalone raw story's frontmatter describes the local transcription, not its separate Drive distribution. Do not copy a lifecycle status into `lesson.json`, `stage.json`, or companion content.
 
 A link recorded in Drive is not necessarily a cleared resource. For legacy registry entries, a previously unverified `approved_link: false` maps conservatively to `unapproved`, even if there is already a Drive URL; the `link_note` preserves the reason. Previously verified live entries map to `published`. Never infer external permissions solely from a status or URL.
 
@@ -69,9 +69,9 @@ A newer timestamp or extraction does not confer approval. Flag disagreements bet
 
 ## Resources, slides, and assets
 
-- Resolve linked titles and destinations through `catalog/resources.json` (an existing PPTX target may be recorded as `powerpoint_file_id` alongside its lesson PDF resource). Use `ref` IDs in lesson flow, not literal Drive URLs. Missing, stale, or unapproved destinations block release; never guess a URL or fall back to unlinked text. An approved URL record does not prove external sharing works.
+- Resolve linked titles and destinations through `catalog/resources.json` (an existing PPTX target may be recorded as `powerpoint_file_id` alongside its lesson PDF resource). The registry object key is the resource ID; omit repeated `resource_id` fields. Retired aliases are archived in [`archive/2026-10/resource-aliases.json`](../archive/2026-10/resource-aliases.json). Use stable `ref` IDs in lesson flow, not literal Drive URLs. Missing, stale, or unapproved destinations block release; never guess a URL or fall back to unlinked text. An approved URL record does not prove external sharing works.
 - Maintain one independent slide set per lesson, with local numbering and a stable resource ID. Link that lesson's approved set in Preparation. `SHOW`/`KEEP` numbers are navigation, not resource IDs; verify them against that set.
-- Maintain independent lesson-scoped slides. Editable slide-JSON generation remains future policy: no slide renderer/build target exists. Separately, the reviewed **lesson PDF** is the human/AI iteration artifact; after explicit approval only, `scripts/pdf_to_linked_slides.py` produces an image-based PPTX with the PDF's links restored. See [WORKFLOW.md](WORKFLOW.md#classroom-slide-pdf-to-powerpoint) and [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). Preserve the seven-slide published Activate asset until the human approves a specific revision. The old 44-slide deck and `slides/quest-slideshow.json` are historical; never reuse global numbering, merge decks, or republish them automatically.
+- Maintain independent lesson-scoped slides. Editable slide-JSON generation remains future policy: no slide renderer/build target exists. Separately, the reviewed **lesson PDF** is the human/AI iteration artifact; after explicit approval only, `scripts/pdf_to_linked_slides.py` produces an image-based PPTX with the PDF's links restored. See [WORKFLOW.md](WORKFLOW.md#classroom-slide-pdf-to-powerpoint) and [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). Preserve the seven-slide published Activate asset until the human approves a specific revision. The old 44-slide crosswalk is archived in [`archive/2026-10/quest-slideshow.json`](../archive/2026-10/quest-slideshow.json); never reuse global numbering, merge decks, or republish them automatically.
 - Commit every image consumed by a PDF build to GitHub: covers, full-page images, backgrounds, illustrations, and reusable artwork. Keep editable text separately. Required build assets must be repository-local; a Drive link is insufficient.
 - A finished image distributed directly from Drive, with no PDF-building step, may remain Drive-link-only; retain its stable registry ID and approved link.
 - Do not copy large exported PDFs into the source package. A legacy PDF awaiting conversion may remain a migration input. Follow [CHAT_FILE_CREATION.md](CHAT_FILE_CREATION.md) for source creation and binary transfer.

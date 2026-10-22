@@ -52,7 +52,7 @@ class SelectionTests(unittest.TestCase):
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
 
     def test_checks_and_metadata_do_not_render(self):
-        for path in ['scripts/validate.py', 'scripts/select_builds.py', 'scripts/build.py',
+        for path in ['scripts/validate.py', 'scripts/select_builds.py',
                      '.github/workflows/build-resources.yml', 'tests/test_select_builds.py',
                      'system/action_labels.json', 'system/EDITORIAL_GUIDE.md',
                      'content/story/story.md', 'content/worksheet.json', 'content/slides.json',
@@ -67,6 +67,13 @@ class SelectionTests(unittest.TestCase):
         previous='PyMuPDF==1.26.7\nreportlab==4.4.8\nPillow==12.3.0\npython-pptx==1.0.2\n'
         with patch.object(sb, 'previous', return_value=previous):
             self.assertEqual(sb.select(['requirements.txt'], 'base'), [CONFETTI, MISSION, SONG])
+
+    def test_registry_keys_are_only_ids(self):
+        records=sb.read_json('catalog/resources.json')
+        self.assertEqual(len(records),19)
+        self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
+        self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'unapproved')
+        self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
 
     def test_registry_status_only_does_not_trigger_rebuild(self):
         path='catalog/resources.json'
