@@ -1,7 +1,5 @@
-# Set the Table
+# Set the Table — historical migration note
 
-**Status:** `migration_needed`
+The original guide was mapped to *Full Guide Revised* pages 5–8 and the older continuous slideshow positions 8–13. Those old slideshow positions are **not** current lesson-local slide numbers.
 
-**Verified source:** Revised Guide pages 5–8; slideshow pages 8–13 in older continuous deck.
-
-Next: convert the complete corresponding At a Glance, Teaching Flow, optional choices and link references from `Full Guide Revised.pdf` into this folder's `lesson.json`. Require human comparison against original pages and slideshow before approving. Do not create placeholder activities or invent linked URLs.
+Current editable content lives in [`lesson.draft.json`](lesson.draft.json). [`stage.json`](stage.json) owns current review/preview routing and blockers; [`catalog/resources.json`](../../../../../catalog/resources.json) owns current Drive destinations and approval flags. This is a historical note, not an instruction to restart migration.
