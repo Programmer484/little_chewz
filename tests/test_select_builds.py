@@ -46,7 +46,7 @@ class SelectionTests(unittest.TestCase):
     def test_shared_builder_and_dependencies(self):
         self.assertEqual(set(sb.select(['scripts/build_selected.py'])), set(self.targets))
         self.assertEqual(set(sb.select(['requirements.txt'])), set(self.targets))
-        with patch.object(sb, 'previous', return_value='PyMuPDF==1.26.7\nreportlab==4.4.8\n'):
+        with patch.object(sb, 'previous', return_value='PyMuPDF==1.26.7\nreportlab==4.4.8\nPillow==12.3.0\npython-pptx==1.0.2\n'):
             self.assertEqual(sb.select(['requirements.txt'], 'base'), [CONFETTI, MISSION])
 
     def test_registry_targets_two_consumers(self):
