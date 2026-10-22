@@ -155,7 +155,7 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 
 ## 9. MORE resources and alternatives
 
-- Use **MORE**, not **EXTEND**, as the standard Teaching Flow label for optional linked resources. The generator already supports multiple resource lines under a single MORE label.
+- Use **MORE**, not **EXTEND**, as the standard Teaching Flow label for optional linked resources. **Default to exactly one MORE block per Teaching Flow activity (step or choice), with each resource on its own new line.** Store multiple resources in a single `links` array in their intended display order. The renderer also combines separate MORE rows in the same activity for compatibility; do not intentionally author duplicate MORE rows.
 - Present each resource as **bold, underlined linked title** followed by a short light-grey `— description`, such as `Mission Video Questions — Additional questions`.
 - In Teaching Flow, the linked resource title and description (including **MORE** rows) use the same standard body font size as **DO** instructions. Do not shrink linked descriptions to fit; shorten the wording or adjust the shared layout instead.
 - Put supplementary discussion questions in separate linked PDFs, not in the core teacher-guide flow.
