@@ -67,10 +67,11 @@
     "print_note": "Print only chosen activities"
   },
   "cover": {
-    "source": "Set_The_Table_Guide.pdf page 1",
-    "target_filename": "cover.png",
+    "source": "Full_Guide_v1.pdf page 5",
+    "method": "lossless one-page PDF extraction (qpdf); vector text and original artwork preserved",
+    "target_filename": "cover.pdf",
     "status": "committed",
-    "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/cover.png"
+    "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/cover.pdf"
   },
   "unresolved": [
     "Current registry link still points to an older six-slide PDF; seven-slide deck from conversation must be verified and published separately.",

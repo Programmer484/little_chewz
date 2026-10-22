@@ -18,7 +18,14 @@
       "folder": "00-activate",
       "title": "Activate",
       "status": "approved_source",
-      "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf."
+      "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf.",
+      "cover": {
+        "source": "Full_Guide_v1.pdf page 1",
+        "method": "lossless one-page PDF extraction (qpdf); vector text and original artwork preserved",
+        "target_filename": "cover.pdf",
+        "status": "committed",
+        "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/00-activate/cover.pdf"
+      }
     },
     {
       "folder": "01-set-the-table",
