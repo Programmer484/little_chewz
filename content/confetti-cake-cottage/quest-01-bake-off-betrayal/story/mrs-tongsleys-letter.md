@@ -1,7 +1,7 @@
 ---
 id: ccc-q01-mrs-tongsleys-letter
 source: Full Guide.pdf, page 15
-status: draft_transcription
+status: unapproved
 published_reference: ccc-q01-mrs-tongsleys-letter
 ---
 # A Welcome from Mrs. Tongsley

@@ -1,24 +1,4 @@
 {
-  "id": "ccc-q01-05-plate-it-forward",
-  "title": "Plate It Forward",
-  "status": "migration_needed",
-  "lesson_source": null,
-  "source_note": "Revised Guide pages 22–25; slideshow pages 30–32 in older continuous deck.",
-  "required_fields": [
-    "learning_goal",
-    "learning_outcomes",
-    "preparation",
-    "teaching_focus",
-    "teaching_flow",
-    "resource_refs",
-    "lesson_slide_references"
-  ],
-  "next_action": "Migrate from the verified legacy guide, verify slide references against this lesson's independently approved slide set, and seek editorial approval. Historical full-deck page numbers are not verified lesson-local slide numbers; do not invent content.",
-  "cover": {
-    "source": "Full_Guide_v1.pdf page 22",
-    "method": "lossless one-page PDF extraction (qpdf); vector text and original artwork preserved",
-    "target_filename": "cover.pdf",
-    "status": "committed",
-    "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/05-plate-it-forward/cover.pdf"
-  }
+  "source_reference": "Revised Guide pages 22–25; slideshow pages 30–32 in older continuous deck.",
+  "cover_source": "Full_Guide_v1.pdf page 22"
 }

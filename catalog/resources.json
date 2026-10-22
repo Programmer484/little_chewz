@@ -9,8 +9,7 @@
       "activate",
       "slides"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "link_note": "This currently points to the seven-slide Activate_Slides.pdf, not the older continuous 44-slide slideshow.",
     "legacy_alias": "slides"
   },
@@ -24,8 +23,7 @@
       "activate",
       "read-aloud"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "letter"
   },
   "ccc-school-pass-instructions": {
@@ -38,8 +36,7 @@
       "passport",
       "print-instructions"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review.",
     "legacy_alias": "passport"
   },
@@ -53,8 +50,7 @@
       "mascot",
       "display"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "poster"
   },
   "ccc-q01-mrs-tongsley-video": {
@@ -67,8 +63,7 @@
       "activate",
       "video"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "tongsley_video"
   },
   "ccc-q01-callie-cupcake-video": {
@@ -81,8 +76,7 @@
       "activate",
       "video"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "callie_video"
   },
   "ccc-q01-bakery-log-1958": {
@@ -95,8 +89,7 @@
       "activate",
       "historic-log"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "bakery_log"
   },
   "ccc-q01-activate-video-questions": {
@@ -109,8 +102,7 @@
       "activate",
       "questions"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "mission_video_questions"
   },
   "ccc-q01-activate-confetti-questions": {
@@ -123,8 +115,7 @@
       "activate",
       "questions"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "confetti_file_questions"
   },
   "ccc-q01-activate-teacher-guide": {
@@ -137,8 +128,7 @@
       "activate",
       "guide"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "legacy_alias": "activate_teacher_guide"
   },
   "ccc-q01-set-the-table-slides": {
@@ -151,8 +141,7 @@
       "set-the-table",
       "slides"
     ],
-    "status": "published_legacy",
-    "approved_link": false,
+    "status": "unapproved",
     "link_note": "Seven-slide edition explicitly approved and replaced in place in Drive on 2026-10-22, with Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. PPTX replaced in place too. The original PDF file ID is unchanged; external link sharing/permissions have not been verified, so approved_link remains false.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
     "powerpoint_filename": "Set_The_Table_Slides.pptx"
@@ -168,8 +157,7 @@
       "optional",
       "school-song"
     ],
-    "status": "draft_unpublished",
-    "approved_link": false,
+    "status": "unapproved",
     "link_note": "Existing Drive PDF; linked editable companion is draft, not approved for publication."
   },
   "ccc-q01-set-the-table-kwls-starter": {
@@ -182,8 +170,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "published_legacy",
-    "approved_link": false,
+    "status": "unapproved",
     "link_note": "Standalone two-page KWLS Starter extracted unchanged from pages 7–8 of Quest 1 Student Booklet and uploaded to Set the Table Drive folder. Editorial/access approval not independently verified."
   },
   "ccc-q01-set-the-table-school-song-activity": {
@@ -196,8 +183,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "published_legacy",
-    "approved_link": false,
+    "status": "unapproved",
     "link_note": "Student-only one-page School Song Activity PDF (teacher page removed). Drive link present; source editorial/link approval remains pending."
   },
   "ccc-q01-set-the-table-our-vocabulary": {
@@ -210,8 +196,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "published_legacy",
-    "approved_link": false,
+    "status": "unapproved",
     "link_note": "Student-only one-page Mission_Vocabulary.pdf (teacher page removed); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending."
   },
   "ccc-q01-set-the-table-teacher-guide": {
@@ -224,8 +209,7 @@
       "set-the-table",
       "teacher-guide"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft."
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
@@ -239,8 +223,7 @@
       "vocabulary",
       "optional"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "link_note": "Two-page printable word cards. The current GitHub teaching flow uses Which Word Fits? instead of cards."
   },
   "ccc-q01-set-the-table-team-builder": {
@@ -255,8 +238,7 @@
       "teamwork",
       "vocabulary"
     ],
-    "status": "published_legacy",
-    "approved_link": true,
+    "status": "published",
     "link_note": "Student-facing Team Builder Word Sorting Worksheet in the Set the Table Drive folder. Partners sort words that help or challenge teams, choose their top three, and explain why."
   },
   "ccc-q01-set-the-table-triple-c-audio": {
@@ -271,8 +253,7 @@
       "audio",
       "preview"
     ],
-    "status": "draft_unpublished",
-    "approved_link": false,
+    "status": "unapproved",
     "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified."
   }
 }
