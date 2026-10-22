@@ -2,11 +2,12 @@
 """Local, dependency-free source checks. Validation is not editorial signoff."""
 from pathlib import Path
 import json,sys,re
-from select_builds import targets, resource_refs
+from select_builds import targets, resource_refs, read_json
 R=Path(__file__).resolve().parents[1]
 registry=json.loads((R/'catalog/resources.json').read_text())
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
+STATUSES={'unapproved','approved','published'}
 errors=[]; warnings=[];seen=set()
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
@@ -14,12 +15,34 @@ for ref,item in registry.items():
     rid=item.get('resource_id')
     if not rid or rid in seen: errors.append(f'duplicate/missing resource_id: {ref} -> {rid}')
     seen.add(rid)
-    if item.get('approved_link') and not str(item.get('url','')).startswith('https://'):
-        errors.append(f'{ref}: approved resource has no HTTPS URL')
+    if item.get('status', 'unapproved') not in STATUSES:
+        errors.append(f'{ref}: invalid status {item.get("status")}')
+    if 'approved_link' in item:
+        errors.append(f'{ref}: obsolete approved_link field; use status')
+    if item.get('status')=='published' and not str(item.get('url','')).startswith('https://'):
+        errors.append(f'{ref}: published resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
-lesson_paths = sorted(set(R.glob('content/**/lessons/**/lesson.json')) | set(R.glob('content/**/lessons/**/lesson.draft.json')))
+for path in R.glob('content/**/lessons/**/lesson.draft.json'):
+    errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
+for path in R.glob('content/**/lessons/**/stage.json'):
+    stage=json.loads(path.read_text())
+    duplicate=set(stage) & {'id','title','status','preview_enabled','lesson_source','required_fields','guide_metadata','slide_sequence','activity_decision'}
+    if duplicate: errors.append(f'{path}: duplicated stage fields {sorted(duplicate)}')
+for school in read_json('catalog/quests.json')['school_index']:
+    quest_path=R / school['quest_manifest']
+    quest=json.loads(quest_path.read_text())
+    for lesson in quest['learning_sequence']:
+        status=lesson.get('status','unapproved')
+        if status not in STATUSES:
+            errors.append(f'{quest_path}: invalid lesson status {status}')
+        folder=quest_path.parent/'lessons'/lesson['folder']
+        if status in ('approved','published') and not (folder/'lesson.json').is_file():
+            errors.append(f'{folder}: approved/published lesson has no lesson.json')
+lesson_paths = sorted(R.glob('content/**/lessons/**/lesson.json'))
 for path in lesson_paths:
     d=json.loads(path.read_text())
+    if 'review_status' in d or 'preview_enabled' in d:
+        errors.append(f'{path}: obsolete lesson status/preview field')
     for field in ['key','goal','steps','outcomes','cover','output']:
         if field not in d: errors.append(f'{path}: missing {field}')
     for ref in resource_refs(d): check_ref(ref,path)
@@ -49,9 +72,12 @@ for path in lesson_paths:
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
 for path in R.glob('content/**/resources/**/*.json'):
     d=json.loads(path.read_text())
-    if not d.get('resource_id') or not d.get('review_status'):
-        errors.append(f'{path}: companion missing stable ID/status')
-    if d.get('review_status')=='draft_unpublished':warnings.append(f'{path.name}: not approved for publishing')
+    if not d.get('resource_id') or d.get('resource_id') not in registry:
+        errors.append(f'{path}: companion missing registered resource ID')
+    if 'review_status' in d or 'preview_enabled' in d:
+        errors.append(f'{path}: status belongs in catalog/resources.json')
+    if registry.get(d.get('resource_id'),{}).get('status','unapproved')=='unapproved':
+        warnings.append(f'{path.name}: unapproved companion; preview only')
 try:
     registered = targets()
     for name, target in registered.items():
@@ -59,8 +85,8 @@ try:
             record = registry.get(ref, {})
             if not str(record.get('url', '')).startswith('https://'):
                 errors.append(f'{name}: unresolved HTTPS destination for {ref}')
-            elif not record.get('approved_link'):
-                warnings.append(f'{name}: {ref} is unapproved; preview only')
+            elif record.get('status','unapproved')!='published':
+                warnings.append(f'{name}: {ref} is not published; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')
 print(f'Validated {len(registry)} registry links; {len(lesson_paths)} editable lesson; {len(list(R.glob("content/**/resources/**/*.json")))} companion sources')
