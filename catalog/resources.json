@@ -271,5 +271,21 @@
     "status": "published_legacy",
     "approved_link": true,
     "link_note": "One-page student worksheet image; used as optional extension in the live Drive teacher guide."
+  },
+  "ccc-q01-set-the-table-triple-c-audio": {
+    "title": "Triple C School Song — Audio Preview",
+    "url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
+    "resource_id": "ccc-q01-set-the-table-triple-c-audio",
+    "type": "media",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "school-song",
+      "audio",
+      "preview"
+    ],
+    "status": "draft_unpublished",
+    "approved_link": false,
+    "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified."
   }
 }
