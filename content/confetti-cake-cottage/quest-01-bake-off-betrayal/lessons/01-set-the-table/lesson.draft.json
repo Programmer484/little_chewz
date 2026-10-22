@@ -87,7 +87,7 @@
           "rows": [
             {
               "kind": "SHOW",
-              "text": "Slide 11 — Play “Triple C”."
+              "text": "Slide 4 — Play “Triple C”."
             },
             {
               "kind": "GIVE",
@@ -104,13 +104,16 @@
             },
             {
               "kind": "MORE",
-              "ref": "ccc-q01-set-the-table-triple-c-audio",
-              "description": "Triple C School Song — Audio Preview"
-            },
-            {
-              "kind": "MORE",
-              "ref": "ccc-q01-set-the-table-songwriting-extension",
-              "description": "Add 15–25 min."
+              "links": [
+                {
+                  "ref": "ccc-q01-set-the-table-triple-c-audio",
+                  "description": "Triple C School Song — Audio Preview"
+                },
+                {
+                  "ref": "ccc-q01-set-the-table-songwriting-extension",
+                  "description": "Add 15–25 min."
+                }
+              ]
             }
           ]
         },
