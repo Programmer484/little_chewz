@@ -14,7 +14,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Review linked-resource PDF preview, reconcile published Drive guide against the seven-slide draft, verify worksheet and slide access, then seek editorial approval without changing draft status.",
+  "next_action": "Review Team Builder activity and direct Drive link in generated PDF, reconcile live Drive guide, verify link access, and complete editorial approval.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -56,7 +56,7 @@
         "minutes": 12
       },
       {
-        "title": "Small Bite 2 — Which Word Fits? or Party Planner",
+        "title": "Small Bite 2 — Which Word Fits? or Team Builder",
         "minutes": 13
       },
       {
@@ -76,8 +76,8 @@
   "unresolved": [
     "Published Drive guide uses historical Slides 8–13 and Vocabulary Cards; this editable draft uses lesson-local slides 1–7 and Which Word Fits?. Reconcile intentionally before publication.",
     "Current seven-slide slideshow content was explicitly approved for Drive replacement on 2026-10-22. External PDF sharing/access is not independently verified.",
-    "KWLS Starter and Party Planner are interim bundled links and need reviewed standalone versions. Student-only School Song and Our Vocabulary PDFs have Drive destinations but require access/approval review.",
-    "Vocabulary Cards and Team Builder now have direct Drive links and appear as optional resources.",
+    "KWLS Starter has a standalone link; Team Builder replaces Party Planner. Student-only School Song and Our Vocabulary PDFs have Drive destinations but require access/approval review.",
+    "Vocabulary Cards remain optional; Team Builder is an A/B activity option.",
     "Songwriting Extension remains draft/unapproved.",
     "Editorial review required before promoting to lesson.json or publishing a source-generated PDF."
   ],
