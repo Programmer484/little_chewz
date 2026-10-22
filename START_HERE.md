@@ -28,16 +28,16 @@ Edit the source, review the generated document, then publish only when authorize
 
 ## Find a lesson
 
-Follow `catalog/quests.json` → the quest's `quest.json` → its lesson folder and any `stage.json` → the named source. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
+Follow `catalog/quests.json` → the quest's `quest.json` (lesson status and folder) → `lessons/<stage>/lesson.json` when it exists. An optional short `stage.json` is historical provenance only, not a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
 
-Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Read review status before editing or building: a folder's existence does not mean its material is approved.
+Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Read lifecycle status before publishing: a folder's existence does not mean its material is approved.
 
 ## Current capabilities
 
-- Automated builds discover approved lessons and companions through the quest catalog and existing status records. Current approved outputs: Activate Teacher Guide, Mission Video Questions, and Confetti File Questions.
-- Set the Table is explicitly enabled for draft previews in its stage metadata; it remains unapproved. Later lessons and Songwriting Extension remain excluded.
+- Automated builds discover authored lessons and companions through the quest catalog and registry. Only `approved` or `published` items enter approved-only builds. Current approved-only outputs: Activate Teacher Guide, Mission Video Questions, and Confetti File Questions.
+- Every existing valid source can generate a preview: Set the Table and Songwriting Extension are unapproved; five lessons without a `lesson.json` are not renderable. Previews do not publish.
 - Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
-- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json` and `lesson.draft.json` equally, but does not fully validate every content structure, test Drive access, or grant editorial approval.
+- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or grant editorial approval.
 
 ## Local checks and approved previews
 
