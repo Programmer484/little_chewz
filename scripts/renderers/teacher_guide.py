@@ -338,6 +338,28 @@ def step_title_x():
     """Fixed title x: just past the widest possible step number (Lato digits vary)."""
     return COL_NUM+max(tw(f'{i:02d}',STEP_NUM,'heavy') for i in range(100))+NUM_TITLE_GAP
 
+def grouped_more_rows(rows):
+    """Render one MORE block per activity, preserving resource order and links."""
+    more_items=[]
+    first_more=None
+    for i,row in enumerate(rows):
+        if row['kind'].upper()=='MORE':
+            if first_more is None:first_more=i
+            if row.get('links') is not None:
+                more_items.extend(row['links'])
+            elif row.get('ref'):
+                more_items.append({k:v for k,v in row.items() if k!='kind'})
+            else:
+                raise ValueError('MORE rows must contain linked resources')
+    if first_more is None:return rows
+    result=[]
+    for i,row in enumerate(rows):
+        if i==first_more:
+            result.append({'kind':'MORE','links':more_items})
+        if row['kind'].upper()!='MORE':
+            result.append(row)
+    return result
+
 def draw_step(p,step,cap_top,reg,accent=CORAL):
     """Draw a step whose title cap-top is `cap_top`; returns the last baseline."""
     value=str(step['mins']);time=value.upper() if value.upper()=='OPTIONAL' else value+' MIN'
@@ -353,7 +375,7 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
     for i,ln in enumerate(wrap(step['title'],title_w,STEP_TITLE,'bold')):
         at(p,ln,title_x,b+i*STEP_TITLE_LH,STEP_TITLE,'bold',max_right=title_x+title_w)
     b+=i*STEP_TITLE_LH
-    rows=step.get('rows',[]);options=step.get('options',[])
+    rows=grouped_more_rows(step.get('rows',[]));options=step.get('options',[])
     for n,row in enumerate(rows):
         b=draw_row(p,row,b+(28 if n==0 else ROW_STEP),reg,accent)
     for n,option in enumerate(options):
@@ -365,7 +387,7 @@ def draw_step(p,step,cap_top,reg,accent=CORAL):
         letter=option['label']
         at(p,letter,COL_ACT-OPT_LETTER_GAP-tw(letter,OPT_LETTER,'heavy'),marker_baseline(b,OPT_LETTER,OPT_TITLE),OPT_LETTER,'heavy',accent)
         at(p,option['title'],COL_ACT,b,OPT_TITLE,'bold')
-        for m,row in enumerate(option['rows']):
+        for m,row in enumerate(grouped_more_rows(option['rows'])):
             b=draw_row(p,row,b+(23 if m==0 else ROW_STEP),reg,accent)
     return b
 
