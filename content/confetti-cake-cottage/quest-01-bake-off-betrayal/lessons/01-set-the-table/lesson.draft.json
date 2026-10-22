@@ -90,8 +90,9 @@
               "text": "Slide 4 — Play “Triple C”."
             },
             {
-              "kind": "DO",
-              "text": "Students collect 10 words or phrases on the School Song sheet, then share and clarify selected words."
+              "kind": "GIVE",
+              "ref": "ccc-q01-set-the-table-school-song-activity",
+              "description": "One per student; collect 10 words or phrases, then share and clarify selected words."
             },
             {
               "kind": "ASK",
@@ -111,6 +112,11 @@
             {
               "kind": "SHOW",
               "text": "Slide 5 — Introduce adaptability, communication, emotional regulation, and collaboration."
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-set-the-table-our-vocabulary",
+              "description": "Student reference"
             },
             {
               "kind": "DO",
@@ -144,7 +150,8 @@
             },
             {
               "kind": "GIVE",
-              "text": "Our Vocabulary reference: one per group of 3–4 for checking and revising choices."
+              "ref": "ccc-q01-set-the-table-our-vocabulary",
+              "description": "One per group of 3–4 for checking and revising choices."
             },
             {
               "kind": "DO",
@@ -158,7 +165,8 @@
           "rows": [
             {
               "kind": "GIVE",
-              "text": "Party Planner sheet: one per student."
+              "ref": "ccc-q01-set-the-table-party-planner",
+              "description": "One per student."
             },
             {
               "kind": "DO",
@@ -184,16 +192,25 @@
       ]
     }
   ],
-  "bonuses": [],
+  "bonuses": [
+    {
+      "ref": "ccc-q01-set-the-table-vocabulary-cards",
+      "description": "— Optional printable words for a card sort or word wall."
+    },
+    {
+      "ref": "ccc-q01-set-the-table-team-builder",
+      "description": "— Optional partner word sort: what helps or challenges a team?"
+    }
+  ],
   "migration_review": {
     "status": "draft_transcription",
     "source": "Set_The_Table_Guide.pdf pages 2–4",
     "cover_source": "Set_The_Table_Guide.pdf page 1",
-    "unresolved": "Seven-slide Set the Table lesson PDF is available in this conversation but not yet the published Drive slide resource; registry still links a six-slide deck. KWLS, School Song, Our Vocabulary and Party Planner lack individually verified approved resource links. Songwriting Extension remains unapproved. Preview only; require editorial and resource-access review before publishing.",
+    "unresolved": "The live Drive teacher guide retains historical Slides 8–13 and Vocabulary Cards, while this newer GitHub draft uses local slides 1–7 and Which Word Fits?. Reconcile before publishing a source-generated guide. Student-only School Song and Our Vocabulary PDFs are linked; KWLS and Party Planner currently use interim bundled links. Current slideshow and external resource access, optional Songwriting Extension, and editorial approval remain unresolved.",
     "historical_slide_mapping_only": {
       "old-global-8-to-13": "current lesson-local 1–5 and 7, with new Which Word Fits? slide 6"
     },
-    "not_buildable_until": "Verify linked student materials and approved seven-slide Drive destination; editorial sign-off and registration for targeted build.",
+    "not_buildable_until": "Resolve teacher-guide version differences, verify approved slideshow and student links, and obtain editorial approval before publishing from source.",
     "verified_current_slides_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
     "optional_extension_available_unapproved": "ccc-q01-set-the-table-songwriting-extension",
     "proposed_activity": "Which Word Fits? replaces physical Vocabulary Cards; slide 6 carries two scenarios and the eight-word bank. Print one fifteen-word reference per group for checking."

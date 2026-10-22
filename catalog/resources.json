@@ -196,7 +196,7 @@
     ],
     "status": "published_legacy",
     "approved_link": false,
-    "link_note": "Standalone School_Song_Activity.pdf exists in the lesson Drive folder; review content and approval status before publication."
+    "link_note": "Student-only one-page School Song Activity PDF (teacher page removed). Drive link present; source editorial/link approval remains pending."
   },
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Our Vocabulary",
@@ -210,7 +210,7 @@
     ],
     "status": "published_legacy",
     "approved_link": false,
-    "link_note": "Interim candidate: Drive file is named Mission_Vocabulary.pdf. Verify that it is the correct Our Vocabulary reference for Which Word Fits? before approval."
+    "link_note": "Student-only one-page Mission_Vocabulary.pdf (teacher page removed); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending."
   },
   "ccc-q01-set-the-table-party-planner": {
     "title": "Party Planner Sheet",
@@ -225,5 +225,49 @@
     "status": "published_legacy",
     "approved_link": false,
     "link_note": "Interim legacy destination: the Party Planner Thermometer is within Day 1-Set the Table.pdf; no standalone reviewed sheet was located."
+  },
+  "ccc-q01-set-the-table-teacher-guide": {
+    "title": "Set the Table Teacher Guide",
+    "url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
+    "resource_id": "ccc-q01-set-the-table-teacher-guide",
+    "type": "published_export",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "teacher-guide"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft."
+  },
+  "ccc-q01-set-the-table-vocabulary-cards": {
+    "title": "Vocabulary Cards",
+    "url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
+    "resource_id": "ccc-q01-set-the-table-vocabulary-cards",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "vocabulary",
+      "optional"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "Two-page printable word cards. The current GitHub teaching flow uses Which Word Fits? instead of cards."
+  },
+  "ccc-q01-set-the-table-team-builder": {
+    "title": "Team Builder Word Sorting",
+    "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
+    "resource_id": "ccc-q01-set-the-table-team-builder",
+    "type": "visual_asset",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "vocabulary",
+      "optional"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "One-page student worksheet image; used as optional extension in the live Drive teacher guide."
   }
 }
