@@ -12,6 +12,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | --- | --- |
 | Quest facts and lesson sequence | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
+| Lesson preview/review routing | `lessons/<stage>/stage.json`: identity, review status, source filename, preview flag, and active blockers only; do not duplicate lesson content or slide structure |
 | Unapproved lesson transcription | Existing draft file named by `stage.json`, such as `lesson.draft.json` |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest |
 | Raw stories and letters | `story/*.md` within the quest |
