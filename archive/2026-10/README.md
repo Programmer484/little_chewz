@@ -8,4 +8,4 @@ These files are preserved for provenance only. They are **not** active instructi
 - `quest-slideshow.json`: old continuous-deck crosswalk; **not** a current slide source or fixed slide count
 - `resource-aliases.json`: retired legacy resource aliases; authoritative IDs are the keys in [catalog/resources.json](../../catalog/resources.json)
 
-The aliases had no consumers in the checked-in repository at the time of archival; **external consumers have not been audited**. Consult this mapping if integrating an old external script. Do not treat historical claims as current publication or access approval.
+The aliases have no consumers in the checked-in repository, and the project owner confirmed there are no external scripts. This mapping remains solely for historical reference. Do not treat historical claims as current publication or access approval.
