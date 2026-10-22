@@ -1,2 +1,4 @@
 PyMuPDF==1.26.7
 reportlab==4.4.9
+Pillow==12.3.0
+python-pptx==1.0.2
