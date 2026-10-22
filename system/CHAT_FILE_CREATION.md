@@ -8,7 +8,7 @@ Applies to files created, extracted, or updated through chat. Source/status rule
 - **Connector, one UTF-8 file:** use GitHub text-file creation/update; fetch the existing SHA before replacement.
 - **Connector, multiple files or binary assets:** use the batch procedure below. Never stop at “the connector cannot upload binary” without checking its Base64 blob + tree/commit/ref capabilities.
 
-Keep text editable. Commit every image required by a PDF build to its source location; extract legacy covers faithfully rather than inventing replacements. Do not pass PNG/JPG/PDF/ZIP/font bytes to text-file actions or Git tree `content` fields.
+Keep text editable. Commit every image required by a PDF build to its source location; extract legacy covers faithfully rather than inventing replacements. Save a cover as a one-page `cover.pdf` cut losslessly from the source PDF (for example `qpdf --empty --pages <source.pdf> <page> -- cover.pdf`), never as a rasterized PNG: rasterizing turns vector text into pixels and lowers artwork resolution. Do not pass PNG/JPG/PDF/ZIP/font bytes to text-file actions or Git tree `content` fields.
 
 ## Connector batch procedure
 

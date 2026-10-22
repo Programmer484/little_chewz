@@ -13,5 +13,12 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Migrate from the verified legacy guide, verify slide references against this lesson's independently approved slide set, and seek editorial approval. Historical full-deck page numbers are not verified lesson-local slide numbers; do not invent content."
+  "next_action": "Migrate from the verified legacy guide, verify slide references against this lesson's independently approved slide set, and seek editorial approval. Historical full-deck page numbers are not verified lesson-local slide numbers; do not invent content.",
+  "cover": {
+    "source": "Full_Guide_v1.pdf page 14",
+    "method": "lossless one-page PDF extraction (qpdf); vector text and original artwork preserved",
+    "target_filename": "cover.pdf",
+    "status": "committed",
+    "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/03-the-showdown/cover.pdf"
+  }
 }
