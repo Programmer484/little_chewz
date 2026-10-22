@@ -16,11 +16,11 @@ Default: **PyMuPDF render 1.5x → Pillow JPEG quality 92 → python-pptx**. Eve
 
 For exceptionally small type: `--scale 2 --quality 94`. Preserve the PDF's original aspect ratio; mixed-aspect input fails.
 
-A previous **seven-page** Set the Table benchmark took approximately **1.1 seconds**, yielding a **5.07 MB** PPTX with both link annotations preserved (about **66% smaller** than its earlier PPTX). This is an indicative local benchmark, not an upload-time guarantee or a benchmark of the newer six-page PDF.
+A previous **seven-page** Set the Table benchmark took approximately **1.1 seconds**, yielding a **5.07 MB** PPTX with both link annotations preserved (about **66% smaller** than its earlier PPTX). This is an indicative local benchmark, not an upload-time guarantee.
 
 ## Required checks before and after replacement
 
-1. Compare the final PDF with the **approved** page count, order, designs, and clickable destinations; page-count differences are review blockers, not automatic renumbering.
+1. Use the **human-approved PDF** as the sole source of actual slide count and order. Do not enforce a fixed count from a GitHub outline or earlier export. Verify pages and links against that PDF; the PPTX must match it exactly.
 2. Run the converter; require **zero warnings**, exact page/slide count, one full-slide image per slide, and URL/internal-link parity. A picture of a play button is **not** working media unless it has a preserved link.
 3. Open text-heavy and linked slides visually. Test all links in PowerPoint; **after opening the PPTX in Google Slides, use Present mode and test links again**. File validation alone cannot prove Google Slides click behavior or Drive media permissions.
 4. Before upload, read target Drive metadata and verify expected **file ID and MIME type** (PDF: `application/pdf`; PPTX: `application/vnd.openxmlformats-officedocument.presentationml.presentation`). Replace bytes via Drive **files.update** / connected app's `update_file(fileId, file_uri, mime_type)`, not upload/create or rename. Preserve file IDs, folder placement, and sharing.
@@ -31,11 +31,11 @@ A previous **seven-page** Set the Table benchmark took approximately **1.1 secon
 | Lesson | Existing PDF file ID | Existing PPTX file ID | Current review state |
 | --- | --- | --- | --- |
 | Activate | `1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_` | **Not located** | Published seven-slide PDF. Do not create/replace a PPTX without locating or approving a destination. |
-| Set the Table | `1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt` | `1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd` | **Not approved for replacement**. |
+| Set the Table | `1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt` | `1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd` | **Approved 7-slide PDF and PPTX replaced in place on 2026-10-22.** |
 
 The PDFs are in the folder above. The Set the Table PowerPoint was located separately as `Set_The_Table_Slides.pptx`; it is a stored PPTX, not a native Google Slides file. Its file ID is also recorded with the lesson resource in `catalog/resources.json`. Confirm these IDs and MIME types **afresh** for each publication.
 
-**Current discrepancy:** the PDF uploaded for Set the Table in the 2026-10-22 review is **six pages** with two song-link annotations on page 4; `lessons/01-set-the-table/stage.json` still describes **seven slides**, including “Which Word Fits?” at slide 6. Resolve this explicitly with the human before approving or publishing. The uploaded Activate PDF is seven pages, with one video link each on pages 4 and 5. Neither upload itself is approval.
+**Latest Set the Table publication (2026-10-22):** human selected the seven-slide edition: slide 6 “Which Word Fits?”, slide 7 “Friendship Mystery #1”. The original six-page PDF's other pages remain visually unchanged; both approved Drive files were updated in place and two audio URL link annotations are preserved on slide 4. Verified remote sizes: PDF 11,933,343 bytes, PPTX 5,034,225 bytes. External PDF link-sharing to unauthenticated viewers has **not** been verified; do not change permissions without approval. The uploaded Activate PDF is seven pages with a video URL link on pages 4 and 5; no Activate PPTX target was identified. **A lesson's outline is never a fixed slide-count constraint.**
 
 ## Separate future system
 
