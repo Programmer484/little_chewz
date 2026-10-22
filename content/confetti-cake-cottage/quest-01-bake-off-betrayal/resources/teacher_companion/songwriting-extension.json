@@ -3,27 +3,27 @@
   "section": "Set the Table",
   "eyebrow": "OPTIONAL EXTENSION",
   "time": "Add approximately 15–25 minutes",
-  "intro": "Use the words students collected from Triple C to create an original school song with a partner.",
+  "intro": "Use the 10 words or phrases collected while listening to “Triple C” to write an original school song with a partner. No separate sentence-writing task is required.",
   "blocks": [
     {
       "type": "steps",
       "items": [
         {
-          "title": "Write",
-          "text": "Students write 3–5 sentences using words from their song vocabulary list."
+          "title": "Plan together",
+          "text": "Allow 3–5 minutes. Partners choose vocabulary words and agree on a theme or message about the school’s values."
         },
         {
-          "title": "Create together",
-          "text": "Partners combine their ideas into a short verse and chorus."
+          "title": "Write a song",
+          "text": "Allow 9–14 minutes. Partners create a short original verse and chorus using their chosen words."
         },
         {
           "title": "Share",
-          "text": "Invite volunteers to perform or read their songs."
+          "text": "Allow 3–6 minutes. Invite volunteers to read or perform their song for the class."
         }
       ]
     }
   ],
-  "source_note": "Adapted from original Full Guide School Song teacher page (page 27), steps 4–6; original activity options preserved and made optional.",
+  "source_note": "Adapted from original Full Guide School Song teacher page (page 27), partner-song and sharing tasks; separate sentence-writing task omitted.",
   "resource_id": "ccc-q01-set-table-songwriting-extension",
   "resource_type": "teacher_companion",
   "audience": "teacher",
