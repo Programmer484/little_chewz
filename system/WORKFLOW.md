@@ -24,6 +24,18 @@ Applies to source, instruction, and tooling edits. Existing user authorization c
 - When updating a published Drive PDF, replace the existing file in place to preserve its ID. Do not rename, duplicate, merge, or republish live assets as a side effect of source maintenance.
 - Register a new approved destination in `catalog/resources.json` after publication. Preserve stable IDs for existing resources.
 
+## Classroom slide PDF to PowerPoint
+
+The [slide conversion standard](SLIDE_CONVERSION.md) is the technical companion to this workflow. This is a **human-approved publication path**, separate from the unimplemented editable-slide generator.
+
+1. **Human PDF editing.** The human downloads the lesson-specific PDF from the [Slide PDFs folder](https://drive.google.com/drive/u/0/folders/1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g). Human and AI iterate using the revised PDF; it is the review artifact. Keep lesson-local slides separate. Inspect its page count, order, content, external media links, and link hotspots against the lesson's current review record. The PowerPoint is **not** the editing source.
+2. **Approval gate.** Do not update Drive while iterating. The human must explicitly approve the **exact final PDF** and intended lesson. A past approval, GitHub merge, generated PPTX, or successful conversion check is not approval of a changed PDF. Resolve any slide-count or content disagreement before publishing.
+3. **Generate and validate.** Run `python scripts/pdf_to_linked_slides.py approved.pdf -o approved.pptx --json conversion-report.json`. Keep full-slide images (nonselectable text), faithfully restore PDF hyperlinks as transparent clickable hotspots, and require zero dropped links, matching slide/page count, and visual inspection. For tiny type use `--scale 2 --quality 94`. Do not silently replace missing link actions.
+4. **Replace both existing Drive files directly.** Confirm the expected target IDs/MIME types in `catalog/resources.json` and current Drive metadata. Use binary **in-place update** of the existing PDF in the Slide PDFs folder, and of its paired existing **`.pptx` PowerPoint file** (not a copy, new file, or native Google Slides conversion). Preserve both original Drive file IDs, location, and sharing. A missing PPTX destination is a blocker, not permission to invent a new one. Stage/check both deliverables before replacing either.
+5. **Read back and test.** Verify both IDs and MIME types are unchanged, both new versions are retrievable, slide count/visuals match, and every distinct link works in PowerPoint and when presenting in Google Slides. If one update fails, report the partial publication and explicitly restore/retry as appropriate. Report the exact updated IDs and final approval scope.
+
+Do not promote lesson/source review statuses or mark a link approved just because a PDF/PPTX was uploaded; those changes require their own human approval. Editable slide JSON rendering and CI builds remain future work.
+
 ## Completion report
 
 State concisely:

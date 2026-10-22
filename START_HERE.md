@@ -15,6 +15,7 @@ Edit the source, review the generated document, then publish only when authorize
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
 | [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
 | [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
+| [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Reviewed slide PDF → image-based linked PowerPoint, with in-place Drive targets |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | `templates/` | Starting structures for new content; not approved activities |
 | `scripts/validate.py` | Implemented automatic content checks |
@@ -35,7 +36,7 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 - Automated builds discover approved lessons and companions through the quest catalog and existing status records. Current approved outputs: Activate Teacher Guide, Mission Video Questions, and Confetti File Questions.
 - Set the Table is explicitly enabled for draft previews in its stage metadata; it remains unapproved. Later lessons and Songwriting Extension remain excluded.
-- Slides are maintained per lesson under the content contract. Slide and worksheet generation are not implemented.
+- Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
 - The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json` and `lesson.draft.json` equally, but does not fully validate every content structure, test Drive access, or grant editorial approval.
 
 ## Local checks and approved previews
