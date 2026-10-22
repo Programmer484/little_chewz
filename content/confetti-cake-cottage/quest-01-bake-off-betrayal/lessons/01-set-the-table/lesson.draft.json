@@ -30,7 +30,7 @@
       "description": "One per group of 3–4"
     },
     {
-      "ref": "ccc-q01-set-the-table-party-planner",
+      "ref": "ccc-q01-set-the-table-team-builder",
       "description": "One per student"
     }
   ],
@@ -170,16 +170,16 @@
         },
         {
           "label": "B",
-          "title": "Party Planner",
+          "title": "Team Builder",
           "rows": [
             {
               "kind": "GIVE",
-              "ref": "ccc-q01-set-the-table-party-planner",
+              "ref": "ccc-q01-set-the-table-team-builder",
               "description": "One per student."
             },
             {
               "kind": "DO",
-              "text": "Partners choose six words, place them on the scale, and explain which three they would invite onto a strong team."
+              "text": "Partners sort three words that help a team and three that can cause difficulty. Choose their top three strengths and explain why."
             }
           ]
         }
@@ -205,21 +205,17 @@
     {
       "ref": "ccc-q01-set-the-table-vocabulary-cards",
       "description": "— Optional printable words for a card sort or word wall."
-    },
-    {
-      "ref": "ccc-q01-set-the-table-team-builder",
-      "description": "— Optional partner word sort: what helps or challenges a team?"
     }
   ],
   "migration_review": {
     "status": "draft_transcription",
     "source": "Set_The_Table_Guide.pdf pages 2–4",
     "cover_source": "Set_The_Table_Guide.pdf page 1",
-    "unresolved": "The live Drive teacher guide retains historical Slides 8–13 and Vocabulary Cards, while this newer GitHub draft uses local slides 1–7 and Which Word Fits?. Reconcile before publishing a source-generated guide. Student-only School Song and Our Vocabulary PDFs are linked; KWLS and Party Planner currently use interim bundled links. Current slideshow and external resource access, optional Songwriting Extension, and editorial approval remain unresolved.",
+    "unresolved": "The live Drive guide differs from the editable seven-slide source and requires a separate publication update. KWLS is now standalone, and Team Builder replaces Party Planner with a direct Drive worksheet. Verify slideshow and external resource access, resolve the optional Songwriting Extension approval, and complete editorial review before publication.",
     "historical_slide_mapping_only": {
       "old-global-8-to-13": "current lesson-local 1–5 and 7, with new Which Word Fits? slide 6"
     },
-    "not_buildable_until": "Resolve teacher-guide version differences, verify approved slideshow and student links, and obtain editorial approval before publishing from source.",
+    "not_buildable_until": "Verify slideshow and resource access, reconcile live versus editable guide, and obtain editorial approval before publishing.",
     "verified_current_slides_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
     "optional_extension_available_unapproved": "ccc-q01-set-the-table-songwriting-extension",
     "proposed_activity": "Which Word Fits? replaces physical Vocabulary Cards; slide 6 carries two scenarios and the eight-word bank. Print one fifteen-word reference per group for checking."
