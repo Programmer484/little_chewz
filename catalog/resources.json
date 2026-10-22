@@ -2,7 +2,6 @@
   "ccc-q01-activate-slides": {
     "title": "Classroom Slideshow",
     "url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
-    "resource_id": "ccc-q01-activate-slides",
     "type": "slide_deck",
     "audience": "teacher",
     "tags": [
@@ -10,26 +9,22 @@
       "slides"
     ],
     "status": "published",
-    "link_note": "This currently points to the seven-slide Activate_Slides.pdf, not the older continuous 44-slide slideshow.",
-    "legacy_alias": "slides"
+    "link_note": "This currently points to the seven-slide Activate_Slides.pdf, not the older continuous 44-slide slideshow."
   },
   "ccc-q01-mrs-tongsleys-letter": {
     "title": "Mrs. Tongsley's Letter",
     "url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
-    "resource_id": "ccc-q01-mrs-tongsleys-letter",
     "type": "story",
     "audience": "teacher",
     "tags": [
       "activate",
       "read-aloud"
     ],
-    "status": "published",
-    "legacy_alias": "letter"
+    "status": "published"
   },
   "ccc-school-pass-instructions": {
     "title": "Chewlandia Passport",
     "url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
-    "resource_id": "ccc-school-pass-instructions",
     "type": "teacher_reference",
     "audience": "teacher",
     "tags": [
@@ -37,104 +32,88 @@
       "print-instructions"
     ],
     "status": "published",
-    "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review.",
-    "legacy_alias": "passport"
+    "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review."
   },
   "ccc-callie-cupcake-poster": {
     "title": "Callie Cupcake Poster",
     "url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
-    "resource_id": "ccc-callie-cupcake-poster",
     "type": "visual_asset",
     "audience": "teacher",
     "tags": [
       "mascot",
       "display"
     ],
-    "status": "published",
-    "legacy_alias": "poster"
+    "status": "published"
   },
   "ccc-q01-mrs-tongsley-video": {
     "title": "Mrs. Tongsley's Video",
     "url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
-    "resource_id": "ccc-q01-mrs-tongsley-video",
     "type": "media",
     "audience": "teacher",
     "tags": [
       "activate",
       "video"
     ],
-    "status": "published",
-    "legacy_alias": "tongsley_video"
+    "status": "published"
   },
   "ccc-q01-callie-cupcake-video": {
     "title": "Callie Cupcake Video",
     "url": "https://youtu.be/qXq3cCxg8l8",
-    "resource_id": "ccc-q01-callie-cupcake-video",
     "type": "media",
     "audience": "teacher",
     "tags": [
       "activate",
       "video"
     ],
-    "status": "published",
-    "legacy_alias": "callie_video"
+    "status": "published"
   },
   "ccc-q01-bakery-log-1958": {
     "title": "Bakery Log (1958)",
     "url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
-    "resource_id": "ccc-q01-bakery-log-1958",
     "type": "story",
     "audience": "teacher",
     "tags": [
       "activate",
       "historic-log"
     ],
-    "status": "published",
-    "legacy_alias": "bakery_log"
+    "status": "published"
   },
   "ccc-q01-activate-video-questions": {
     "title": "Mission Video Questions",
     "url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
-    "resource_id": "ccc-q01-activate-video-questions",
     "type": "teacher_companion",
     "audience": "teacher",
     "tags": [
       "activate",
       "questions"
     ],
-    "status": "published",
-    "legacy_alias": "mission_video_questions"
+    "status": "published"
   },
   "ccc-q01-activate-confetti-questions": {
     "title": "Confetti File Questions",
     "url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
-    "resource_id": "ccc-q01-activate-confetti-questions",
     "type": "teacher_companion",
     "audience": "teacher",
     "tags": [
       "activate",
       "questions"
     ],
-    "status": "published",
-    "legacy_alias": "confetti_file_questions"
+    "status": "published"
   },
   "ccc-q01-activate-teacher-guide": {
     "title": "Activate Teacher Guide",
     "url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
-    "resource_id": "ccc-q01-activate-teacher-guide",
     "type": "published_export",
     "audience": "teacher",
     "tags": [
       "activate",
       "guide"
     ],
-    "status": "published",
-    "legacy_alias": "activate_teacher_guide"
+    "status": "published"
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
     "url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
-    "resource_id": "ccc-q01-set-the-table-slides",
     "type": "slide_deck",
     "audience": "teacher",
     "tags": [
@@ -142,14 +121,13 @@
       "slides"
     ],
     "status": "unapproved",
-    "link_note": "Seven-slide edition explicitly approved and replaced in place in Drive on 2026-10-22, with Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. PPTX replaced in place too. The original PDF file ID is unchanged; external link sharing/permissions have not been verified, so approved_link remains false.",
+    "link_note": "Seven-slide edition explicitly approved and replaced in place in Drive on 2026-10-22, with Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. PPTX replaced in place too. The original PDF file ID is unchanged; external link sharing/permissions have not been verified, so Resource remains unapproved pending verification of external link access.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
     "powerpoint_filename": "Set_The_Table_Slides.pptx"
   },
   "ccc-q01-set-the-table-songwriting-extension": {
     "title": "Songwriting Extension",
     "url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
-    "resource_id": "ccc-q01-set-the-table-songwriting-extension",
     "type": "teacher_companion",
     "audience": "teacher",
     "tags": [
@@ -163,7 +141,6 @@
   "ccc-q01-set-the-table-kwls-starter": {
     "title": "KWLS Starter",
     "url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view",
-    "resource_id": "ccc-q01-set-the-table-kwls-starter",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
@@ -176,7 +153,6 @@
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
     "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
-    "resource_id": "ccc-q01-set-the-table-school-song-activity",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
@@ -189,7 +165,6 @@
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Our Vocabulary",
     "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
-    "resource_id": "ccc-q01-set-the-table-our-vocabulary",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
@@ -202,7 +177,6 @@
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
     "url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
-    "resource_id": "ccc-q01-set-the-table-teacher-guide",
     "type": "published_export",
     "audience": "teacher",
     "tags": [
@@ -215,7 +189,6 @@
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
     "url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
-    "resource_id": "ccc-q01-set-the-table-vocabulary-cards",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
@@ -229,7 +202,6 @@
   "ccc-q01-set-the-table-team-builder": {
     "title": "Team Builder",
     "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
-    "resource_id": "ccc-q01-set-the-table-team-builder",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
@@ -244,7 +216,6 @@
   "ccc-q01-set-the-table-triple-c-audio": {
     "title": "Triple C School Song — Audio Preview",
     "url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
-    "resource_id": "ccc-q01-set-the-table-triple-c-audio",
     "type": "media",
     "audience": "teacher",
     "tags": [
