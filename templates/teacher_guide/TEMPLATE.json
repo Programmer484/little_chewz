@@ -13,5 +13,5 @@
   "cover": "cover.png",
   "output": "Teacher_Guide.pdf",
   "steps": [],
-  "note": "Skeleton blueprint only: do not render until all required fields are approved."
+  "note": "A valid unapproved lesson.json can be previewed; human approval is required before publishing."
 }

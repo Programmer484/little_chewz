@@ -20,6 +20,5 @@
   "resource_type": "teacher_companion",
   "audience": "teacher",
   "stage": "00-activate",
-  "review_status": "approved_source",
   "published_ref": "ccc-q01-activate-confetti-questions"
 }

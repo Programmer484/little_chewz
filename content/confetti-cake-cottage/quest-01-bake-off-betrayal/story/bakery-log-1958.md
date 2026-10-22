@@ -1,7 +1,7 @@
 ---
 id: ccc-q01-bakery-log-1958
 source: Full Guide.pdf, page 18
-status: draft_transcription
+status: unapproved
 published_reference: ccc-q01-bakery-log-1958
 ---
 # Confetti File CCC-1958-01

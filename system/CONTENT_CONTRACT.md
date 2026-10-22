@@ -10,13 +10,13 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 
 | Material | Owning source |
 | --- | --- |
-| Quest facts and lesson sequence | `content/<school>/<quest>/quest.json` |
+| Quest facts, lesson sequence, and each lesson's **only lifecycle status** | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
-| Lesson preview/review routing | `lessons/<stage>/stage.json`: identity, review status, source filename, preview flag, and active blockers only; do not duplicate lesson content or slide structure |
-| Unapproved lesson transcription | Existing draft file named by `stage.json`, such as `lesson.draft.json` |
-| Companion blocks | `resources/teacher_companion/*.json` within the quest |
+| Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
+| Unapproved and approved lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
+| Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
-| Linked names, destinations, and stable IDs | `catalog/resources.json` |
+| Linked names, destinations, stable IDs, and **only linked-resource lifecycle status** | `catalog/resources.json` |
 | Shared starting structures | `templates/<type>/` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -41,23 +41,26 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 
 Add a type only for a real resource: provide its template, document it here, and index it. Add checks and a renderer when actually needed. Templates describe starting structure; `scripts/validate.py` owns implemented automatic checks. No unused schema layer is required.
 
-## Review status
+## Lifecycle status
+
+Only three values are valid: `unapproved` → `approved` → `published`.
 
 | Status | Meaning |
 | --- | --- |
-| `approved_source` | Approved editable source; not proof of public release |
-| `draft_transcription` | Converted from legacy material; awaiting human verification |
-| `migration_needed` | Editable source still needs conversion |
-| `draft_unpublished` | Editable draft without an approved live link |
-| `published_legacy` | Original Drive material remains public; editable source absent or pending republish |
-| `archived` | Historical reference only |
+| `unapproved` | New, edited, or unreviewed work. **Default if a status is absent.** Previewable once a valid source exists. |
+| `approved` | Human approved this exact source revision; it has not yet been confirmed live. |
+| `published` | Human-approved current revision has been published to its intended Drive destination. |
 
-Preserve these distinctions. Human review is required to promote a transcription. Record unresolved work in existing stage/source metadata; never infer approval from storage, build success, or publication of an older version.
+**One owner per item:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[resource_id].status` for linked resources/companions. A standalone raw story's frontmatter describes the local transcription, not its separate Drive distribution. Do not copy a lifecycle status into `lesson.json`, `stage.json`, or companion content.
+
+A link recorded in Drive is not necessarily a cleared resource. For legacy registry entries, a previously unverified `approved_link: false` maps conservatively to `unapproved`, even if there is already a Drive URL; the `link_note` preserves the reason. Previously verified live entries map to `published`. Never infer external permissions solely from a status or URL.
+
+New editing starts in `unapproved`; editing a published source starts a new unapproved revision while the previous file stays live. **Review status is not publication authorization.** Transition to `approved` only after explicit human approval; to `published` only after the exact approved version is updated in Drive and verified. GitHub commits, generated previews, or a passing check never change statuses by themselves. A lesson whose source has not been transcribed stays `unapproved` with no `lesson.json` and is not built.
 
 ## Source authority
 
 1. Explicit human decisions within their stated scope, recorded in the owning source or instructions.
-2. Current approved editable content and its quest/stage/source status records.
+2. Current approved editable content and its quest/resource-catalog status records.
 3. Current approved lesson slides or media for slide-specific details.
 4. `Full Guide Revised.pdf` as editorial and visual benchmark, not automatic authority for current slide numbers.
 5. Older PDFs as recovery inputs only where editable sources are missing.
