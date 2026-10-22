@@ -211,11 +211,11 @@
     "status": "draft_transcription",
     "source": "Set_The_Table_Guide.pdf pages 2–4",
     "cover_source": "Set_The_Table_Guide.pdf page 1",
-    "unresolved": "The live Drive guide differs from the editable seven-slide source and requires a separate publication update. KWLS is now standalone, and Team Builder replaces Party Planner with a direct Drive worksheet. Verify slideshow and external resource access, resolve the optional Songwriting Extension approval, and complete editorial review before publication.",
+    "unresolved": "The live Drive guide differs from this editable draft. KWLS is standalone and Team Builder now replaces Party Planner. Verify resource access and reconcile the remaining published source differences before approval or publication.",
     "historical_slide_mapping_only": {
       "old-global-8-to-13": "current lesson-local 1–5 and 7, with new Which Word Fits? slide 6"
     },
-    "not_buildable_until": "Verify slideshow and resource access, reconcile live versus editable guide, and obtain editorial approval before publishing.",
+    "not_buildable_until": "Verify slide and student-resource access, reconcile live guide, and obtain editorial approval before publishing.",
     "verified_current_slides_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
     "optional_extension_available_unapproved": "ccc-q01-set-the-table-songwriting-extension",
     "proposed_activity": "Which Word Fits? replaces physical Vocabulary Cards; slide 6 carries two scenarios and the eight-word bank. Print one fifteen-word reference per group for checking."

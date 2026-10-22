@@ -4,7 +4,7 @@
   "status": "draft_transcription",
   "preview_enabled": true,
   "lesson_source": "lesson.draft.json",
-  "source_note": "Four-page Set_The_Table_Guide.pdf and lesson-specific seven-slide PDF from user conversation are the editorial and slide references. Slide 6 Which Word Fits? is newly inserted; slide 7 is closing mystery.",
+  "source_note": "Four-page Set_The_Table_Guide.pdf and lesson-specific seven-slide PDF from user conversation are the editorial and slide references. Slide 6 Which Word Fits? is newly inserted; slide 7 is closing mystery. Seven-slide PDF and paired PowerPoint replaced in Drive by explicit human direction on 2026-10-22. This slide_sequence records the current edition but does not impose a fixed page count on future human-approved PDFs.",
   "required_fields": [
     "learning_goal",
     "learning_outcomes",
@@ -14,7 +14,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Review the Team Builder replacement and linked student worksheet in the PDF preview; verify slideshow and resource access, reconcile legacy published guide, and complete editorial review without changing draft status.",
+  "next_action": "Review Team Builder activity and direct Drive link in generated PDF, reconcile live Drive guide, verify link access, and complete editorial approval.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -75,9 +75,9 @@
   },
   "unresolved": [
     "Published Drive guide uses historical Slides 8–13 and Vocabulary Cards; this editable draft uses lesson-local slides 1–7 and Which Word Fits?. Reconcile intentionally before publication.",
-    "Current slideshow resource remains unapproved until slide contents and external access are verified.",
-    "KWLS Starter now links to a standalone worksheet; Team Builder replaces the older bundled Party Planner. Student-only School Song and Our Vocabulary PDFs have Drive destinations but require access/approval review.",
-    "Vocabulary Cards have a direct Drive link as an optional resource; Team Builder is now an A/B core activity option.",
+    "Current seven-slide slideshow content was explicitly approved for Drive replacement on 2026-10-22. External PDF sharing/access is not independently verified.",
+    "KWLS Starter has a standalone link; Team Builder replaces Party Planner. Student-only School Song and Our Vocabulary PDFs have Drive destinations but require access/approval review.",
+    "Vocabulary Cards remain optional; Team Builder is an A/B activity option.",
     "Songwriting Extension remains draft/unapproved.",
     "Editorial review required before promoting to lesson.json or publishing a source-generated PDF."
   ],
