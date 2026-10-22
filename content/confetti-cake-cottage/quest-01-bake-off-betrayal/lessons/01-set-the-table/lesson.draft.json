@@ -19,11 +19,11 @@
   "optional_prep": [
     {
       "ref": "ccc-q01-set-the-table-school-song-activity",
-      "description": "One per student if choosing School Song"
+      "description": "One per student"
     },
     {
       "ref": "ccc-q01-set-the-table-mission-vocabulary",
-      "description": "Student vocabulary reference; print or display as needed"
+      "description": "Student reference"
     }
   ],
   "prep_heading": "PREPARE YOUR CHOICES",
