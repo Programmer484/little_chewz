@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-METADATA = {'review_status', 'source_note', 'unresolved', 'preview_enabled', 'published_ref'}
+METADATA = {'source_note', 'unresolved', 'published_ref', 'migration_review'}
 
 
 def read_json(path):
@@ -28,38 +28,40 @@ def resource_refs(value):
 
 
 def targets():
-    """Existing status records own eligibility; draft previews require explicit opt-in."""
+    """All existing lesson and companion sources are previewable; status controls release."""
     result = {}
+    registry = read_json('catalog/resources.json')
     for school in read_json('catalog/quests.json')['school_index']:
         quest_path = school['quest_manifest']
         quest = read_json(quest_path)
         root = Path(quest_path).parent
         for lesson in quest['learning_sequence']:
             folder = root / 'lessons' / lesson['folder']
-            stage_path = folder / 'stage.json'
-            stage = read_json(stage_path) if (ROOT / stage_path).exists() else {}
-            approved = lesson['status'] == 'approved_source' and stage.get('status', 'approved_source') == 'approved_source'
-            if not approved and stage.get('preview_enabled') is not True:
-                continue
-            source = folder / (stage.get('lesson_source') or 'lesson.json')
-            data = read_json(source)
-            if data.get('review_status', 'approved_source') != 'approved_source':
-                approved = False
-                if stage.get('preview_enabled') is not True:
-                    continue
+            source = folder / 'lesson.json'
+            if not (ROOT / source).is_file():
+                continue  # No placeholder PDF for an unconverted lesson.
+            data = read_json(source.as_posix())
             name = f"{lesson['folder']}-teacher-guide.pdf"
             if name in result:
                 raise ValueError(f'Duplicate output: {name}')
-            result[name] = dict(source=source.as_posix(), kind='teacher_guide', approved=approved,
-                                data=data, stage=stage_path.as_posix(), cover=(folder / data['cover']).as_posix())
+            result[name] = dict(
+                source=source.as_posix(), kind='teacher_guide',
+                approved=lesson.get('status', 'unapproved') in ('approved', 'published'),
+                data=data, cover=(folder / data['cover']).as_posix()
+            )
         for source in sorted((ROOT / root / 'resources/teacher_companion').glob('*.json')):
             data = json.loads(source.read_text())
-            approved = data.get('review_status') == 'approved_source'
-            if approved or data.get('preview_enabled') is True:
-                name = source.stem + '.pdf'
-                if name in result:
-                    raise ValueError(f'Duplicate output: {name}')
-                result[name] = dict(source=source.relative_to(ROOT).as_posix(), kind='teacher_companion', approved=approved, data=data)
+            resource_id = data.get('resource_id')
+            record = registry.get(resource_id)
+            if record is None:
+                raise ValueError(f'Companion has no registry entry: {resource_id}')
+            name = source.stem + '.pdf'
+            if name in result:
+                raise ValueError(f'Duplicate output: {name}')
+            result[name] = dict(
+                source=source.relative_to(ROOT).as_posix(), kind='teacher_companion',
+                approved=record.get('status', 'unapproved') in ('approved', 'published'), data=data
+            )
     return result
 
 
@@ -68,7 +70,9 @@ def changed_registry_ids(base_ref):
     if not base_ref:
         return set(current)
     old = json.loads(previous('catalog/resources.json', base_ref))
-    return {key for key in old.keys() | current.keys() if old.get(key) != current.get(key)}
+    return {key for key in old.keys() | current.keys()
+            if (old.get(key) or {}).get('title') != (current.get(key) or {}).get('title')
+            or (old.get(key) or {}).get('url') != (current.get(key) or {}).get('url')}
 
 
 def output_source(data):
@@ -96,24 +100,14 @@ def select(changed, base_ref=None):
         kind = target['kind']
         dependencies = {target['source'], target.get('cover'), f'scripts/renderers/{kind}.py'}
         affected = bool(changed & dependencies)
-        enabled = False
-        if target.get('stage') in changed:
-            try:
-                old_stage = json.loads(previous(target['stage'], base_ref)) if base_ref else {}
-            except subprocess.CalledProcessError:
-                old_stage = {}
-            enabled = old_stage.get('preview_enabled') is not True and not target['approved']
-            if base_ref and old_stage.get('lesson_source'):
-                enabled |= str(Path(target['stage']).parent / old_stage['lesson_source']) != target['source']
         if target['source'] in changed and base_ref:
             try:
                 old = json.loads(previous(target['source'], base_ref))
-            except subprocess.CalledProcessError:  # New registered source.
+            except subprocess.CalledProcessError:  # New source file.
                 pass
             else:
                 affected = bool(changed & (dependencies - {target['source']})) or output_source(old) != output_source(target['data'])
-                enabled |= old.get('preview_enabled') is not True and target['data'].get('preview_enabled') is True
-        if shared or enabled or affected or refs & resource_refs(target['data']) or ('pymupdf' in packages if kind == 'teacher_guide' else 'reportlab' in packages):
+        if shared or affected or refs & resource_refs(target['data']) or ('pymupdf' in packages if kind == 'teacher_guide' else 'reportlab' in packages):
             selected.add(name)
     return sorted(selected)
 
@@ -124,7 +118,7 @@ def selection(request=None, changed=(), base_ref=None):
         names = sorted(name for name, t in registered.items() if t['approved'])
     elif request:
         if request not in registered:
-            raise ValueError(f'Unknown or preview-disabled PDF: {request}')
+            raise ValueError(f'Unknown or missing-source PDF: {request}')
         names = [request]
     else:
         names = select(changed, base_ref)
