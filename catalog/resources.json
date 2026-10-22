@@ -169,5 +169,78 @@
     "status": "draft_unpublished",
     "approved_link": false,
     "link_note": "Existing Drive PDF; linked editable companion is draft, not approved for publication."
+  },
+  "ccc-q01-set-the-table-teacher-guide": {
+    "title": "Set the Table Teacher Guide",
+    "url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
+    "resource_id": "ccc-q01-set-the-table-teacher-guide",
+    "type": "published_export",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "teacher-guide"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "Existing Drive guide was replaced in place; its current slide numbering and Vocabulary Cards choice differ from the editable seven-slide draft."
+  },
+  "ccc-q01-set-the-table-school-song-activity": {
+    "title": "School Song Activity",
+    "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
+    "resource_id": "ccc-q01-set-the-table-school-song-activity",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "set-the-table",
+      "school-song"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "Student-only one-page PDF; teacher-facing source page removed before upload."
+  },
+  "ccc-q01-set-the-table-mission-vocabulary": {
+    "title": "Mission Vocabulary",
+    "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
+    "resource_id": "ccc-q01-set-the-table-mission-vocabulary",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "set-the-table",
+      "vocabulary",
+      "reference"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "Student-only Our Vocabulary reference, one-page PDF."
+  },
+  "ccc-q01-set-the-table-vocabulary-cards": {
+    "title": "Vocabulary Cards",
+    "url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
+    "resource_id": "ccc-q01-set-the-table-vocabulary-cards",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "set-the-table",
+      "vocabulary",
+      "cards"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "Two-page printable vocabulary cards."
+  },
+  "ccc-q01-set-the-table-team-builder": {
+    "title": "Team Builder Word Sorting",
+    "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
+    "resource_id": "ccc-q01-set-the-table-team-builder",
+    "type": "visual_asset",
+    "audience": "student",
+    "tags": [
+      "set-the-table",
+      "vocabulary",
+      "optional"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "One-page student word-sort image; optional extension in the live Drive teacher guide."
   }
 }

@@ -14,7 +14,7 @@
     "resource_refs",
     "lesson_slide_references"
   ],
-  "next_action": "Review the updated teaching flow and local PDF preview; verify linked student-resource URLs and update approved seven-slide Drive destination, then promote to lesson.json only after editorial approval. Draft previews are independently enabled.",
+  "next_action": "Review resource-linked GitHub draft and PDF preview, reconcile live Drive teaching flow with the seven-slide draft, verify worksheet/slideshow link access, then promote only after editorial approval. Preserve draft status.",
   "source_pdf": {
     "filename": "Set_The_Table_Guide.pdf",
     "pages": 4,
@@ -74,10 +74,11 @@
     "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/cover.pdf"
   },
   "unresolved": [
-    "Current registry link still points to an older six-slide PDF; seven-slide deck from conversation must be verified and published separately.",
-    "KWLS, School Song, Our Vocabulary and Party Planner sheets do not yet have verified standalone approved registry links.",
-    "Optional Songwriting Extension remains draft/unapproved.",
-    "Editorial review and validation are required before promotion to lesson.json or approved PDF publication."
+    "Existing Drive slides file is registered as an unapproved draft; verify its seven-slide lesson-specific contents and sharing before approving source.",
+    "KWLS and Party Planner still lack individual registered Drive destinations; School Song, Mission Vocabulary, Vocabulary Cards, and Team Builder now have registered Drive links.",
+    "The live Drive teacher guide still shows historical Slides 8–13 and Vocabulary Cards, while this editable seven-slide draft has Which Word Fits?; reconcile before source publication.",
+    "Songwriting Extension remains draft/unapproved.",
+    "Editorial review and validation are required before promotion to lesson.json or approval of a generated PDF."
   ],
   "slide_resource_ref": "ccc-q01-set-the-table-slides",
   "optional_extension_ref": "ccc-q01-set-the-table-songwriting-extension",
