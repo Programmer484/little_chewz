@@ -170,6 +170,62 @@
     "approved_link": false,
     "link_note": "Existing Drive PDF; linked editable companion is draft, not approved for publication."
   },
+  "ccc-q01-set-the-table-kwls-starter": {
+    "title": "KWLS Starter",
+    "url": "https://drive.google.com/file/d/17lESfmx3IsT5orAUMIYz9GrcoTLNUxJ_/view",
+    "resource_id": "ccc-q01-set-the-table-kwls-starter",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "preparation"
+    ],
+    "status": "published_legacy",
+    "approved_link": false,
+    "link_note": "Interim legacy destination: KWLS Starter is within Quest 1 Student Booklet, not a standalone Core Workbook. Verify updated worksheet and access before approval."
+  },
+  "ccc-q01-set-the-table-school-song-activity": {
+    "title": "School Song Activity",
+    "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
+    "resource_id": "ccc-q01-set-the-table-school-song-activity",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "preparation"
+    ],
+    "status": "published_legacy",
+    "approved_link": false,
+    "link_note": "Student-only one-page School Song Activity PDF (teacher page removed). Drive link present; source editorial/link approval remains pending."
+  },
+  "ccc-q01-set-the-table-our-vocabulary": {
+    "title": "Our Vocabulary",
+    "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
+    "resource_id": "ccc-q01-set-the-table-our-vocabulary",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "preparation"
+    ],
+    "status": "published_legacy",
+    "approved_link": false,
+    "link_note": "Student-only one-page Mission_Vocabulary.pdf (teacher page removed); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending."
+  },
+  "ccc-q01-set-the-table-party-planner": {
+    "title": "Party Planner Sheet",
+    "url": "https://drive.google.com/file/d/1ObRecxlKrjhTFlm4X-fQH-mtrhpHjqpK/view",
+    "resource_id": "ccc-q01-set-the-table-party-planner",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "preparation"
+    ],
+    "status": "published_legacy",
+    "approved_link": false,
+    "link_note": "Interim legacy destination: the Party Planner Thermometer is within Day 1-Set the Table.pdf; no standalone reviewed sheet was located."
+  },
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
     "url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
@@ -182,58 +238,14 @@
     ],
     "status": "published_legacy",
     "approved_link": true,
-    "link_note": "Existing Drive guide was replaced in place; its current slide numbering and Vocabulary Cards choice differ from the editable seven-slide draft."
-  },
-  "ccc-q01-set-the-table-school-song-activity": {
-    "title": "School Song Activity",
-    "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
-    "resource_id": "ccc-q01-set-the-table-school-song-activity",
-    "type": "student_worksheet",
-    "audience": "student",
-    "tags": [
-      "set-the-table",
-      "school-song"
-    ],
-    "status": "published_legacy",
-    "approved_link": true,
-    "link_note": "Student-only one-page PDF; teacher-facing source page removed before upload."
-  },
-  "ccc-q01-set-the-table-mission-vocabulary": {
-    "title": "Mission Vocabulary",
-    "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
-    "resource_id": "ccc-q01-set-the-table-mission-vocabulary",
-    "type": "student_worksheet",
-    "audience": "student",
-    "tags": [
-      "set-the-table",
-      "vocabulary",
-      "reference"
-    ],
-    "status": "published_legacy",
-    "approved_link": true,
-    "link_note": "Student-only Our Vocabulary reference, one-page PDF."
+    "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft."
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
     "url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
     "resource_id": "ccc-q01-set-the-table-vocabulary-cards",
     "type": "student_worksheet",
-    "audience": "student",
-    "tags": [
-      "set-the-table",
-      "vocabulary",
-      "cards"
-    ],
-    "status": "published_legacy",
-    "approved_link": true,
-    "link_note": "Two-page printable vocabulary cards."
-  },
-  "ccc-q01-set-the-table-team-builder": {
-    "title": "Team Builder Word Sorting",
-    "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
-    "resource_id": "ccc-q01-set-the-table-team-builder",
-    "type": "visual_asset",
-    "audience": "student",
+    "audience": "teacher",
     "tags": [
       "set-the-table",
       "vocabulary",
@@ -241,6 +253,21 @@
     ],
     "status": "published_legacy",
     "approved_link": true,
-    "link_note": "One-page student word-sort image; optional extension in the live Drive teacher guide."
+    "link_note": "Two-page printable word cards. The current GitHub teaching flow uses Which Word Fits? instead of cards."
+  },
+  "ccc-q01-set-the-table-team-builder": {
+    "title": "Team Builder Word Sorting",
+    "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
+    "resource_id": "ccc-q01-set-the-table-team-builder",
+    "type": "visual_asset",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "vocabulary",
+      "optional"
+    ],
+    "status": "published_legacy",
+    "approved_link": true,
+    "link_note": "One-page student worksheet image; used as optional extension in the live Drive teacher guide."
   }
 }
