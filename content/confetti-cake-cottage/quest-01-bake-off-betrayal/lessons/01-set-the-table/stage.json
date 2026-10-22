@@ -4,8 +4,5 @@
   "status": "draft_transcription",
   "preview_enabled": true,
   "lesson_source": "lesson.draft.json",
-  "unresolved": [
-    "Reconcile the editable Teacher Guide draft with the published Drive guide before approving the lesson source.",
-    "Verify access and approval of linked materials before publishing an updated Teacher Guide; resource-specific blockers are tracked in catalog/resources.json."
-  ]
+  "unresolved": []
 }
