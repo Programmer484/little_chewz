@@ -136,7 +136,7 @@ jobs:
               git fetch --no-tags origin "$preview_branch"
               git checkout -B "$preview_branch" FETCH_HEAD
             else
-              git checkout --orphan "$preview_branch"
+              git checkout --orphan "${preview_branch}-init-${RUN_ID}-${attempt}"
               git rm -rf --quiet .
             fi
 
