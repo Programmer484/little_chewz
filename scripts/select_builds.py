@@ -2,14 +2,10 @@
 """Select registered, eligible review PDFs from their actual inputs."""
 import argparse
 import json
-import re
 import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-METADATA = {'source_note', 'unresolved', 'published_ref', 'migration_review'}
-
-
 def read_json(path):
     return json.loads((ROOT / path).read_text())
 
@@ -46,6 +42,7 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.as_posix(), kind='teacher_guide',
+                status=lesson.get('status', 'unapproved'),
                 approved=lesson.get('status', 'unapproved') in ('approved', 'published'),
                 data=data, cover=(folder / data['cover']).as_posix()
             )
@@ -60,6 +57,7 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.relative_to(ROOT).as_posix(), kind='teacher_companion',
+                status=record.get('status', 'unapproved'),
                 approved=record.get('status', 'unapproved') in ('approved', 'published'), data=data
             )
     return result
@@ -75,39 +73,23 @@ def changed_registry_ids(base_ref):
             or (old.get(key) or {}).get('url') != (current.get(key) or {}).get('url')}
 
 
-def output_source(data):
-    return {key: value for key, value in data.items() if key not in METADATA}
-
 
 def select(changed, base_ref=None):
     changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
     registered = targets()
     selected = set()
     refs = changed_registry_ids(base_ref) if 'catalog/resources.json' in changed else set()
-    shared = 'scripts/build_selected.py' in changed
-    # Only rendering environment changes in workflow configuration affect PDFs.
-    if '.github/workflows/build-resources.yml' in changed and base_ref:
-        diff = subprocess.check_output(['git', 'diff', '--unified=0', base_ref, '--', '.github/workflows/build-resources.yml'], cwd=ROOT, text=True)
-        shared |= any(re.search(r'runs-on:|python-version:|pip install|apt-get|fonts-|FONT_DIR|LITTLE_CHEWZ|scripts/renderers/|scripts/build_selected.py|working-directory:|container:', line)
-                      for line in diff.splitlines() if line.startswith(('+', '-')))
-    packages = set()
-    if 'requirements.txt' in changed:
-        current = (ROOT / 'requirements.txt').read_text().splitlines()
-        old = previous('requirements.txt', base_ref).splitlines() if base_ref else []
-        packages = {re.split(r'[=<>!~\[]', line)[0].lower() for line in set(current) ^ set(old) if line and not line.startswith('#')}
-    shared |= bool(packages - {'pymupdf', 'reportlab'})
+    # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
+    # This may create extra previews, but cannot miss a new rendering dependency.
+    shared = bool(changed & {
+        'scripts/build_selected.py', 'requirements.txt',
+        '.github/workflows/build-resources.yml',
+    })
     for name, target in registered.items():
         kind = target['kind']
         dependencies = {target['source'], target.get('cover'), f'scripts/renderers/{kind}.py'}
         affected = bool(changed & dependencies)
-        if target['source'] in changed and base_ref:
-            try:
-                old = json.loads(previous(target['source'], base_ref))
-            except subprocess.CalledProcessError:  # New source file.
-                pass
-            else:
-                affected = bool(changed & (dependencies - {target['source']})) or output_source(old) != output_source(target['data'])
-        if shared or affected or refs & resource_refs(target['data']) or ('pymupdf' in packages if kind == 'teacher_guide' else 'reportlab' in packages):
+        if shared or affected or refs & resource_refs(target['data']):
             selected.add(name)
     return sorted(selected)
 
@@ -123,7 +105,7 @@ def selection(request=None, changed=(), base_ref=None):
     else:
         names = select(changed, base_ref)
     return {'outputs': names, 'source_paths': [registered[n]['source'] for n in names],
-            'review_status': {n: 'approved_source' if registered[n]['approved'] else 'draft_preview' for n in names}}
+            'status': {n: registered[n]['status'] for n in names}}
 
 
 def main():
