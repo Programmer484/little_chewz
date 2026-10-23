@@ -20,7 +20,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
 - Save edits through a pushed PR, reconcile simultaneous AI changes against the latest `main`, and merge when authorized. Verify the merged result and preserve unrelated work.
-- For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#preview-links-and-retention); do not use a temporary branch or PR Files link as the primary review link.
+- For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#preview-links-and-retention); do not use a preview-branch or PR Files link as the primary review link.
 
 ## Maintaining instructions
 

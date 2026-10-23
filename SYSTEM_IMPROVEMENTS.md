@@ -14,6 +14,6 @@ An eventual editable slide renderer could regenerate a single changed slide or t
 
 ## Already implemented
 
-- GitHub Actions validation, targeted PDF previews, and retained browser review branches: [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection).
+- GitHub Actions validation, targeted PDF previews, and permanent browser previews on a shared history branch: [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection).
 - Approved lesson PDF to linked PPTX conversion: [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
 - Prior designs and completed proposals: [historical system improvements](archive/2026-10/SYSTEM_IMPROVEMENTS_ORIGINAL.md).
