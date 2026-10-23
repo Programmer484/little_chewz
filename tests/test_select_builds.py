@@ -31,6 +31,9 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(sb.selection(DRAFT)['outputs'], [DRAFT])
         self.assertEqual(sb.selection(SONG)['outputs'], [SONG])
         self.assertEqual(sb.selection('all-approved')['outputs'], [GUIDE, CONFETTI, MISSION])
+        self.assertEqual(sb.selection(DRAFT)['status'][DRAFT], 'unapproved')
+        self.assertEqual(sb.selection(GUIDE)['status'][GUIDE], 'approved')
+        self.assertEqual(sb.selection(MISSION)['status'][MISSION], 'published')
         with self.assertRaisesRegex(ValueError, 'Unknown'):
             sb.selection('missing.pdf')
 
@@ -53,7 +56,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_checks_and_metadata_do_not_render(self):
         for path in ['scripts/validate.py', 'scripts/select_builds.py',
-                     '.github/workflows/build-resources.yml', 'tests/test_select_builds.py',
+                     'tests/test_select_builds.py',
                      'system/action_labels.json', 'system/EDITORIAL_GUIDE.md',
                      'content/story/story.md', 'content/worksheet.json', 'content/slides.json',
                      'README.md', 'content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json',
@@ -61,12 +64,11 @@ class SelectionTests(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertEqual(sb.select([path]), [])
 
-    def test_shared_builder_and_dependencies(self):
-        self.assertEqual(set(sb.select(['scripts/build_selected.py'])), set(self.targets))
-        self.assertEqual(set(sb.select(['requirements.txt'])), set(self.targets))
-        previous='PyMuPDF==1.26.7\nreportlab==4.4.8\nPillow==12.3.0\npython-pptx==1.0.2\n'
-        with patch.object(sb, 'previous', return_value=previous):
-            self.assertEqual(sb.select(['requirements.txt'], 'base'), [CONFETTI, MISSION, SONG])
+    def test_shared_build_inputs_rebuild_all_eligible_sources(self):
+        for path in ['scripts/build_selected.py', 'requirements.txt',
+                     '.github/workflows/build-resources.yml']:
+            with self.subTest(path=path):
+                self.assertEqual(set(sb.select([path])), set(self.targets))
 
     def test_registry_keys_are_only_ids(self):
         records=sb.read_json('catalog/resources.json')
@@ -93,12 +95,10 @@ class SelectionTests(unittest.TestCase):
                 sb, 'changed_registry_ids', return_value={'ccc-q01-mrs-tongsleys-letter'}):
             self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [GUIDE, DRAFT])
 
-    def test_source_metadata_does_not_render(self):
+    def test_source_metadata_edit_rebuilds_only_its_pdf(self):
+        # Simpler selection favors an occasional redundant preview over diff logic.
         target=self.targets[DRAFT]
-        old=copy.deepcopy(target['data'])
-        old['migration_review']={'old': 'historical provenance'}
-        with patch.object(sb, 'previous', return_value=json.dumps(old)):
-            self.assertEqual(sb.select([target['source']], 'base'), [])
+        self.assertEqual(sb.select([target['source']]), [DRAFT])
 
     def test_draft_validation_catches_invalid_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -119,12 +119,12 @@ class SelectionTests(unittest.TestCase):
                           'unsupported action label','missing catalog resource ref']:
                 self.assertIn(error,run.stdout)
 
-    def test_workflow_changes_only_render_for_environment(self):
-        path='.github/workflows/build-resources.yml'
-        with patch.object(sb.subprocess, 'check_output', return_value='+          retention-days: 5\n'):
-            self.assertEqual(sb.select([path], 'base'), [])
-        with patch.object(sb.subprocess, 'check_output', return_value='+          python-version: "3.12"\n'):
-            self.assertEqual(set(sb.select([path], 'base')), set(self.targets))
+    def test_history_branch_has_run_scoped_immutable_paths(self):
+        workflow=(sb.ROOT / '.github/workflows/build-resources.yml').read_text()
+        self.assertIn('preview_branch="pdf-preview-history"', workflow)
+        self.assertIn('run_folder="previews/${RUN_ID}"', workflow)
+        self.assertIn('git push origin "HEAD:refs/heads/$preview_branch"', workflow)
+
 
 
 if __name__=='__main__':
