@@ -1,0 +1,293 @@
+{
+  "id": "ccc-q01-welcome",
+  "template": "claude",
+  "title": "Confetti Cake Cottage School: Restore the Sparkle",
+  "footer": "CONFETTI FILE  •  CCC-2025",
+  "cover": "cover.pdf",
+  "source_note": "Text transcribed from 01_Welcome_updated.pdf (visible text only; hidden legacy text layers on pages 2 and 5 were not used). Cover is page 1 of that file, cut losslessly with qpdf. Typo fixed: 'exlationships' to 'relationships'. Navigation rows follow quest_navigation_preview.pdf; guide links resolve through catalog/resources.json.",
+  "pages": [
+    {
+      "mark": "crest",
+      "eyebrow": "Confetti Cake Cottage School",
+      "title": "Welcome",
+      "blocks": [
+        {
+          "type": "paragraphs",
+          "label": "What is Chewlandia Academy?",
+          "paragraphs": [
+            "Chewlandia Academy is the next chapter in the world of Chewlandia.",
+            "In Grades K–3, students explore Little Chewlandia, where the talking Cutlery Family guides them through stories and adventures. Beginning in Grade 4, students cross the bridge into Chewlandia Academy, where familiar Chewlandia houses become schools and the Cutlery Family becomes their mentors, teachers, and community leaders.",
+            "Each Academy school features a four-week mission made up of four week-long quests. Through chapter books, food experiences, friendship mysteries, and hands-on challenges, students solve problems, strengthen relationships, and grow together."
+          ]
+        },
+        {
+          "type": "paragraphs",
+          "label": "Confetti Cake Cottage School",
+          "paragraphs": [
+            "One of these schools is Confetti Cake Cottage School—a vibrant gathering place where joy is shared, creativity is celebrated, and every student has a seat at the table.",
+            "This is where the village comes alive. Music drifts through the air, colorful creations fill the halls, and students come together through challenges, celebrations, food, and shared experiences. From classroom traditions to unforgettable events, every gathering is an opportunity to strengthen friendships, build confidence, and create lasting memories.",
+            "At Confetti Cake Cottage School, students discover that community isn't something that happens by accident... it is something we create together."
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Because sometimes the most meaningful learning doesn't happen in a lesson. It happens when we gather, celebrate, support one another, and feel like we belong."
+        }
+      ]
+    },
+    {
+      "mark": "logo",
+      "eyebrow": "Little Chewz",
+      "title": "Learning Cycle",
+      "blocks": [
+        {
+          "type": "lede",
+          "text": "Stories feed minds. Experiences feed hearts."
+        },
+        {
+          "type": "list",
+          "items": [
+            {
+              "number": "01",
+              "title": "Set the Table™",
+              "text": "Spark curiosity and prepare students to step into the story."
+            },
+            {
+              "number": "02",
+              "title": "Secret Ingredients™",
+              "text": "Investigate, gather evidence, and uncover the ideas hidden within the experience."
+            },
+            {
+              "number": "03",
+              "title": "The Showdown™",
+              "text": "Apply learning through authentic challenges, creativity, and shared experiences.",
+              "note": {
+                "label": "Includes",
+                "text": "the Taste Cycle!"
+              }
+            },
+            {
+              "number": "04",
+              "title": "Chew On This™",
+              "text": "Turn great stories into meaningful conversations that strengthen relationships."
+            },
+            {
+              "number": "05",
+              "title": "Plate It Forward™",
+              "text": "Celebrate growth, reflect on the journey, and carry new learning into the world."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Great stories. Real connections. Lasting impact.",
+          "subtext": "Together, we make Chewlandia amazing."
+        }
+      ]
+    },
+    {
+      "mark": "crest",
+      "eyebrow": "Mission: Restore the Sparkle",
+      "title": "Quest One",
+      "blocks": [
+        {
+          "type": "paragraphs",
+          "paragraphs": [
+            "Restore the Sparkle is Confetti Cake Cottage School’s four-quest mission. Quest One, The Bake-Off Betrayal, can stand alone or begin the full adventure.",
+            "When a team switch strains friendships, students follow clues, explore different perspectives, and discover what it takes to make things right."
+          ]
+        },
+        {
+          "type": "list",
+          "compact": true,
+          "items": [
+            {
+              "number": "00",
+              "title": "Activate",
+              "text": "Complete the Activate activities before beginning the five parts. Students meet their guide, discover Callie Cupcake, and begin collecting clues."
+            },
+            {
+              "number": "01",
+              "title": "Part One: Set the Table",
+              "text": "Students are introduced to this week's Friendship Mystery while building the background knowledge they'll need to begin their investigation.",
+              "note": {
+                "label": "You Chewz",
+                "text": "Two Small Bites from the Set the Table activities."
+              }
+            },
+            {
+              "number": "02",
+              "title": "Part Two: Secret Ingredients",
+              "text": "Students read Chapter 1, collect clues, examine character choices, and build evidence to explain what caused the friendship conflict.",
+              "note": {
+                "label": "You Chewz",
+                "text": "One Secret Ingredient activity."
+              }
+            },
+            {
+              "number": "03",
+              "title": "Part Three: The Showdown",
+              "text": "Students step into the story through a hands-on challenge that allows them to experience one of the relationship challenges from the mission.",
+              "note": {
+                "label": "You Chewz",
+                "text": "One Showdown level depending on classroom needs."
+              }
+            },
+            {
+              "number": "04",
+              "title": "Part Four: Chew On This",
+              "text": "Students use evidence from the story and The Showdown to test their theories, examine different perspectives, and discuss what the clues reveal.",
+              "note": {
+                "label": "You Chewz",
+                "text": "Two Small Bites from the Chew On This activities."
+              }
+            },
+            {
+              "number": "05",
+              "title": "Part Five: Plate It Forward",
+              "text": "Students close the case by sharing what they discovered, reflecting on how the conflict was resolved, and preparing for the next Friendship Mystery.",
+              "note": {
+                "label": "You Chewz",
+                "text": "One Small Bite from the Plate It Forward activities."
+              }
+            },
+            {
+              "number": "06",
+              "title": "Celebrate",
+              "text": "Celebrate after Part Five with an optional song, badge, passport, or class gathering."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mark": "logo",
+      "eyebrow": "Chewlandia Academy",
+      "title": "Quest Kit Contents",
+      "blocks": [
+        {
+          "type": "list",
+          "label": "Each Quest Includes",
+          "items": [
+            {
+              "number": "01",
+              "title": "Teacher Guide",
+              "text": "Teacher instructions, activities, lesson plans, and resource links."
+            },
+            {
+              "number": "02",
+              "title": "Classroom Slideshow",
+              "text": "Ready-to-use slides, videos, and story prompts that bring the quest to life."
+            },
+            {
+              "number": "03",
+              "title": "Core Student Workbook",
+              "text": "Essential student pages together in one easy-to-print file."
+            },
+            {
+              "number": "04",
+              "title": "Activity Packs",
+              "text": "Printable worksheets and resources for the Small Bites and Showdown challenges you Chewz."
+            },
+            {
+              "number": "05",
+              "title": "Complete Student Workbook",
+              "text": "All student pages together in one optional file."
+            },
+            {
+              "number": "06",
+              "title": "Chewlandia Passport",
+              "text": "An optional free passport students can use to collect badges and document their journey."
+            }
+          ]
+        },
+        {
+          "type": "paragraphs",
+          "label": "Your Quest. Your Pace.",
+          "paragraphs": [
+            "Each quest can stand alone or form part of a four-week mission. Quest 1 unfolds across five flexible parts over 1–2 school weeks. Follow the lesson plans for a simple, ready-to-go path through the adventure—you do not need to complete every activity.",
+            "Most core parts are designed for approximately 45-minute classes. Choose the Small Bites that work for your class. The Showdown may need more time depending on your challenge."
+          ]
+        },
+        {
+          "type": "paragraphs",
+          "label": "Want More Time?",
+          "paragraphs": [
+            "Choose additional activities and extensions to stretch the adventure. Activate introduces the adventure before Part 1, and Celebrate offers an optional way to wrap up the experience after Part 5."
+          ]
+        }
+      ]
+    },
+    {
+      "mark": "crest",
+      "eyebrow": "Confetti Cake Cottage School  |  Quest One",
+      "title": "Your Quest Resources",
+      "blocks": [
+        {
+          "type": "lede",
+          "text": "Select a section to open its Teacher Guide."
+        },
+        {
+          "type": "nav",
+          "action_label": "Open Guide",
+          "pending_label": "Coming Soon",
+          "items": [
+            {
+              "number": "00",
+              "label": "Before the Quest",
+              "title": "Activate",
+              "resource": "ccc-q01-activate-teacher-guide"
+            },
+            {
+              "number": "01",
+              "label": "Part One",
+              "title": "Set the Table",
+              "resource": "ccc-q01-set-the-table-teacher-guide"
+            },
+            {
+              "number": "02",
+              "label": "Part Two",
+              "title": "Secret Ingredients",
+              "resource": null
+            },
+            {
+              "number": "03",
+              "label": "Part Three",
+              "title": "The Showdown",
+              "resource": null
+            },
+            {
+              "number": "04",
+              "label": "Part Four",
+              "title": "Chew On This",
+              "resource": null
+            },
+            {
+              "number": "05",
+              "label": "Part Five",
+              "title": "Plate It Forward",
+              "resource": null
+            },
+            {
+              "number": "06",
+              "label": "After the Quest",
+              "title": "Celebrate",
+              "resource": null
+            },
+            {
+              "number": "",
+              "label": "Continue the Adventure",
+              "title": "Next Quest or Mission",
+              "resource": null
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Great stories. Real connections. Lasting impact.",
+          "subtext": "Together, we make Chewlandia amazing."
+        }
+      ]
+    }
+  ]
+}

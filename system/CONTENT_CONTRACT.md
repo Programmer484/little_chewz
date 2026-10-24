@@ -17,7 +17,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
 | Linked names, destinations, stable ID object keys, and **only linked-resource lifecycle status** | `catalog/resources.json` |
-| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/story/`, and `templates/claude/` (table-of-contents page) |
+| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/story/`, and `templates/claude/` (clean page style and quest navigation) |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
 

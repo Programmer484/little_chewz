@@ -16,7 +16,7 @@ Edit the source, review the generated document, then publish only when authorize
 | [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Reviewed slide PDF → image-based linked PowerPoint, with in-place Drive targets |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` table-of-contents page template |
+| `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |

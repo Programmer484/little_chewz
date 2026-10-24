@@ -1,40 +1,44 @@
 {
+  "id": "REPLACE-WITH-STABLE-ID",
   "template": "claude",
-  "template_type": "table_of_contents",
-  "page_size": "A4",
-  "title": "Table of Contents",
-  "eyebrow": "Mission File: Restore the Sparkle",
+  "title": "Untitled Document",
   "footer": "CONFETTI FILE  •  CCC-2025",
-  "entries": [
+  "cover": "cover.pdf",
+  "source_note": "Populate only from verified material. 'cover' is an optional one-page PDF beside this file, cut losslessly from the source. Nav rows link only to registry resources that are approved or published.",
+  "pages": [
     {
-      "title": "Welcome to Confetti Cake Cottage School",
-      "summary": "What Chewlandia Academy is, and where joy, creativity, and belonging come together.",
-      "page": 3
-    },
-    {
-      "title": "The Little Chewz Learning Cycle",
-      "summary": "Five steps from Set the Table to Plate It Forward.",
-      "page": 4
-    },
-    {
-      "title": "Quest One: The Bake-Off Betrayal",
-      "summary": "A team switch strains friendships. Students follow clues to make things right.",
-      "page": 5,
-      "parts": [
-        "Activate",
-        "Part One: Set the Table",
-        "Part Two: Secret Ingredients",
-        "Part Three: The Showdown",
-        "Part Four: Chew On This",
-        "Part Five: Plate It Forward",
-        "Celebrate"
+      "mark": "crest",
+      "eyebrow": "Section context",
+      "title": "Page Title",
+      "blocks": [
+        {"type": "lede", "text": "One larger introductory sentence."},
+        {"type": "paragraphs", "label": "Optional label", "paragraphs": ["Paragraph text."]},
+        {
+          "type": "list",
+          "label": "Optional label",
+          "compact": false,
+          "items": [
+            {"number": "01", "title": "Item title", "text": "Item description.", "note": {"label": "You Chewz", "text": "Optional note."}}
+          ]
+        },
+        {"type": "callout", "text": "A short closing statement.", "subtext": "Optional subtext"}
       ]
     },
     {
-      "title": "Chewlandia Academy Quest Kit Contents",
-      "summary": "Teacher Guide, slideshow, workbooks, activity packs, and the Chewlandia Passport.",
-      "page": 6
+      "mark": "crest",
+      "eyebrow": "School  |  Quest",
+      "title": "Your Quest Resources",
+      "blocks": [
+        {"type": "lede", "text": "Select a section to open its Teacher Guide."},
+        {
+          "type": "nav",
+          "action_label": "Open Guide",
+          "pending_label": "Coming Soon",
+          "items": [
+            {"number": "00", "label": "Before the Quest", "title": "Activate", "resource": "REGISTRY-ID-OR-NULL"}
+          ]
+        }
+      ]
     }
-  ],
-  "source_note": "Entry titles and summaries are drawn from 01_Welcome_updated.pdf. Page numbers assume this page is inserted as page 2 of that file; update them if the layout changes."
+  ]
 }

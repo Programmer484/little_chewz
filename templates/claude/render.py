@@ -1,14 +1,25 @@
-"""Render the "claude" table-of-contents template.
+"""Render a document in the "claude" page style.
 
-A minimalist one-page A4 contents page styled to match the Welcome PDF
-(Confetti Cake Cottage School): cream page, brush headline, Glacial
-body text, coral accents, and the school crest. Fonts are open-licensed
-(SIL OFL) stand-ins for the Canva originals: Sedgwick Ave Display for
-Better Faster, Outfit for Glacial Indifference.
+Clean, left-aligned A4 pages styled to match the Confetti Cake Cottage
+School Welcome PDF: cream page, crest or Little Chewz logo in the header,
+brush headline, coral numbers and labels, hairline dividers. Fonts are
+open-licensed (SIL OFL) stand-ins for the Canva originals: Sedgwick Ave
+Display for Better Faster, Outfit for Glacial Indifference.
+
+The document is a JSON file with an optional cover PDF and a list of
+pages; each page has a header (mark, eyebrow, title) and blocks:
+  lede        larger intro sentence
+  paragraphs  optional coral label plus paragraphs
+  list        numbered rows: title, text, optional note {label, text}
+  callout     coral bar with a short statement and optional subtext
+  nav         quest navigation rows; each row links to a registry
+              resource (catalog/resources.json) when it is approved or
+              published, otherwise shows the pending label
 
 Usage (from the repository root):
-    python templates/claude/render.py
-    python templates/claude/render.py --data path/to/toc.json --output /tmp/toc.pdf
+    python templates/claude/render.py \
+        content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json \
+        --output exports/01-welcome.pdf
 """
 
 from __future__ import annotations
@@ -27,11 +38,15 @@ from reportlab.pdfgen import canvas
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE / "assets"
 FONTS = ASSETS / "fonts"
+REPO = HERE.parent.parent
+REGISTRY = REPO / "catalog" / "resources.json"
+LINKABLE = {"approved", "published"}
 
 # Page matches the Welcome PDF exactly (Canva A4).
 PAGE_W, PAGE_H = 595.5, 842.25
 MARGIN = 56
-FOOTER_TOP = 130  # entries stay above this line
+CONTENT_W = PAGE_W - 2 * MARGIN
+BOTTOM = 84  # content stays above this; footer sits below
 
 
 def rgb(r: int, g: int, b: int) -> Color:
@@ -41,30 +56,40 @@ def rgb(r: int, g: int, b: int) -> Color:
 # Palette sampled from the Welcome PDF.
 CREAM = rgb(250, 245, 239)
 INK = rgb(28, 24, 22)
-BROWN = rgb(112, 82, 52)
+BODY_INK = rgb(58, 50, 44)
 MUTED = rgb(110, 96, 84)
+BROWN = rgb(112, 82, 52)
 CORAL = rgb(238, 128, 96)
+TINT = rgb(245, 231, 221)
 HAIRLINE = rgb(226, 214, 200)
 CREST_RING = rgb(0, 59, 49)
 
 HEADLINE = "SedgwickAveDisplay"
 BODY = "Outfit"
-BODY_BOLD = "Outfit-Bold"
+BOLD = "Outfit-Bold"
+
+# Indent for text that sits beside a number column.
+NUM_COL = 34
 
 
 def register_fonts() -> None:
     pdfmetrics.registerFont(TTFont(HEADLINE, str(FONTS / "SedgwickAveDisplay-Regular.ttf")))
     pdfmetrics.registerFont(TTFont(BODY, str(FONTS / "Outfit-Regular.ttf")))
-    pdfmetrics.registerFont(TTFont(BODY_BOLD, str(FONTS / "Outfit-Bold.ttf")))
+    pdfmetrics.registerFont(TTFont(BOLD, str(FONTS / "Outfit-Bold.ttf")))
 
 
-def spaced_text(c: canvas.Canvas, x: float, y: float, text: str, font: str, size: float,
-                spacing: float, color: Color, align: str = "left") -> None:
-    width = pdfmetrics.stringWidth(text, font, size) + spacing * (len(text) - 1)
+# ---------------------------------------------------------------- helpers
+
+def width(text: str, font: str, size: float, spacing: float = 0) -> float:
+    return pdfmetrics.stringWidth(text, font, size) + spacing * max(len(text) - 1, 0)
+
+
+def spaced(c, x, y, text, font, size, spacing, color, align="left"):
+    w = width(text, font, size, spacing)
     if align == "center":
-        x -= width / 2
+        x -= w / 2
     elif align == "right":
-        x -= width
+        x -= w
     t = c.beginText(x, y)
     t.setFont(font, size)
     t.setCharSpace(spacing)
@@ -72,13 +97,14 @@ def spaced_text(c: canvas.Canvas, x: float, y: float, text: str, font: str, size
     t.textOut(text)
     t.setCharSpace(0)  # do not leak spacing into later drawString calls
     c.drawText(t)
+    return w
 
 
 def wrap(text: str, font: str, size: float, max_width: float) -> list[str]:
     lines, line = [], ""
     for word in text.split():
         trial = f"{line} {word}".strip()
-        if pdfmetrics.stringWidth(trial, font, size) <= max_width:
+        if width(trial, font, size) <= max_width or not line:
             line = trial
         else:
             lines.append(line)
@@ -88,135 +114,252 @@ def wrap(text: str, font: str, size: float, max_width: float) -> list[str]:
     return lines
 
 
-def draw_header(c: canvas.Canvas, data: dict) -> float:
-    crest_size = 84
-    cx, cy = MARGIN - 6, PAGE_H - 48 - crest_size
-    c.drawImage(ImageReader(str(ASSETS / "crest.png")), cx, cy, crest_size, crest_size, mask="auto")
-    c.setStrokeColor(CREST_RING)
-    c.setLineWidth(2.2)
-    c.circle(cx + crest_size / 2, cy + crest_size / 2, crest_size / 2 - 0.6, stroke=1, fill=0)
+def text_block(c, x, y, text, font, size, leading, max_width, color) -> float:
+    """Draw wrapped text with its first baseline at y; return the last baseline."""
+    c.setFont(font, size)
+    c.setFillColor(color)
+    lines = wrap(text, font, size, max_width)
+    for i, line in enumerate(lines):
+        c.drawString(x, y - i * leading, line)
+    return y - (len(lines) - 1) * leading
 
-    text_x = cx + crest_size + 22
-    spaced_text(c, text_x, cy + 56, data.get("eyebrow", "").upper(), BODY_BOLD, 9.5, 1.6, CORAL)
+
+def label(c, x, y, text, color=CORAL):
+    spaced(c, x, y, text.upper(), BOLD, 9, 1.5, color)
+
+
+def hairline(c, y, x0=MARGIN, x1=PAGE_W - MARGIN):
+    c.setStrokeColor(HAIRLINE)
+    c.setLineWidth(0.6)
+    c.line(x0, y, x1, y)
+
+
+# ----------------------------------------------------------------- blocks
+# Each block draws from a cursor y (top of the block) and returns the new
+# cursor (bottom of the block). `flex` adds space to internal gaps so a
+# page can be spread out to fill its height.
+
+def block_lede(c, b, y, flex):
+    last = text_block(c, MARGIN, y - 15, b["text"], BODY, 15, 21, CONTENT_W, INK)
+    return last - 6
+
+
+def block_paragraphs(c, b, y, flex):
+    if b.get("label"):
+        label(c, MARGIN, y - 9, b["label"])
+        y -= 9 + 12 + flex * 0.3
+    for i, para in enumerate(b["paragraphs"]):
+        if i:
+            y -= 9 + flex * 0.3
+        last = text_block(c, MARGIN, y - 12, para, BODY, 11.5, 16.5, CONTENT_W, BODY_INK)
+        y = last - 4
+    return y
+
+
+def block_list(c, b, y, flex):
+    compact = b.get("compact", False)
+    gap = (11 if compact else 15) + flex
+    size, lead = (10.5, 14.5) if compact else (11, 15.5)
+    text_x = MARGIN + NUM_COL
+    text_w = PAGE_W - MARGIN - text_x
+    if b.get("label"):
+        label(c, MARGIN, y - 9, b["label"])
+        y -= 9 + 10
+    for i, item in enumerate(b["items"]):
+        if i:
+            hairline(c, y - gap / 2)
+            y -= gap
+        base = y - 14
+        if item.get("number"):
+            c.setFillColor(CORAL)
+            c.setFont(BOLD, 13)
+            c.drawString(MARGIN, base, item["number"])
+        c.setFillColor(INK)
+        c.setFont(BOLD, 13.5)
+        c.drawString(text_x, base, item["title"])
+        last = text_block(c, text_x, base - lead - 1, item["text"], BODY, size, lead, text_w, MUTED)
+        note = item.get("note")
+        if note:
+            ny = last - lead
+            lw = spaced(c, text_x, ny, note["label"].upper(), BOLD, 8.5, 1.3, CORAL)
+            c.setFont(BODY, size)
+            c.setFillColor(BODY_INK)
+            c.drawString(text_x + lw + 7, ny, note["text"])
+            last = ny
+        y = last - 5
+    return y
+
+
+def block_callout(c, b, y, flex):
+    x = MARGIN + 16
+    first = y - 15
+    last = text_block(c, x, first, b["text"], BODY, 14, 20, CONTENT_W - 16, INK)
+    if b.get("subtext"):
+        last -= 18
+        spaced(c, x, last, b["subtext"].upper(), BOLD, 8.5, 1.4, CORAL)
+    c.setFillColor(CORAL)
+    c.rect(MARGIN, last - 5, 3, first + 13 - (last - 5), stroke=0, fill=1)
+    return last - 7
+
+
+def block_nav(c, b, y, flex, registry):
+    row_h = 46 + flex
+    text_x = MARGIN + NUM_COL
+    right = PAGE_W - MARGIN
+    action = b.get("action_label", "Open Guide").upper()
+    pending = b.get("pending_label", "Coming Soon").upper()
+    hairline(c, y)
+    for item in b["items"]:
+        top, bottom = y, y - row_h
+        mid = (top + bottom) / 2
+        url = resolve(registry, item.get("resource"))
+        if url:
+            c.setFillColor(TINT)
+            c.roundRect(MARGIN - 8, bottom + 3, CONTENT_W + 16, row_h - 6, 6, stroke=0, fill=1)
+        if item.get("number"):
+            c.setFillColor(CORAL)
+            c.setFont(BOLD, 13)
+            c.drawString(MARGIN, mid - 9, item["number"])
+        spaced(c, text_x, mid + 5, item["label"].upper(), BOLD, 8, 1.3, MUTED)
+        c.setFillColor(INK)
+        c.setFont(BOLD, 13.5)
+        c.drawString(text_x, mid - 9, item["title"])
+        if url:
+            spaced(c, right - 14, mid - 4, action, BOLD, 9, 1.3, CORAL, align="right")
+            c.setStrokeColor(CORAL)
+            c.setLineWidth(1.4)
+            c.setLineCap(1)
+            c.setLineJoin(1)
+            c.lines([(right - 6, mid + 0.5, right - 2.5, mid - 3), (right - 2.5, mid - 3, right - 6, mid - 6.5)])
+            c.linkURL(url, (MARGIN - 8, bottom + 3, right + 8, top - 3), relative=0, thickness=0)
+        else:
+            spaced(c, right, mid - 4, pending, BODY, 8.5, 1.3, MUTED, align="right")
+        hairline(c, bottom)
+        y = bottom
+    return y - 2
+
+
+BLOCKS = {
+    "lede": block_lede,
+    "paragraphs": block_paragraphs,
+    "list": block_list,
+    "callout": block_callout,
+}
+
+
+def resolve(registry: dict, resource_id: str | None) -> str | None:
+    if not resource_id:
+        return None
+    entry = registry.get(resource_id)
+    if not entry:
+        raise SystemExit(f"Unknown resource ID in navigation: {resource_id}")
+    url = entry.get("url") or entry.get("destination") or ""
+    if entry.get("status") in LINKABLE and url.startswith("https://"):
+        return url
+    return None
+
+
+# ---------------------------------------------------------------- page
+
+def draw_header(c, page) -> float:
+    size = 84
+    x, y = MARGIN - 6, PAGE_H - 48 - size
+    if page.get("mark", "crest") == "logo":
+        c.drawImage(ImageReader(str(ASSETS / "little-chewz-logo.png")), x, y, size, size, mask="auto")
+    else:
+        c.drawImage(ImageReader(str(ASSETS / "crest.png")), x, y, size, size, mask="auto")
+        c.setStrokeColor(CREST_RING)
+        c.setLineWidth(2.2)
+        c.circle(x + size / 2, y + size / 2, size / 2 - 0.6, stroke=1, fill=0)
+
+    tx = x + size + 22
+    avail = PAGE_W - MARGIN - tx
+    spaced(c, tx, y + 56, page.get("eyebrow", "").upper(), BOLD, 9.5, 1.6, CORAL)
+    title = page["title"].upper()
+    fs = 34.0
+    while width(title, HEADLINE, fs) > avail and fs > 20:
+        fs -= 1
     c.setFillColor(INK)
-    c.setFont(HEADLINE, 34)
-    c.drawString(text_x, cy + 18, data.get("title", "Table of Contents").upper())
+    c.setFont(HEADLINE, fs)
+    c.drawString(tx, y + 18, title)
 
-    rule_y = cy - 26
+    rule = y - 26
     c.setStrokeColor(BROWN)
     c.setLineWidth(0.8)
-    c.line(MARGIN, rule_y, PAGE_W - MARGIN, rule_y)
-    return rule_y
+    c.line(MARGIN, rule, PAGE_W - MARGIN, rule)
+    return rule
 
 
-def draw_entry(c: canvas.Canvas, index: int, entry: dict, top: float, gap: float = 30) -> float:
-    num_x, title_x, right_x = MARGIN, MARGIN + 34, PAGE_W - MARGIN
-    baseline = top - gap
-
-    c.setFillColor(CORAL)
-    c.setFont(BODY_BOLD, 14)
-    c.drawString(num_x, baseline, f"{index:02d}")
-
-    title = entry["title"]
-    c.setFillColor(INK)
-    c.setFont(BODY_BOLD, 14)
-    c.drawString(title_x, baseline, title)
-
-    page = entry.get("page")
-    if page is not None:
-        page_text = str(page)
-        c.drawRightString(right_x, baseline, page_text)
-        # Dotted leader between title and page number.
-        start = title_x + pdfmetrics.stringWidth(title, BODY_BOLD, 14) + 10
-        end = right_x - pdfmetrics.stringWidth(page_text, BODY_BOLD, 14) - 10
-        if end > start:
-            c.setStrokeColor(HAIRLINE)
-            c.setLineWidth(1.1)
-            c.setLineCap(1)
-            c.setDash(0.1, 4.2)
-            c.line(start, baseline + 2, end, baseline + 2)
-            c.setDash()
-
-    y = baseline - 18
-    c.setFillColor(MUTED)
-    c.setFont(BODY, 11)
-    for line in wrap(entry.get("summary", ""), BODY, 11, right_x - title_x - 16):
-        c.drawString(title_x, y, line)
-        y -= 15
-
-    parts = entry.get("parts") or []
-    if parts:
-        y -= 4
-        col_w = (right_x - title_x) / 2
-        rows = (len(parts) + 1) // 2
-        for i, part in enumerate(parts):
-            col, row = divmod(i, rows)
-            px, py = title_x + col * col_w, y - row * 17
-            c.setFillColor(CORAL)
-            c.circle(px + 2.5, py + 3.2, 2.1, stroke=0, fill=1)
-            c.setFillColor(INK)
-            c.setFont(BODY, 10.5)
-            c.drawString(px + 12, py, part)
-        y -= rows * 17 - 2
-
-    return y + 15
+def draw_footer(c, doc, number: int) -> None:
+    hairline(c, 54)
+    spaced(c, MARGIN, 38, doc.get("footer", ""), BODY, 8.5, 1.2, BROWN)
+    spaced(c, PAGE_W - MARGIN, 38, str(number), BOLD, 9, 0, BROWN, align="right")
 
 
-def draw_footer(c: canvas.Canvas, data: dict) -> None:
-    logo = 46
-    c.drawImage(ImageReader(str(ASSETS / "little-chewz-logo.png")),
-                PAGE_W / 2 - logo / 2, 58, logo, logo, mask="auto")
-    spaced_text(c, PAGE_W / 2, 38, data.get("footer", ""), BODY, 9, 1.2, BROWN, align="center")
+def draw_blocks(c, page, top, flex, registry) -> float:
+    y = top - 26 - flex
+    for i, b in enumerate(page["blocks"]):
+        if i:
+            y -= 22 + flex
+        if b["type"] == "nav":
+            y = block_nav(c, b, y, flex, registry)
+        elif b["type"] in BLOCKS:
+            y = BLOCKS[b["type"]](c, b, y, flex)
+        else:
+            raise SystemExit(f"Unknown block type: {b['type']}")
+    return y
 
 
-def render(data: dict, output: Path) -> Path:
+def fit_flex(page, top, registry) -> float:
+    """Pick the extra gap that spreads the blocks down to BOTTOM (capped)."""
+    def bottom_at(flex):
+        scratch = canvas.Canvas(io.BytesIO(), pagesize=(PAGE_W, PAGE_H))
+        return draw_blocks(scratch, page, top, flex, registry)
+
+    b0, b1 = bottom_at(0), bottom_at(1)
+    if b0 < BOTTOM:
+        raise SystemExit(f"Page '{page['title']}' overflows by {BOTTOM - b0:.0f}pt")
+    per_unit = b0 - b1
+    return min((b0 - BOTTOM) / per_unit, page.get("max_flex", 24)) if per_unit > 0 else 0
+
+
+def render(doc_path: Path, output: Path) -> Path:
+    from pypdf import PdfReader, PdfWriter
+
     register_fonts()
-    output.parent.mkdir(parents=True, exist_ok=True)
-    c = canvas.Canvas(str(output), pagesize=(PAGE_W, PAGE_H))
-    c.setTitle(data.get("title", "Table of Contents"))
-    c.setAuthor("Little Chewz")
+    doc = json.loads(doc_path.read_text(encoding="utf-8"))
+    registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
 
-    c.setFillColor(CREAM)
-    c.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
-
-    top = draw_header(c, data)
-    entries = data.get("entries", [])
-
-    # Measure the entries on a scratch canvas, then spread them evenly
-    # between the header rule and the footer.
-    scratch = canvas.Canvas(io.BytesIO(), pagesize=(PAGE_W, PAGE_H))
-    used = 0.0
-    for i, entry in enumerate(entries, start=1):
-        used += 1000 - draw_entry(scratch, i, entry, 1000, gap=0)
-    first_gap = 34.0
-    free = (top - first_gap) - FOOTER_TOP - used
-    gap = max(26.0, min(84.0, free / max(len(entries) - 1, 1)))
-    leftover = max(0.0, free - gap * (len(entries) - 1))
-    first_gap += leftover * 0.4  # sit the block slightly above centre
-
-    y = top - first_gap
-    for i, entry in enumerate(entries, start=1):
-        y = draw_entry(c, i, entry, y, gap=0)
-        if i < len(entries):
-            sep = y - gap / 2 + 4
-            c.setStrokeColor(HAIRLINE)
-            c.setLineWidth(0.6)
-            c.line(MARGIN, sep, PAGE_W - MARGIN, sep)
-            y -= gap
-
-    draw_footer(c, data)
-    c.showPage()
+    body = io.BytesIO()
+    c = canvas.Canvas(body, pagesize=(PAGE_W, PAGE_H))
+    first_number = 2 if doc.get("cover") else 1
+    for n, page in enumerate(doc["pages"], start=first_number):
+        c.setFillColor(CREAM)
+        c.rect(0, 0, PAGE_W, PAGE_H, stroke=0, fill=1)
+        top = draw_header(c, page)
+        draw_blocks(c, page, top, fit_flex(page, top, registry), registry)
+        draw_footer(c, doc, n)
+        c.showPage()
     c.save()
+
+    writer = PdfWriter()
+    if doc.get("cover"):
+        writer.append(PdfReader(str(doc_path.parent / doc["cover"])))
+    writer.append(PdfReader(io.BytesIO(body.getvalue())))
+    writer.add_metadata({"/Title": doc.get("title", ""), "/Author": "Little Chewz"})
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.open("wb") as fh:
+        writer.write(fh)
     return output
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--data", type=Path, default=HERE / "TEMPLATE.json")
-    parser.add_argument("--output", type=Path, default=Path("exports/claude-table-of-contents.pdf"))
+    parser = argparse.ArgumentParser(description="Render a claude-style Little Chewz PDF.")
+    parser.add_argument("document", type=Path, help="document JSON (see TEMPLATE.json)")
+    parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
-    data = json.loads(args.data.read_text(encoding="utf-8"))
-    print(render(data, args.output))
+    out = args.output or Path("exports") / f"{args.document.stem}.pdf"
+    print(render(args.document, out))
 
 
 if __name__ == "__main__":
