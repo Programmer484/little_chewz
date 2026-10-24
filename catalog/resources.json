@@ -241,7 +241,7 @@
       "overview",
       "navigation"
     ],
-    "status": "approved",
+    "status": "published",
     "build": {
       "renderer": "claude",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
