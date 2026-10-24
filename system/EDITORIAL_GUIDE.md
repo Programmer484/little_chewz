@@ -162,10 +162,6 @@ Use KEEP only when staying on the slide is a meaningful instruction, not on ever
 - When a video has a written alternative, keep the video in SHOW and link the readable source under MORE, e.g. `Bakery Log (1958) — Read-aloud alternative to video`.
 - Do not create a new mandatory teaching step for an optional extension or fallback.
 
-## Illustrated teacher instructions vs optional question banks
+## Companion resources
 
-- Keep the Teacher Guide itself concise and scannable. Do not put full supporting resources or redundant artwork in the core flow.
-- Use an illustrated standalone teacher-resource page where a visual genuinely demonstrates setup, printing, assembly, or student use (for example, the School Pass).
-- Keep additional question banks minimally designed: clear title, readable questions, and necessary context. Do not decorate at the expense of scanning speed.
-- For a resource with multiple format variants, link the Teacher Guide to a single teacher-facing instruction or chooser PDF, then link from that PDF to each separately hosted version.
-- Preserve stable file links and use approved HTTPS destinations from the central resource registry; avoid embedding large materials in the Teacher Guide.
+Illustrated instruction pages, question banks, and multi-variant chooser PDFs follow [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md). Keep the Teacher Guide itself concise and link to them rather than embedding their content.
