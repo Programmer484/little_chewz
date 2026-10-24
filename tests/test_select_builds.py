@@ -72,7 +72,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_registry_keys_are_only_ids(self):
         records=sb.read_json('catalog/resources.json')
-        self.assertEqual(len(records),19)
+        self.assertEqual(len(records),20)
         self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
         self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'unapproved')
         self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
