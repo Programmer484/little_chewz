@@ -48,33 +48,43 @@
           "type": "list",
           "items": [
             {
-              "number": "01",
+              "number": "1",
               "title": "Set the Table™",
-              "text": "Spark curiosity and prepare students to step into the story."
+              "text": "Spark curiosity and prepare students to step into the story.",
+              "color": "#F74F66",
+              "icon": "learning-cycle/1-set-the-table.png"
             },
             {
-              "number": "02",
+              "number": "2",
               "title": "Secret Ingredients™",
-              "text": "Investigate, gather evidence, and uncover the ideas hidden within the experience."
+              "text": "Investigate, gather evidence, and uncover the ideas hidden within the experience.",
+              "color": "#785BAD",
+              "icon": "learning-cycle/2-secret-ingredients.png"
             },
             {
-              "number": "03",
+              "number": "3",
               "title": "The Showdown™",
               "text": "Apply learning through authentic challenges, creativity, and shared experiences.",
               "note": {
                 "label": "Includes",
                 "text": "the Taste Cycle!"
-              }
+              },
+              "color": "#FC560E",
+              "icon": "learning-cycle/3-the-showdown.png"
             },
             {
-              "number": "04",
+              "number": "4",
               "title": "Chew On This™",
-              "text": "Turn great stories into meaningful conversations that strengthen relationships."
+              "text": "Turn great stories into meaningful conversations that strengthen relationships.",
+              "color": "#84B046",
+              "icon": "learning-cycle/4-chew-on-this.png"
             },
             {
-              "number": "05",
+              "number": "5",
               "title": "Plate It Forward™",
-              "text": "Celebrate growth, reflect on the journey, and carry new learning into the world."
+              "text": "Celebrate growth, reflect on the journey, and carry new learning into the world.",
+              "color": "#08ABDD",
+              "icon": "learning-cycle/5-plate-it-forward.png"
             }
           ]
         },

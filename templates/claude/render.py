@@ -40,6 +40,7 @@ ASSETS = HERE / "assets"
 FONTS = ASSETS / "fonts"
 REPO = HERE.parent.parent
 REGISTRY = REPO / "catalog" / "resources.json"
+DOC_DIR = REPO  # set to the document folder by render(); icon paths are relative to it
 LINKABLE = {"approved", "published"}
 
 # Page matches the Welcome PDF exactly (Canva A4).
@@ -169,6 +170,9 @@ def block_list(c, b, y, flex):
         if i:
             hairline(c, y - gap / 2)
             y -= gap
+        if item.get("icon"):
+            y = icon_row(c, item, y, size, lead)
+            continue
         base = y - 14
         if item.get("number"):
             c.setFillColor(CORAL)
@@ -188,6 +192,48 @@ def block_list(c, b, y, flex):
             last = ny
         y = last - 5
     return y
+
+
+ICON = 66  # icon tile size in icon rows
+
+
+def hex_color(value: str | None, default: Color) -> Color:
+    if not value:
+        return default
+    v = value.lstrip("#")
+    return rgb(int(v[0:2], 16), int(v[2:4], 16), int(v[4:6], 16))
+
+
+def icon_row(c, item, y, size, lead):
+    """Row with a coloured number badge, an icon tile, and coloured title."""
+    color = hex_color(item.get("color"), CORAL)
+    text_x = MARGIN + 34 + ICON + 18
+    text_w = PAGE_W - MARGIN - text_x
+    lines = wrap(item["text"], BODY, size, text_w)
+    note = item.get("note")
+    text_h = 16 + (len(lines) + (1 if note else 0)) * lead
+    row_h = max(ICON, text_h)
+    mid = y - row_h / 2
+    if item.get("number"):
+        c.setFillColor(color)
+        c.circle(MARGIN + 12, mid, 12, stroke=0, fill=1)
+        c.setFillColor(rgb(255, 255, 255))
+        c.setFont(BOLD, 13)
+        c.drawCentredString(MARGIN + 12, mid - 4.6, item["number"])
+    c.drawImage(ImageReader(str(DOC_DIR / item["icon"])), MARGIN + 34, mid - ICON / 2,
+                ICON, ICON, mask="auto")
+    top_text = mid + text_h / 2
+    c.setFillColor(color)
+    c.setFont(BOLD, 14)
+    c.drawString(text_x, top_text - 13, item["title"])
+    last = text_block(c, text_x, top_text - 13 - lead - 2, item["text"], BODY, size, lead, text_w, MUTED)
+    if note:
+        last -= lead
+        lw = spaced(c, text_x, last, note["label"].upper(), BOLD, 8.5, 1.3, color)
+        c.setFont(BODY, size)
+        c.setFillColor(BODY_INK)
+        c.drawString(text_x + lw + 7, last, note["text"])
+    return min(y - row_h, last - 5)
 
 
 def block_callout(c, b, y, flex):
@@ -327,6 +373,8 @@ def render(doc_path: Path, output: Path) -> Path:
     from pypdf import PdfReader, PdfWriter
 
     register_fonts()
+    global DOC_DIR
+    DOC_DIR = doc_path.resolve().parent
     doc = json.loads(doc_path.read_text(encoding="utf-8"))
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
 
