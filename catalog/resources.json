@@ -116,7 +116,7 @@
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
-    "url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
+    "url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
     "type": "slide_deck",
     "audience": "teacher",
     "tags": [
@@ -124,9 +124,10 @@
       "slides"
     ],
     "status": "unapproved",
-    "link_note": "Seven-slide edition explicitly approved and replaced in place in Drive on 2026-10-22, with Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. PPTX replaced in place too. The original PDF file ID is unchanged; external link sharing/permissions have not been verified, so Resource remains unapproved pending verification of external link access.",
+    "link_note": "Seven-slide PowerPoint classroom deck, including Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. Original slide PDF URL retained in pdf_url; other review status remains unchanged.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
-    "powerpoint_filename": "Set_The_Table_Slides.pptx"
+    "powerpoint_filename": "01_Set_the_Table_Slides.pptx",
+    "pdf_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view"
   },
   "ccc-q01-set-the-table-songwriting-extension": {
     "title": "Songwriting Extension",
