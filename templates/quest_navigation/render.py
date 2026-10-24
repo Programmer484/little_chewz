@@ -39,8 +39,6 @@ def render(data, output):
     c.setFillColor(muted)
     c.setFont("LC", 11)
     c.drawCentredString(width/2, 681, "Confetti Cake Cottage School  |  Quest One")
-    c.setFont("LC", 10)
-    c.drawCentredString(width/2, 651, "Select a section to open its Teacher Guide.")
     left, right = 49, 563
     for index, (name, stage, key) in enumerate(SECTIONS):
         top = 623 - index*67
@@ -68,12 +66,6 @@ def render(data, output):
         c.setStrokeColor(hair)
         c.setLineWidth(.7)
         c.line(left, top-64, right, top-64)
-    c.setFillColor(muted)
-    c.setFont("LC", 9)
-    c.drawCentredString(width/2, 45, "GREAT STORIES. REAL CONNECTIONS. LASTING IMPACT.")
-    c.setFillColor(accent)
-    c.setFont("LC", 8)
-    c.drawCentredString(width/2, 29, "Together, we make Chewlandia amazing.")
     c.showPage()
     c.save()
 
