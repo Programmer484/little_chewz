@@ -141,6 +141,14 @@ class PublishTests(unittest.TestCase):
         with self.assertRaises(pub.PublishError):
             pub.drive_file_id("https://example.com/nothing")
 
+    def test_build_names_match_preview_outputs(self):
+        self.assertEqual(pub.output_name("ccc-q01-welcome", {"renderer": "claude", "source": "x.json"}),
+                         "ccc-q01-welcome.pdf")
+        self.assertEqual(pub.output_name("x", {"output": "00-activate-teacher-guide.pdf"}),
+                         "00-activate-teacher-guide.pdf")
+        with self.assertRaises(pub.PublishError):
+            pub.output_name("x", {})
+
     def test_registry_welcome_entry_is_publishable(self):
         registry = json.loads((pub.ROOT / "catalog/resources.json").read_text())
         file_id, build = pub.check_entry("ccc-q01-welcome", registry.get("ccc-q01-welcome"))

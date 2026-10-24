@@ -14,6 +14,7 @@ on:
       - "system/**"
       - "catalog/**"
       - "requirements.txt"
+      - "*.md"
   push:
     branches: [main]
     paths:
@@ -26,6 +27,7 @@ on:
       - "system/**"
       - "catalog/**"
       - "requirements.txt"
+      - "*.md"
   workflow_dispatch:
     inputs:
       document:

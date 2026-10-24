@@ -15,7 +15,7 @@ class ClaudeTemplateTests(unittest.TestCase):
     def test_welcome_renders_with_cover_and_navigation_links(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "welcome.pdf"
-            subprocess.run([sys.executable, str(ROOT / "templates/claude/render.py"), str(WELCOME),
+            subprocess.run([sys.executable, str(ROOT / "scripts/renderers/claude.py"), str(WELCOME),
                             "--output", str(out)], check=True, capture_output=True)
             reader = PdfReader(str(out))
             self.assertEqual(len(reader.pages), 6)

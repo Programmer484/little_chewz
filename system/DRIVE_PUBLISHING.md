@@ -8,7 +8,7 @@ Owns the automated in-place Drive publish step. Approval and status rules belong
 
 1. Runs only from `main`, using the same setup, validation, and tests as PDF previews (`.github/actions/pdf-setup`); publishing adds only the Google client packages.
 2. Refuses the entry unless its status is `approved` or `published`.
-3. Builds the PDF from the entry's `build` instructions.
+3. Builds the PDF from the entry's `build` instructions through `scripts/build_selected.py`, the same builder as GitHub previews.
 4. Checks the Drive destination (from `url`) is a PDF the service account can edit.
 5. Replaces the file's contents in place (`files.update`). The file ID, link, name, folder, and sharing stay the same; Drive keeps the previous version in **Manage versions**.
 6. Verifies Drive's MD5 matches the local PDF, then changes an `approved` entry to `published` and commits that to `main`.
@@ -27,7 +27,7 @@ Add `build` to the registry entry. The entry's `url` must be the existing Drive 
 }
 ```
 
-For a Teacher Guide or companion already built by `scripts/build_selected.py`, use its output name instead: `"build": {"output": "00-activate-teacher-guide.pdf"}`.
+The renderer is `scripts/renderers/<renderer>.py`, and the entry becomes a preview target named `<resource-id>.pdf`. For a Teacher Guide or companion, name its preview output instead: `"build": {"output": "00-activate-teacher-guide.pdf"}`.
 
 Currently registered: `ccc-q01-welcome` (Quest_Overview.pdf in 00_WELCOME).
 

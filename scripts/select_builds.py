@@ -23,6 +23,16 @@ def resource_refs(value):
     return set()
 
 
+def nav_refs(value):
+    """Registry IDs named by claude-style navigation rows (`resource` keys)."""
+    if isinstance(value, dict):
+        own = {value['resource']} if isinstance(value.get('resource'), str) else set()
+        return own.union(*(nav_refs(v) for v in value.values()))
+    if isinstance(value, list):
+        return set().union(*(nav_refs(v) for v in value))
+    return set()
+
+
 def targets():
     """All existing lesson and companion sources are previewable; status controls release."""
     result = {}
@@ -60,17 +70,34 @@ def targets():
                 status=record.get('status', 'unapproved'),
                 approved=record.get('status', 'unapproved') in ('approved', 'published'), data=data
             )
+    # Registry entries with `build.renderer` are standalone documents (e.g. the Welcome PDF),
+    # output as <resource-id>.pdf. Their whole source folder (icons, cover) is their input.
+    for resource_id, record in registry.items():
+        build = record.get('build') or {}
+        if not build.get('renderer'):
+            continue
+        source = Path(build['source'])
+        data = read_json(source.as_posix())
+        name = f'{resource_id}.pdf'
+        if name in result:
+            raise ValueError(f'Duplicate output: {name}')
+        status = record.get('status', 'unapproved')
+        result[name] = dict(
+            source=source.as_posix(), kind=build['renderer'], status=status,
+            approved=status in ('approved', 'published'), data=data,
+            cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
+            folder=source.parent.as_posix()
+        )
     return result
 
 
-def changed_registry_ids(base_ref):
+def changed_registry_ids(base_ref, fields=('title', 'url')):
     current = read_json('catalog/resources.json')
     if not base_ref:
         return set(current)
     old = json.loads(previous('catalog/resources.json', base_ref))
     return {key for key in old.keys() | current.keys()
-            if (old.get(key) or {}).get('title') != (current.get(key) or {}).get('title')
-            or (old.get(key) or {}).get('url') != (current.get(key) or {}).get('url')}
+            if any((old.get(key) or {}).get(f) != (current.get(key) or {}).get(f) for f in fields)}
 
 
 
@@ -78,7 +105,10 @@ def select(changed, base_ref=None):
     changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
     registered = targets()
     selected = set()
-    refs = changed_registry_ids(base_ref) if 'catalog/resources.json' in changed else set()
+    registry_changed = 'catalog/resources.json' in changed
+    refs = changed_registry_ids(base_ref) if registry_changed else set()
+    # Navigation rows link only approved/published entries, so status matters there.
+    nav_changed = changed_registry_ids(base_ref, ('title', 'url', 'status')) if registry_changed else set()
     # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
     # This may create extra previews, but cannot miss a new rendering dependency.
     shared = bool(changed & {
@@ -88,8 +118,15 @@ def select(changed, base_ref=None):
     for name, target in registered.items():
         kind = target['kind']
         dependencies = {target['source'], target.get('cover'), f'scripts/renderers/{kind}.py'}
-        affected = bool(changed & dependencies)
-        if shared or affected or refs & resource_refs(target['data']):
+        prefixes = [f'templates/{kind}/assets/']
+        if kind in ('teacher_guide', 'teacher_companion'):
+            prefixes.append('templates/fonts/')  # bundled Lato
+        if target.get('folder'):
+            prefixes.append(target['folder'] + '/')
+        affected = bool(changed & dependencies) or any(
+            path.startswith(prefix) for path in changed for prefix in prefixes)
+        if (shared or affected or refs & resource_refs(target['data'])
+                or nav_changed & nav_refs(target['data'])):
             selected.add(name)
     return sorted(selected)
 

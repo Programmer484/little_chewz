@@ -3,6 +3,7 @@ id: ccc-q01-mrs-tongsleys-letter
 source: Full Guide.pdf, page 15
 status: unapproved
 published_reference: ccc-q01-mrs-tongsleys-letter
+instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.
 ---
 # A Welcome from Mrs. Tongsley
 

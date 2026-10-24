@@ -4,10 +4,13 @@
 No image generation. Teacher pages use the established Lato type, measured text,
 vector rules, one shared baseline-aligned grid, and aligned action labels. Covers are
 provided PDFs. Each lesson folder holds its own content JSON and cover PDF.
-Edit lesson JSON rather than the design. Font files are not distributed.
+Edit lesson JSON rather than the design. Lato is bundled in templates/fonts/.
 
-Requires Python 3.10+, PyMuPDF, and a locally installed Lato family. Use --font-dir
-to point to your own installed fonts. Runs outside /mnt/data without code edits.
+Before editing: read system/EDITORIAL_GUIDE.md section 7 (generator boundaries);
+writing rules stay in that guide, not in code.
+
+Requires Python 3.10+ and PyMuPDF. Fonts come from templates/fonts/ unless --font-dir
+or LITTLE_CHEWZ_FONT_DIR points elsewhere.
 """
 from __future__ import annotations
 import argparse
@@ -46,12 +49,12 @@ class LayoutError(ValueError):pass
 
 def configure_fonts(directory:Path|None=None):
     global FONT_FILES,FONTMETRICS,FONTNAMES
-    candidates=[directory,Path(os.environ.get('LITTLE_CHEWZ_FONT_DIR','/usr/share/fonts/truetype/lato')),Path('/Library/Fonts'),Path('C:/Windows/Fonts')]
+    candidates=[directory,Path(os.environ['LITTLE_CHEWZ_FONT_DIR']) if os.environ.get('LITTLE_CHEWZ_FONT_DIR') else None,Path(__file__).resolve().parents[2]/'templates'/'fonts',Path('/usr/share/fonts/truetype/lato')]
     family={'regular':'Regular','medium':'Medium','semibold':'Semibold','bold':'Bold','heavy':'Heavy','italic':'Italic'}
     for root in candidates:
         if root and all((root/f'Lato-{s}.ttf').is_file() for s in family.values()):
             FONT_FILES={k:root/f'Lato-{s}.ttf' for k,s in family.items()};break
-    else:raise FileNotFoundError('Lato fonts not found. Install Lato and pass --font-dir; no fonts are bundled.')
+    else:raise FileNotFoundError('Lato fonts not found; expected them in templates/fonts/.')
     FONTNAMES={k:'LC'+k.title() for k in FONT_FILES}
     FONTMETRICS={k:fitz.Font(fontfile=str(v)) for k,v in FONT_FILES.items()}
 

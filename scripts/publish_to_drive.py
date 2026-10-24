@@ -70,21 +70,25 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     return drive_file_id(entry.get("url", "")), build
 
 
+def output_name(resource_id: str, build: dict) -> str:
+    """Registry-built documents preview as <resource-id>.pdf; others name a select_builds output."""
+    if build.get("renderer"):
+        return f"{resource_id}.pdf"
+    if build.get("output"):
+        return build["output"]
+    raise PublishError(f"Unsupported build instructions for {resource_id}: {build}")
+
+
 def build_pdf(resource_id: str, build: dict) -> Path:
+    """Build through scripts/build_selected.py, the same path as GitHub previews."""
     OUT.mkdir(parents=True, exist_ok=True)
     target = OUT / f"{resource_id}.pdf"
-    if build.get("renderer") == "claude":
-        source = ROOT / build["source"]
-        subprocess.run([sys.executable, str(ROOT / "templates/claude/render.py"), str(source),
-                        "--output", str(target)], check=True)
-    elif build.get("output"):
-        manifest = OUT / "manifest.json"
-        manifest.write_text(json.dumps({"outputs": [build["output"]]}))
-        subprocess.run([sys.executable, str(ROOT / "scripts/build_selected.py"),
-                        "--manifest", str(manifest)], check=True)
-        (ROOT / "exports" / build["output"]).replace(target)
-    else:
-        raise PublishError(f"Unsupported build instructions for {resource_id}: {build}")
+    name = output_name(resource_id, build)
+    manifest = OUT / "manifest.json"
+    manifest.write_text(json.dumps({"outputs": [name]}))
+    subprocess.run([sys.executable, str(ROOT / "scripts/build_selected.py"),
+                    "--manifest", str(manifest)], check=True)
+    (ROOT / "exports" / name).replace(target)
     if not target.is_file() or target.stat().st_size == 0:
         raise PublishError(f"Build produced no PDF for {resource_id}")
     if not target.read_bytes().startswith(b"%PDF"):

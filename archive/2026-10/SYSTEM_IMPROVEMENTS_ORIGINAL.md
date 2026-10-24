@@ -75,4 +75,4 @@ Implement slide rendering and targeted build registration only when a real, revi
 
 ### Unified preview selection update (2026-10-19)
 
-Approved sources and explicitly opted-in drafts now use the same discovery, selection, verification, and preview workflow. Draft lesson validation matches approved lesson validation. Build policy and registration instructions live in [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection). The obsolete standalone Set the Table job from PR #16 is removed by the tooling PR stacked on that source branch; its lesson edits remain separately reviewable.
+Approved sources and explicitly opted-in drafts now use the same discovery, selection, verification, and preview workflow. Draft lesson validation matches approved lesson validation. Build policy and registration instructions live in [WORKFLOW.md](../../system/WORKFLOW.md#pdf-build-selection). The obsolete standalone Set the Table job from PR #16 is removed by the tooling PR stacked on that source branch; its lesson edits remain separately reviewable.

@@ -1,7 +1,8 @@
 name: PDF build setup
 description: >
   Shared setup for every workflow that builds Little Chewz PDFs: Python,
-  requirements.txt, Lato fonts, source validation, and tool tests. Run
+  requirements.txt, source validation, and tool tests. Fonts are bundled in
+  templates/, so nothing is installed system-wide. Run
   actions/checkout before this step.
 inputs:
   extra-packages:
@@ -16,7 +17,7 @@ runs:
       with:
         python-version: "3.11"
 
-    - name: Install PDF dependencies and Lato fonts
+    - name: Install PDF dependencies
       shell: bash
       env:
         EXTRA_PACKAGES: ${{ inputs.extra-packages }}
@@ -24,10 +25,6 @@ runs:
         python -m pip install -r requirements.txt
         if [ -n "$EXTRA_PACKAGES" ]; then
           python -m pip install $EXTRA_PACKAGES
-        fi
-        if [ ! -f /usr/share/fonts/truetype/lato/Lato-Regular.ttf ]; then
-          sudo apt-get update -qq
-          sudo apt-get install -y fonts-lato
         fi
 
     - name: Validate source references
