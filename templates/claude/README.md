@@ -20,7 +20,7 @@ python templates/claude/render.py \
 
 ## Fonts
 
-The Canva originals (Better Faster, Glacial Indifference) are only partially embedded in the source PDF and Better Faster is commercial, so they cannot be reused. This template uses SIL OFL stand-ins: Caveat Brush for headlines and Outfit for body text. Licences are in `assets/fonts/`.
+The Canva originals (Better Faster, Glacial Indifference) are only partially embedded in the source PDF and Better Faster is commercial, so they cannot be reused. This template uses SIL OFL stand-ins: Lobster for headlines and Outfit for body text. Licences are in `assets/fonts/`.
 
 ## Status
 

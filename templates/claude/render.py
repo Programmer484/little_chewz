@@ -3,7 +3,7 @@
 Clean, left-aligned A4 pages styled to match the Confetti Cake Cottage
 School Welcome PDF: cream page, crest or Little Chewz logo in the header,
 brush headline, coral numbers and labels, hairline dividers. Fonts are
-open-licensed (SIL OFL) stand-ins for the Canva originals: Caveat Brush
+open-licensed (SIL OFL) stand-ins for the Canva originals: Lobster
 for Better Faster, Outfit for Glacial Indifference.
 
 The document is a JSON file with an optional cover PDF and a list of
@@ -65,7 +65,7 @@ TINT = rgb(245, 231, 221)
 HAIRLINE = rgb(226, 214, 200)
 CREST_RING = rgb(0, 59, 49)
 
-HEADLINE = "CaveatBrush"
+HEADLINE = "Lobster"
 BODY = "Outfit"
 BOLD = "Outfit-Bold"
 
@@ -74,7 +74,7 @@ NUM_COL = 34
 
 
 def register_fonts() -> None:
-    pdfmetrics.registerFont(TTFont(HEADLINE, str(FONTS / "CaveatBrush-Regular.ttf")))
+    pdfmetrics.registerFont(TTFont(HEADLINE, str(FONTS / "Lobster-Regular.ttf")))
     pdfmetrics.registerFont(TTFont(BODY, str(FONTS / "Outfit-Regular.ttf")))
     pdfmetrics.registerFont(TTFont(BOLD, str(FONTS / "Outfit-Bold.ttf")))
 
@@ -321,8 +321,8 @@ def draw_header(c, page) -> float:
     tx = x + size + 22
     avail = PAGE_W - MARGIN - tx
     spaced(c, tx, y + 56, page.get("eyebrow", "").upper(), BOLD, 9.5, 1.6, CORAL)
-    title = page["title"].upper()
-    fs = 40.0
+    title = page["title"]  # Lobster is a script face: keep title case
+    fs = 36.0
     while width(title, HEADLINE, fs) > avail and fs > 20:
         fs -= 1
     c.setFillColor(INK)
@@ -343,7 +343,7 @@ def draw_footer(c, doc, number: int) -> None:
 
 
 def draw_blocks(c, page, top, flex, registry) -> float:
-    y = top - 26 - flex
+    y = top - 26 - flex * 0.25  # stretch the gaps between rows, not the space under the header
     for i, b in enumerate(page["blocks"]):
         if i:
             y -= 22 + flex

@@ -41,10 +41,6 @@
       "title": "Learning Cycle",
       "blocks": [
         {
-          "type": "lede",
-          "text": "Stories feed minds. Experiences feed hearts."
-        },
-        {
           "type": "list",
           "items": [
             {
@@ -87,11 +83,6 @@
               "icon": "learning-cycle/5-plate-it-forward.png"
             }
           ]
-        },
-        {
-          "type": "callout",
-          "text": "Great stories. Real connections. Lasting impact.",
-          "subtext": "Together, we make Chewlandia amazing."
         }
       ]
     },
@@ -291,11 +282,6 @@
               "resource": null
             }
           ]
-        },
-        {
-          "type": "callout",
-          "text": "Great stories. Real connections. Lasting impact.",
-          "subtext": "Together, we make Chewlandia amazing."
         }
       ]
     }
