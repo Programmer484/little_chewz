@@ -21,7 +21,7 @@ Applies to source, instruction, and tooling edits. Existing user authorization c
 
 - A source merge does not approve content, register a build target, or authorize Drive publication. Follow the status rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
 - Publish only within explicit authorization, after source approval and review of the exact regenerated output. Resolve missing, stale, or unapproved links first; verify intended access.
-- When updating a published Drive PDF, replace the existing file in place to preserve its ID. Do not rename, duplicate, merge, or republish live assets as a side effect of source maintenance.
+- When updating a published Drive PDF, replace the existing file in place to preserve its ID. For registry entries with `build` instructions, use the **Publish to Drive** workflow ([DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md)), dry run first. Do not rename, duplicate, merge, or republish live assets as a side effect of source maintenance.
 - Register a new verified destination and set the linked resource status to `published` in `catalog/resources.json` after publication. Preserve stable IDs for existing resources.
 
 ## Classroom slide PDF to PowerPoint

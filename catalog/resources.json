@@ -230,5 +230,22 @@
     ],
     "status": "unapproved",
     "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified."
+  },
+  "ccc-q01-welcome": {
+    "title": "Quest Overview",
+    "url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
+    "type": "published_export",
+    "audience": "teacher",
+    "tags": [
+      "welcome",
+      "overview",
+      "navigation"
+    ],
+    "status": "approved",
+    "build": {
+      "renderer": "claude",
+      "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
+    },
+    "status_note": "2026-10-24: rebuilt Welcome PDF (claude template, PR #42) approved by the project owner in chat for Drive replacement. Drive file Quest_Overview.pdf in 00_WELCOME still holds the earlier Canva version until published."
   }
 }
