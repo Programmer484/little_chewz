@@ -281,8 +281,8 @@ What rebuilds:
 - A source (even a metadata or provenance edit) or its local cover artwork rebuilds only its own output. Creating an eligible source creates its first preview.
 - A shared renderer change rebuilds its eligible consumers.
 - A resource-registry change rebuilds only documents referencing changed IDs, titles, or destinations. Status-only edits rebuild nothing, except that navigation pages rebuild when a linked entry's status changes (it decides **Open Guide** versus **Coming Soon**). Drive edits without a registry change rebuild nothing.
-- A registry-built document also rebuilds when anything in its source folder or `templates/<renderer>/assets/` changes.
-- Any edit to `requirements.txt`, `scripts/build_selected.py`, or the PDF workflow rebuilds all eligible PDFs. This deliberately favors an occasional extra preview over complex dependency detection.
+- A registry-built document also rebuilds when anything in its source folder or `templates/<renderer>/assets/` changes. A change to the bundled Lato (`templates/fonts/`) rebuilds Teacher Guides and companions.
+- Any edit to `requirements.txt`, `scripts/build_selected.py`, the PDF workflow, or the shared setup action (`.github/actions/pdf-setup`) rebuilds all eligible PDFs. This deliberately favors an occasional extra preview over complex dependency detection.
 - Editorial documentation, unused templates, unrelated stories/worksheets/slides, tests, validation/selection logic, and action-label data (validation-only) rebuild nothing on their own.
 
 When adding a renderer input or changing how build commands are invoked, update the selector and its regression tests in the same PR.
@@ -612,7 +612,7 @@ Owns the automated in-place Drive publish step. Approval and status rules belong
 
 **Actions → Publish to Drive → Run workflow** takes one registry ID from `catalog/resources.json` and:
 
-1. Runs only from `main`, after `scripts/validate.py` passes.
+1. Runs only from `main`, using the same setup, validation, and tests as PDF previews (`.github/actions/pdf-setup`); publishing adds only the Google client packages.
 2. Refuses the entry unless its status is `approved` or `published`.
 3. Builds the PDF from the entry's `build` instructions through `scripts/build_selected.py`, the same builder as GitHub previews.
 4. Checks the Drive destination (from `url`) is a PDF the service account can edit.

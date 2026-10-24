@@ -6,7 +6,7 @@ Owns the automated in-place Drive publish step. Approval and status rules belong
 
 **Actions → Publish to Drive → Run workflow** takes one registry ID from `catalog/resources.json` and:
 
-1. Runs only from `main`, after `scripts/validate.py` passes.
+1. Runs only from `main`, using the same setup, validation, and tests as PDF previews (`.github/actions/pdf-setup`); publishing adds only the Google client packages.
 2. Refuses the entry unless its status is `approved` or `published`.
 3. Builds the PDF from the entry's `build` instructions through `scripts/build_selected.py`, the same builder as GitHub previews.
 4. Checks the Drive destination (from `url`) is a PDF the service account can edit.

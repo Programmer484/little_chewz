@@ -113,7 +113,7 @@ def select(changed, base_ref=None):
     # This may create extra previews, but cannot miss a new rendering dependency.
     shared = bool(changed & {
         'scripts/build_selected.py', 'requirements.txt',
-        '.github/workflows/build-resources.yml',
+        '.github/workflows/build-resources.yml', '.github/actions/pdf-setup/action.yml',
     })
     for name, target in registered.items():
         kind = target['kind']
