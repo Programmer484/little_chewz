@@ -1,10 +1,14 @@
-# Classroom slide PDF → PowerPoint (technical standard)
+# Classroom slide PDF → PowerPoint
 
-**Workflow owner:** [WORKFLOW.md](WORKFLOW.md#classroom-slide-pdf-to-powerpoint). This file documents the converter and verified destinations; it does not grant publication approval.
+Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](WORKFLOW.md). Nothing here grants publication approval.
 
-## Established workflow
+## Routine
 
-A human downloads the **lesson-specific PDF** from the [Slide PDFs Drive folder](https://drive.google.com/drive/u/0/folders/1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g). Human and AI iterate on that PDF (including page order and clickable links). Treat that exact revised PDF as the review artifact; do **not** edit the PowerPoint during iterations or treat a generated PPTX as editable source. After explicit human approval of the exact PDF, generate a PPTX from it and replace **both existing Drive files in place**: the PDF and its paired `.pptx`. The PowerPoint is updated directly as a binary `.pptx`, not converted to a newly created Google Slides file.
+1. **Iterate on the PDF.** A human downloads the **lesson-specific PDF** from the [Slide PDFs Drive folder](https://drive.google.com/drive/u/0/folders/1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g). Human and AI iterate on that PDF (page order, content, clickable links). It is the review artifact; the PowerPoint is never the editing source. Keep each lesson's slides separate. Do not update Drive while iterating.
+2. **Approval gate.** The human must explicitly approve the **exact final PDF** and intended lesson. A past approval, GitHub merge, generated PPTX, or passing conversion check does not approve a changed PDF. The approved PDF's actual page count and order are authoritative: lesson metadata and outlines are context, never a slide-count requirement, so do not add or remove slides to match them. Ask only when the approved artifact itself is ambiguous.
+3. **Convert and check** (below).
+4. **Replace both existing Drive files in place:** the PDF and its paired existing binary `.pptx` (not a copy, new file, or native Google Slides conversion). A missing PPTX destination is a blocker, not permission to create one. Stage and check both deliverables before replacing either.
+5. **Read back and report** the exact file IDs and approval scope. Only the exact approved version, replaced and verified, may become `published`; uploading alone never advances status.
 
 ## Conversion
 
@@ -20,7 +24,7 @@ A previous **seven-page** Set the Table benchmark took approximately **1.1 secon
 
 ## Required checks before and after replacement
 
-1. Use the **human-approved PDF** as the sole source of actual slide count and order. Do not enforce a fixed count from a GitHub outline or earlier export. Verify pages and links against that PDF; the PPTX must match it exactly.
+1. Verify pages and links against the approved PDF; the PPTX must match it exactly.
 2. Run the converter; require **zero warnings**, exact page/slide count, one full-slide image per slide, and URL/internal-link parity. A picture of a play button is **not** working media unless it has a preserved link.
 3. Open text-heavy and linked slides visually. Test all links in PowerPoint; **after opening the PPTX in Google Slides, use Present mode and test links again**. File validation alone cannot prove Google Slides click behavior or Drive media permissions.
 4. Before upload, read target Drive metadata and verify expected **file ID and MIME type** (PDF: `application/pdf`; PPTX: `application/vnd.openxmlformats-officedocument.presentationml.presentation`). Replace bytes via Drive **files.update** / connected app's `update_file(fileId, file_uri, mime_type)`, not upload/create or rename. Preserve file IDs, folder placement, and sharing.
@@ -35,8 +39,8 @@ A previous **seven-page** Set the Table benchmark took approximately **1.1 secon
 
 The PDFs are in the folder above. The Set the Table PowerPoint was located separately as `Set_The_Table_Slides.pptx`; it is a stored PPTX, not a native Google Slides file. Its file ID is also recorded with the lesson resource in `catalog/resources.json`. Confirm these IDs and MIME types **afresh** for each publication.
 
-**Latest Set the Table publication (2026-10-22):** human selected the seven-slide edition: slide 6 “Which Word Fits?”, slide 7 “Friendship Mystery #1”. The original six-page PDF's other pages remain visually unchanged; both approved Drive files were updated in place and two audio URL link annotations are preserved on slide 4. Verified remote sizes: PDF 11,933,343 bytes, PPTX 5,034,225 bytes. External PDF link-sharing to unauthenticated viewers has **not** been verified; do not change permissions without approval. The uploaded Activate PDF is seven pages with a video URL link on pages 4 and 5; no Activate PPTX target was identified. **A lesson's outline is never a fixed slide-count constraint.**
+**Latest Set the Table publication (2026-10-22):** human selected the seven-slide edition: slide 6 “Which Word Fits?”, slide 7 “Friendship Mystery #1”. The original six-page PDF's other pages remain visually unchanged; both approved Drive files were updated in place and two audio URL link annotations are preserved on slide 4. Verified remote sizes: PDF 11,933,343 bytes, PPTX 5,034,225 bytes. External PDF link-sharing to unauthenticated viewers has **not** been verified; do not change permissions without approval. The uploaded Activate PDF is seven pages with a video URL link on pages 4 and 5; no Activate PPTX target was identified.
 
-## Separate future system
+## Future editable slides
 
 Editable slide-JSON generation remains **unimplemented** (see [SYS-002](../SYSTEM_IMPROVEMENTS.md#sys-002--editable-lesson-slide-generation)). This utility only packages an approved PDF into a PowerPoint and restores PDF link annotations; it is not a slide editor, an automatic GitHub preview target, or an autonomous Drive publisher.

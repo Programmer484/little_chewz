@@ -10,7 +10,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
    - Teacher Guides: [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md).
    - Companions: [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md).
 4. Locate the lesson through `catalog/quests.json` → `quest.json` → `lessons/<stage>/lesson.json`; the quest owns lesson status and `catalog/resources.json` owns linked-resource status. Read `catalog/resources.json` for linked names and destinations.
-   - For lesson slide PDF/PPTX edits or Drive replacements, follow [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) and the slide section in [WORKFLOW.md](system/WORKFLOW.md#classroom-slide-pdf-to-powerpoint).
+   - For lesson slide PDF/PPTX edits or Drive replacements, follow [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
 5. Read the relevant `scripts/renderers/` file only for layout or generation work. For file creation/transfers, read [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md).
 
 ## Non-negotiable boundaries

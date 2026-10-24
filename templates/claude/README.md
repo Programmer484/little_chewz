@@ -4,7 +4,7 @@ A left-aligned A4 page style for Little Chewz documents, matching the Confetti C
 
 - `TEMPLATE.json`: skeleton document showing every block type (`lede`, `paragraphs`, `list`, `callout`, `nav`).
 - `render.py`: builds the PDF with ReportLab and pypdf. Each page's spacing stretches to fill the page; a page that overflows fails loudly.
-- `assets/`: school crest and Little Chewz logo (extracted from the Welcome PDF) and open-licensed fonts.
+- `assets/`: school crest and Little Chewz logo (extracted from the Welcome PDF) and open-licensed fonts. New artwork goes here as separate files, never as a pre-rendered full page ([asset rule](../../system/CONTENT_CONTRACT.md#resources-slides-and-assets)).
 
 Current consumer: the Quest One Welcome PDF, `content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json` (cover kept as the original artwork in `cover.pdf`).
 
@@ -24,4 +24,4 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ## Status
 
-Rendering does not approve or publish anything. The Welcome document has no registry entry yet; add one (with its Drive destination) to track its lifecycle status. This template is not registered with the automated PDF build.
+Rendering does not approve or publish anything. The Welcome document is registered as `ccc-q01-welcome` in `catalog/resources.json` and publishes through **Publish to Drive** ([DRIVE_PUBLISHING.md](../../system/DRIVE_PUBLISHING.md)). This renderer is not yet part of PR preview selection (`scripts/select_builds.py`), so render locally to review changes.

@@ -25,9 +25,6 @@ Use one tree and commit for related files; the same procedure handles a single b
 
 Transfer only authorized project files. Do not include secrets, create public transfer links, or use this procedure to bypass permissions. Complete validation, output review, and PR delivery under the workflow; a green preview covers only registered outputs.
 
-## Verified examples
+## Verification history
 
-- **Single binary, 2026-10-19:** Set the Table `cover.png`, faithfully extracted from page 1 of the supplied four-page guide; 174,736 bytes, Git blob SHA `18435859d4cca4f0c3ba20916839f9fe55a11771`. Saved under `content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/` in [commit 13999639](https://github.com/Programmer484/little_chewz/commit/13999639fed6664a84991829c83313bb076ac162), [PR #8](https://github.com/Programmer484/little_chewz/pull/8). Remote SHA matched; temporary transfer deleted.
-- **Batch, 2026-10-19:** two PNGs and one editable JSON file in [test commit fe197fec](https://github.com/Programmer484/little_chewz/commit/fe197fec38888fd2bd64d63c797a8b63a2ed2d22). Both PNG SHAs matched local hashes (`f361e2c6ef9a167c71fd3d4f5c8909803cccb651`, 13,778 bytes; `2a7727eb90997b86639a400f31564f27488f0758`, 606 bytes); JSON parsed correctly; both temporary Drive files were deleted. Test fixtures belong only on the isolated test branch. This verifies batching, not a performance benchmark.
-
-The original Activate cover arrived in [PR #1](https://github.com/Programmer484/little_chewz/pull/1); its exact transfer method is not established by Git history.
+The connector procedure was verified on 2026-10-19 for a single binary ([PR #8](https://github.com/Programmer484/little_chewz/pull/8)) and a batch of two PNGs plus one JSON file ([commit fe197fec](https://github.com/Programmer484/little_chewz/commit/fe197fec38888fd2bd64d63c797a8b63a2ed2d22)); remote blob SHAs matched and temporary Drive files were deleted. Covers have since moved to losslessly cut `cover.pdf` files, per the rule above.

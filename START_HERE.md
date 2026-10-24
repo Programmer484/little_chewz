@@ -9,12 +9,12 @@ Edit the source, review the generated document, then publish only when authorize
 | `content/` | Lesson wording, companions, stories, artwork, and local review status |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Authoritative linked names, stable resource IDs, and approved destinations |
-| [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) | Types, paths, version authority, statuses, and source/output boundaries |
+| [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) | Types, paths, version authority, statuses, source/output boundaries, and asset rules (including asset-first templates) |
 | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
 | [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
 | [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
-| [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Reviewed slide PDF → image-based linked PowerPoint, with in-place Drive targets |
+| [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
 | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Manual **Publish to Drive** workflow: in-place replacement of approved PDFs, service-account setup |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
@@ -55,8 +55,6 @@ Teacher Guide rendering requires installed Lato fonts. `scripts/build_selected.p
 
 ## GitHub previews
 
-Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs. Merged `main` is the consolidated source after simultaneous AI edits; the successful post-merge `main` run is the preferred review point. Documentation-only changes can produce validation-only runs. Manual **Actions → PDF previews → Run workflow** accepts an eligible filename (such as `01-set-the-table-teacher-guide.pdf`) or `all-approved` (drafts excluded). See [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection).
-
-**Default AI preview link:** the **specific, successful Actions run URL**. [Example run with PDF summary](https://github.com/Programmer484/little_chewz/actions/runs/39824954037) (historical; do not reuse as the link for a different change). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml) to find the latest relevant run. Run summaries link directly to PDF files in permanent `previews/<run-id>/` folders on `pdf-preview-history`. Existing `pdf-preview-run-*` links are preserved. **No automatic preview deletion after merging**; clean up only on explicit request. Downloadable run artifacts expire after seven days, but browser PDF files remain. Review PDFs are not added to `main` or published to Drive.
+Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs as permanent browser previews; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#preview-links-and-retention). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
 
 The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.
