@@ -105,6 +105,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # This step switches to the history branch. Restore the original commit on exit so
+          # later post steps (for example the shared .github/actions/pdf-setup) still find their files.
+          original_head="$(git rev-parse HEAD)"
+          trap 'git checkout --quiet --force "$original_head"' EXIT
           # A single branch avoids branch proliferation; every run has its own immutable folder.
           # Existing pdf-preview-run-* branches and URLs are deliberately left untouched.
           preview_branch="pdf-preview-history"
