@@ -1,0 +1,40 @@
+{
+  "template": "claude",
+  "template_type": "table_of_contents",
+  "page_size": "A4",
+  "title": "Table of Contents",
+  "eyebrow": "Mission File: Restore the Sparkle",
+  "footer": "CONFETTI FILE  •  CCC-2025",
+  "entries": [
+    {
+      "title": "Welcome to Confetti Cake Cottage School",
+      "summary": "What Chewlandia Academy is, and where joy, creativity, and belonging come together.",
+      "page": 3
+    },
+    {
+      "title": "The Little Chewz Learning Cycle",
+      "summary": "Five steps from Set the Table to Plate It Forward.",
+      "page": 4
+    },
+    {
+      "title": "Quest One: The Bake-Off Betrayal",
+      "summary": "A team switch strains friendships. Students follow clues to make things right.",
+      "page": 5,
+      "parts": [
+        "Activate",
+        "Part One: Set the Table",
+        "Part Two: Secret Ingredients",
+        "Part Three: The Showdown",
+        "Part Four: Chew On This",
+        "Part Five: Plate It Forward",
+        "Celebrate"
+      ]
+    },
+    {
+      "title": "Chewlandia Academy Quest Kit Contents",
+      "summary": "Teacher Guide, slideshow, workbooks, activity packs, and the Chewlandia Passport.",
+      "page": 6
+    }
+  ],
+  "source_note": "Entry titles and summaries are drawn from 01_Welcome_updated.pdf. Page numbers assume this page is inserted as page 2 of that file; update them if the layout changes."
+}
