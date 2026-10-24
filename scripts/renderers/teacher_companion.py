@@ -6,6 +6,7 @@ Usage from the repository root (replace resource.json with the source path):
 
 Requires: pip install reportlab. Uses locally installed Lato fonts when available.
 This is a standalone companion generator; it does NOT modify the Teacher Guide.
+Before editing: read system/RESOURCE_GUIDELINES.md (presentation rules).
 """
 import argparse
 import html

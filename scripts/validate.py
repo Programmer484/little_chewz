@@ -8,6 +8,21 @@ registry=json.loads((R/'catalog/resources.json').read_text())
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
 STATUSES={'unapproved','approved','published'}
+# Every editable source names the instructions an editor must read; agents meet
+# this pointer as soon as they open the file. Templates carry it so new files do too.
+INSTRUCTIONS={
+    'lesson':'Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.',
+    'stage':'Provenance only; never add status or teaching content here. To convert this lesson, create lesson.json from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.',
+    'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.',
+    'quest':'Owns each lesson\'s only lifecycle status (unapproved, approved, published). Change a status only with explicit human approval, per system/CONTENT_CONTRACT.md. Workflow: system/WORKFLOW.md.',
+    'quest_catalog':'Navigation index only. Start at AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).',
+    'claude':'Before editing, read templates/claude/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
+}
+STORY_INSTRUCTIONS='instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.'
+def check_instructions(path,data,kind):
+    expected=INSTRUCTIONS[kind]
+    if not isinstance(data,dict) or data.get('$instructions')!=expected:
+        errors.append(f'{path}: first key must be "$instructions": {json.dumps(expected)}')
 errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
@@ -29,11 +44,14 @@ for path in R.glob('content/**/lessons/**/lesson.draft.json'):
     errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
 for path in R.glob('content/**/lessons/**/stage.json'):
     stage=json.loads(path.read_text())
+    check_instructions(path,stage,'stage')
     duplicate=set(stage) & {'id','title','status','preview_enabled','lesson_source','required_fields','guide_metadata','slide_sequence','activity_decision'}
     if duplicate: errors.append(f'{path}: duplicated stage fields {sorted(duplicate)}')
+check_instructions(R/'catalog/quests.json',read_json('catalog/quests.json'),'quest_catalog')
 for school in read_json('catalog/quests.json')['school_index']:
     quest_path=R / school['quest_manifest']
     quest=json.loads(quest_path.read_text())
+    check_instructions(quest_path,quest,'quest')
     for lesson in quest['learning_sequence']:
         status=lesson.get('status','unapproved')
         if status not in STATUSES:
@@ -44,6 +62,7 @@ for school in read_json('catalog/quests.json')['school_index']:
 lesson_paths = sorted(R.glob('content/**/lessons/**/lesson.json'))
 for path in lesson_paths:
     d=json.loads(path.read_text())
+    check_instructions(path,d,'lesson')
     if 'review_status' in d or 'preview_enabled' in d:
         errors.append(f'{path}: obsolete lesson status/preview field')
     for field in ['key','goal','steps','outcomes','cover','output']:
@@ -75,12 +94,34 @@ for path in lesson_paths:
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
 for path in R.glob('content/**/resources/**/*.json'):
     d=json.loads(path.read_text())
+    check_instructions(path,d,'companion')
     if not d.get('resource_id') or d.get('resource_id') not in registry:
         errors.append(f'{path}: companion missing registered resource ID')
     if 'review_status' in d or 'preview_enabled' in d:
         errors.append(f'{path}: status belongs in catalog/resources.json')
     if registry.get(d.get('resource_id'),{}).get('status','unapproved')=='unapproved':
         warnings.append(f'{path.name}: unapproved companion; preview only')
+for path in R.glob('content/**/story/*.md'):
+    if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
+        errors.append(f'{path}: frontmatter must include the line "{STORY_INSTRUCTIONS}"')
+for ref,item in registry.items():
+    build=item.get('build') or {}
+    if build.get('renderer'):
+        if build['renderer'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['renderer']}.py").is_file():
+            errors.append(f'{ref}: unknown build renderer {build["renderer"]}')
+            continue
+        source=R/build.get('source','')
+        if not source.is_file():
+            errors.append(f'{ref}: build source {source} is missing'); continue
+        doc=json.loads(source.read_text())
+        check_instructions(source.relative_to(R),doc,build['renderer'])
+        from select_builds import nav_refs
+        for nav in nav_refs(doc):
+            if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')
+for path,kind in [('templates/teacher_guide/TEMPLATE.json','lesson'),
+                  ('templates/teacher_companion/TEMPLATE.json','companion'),
+                  ('templates/claude/TEMPLATE.json','claude')]:
+    if (R/path).is_file(): check_instructions(path,json.loads((R/path).read_text()),kind)
 try:
     registered = targets()
     for name, target in registered.items():
@@ -92,6 +133,12 @@ try:
                 warnings.append(f'{name}: {ref} is not published; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')
+try:
+    import build_ai_brief
+    if not build_ai_brief.BRIEF.is_file() or build_ai_brief.BRIEF.read_text(encoding='utf-8')!=build_ai_brief.render():
+        errors.append('AI_BRIEF.md is stale; run python scripts/build_ai_brief.py')
+except OSError as exc:
+    errors.append(f'AI_BRIEF.md cannot be built: {exc}')
 print(f'Validated {len(registry)} registry links; {len(lesson_paths)} editable lesson; {len(list(R.glob("content/**/resources/**/*.json")))} companion sources')
 for m in warnings:print('WARN:',m)
 for m in errors:print('ERROR:',m)

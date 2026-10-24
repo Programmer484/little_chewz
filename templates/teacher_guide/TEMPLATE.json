@@ -1,4 +1,5 @@
 {
+  "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.",
   "key": "REPLACE-STAGE-KEY",
   "title": "STAGE TITLE",
   "grade": "4–6",
@@ -10,7 +11,7 @@
   "optional_prep": [],
   "focus": "",
   "curriculum": [],
-  "cover": "cover.png",
+  "cover": "cover.pdf",
   "output": "Teacher_Guide.pdf",
   "steps": [],
   "note": "A valid unapproved lesson.json can be previewed; human approval is required before publishing."

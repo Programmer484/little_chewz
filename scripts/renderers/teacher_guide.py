@@ -6,6 +6,9 @@ vector rules, one shared baseline-aligned grid, and aligned action labels. Cover
 provided PDFs. Each lesson folder holds its own content JSON and cover PDF.
 Edit lesson JSON rather than the design. Font files are not distributed.
 
+Before editing: read system/EDITORIAL_GUIDE.md section 7 (generator boundaries);
+writing rules stay in that guide, not in code.
+
 Requires Python 3.10+, PyMuPDF, and a locally installed Lato family. Use --font-dir
 to point to your own installed fonts. Runs outside /mnt/data without code edits.
 """

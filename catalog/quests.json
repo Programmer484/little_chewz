@@ -1,4 +1,5 @@
 {
+  "$instructions": "Navigation index only. Start at AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).",
   "program": "Chewlandia Academy",
   "school_index": [
     {

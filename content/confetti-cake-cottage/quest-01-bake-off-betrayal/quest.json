@@ -1,4 +1,5 @@
 {
+  "$instructions": "Owns each lesson's only lifecycle status (unapproved, approved, published). Change a status only with explicit human approval, per system/CONTENT_CONTRACT.md. Workflow: system/WORKFLOW.md.",
   "id": "ccc-q01",
   "product": "Little Chewz",
   "program": "Chewlandia Academy",

@@ -17,6 +17,7 @@ DRAFT = '01-set-the-table-teacher-guide.pdf'
 MISSION = 'mission-video-questions.pdf'
 CONFETTI = 'confetti-file-questions.pdf'
 SONG = 'songwriting-extension.pdf'
+WELCOME = 'ccc-q01-welcome.pdf'
 
 
 class SelectionTests(unittest.TestCase):
@@ -24,13 +25,13 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        self.assertEqual(set(self.targets), {GUIDE, DRAFT, MISSION, CONFETTI, SONG})
+        self.assertEqual(set(self.targets), {GUIDE, DRAFT, MISSION, CONFETTI, SONG, WELCOME})
         self.assertFalse(self.targets[DRAFT]['approved'])
         self.assertFalse(self.targets[SONG]['approved'])
         self.assertTrue(self.targets[GUIDE]['approved'])
         self.assertEqual(sb.selection(DRAFT)['outputs'], [DRAFT])
         self.assertEqual(sb.selection(SONG)['outputs'], [SONG])
-        self.assertEqual(sb.selection('all-approved')['outputs'], [GUIDE, CONFETTI, MISSION])
+        self.assertEqual(sb.selection('all-approved')['outputs'], [GUIDE, WELCOME, CONFETTI, MISSION])
         self.assertEqual(sb.selection(DRAFT)['status'][DRAFT], 'unapproved')
         self.assertEqual(sb.selection(GUIDE)['status'][GUIDE], 'approved')
         self.assertEqual(sb.selection(MISSION)['status'][MISSION], 'published')
@@ -50,7 +51,7 @@ class SelectionTests(unittest.TestCase):
             self.assertFalse(any(name.startswith(prefix) for name in self.targets))
 
     def test_renderer_consumers(self):
-        for kind in ['teacher_guide', 'teacher_companion']:
+        for kind in ['teacher_guide', 'teacher_companion', 'claude']:
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
 
@@ -95,6 +96,22 @@ class SelectionTests(unittest.TestCase):
                 sb, 'changed_registry_ids', return_value={'ccc-q01-mrs-tongsleys-letter'}):
             self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [GUIDE, DRAFT])
 
+    def test_registry_built_document_inputs(self):
+        folder = self.targets[WELCOME]['folder']
+        for path in [f'{folder}/learning-cycle/1-set-the-table.png',
+                     'templates/claude/assets/crest.png',
+                     'templates/claude/assets/fonts/Outfit-Regular.ttf']:
+            with self.subTest(path=path):
+                self.assertEqual(sb.select([path]), [WELCOME])
+        self.assertEqual(sb.select(['templates/claude/README.md']), [])
+
+    def test_navigation_status_change_rebuilds_welcome(self):
+        path = 'catalog/resources.json'
+        altered = copy.deepcopy(sb.read_json(path))
+        altered['ccc-q01-set-the-table-teacher-guide']['status'] = 'unapproved'
+        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
+            self.assertEqual(sb.select([path], 'base'), [WELCOME])
+
     def test_source_metadata_edit_rebuilds_only_its_pdf(self):
         # Simpler selection favors an occasional redundant preview over diff logic.
         target=self.targets[DRAFT]
@@ -111,12 +128,14 @@ class SelectionTests(unittest.TestCase):
             data['steps'][0]['id']=99
             data['steps'][0]['rows'][0]['kind']='INVALID'
             data['core'][0]['ref']='missing-resource'
+            del data['$instructions']
             source.write_text(json.dumps(data))
             run=subprocess.run([sys.executable, str(root/'scripts/validate.py')],
                                capture_output=True, text=True)
             self.assertNotEqual(run.returncode,0)
             for error in ['missing visual cover','step IDs not consecutive',
-                          'unsupported action label','missing catalog resource ref']:
+                          'unsupported action label','missing catalog resource ref',
+                          'first key must be "$instructions"']:
                 self.assertIn(error,run.stdout)
 
     def test_history_branch_has_run_scoped_immutable_paths(self):

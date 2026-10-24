@@ -27,10 +27,13 @@ def render(manifest):
             cmd = [sys.executable, str(ROOT / "scripts/renderers/teacher_guide.py"),
                    "--root", str(ROOT), "--content", str(source),
                    "--output", str(output)]
-        else:
+        elif registered[name]["kind"] == "teacher_companion":
             cmd = [sys.executable, str(ROOT / "scripts/renderers/teacher_companion.py"),
                    str(source), "-o", str(output), "--registry",
                    str(ROOT / "catalog/resources.json")]
+        else:  # Registry-built document; renderer named by its `build.renderer`.
+            cmd = [sys.executable, str(ROOT / f"scripts/renderers/{registered[name]['kind']}.py"),
+                   str(source), "--output", str(output)]
         subprocess.run(cmd, check=True)
     actual = {p.name for p in OUT.glob("*.pdf")}
     if actual != set(names):

@@ -44,11 +44,14 @@ Relevant PR updates **and pushes to `main`** run source validation and tool test
 
 `scripts/select_builds.py` discovers lessons through `catalog/quests.json` → `quest.json` → each lesson's fixed `lessons/<stage>/lesson.json`; a lesson without one is skipped, with no placeholder. Every valid lesson source is previewable regardless of status. Lesson status comes **only** from `quest.json` (default `unapproved`); companion status **only** from its `catalog/resources.json` entry. `all-approved` includes only `approved` or `published` sources. There is no `stage.json` status check, `preview_enabled` flag, or separate draft filename.
 
+Registry entries with `build.renderer` (such as the Welcome PDF, `ccc-q01-welcome`) are also targets, output as `<resource-id>.pdf` with status from that registry entry. **Publish to Drive** builds through the same path.
+
 What rebuilds:
 
 - A source (even a metadata or provenance edit) or its local cover artwork rebuilds only its own output. Creating an eligible source creates its first preview.
 - A shared renderer change rebuilds its eligible consumers.
-- A resource-registry change rebuilds only documents referencing changed IDs, titles, or destinations. Drive edits without a registry change, and status-only quest/registry edits, rebuild nothing.
+- A resource-registry change rebuilds only documents referencing changed IDs, titles, or destinations. Status-only edits rebuild nothing, except that navigation pages rebuild when a linked entry's status changes (it decides **Open Guide** versus **Coming Soon**). Drive edits without a registry change rebuild nothing.
+- A registry-built document also rebuilds when anything in its source folder or `templates/<renderer>/assets/` changes.
 - Any edit to `requirements.txt`, `scripts/build_selected.py`, or the PDF workflow rebuilds all eligible PDFs. This deliberately favors an occasional extra preview over complex dependency detection.
 - Editorial documentation, unused templates, unrelated stories/worksheets/slides, tests, validation/selection logic, and action-label data (validation-only) rebuild nothing on their own.
 

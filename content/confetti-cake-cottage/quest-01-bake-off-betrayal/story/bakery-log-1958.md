@@ -3,6 +3,7 @@ id: ccc-q01-bakery-log-1958
 source: Full Guide.pdf, page 18
 status: unapproved
 published_reference: ccc-q01-bakery-log-1958
+instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.
 ---
 # Confetti File CCC-1958-01
 

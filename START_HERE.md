@@ -6,6 +6,8 @@ Edit the source, review the generated document, then publish only when authorize
 
 | Location | Owns |
 | --- | --- |
+| [AGENTS.md](AGENTS.md) and each folder's `AGENTS.md` | AI routing: which instructions apply to which files |
+| [AI_BRIEF.md](AI_BRIEF.md) | Generated copy of every instruction file, for pasting into AI chats (`scripts/build_ai_brief.py`) |
 | `content/` | Lesson wording, companions, stories, artwork, and local review status |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Authoritative linked names, stable resource IDs, and approved destinations |
@@ -34,7 +36,7 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 ## Current capabilities
 
-- Automated builds discover authored lessons and companions through the quest catalog and registry. Only `approved` or `published` items enter approved-only builds. Current approved-only outputs: Activate Teacher Guide, Mission Video Questions, and Confetti File Questions.
+- Automated builds discover authored lessons and companions through the quest catalog and registry. Only `approved` or `published` items enter approved-only builds. Registry entries with a `build` renderer (currently the Welcome PDF) are discovered the same way. Current approved-only outputs: Activate Teacher Guide, Welcome, Mission Video Questions, and Confetti File Questions.
 - Every existing valid source can generate a preview: Set the Table and Songwriting Extension are unapproved; five lessons without a `lesson.json` are not renderable. Previews do not publish.
 - Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
 - The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or grant editorial approval.

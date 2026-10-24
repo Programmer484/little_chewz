@@ -1,4 +1,5 @@
 {
+  "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.",
   "key": "p1",
   "title": "PART 1 / SET THE TABLE",
   "grade": "4–6",

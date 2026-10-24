@@ -16,8 +16,12 @@ pages; each page has a header (mark, eyebrow, title) and blocks:
               resource (catalog/resources.json) when it is approved or
               published, otherwise shows the pending label
 
+Before editing: read templates/claude/README.md for the block format and
+system/CONTENT_CONTRACT.md for the asset rule (artwork comes from separate
+image files in templates/claude/assets/, never a pre-rendered page).
+
 Usage (from the repository root):
-    python templates/claude/render.py \
+    python scripts/renderers/claude.py \
         content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json \
         --output exports/01-welcome.pdf
 """
@@ -35,10 +39,9 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
-HERE = Path(__file__).resolve().parent
-ASSETS = HERE / "assets"
+REPO = Path(__file__).resolve().parents[2]
+ASSETS = REPO / "templates" / "claude" / "assets"
 FONTS = ASSETS / "fonts"
-REPO = HERE.parent.parent
 REGISTRY = REPO / "catalog" / "resources.json"
 DOC_DIR = REPO  # set to the document folder by render(); icon paths are relative to it
 LINKABLE = {"approved", "published"}
