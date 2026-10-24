@@ -1,0 +1,44 @@
+{
+  "id": "REPLACE-WITH-STABLE-ID",
+  "template": "claude",
+  "title": "Untitled Document",
+  "footer": "CONFETTI FILE  •  CCC-2025",
+  "cover": "cover.pdf",
+  "source_note": "Populate only from verified material. 'cover' is an optional one-page PDF beside this file, cut losslessly from the source. Nav rows link only to registry resources that are approved or published.",
+  "pages": [
+    {
+      "mark": "crest",
+      "eyebrow": "Section context",
+      "title": "Page Title",
+      "blocks": [
+        {"type": "lede", "text": "One larger introductory sentence."},
+        {"type": "paragraphs", "label": "Optional label", "paragraphs": ["Paragraph text."]},
+        {
+          "type": "list",
+          "label": "Optional label",
+          "compact": false,
+          "items": [
+            {"number": "01", "title": "Item title", "text": "Item description.", "note": {"label": "You Chewz", "text": "Optional note."}}
+          ]
+        },
+        {"type": "callout", "text": "A short closing statement.", "subtext": "Optional subtext"}
+      ]
+    },
+    {
+      "mark": "crest",
+      "eyebrow": "School  |  Quest",
+      "title": "Your Quest Resources",
+      "blocks": [
+        {"type": "lede", "text": "Select a section to open its Teacher Guide."},
+        {
+          "type": "nav",
+          "action_label": "Open Guide",
+          "pending_label": "Coming Soon",
+          "items": [
+            {"number": "00", "label": "Before the Quest", "title": "Activate", "resource": "REGISTRY-ID-OR-NULL"}
+          ]
+        }
+      ]
+    }
+  ]
+}
