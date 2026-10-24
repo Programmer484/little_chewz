@@ -1,7 +1,7 @@
 {
   "ccc-q01-activate-slides": {
     "title": "Classroom Slideshow",
-    "url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
+    "url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
     "type": "slide_deck",
     "audience": "teacher",
     "tags": [
@@ -9,7 +9,10 @@
       "slides"
     ],
     "status": "published",
-    "link_note": "This currently points to the seven-slide Activate_Slides.pdf, not the older continuous 44-slide slideshow."
+    "link_note": "Teacher Guide opens the verified seven-slide PowerPoint. Original published PDF link preserved in pdf_url. PPTX contains the two video hyperlinks.",
+    "pdf_url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
+    "powerpoint_file_id": "1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom",
+    "powerpoint_filename": "Activate_Slides.pptx"
   },
   "ccc-q01-mrs-tongsleys-letter": {
     "title": "Mrs. Tongsley's Letter",
