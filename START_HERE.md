@@ -1,13 +1,14 @@
 # Little Chewz — start here
 
-Edit the source, review the generated document, then publish only when authorized. [AGENTS.md](AGENTS.md) is the AI entry point; [WORKFLOW.md](system/WORKFLOW.md) owns the editing and delivery routine.
+Edit the source, review the generated document, then publish only when authorized. [AGENTS.md](AGENTS.md) is the AI entry point (generated; rules live in [AI_RULES.md](system/AI_RULES.md)); [WORKFLOW.md](system/WORKFLOW.md) owns the editing and delivery routine.
 
 ## Where things belong
 
 | Location | Owns |
 | --- | --- |
-| [AGENTS.md](AGENTS.md) and each folder's `AGENTS.md` | AI routing: which instructions apply to which files |
-| [AI_BRIEF.md](AI_BRIEF.md) | Generated copy of every instruction file, for pasting into AI chats (`scripts/build_ai_brief.py`) |
+| [AI_RULES.md](system/AI_RULES.md) | AI routing, non-negotiable boundaries, and how instructions are maintained |
+| [AGENTS.md](AGENTS.md) | **Generated** from every instruction file (`scripts/build_agents_md.py`); auto-loaded by agents and pasteable into chats. Never edit directly. |
+| Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
 | `content/` | Lesson wording, companions, stories, artwork, and local review status |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Authoritative linked names, stable resource IDs, and approved destinations |
@@ -53,7 +54,7 @@ python scripts/select_builds.py --all --output /tmp/little-chewz-build-selection
 python scripts/build_selected.py --manifest /tmp/little-chewz-build-selection.json
 ```
 
-Teacher Guide rendering requires installed Lato fonts. `scripts/build_selected.py` is the supported batch builder; it replaces PDFs in `exports/`, so keep review copies elsewhere. For direct iteration on a single PDF, invoke its renderer in `scripts/renderers/`.
+Lato and the other fonts are bundled under `templates/`, so renders match CI. `scripts/build_selected.py` is the supported batch builder; it replaces PDFs in `exports/`, so keep review copies elsewhere. For direct iteration on a single PDF, invoke its renderer in `scripts/renderers/`.
 
 ## GitHub previews
 

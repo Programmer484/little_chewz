@@ -1,6 +1,6 @@
 # Little Chewz — editable teaching sources
 
-Start with [START_HERE.md](START_HERE.md). AI editors follow [AGENTS.md](AGENTS.md); to brief an AI chat, paste [AI_BRIEF.md](AI_BRIEF.md) (all instructions in one generated file).
+Start with [START_HERE.md](START_HERE.md). AI editors follow [AGENTS.md](AGENTS.md), which holds every instruction in one generated file; paste it into any AI chat to brief it.
 
 Teaching content lives in `content/`; approved resource links live in `catalog/`; shared rules live in `system/`. Templates cover the supported source types, and scripts validate sources and generate PDF previews. Editing or merging source does not publish to Google Drive.
 

@@ -105,6 +105,11 @@ class SelectionTests(unittest.TestCase):
                 self.assertEqual(sb.select([path]), [WELCOME])
         self.assertEqual(sb.select(['templates/claude/README.md']), [])
 
+    def test_bundled_lato_rebuilds_guides_and_companions(self):
+        expected = sorted(n for n, t in self.targets.items()
+                          if t['kind'] in ('teacher_guide', 'teacher_companion'))
+        self.assertEqual(sb.select(['templates/fonts/Lato-Regular.ttf']), expected)
+
     def test_navigation_status_change_rebuilds_welcome(self):
         path = 'catalog/resources.json'
         altered = copy.deepcopy(sb.read_json(path))

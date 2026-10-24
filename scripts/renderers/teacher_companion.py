@@ -4,7 +4,7 @@
 Usage from the repository root (replace resource.json with the source path):
     python scripts/renderers/teacher_companion.py resource.json -o exports/resource.pdf --registry catalog/resources.json
 
-Requires: pip install reportlab. Uses locally installed Lato fonts when available.
+Requires: pip install reportlab. Uses the bundled Lato in templates/fonts/.
 This is a standalone companion generator; it does NOT modify the Teacher Guide.
 Before editing: read system/RESOURCE_GUIDELINES.md (presentation rules).
 """
@@ -37,8 +37,11 @@ INK = colors.HexColor("#292728")
 MUTED = colors.HexColor("#777173")
 
 
+FONT_DIR = Path(__file__).resolve().parents[2] / "templates" / "fonts"
+
+
 def fonts():
-    root = Path("/usr/share/fonts/truetype/lato")
+    root = FONT_DIR
     if (root / "Lato-Regular.ttf").exists():
         pdfmetrics.registerFont(TTFont("LittleLato", str(root / "Lato-Regular.ttf")))
         pdfmetrics.registerFont(TTFont("LittleLatoBold", str(root / "Lato-Bold.ttf")))

@@ -119,6 +119,8 @@ def select(changed, base_ref=None):
         kind = target['kind']
         dependencies = {target['source'], target.get('cover'), f'scripts/renderers/{kind}.py'}
         prefixes = [f'templates/{kind}/assets/']
+        if kind in ('teacher_guide', 'teacher_companion'):
+            prefixes.append('templates/fonts/')  # bundled Lato
         if target.get('folder'):
             prefixes.append(target['folder'] + '/')
         affected = bool(changed & dependencies) or any(

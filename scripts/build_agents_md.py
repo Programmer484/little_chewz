@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Build AI_BRIEF.md: every instruction file in one document to paste into an AI chat.
+"""Build the root AGENTS.md: every instruction file in one document.
 
-The source files stay the single owners of each rule; this only concatenates them in
-reading order, demotes their headings one level, and turns relative links into GitHub
-links so they still work outside the repository. scripts/validate.py fails while the
-brief is stale.
+Coding agents load AGENTS.md automatically (CLAUDE.md imports it), and the same file can
+be pasted into an AI chat. The source files stay the single owners of each rule; this
+only concatenates them in reading order, demotes their headings one level, and rewrites
+relative links to repository-root paths. scripts/validate.py fails while it is stale.
 
 Usage:
-    python scripts/build_ai_brief.py           # rewrite AI_BRIEF.md
-    python scripts/build_ai_brief.py --check   # exit 1 if AI_BRIEF.md is stale
+    python scripts/build_agents_md.py           # rewrite AGENTS.md
+    python scripts/build_agents_md.py --check   # exit 1 if AGENTS.md is stale
 """
 from __future__ import annotations
 
@@ -19,12 +19,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BRIEF = ROOT / "AI_BRIEF.md"
-REPO_URL = "https://github.com/Programmer484/little_chewz/blob/main/"
+BRIEF = ROOT / "AGENTS.md"
 
 # Reading order: entry point, ownership, routine, writing guides, specialised procedures.
 SOURCES = [
-    "AGENTS.md",
+    "system/AI_RULES.md",
     "START_HERE.md",
     "system/CONTENT_CONTRACT.md",
     "system/WORKFLOW.md",
@@ -43,12 +42,12 @@ SOURCES = [
     "system/AGENTS.md",
 ]
 
-HEADER = """# Little Chewz: complete AI brief
+HEADER = """# Little Chewz: agent instructions
 
-> **Generated file. Do not edit.** Built by `scripts/build_ai_brief.py` from the repository's instruction files; edit those and regenerate.
+> **Generated file. Do not edit.** Built by `python scripts/build_agents_md.py` from the instruction files below; change a rule in its owning file, then regenerate.
 > Repository: https://github.com/Programmer484/little_chewz
 
-You are helping edit the Little Chewz teaching-material repository. Everything below is the full, current set of rules, in the order to read them. Each part is headed by the file that owns it; when you change a rule, change it in that file.
+You are helping edit the Little Chewz teaching-material repository. This file is the complete, current set of rules, in the order to read them, and can be pasted into any AI chat. Each part is headed by the file that owns it. Paths are relative to the repository root.
 
 If you cannot read the repository directly, ask the user to paste the exact current file before proposing changes to it, and return complete replacement text for each changed file with its path. Never reconstruct file contents, URLs, statuses, or Drive IDs from memory.
 
@@ -68,7 +67,7 @@ def absolute_links(text: str, source: str) -> str:
             return match.group(0)
         path, _, anchor = target.partition("#")
         resolved = posixpath.normpath(posixpath.join(base, path))
-        return f"[{label}]({REPO_URL}{resolved}{'#' + anchor if anchor else ''})"
+        return f"[{label}]({resolved}{'#' + anchor if anchor else ''})"
 
     return LINK.sub(fix, text)
 
@@ -99,15 +98,15 @@ def render() -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--check", action="store_true", help="fail if AI_BRIEF.md is stale")
+    parser.add_argument("--check", action="store_true", help="fail if AGENTS.md is stale")
     args = parser.parse_args()
     expected = render()
     if args.check:
         current = BRIEF.read_text(encoding="utf-8") if BRIEF.is_file() else ""
         if current != expected:
-            print("AI_BRIEF.md is stale; run python scripts/build_ai_brief.py", file=sys.stderr)
+            print("AGENTS.md is stale; run python scripts/build_agents_md.py", file=sys.stderr)
             sys.exit(1)
-        print("AI_BRIEF.md is current")
+        print("AGENTS.md is current")
         return
     BRIEF.write_text(expected, encoding="utf-8")
     print(f"Wrote {BRIEF.relative_to(ROOT)} ({len(expected.encode())} bytes)")

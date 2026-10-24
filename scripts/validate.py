@@ -15,7 +15,7 @@ INSTRUCTIONS={
     'stage':'Provenance only; never add status or teaching content here. To convert this lesson, create lesson.json from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.',
     'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.',
     'quest':'Owns each lesson\'s only lifecycle status (unapproved, approved, published). Change a status only with explicit human approval, per system/CONTENT_CONTRACT.md. Workflow: system/WORKFLOW.md.',
-    'quest_catalog':'Navigation index only. Start at AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).',
+    'quest_catalog':'Navigation index only. Start at the root AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).',
     'claude':'Before editing, read templates/claude/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
 }
 STORY_INSTRUCTIONS='instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.'
@@ -134,11 +134,11 @@ try:
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')
 try:
-    import build_ai_brief
-    if not build_ai_brief.BRIEF.is_file() or build_ai_brief.BRIEF.read_text(encoding='utf-8')!=build_ai_brief.render():
-        errors.append('AI_BRIEF.md is stale; run python scripts/build_ai_brief.py')
+    import build_agents_md
+    if not build_agents_md.BRIEF.is_file() or build_agents_md.BRIEF.read_text(encoding='utf-8')!=build_agents_md.render():
+        errors.append('AGENTS.md is stale; run python scripts/build_agents_md.py')
 except OSError as exc:
-    errors.append(f'AI_BRIEF.md cannot be built: {exc}')
+    errors.append(f'AGENTS.md cannot be built: {exc}')
 print(f'Validated {len(registry)} registry links; {len(lesson_paths)} editable lesson; {len(list(R.glob("content/**/resources/**/*.json")))} companion sources')
 for m in warnings:print('WARN:',m)
 for m in errors:print('ERROR:',m)
