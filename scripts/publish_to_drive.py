@@ -168,6 +168,9 @@ def main() -> None:
     args = parser.parse_args()
     try:
         report = publish(args.resource_id, dry_run=args.dry_run)
+    except subprocess.CalledProcessError as exc:
+        print(f"PUBLISH FAILED: build step exited with {exc.returncode}; see the error above", file=sys.stderr)
+        sys.exit(1)
     except PublishError as exc:
         print(f"PUBLISH FAILED: {exc}", file=sys.stderr)
         sys.exit(1)

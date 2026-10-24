@@ -49,7 +49,7 @@ What rebuilds:
 - A source (even a metadata or provenance edit) or its local cover artwork rebuilds only its own output. Creating an eligible source creates its first preview.
 - A shared renderer change rebuilds its eligible consumers.
 - A resource-registry change rebuilds only documents referencing changed IDs, titles, or destinations. Drive edits without a registry change, and status-only quest/registry edits, rebuild nothing.
-- Any edit to `requirements.txt`, `scripts/build_selected.py`, or the PDF workflow rebuilds all eligible PDFs. This deliberately favors an occasional extra preview over complex dependency detection.
+- Any edit to `requirements.txt`, `scripts/build_selected.py`, the PDF workflow, or the shared setup action (`.github/actions/pdf-setup`) rebuilds all eligible PDFs. This deliberately favors an occasional extra preview over complex dependency detection.
 - Editorial documentation, unused templates, unrelated stories/worksheets/slides, tests, validation/selection logic, and action-label data (validation-only) rebuild nothing on their own.
 
 When adding a renderer input or changing how build commands are invoked, update the selector and its regression tests in the same PR.
