@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && startsWith(github.event.pull_request.head.ref, 'edit/')
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -59,10 +59,11 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           python scripts/release_on_merge.py \
             --pr "$PR_NUMBER" --merge-sha "$MERGE_SHA" --base-sha "$BASE_SHA" \
-            --changed-files /tmp/release-pr-files.txt --report release-report.json
+            --changed-files /tmp/release-pr-files.txt --head-branch "$HEAD_BRANCH" --report release-report.json
 
       - name: Persist verified statuses without overwriting newer commits
         id: persist
@@ -81,6 +82,26 @@ jobs:
           # Never force or silently overwrite another merge. A non-fast-forward
           # here leaves a report and requires reinspection/reconciliation.
           git push origin HEAD:main
+
+      - name: Clean up merged resource branch safely
+        if: steps.execute.outcome == 'success' && steps.persist.outcome == 'success' && steps.marker.outputs.enabled == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$HEAD_BRANCH" == edit/* ]] || exit 0
+          actual=$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/${HEAD_BRANCH}" --jq '.object.sha' 2>/dev/null || true)
+          if [[ -z "$actual" ]]; then
+            echo "Resource branch was already removed."
+          elif [[ "$actual" == "$HEAD_SHA" ]]; then
+            gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${HEAD_BRANCH}"
+            echo "Removed merged resource branch ${HEAD_BRANCH}."
+          else
+            echo "Resource branch advanced after merge; preserving additional work."
+          fi
 
       - name: Report release outcome
         if: always() && steps.marker.outputs.enabled == 'true'
