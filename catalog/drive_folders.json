@@ -1,0 +1,19 @@
+{
+  "$instructions": "Folder registry stores configuration only. Staging is never a published destination. Record real Google Drive folder IDs only after verification; never infer IDs from names.",
+  "staging": {
+    "external": {
+      "folder_id": null,
+      "status": "configuration_required",
+      "note": "Create a general-purpose external resource review folder and record its verified Drive ID."
+    },
+    "slide_pdfs": {
+      "folder_id": "1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g",
+      "note": "Existing Slide PDFs review folder; retain its separate human-reviewed workflow."
+    }
+  },
+  "published": {
+    "default_folder_id": null,
+    "by_resource_id": {},
+    "note": "Teacher-facing destination folders are recorded only after verification. Existing resource file IDs and URLs remain in resources.json."
+  }
+}

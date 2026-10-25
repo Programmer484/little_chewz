@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Local, dependency-free source checks. Validation is not editorial signoff."""
 from pathlib import Path
-import json,sys
+import json,sys,re
 from select_builds import targets, resource_refs, read_json
 R=Path(__file__).resolve().parents[1]
 registry=json.loads((R/'catalog/resources.json').read_text())
@@ -27,6 +27,63 @@ errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
 for ref,item in registry.items():
+    if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ref):
+        errors.append(f'{ref}: resource ID must be stable lowercase kebab-case')
+    if not isinstance(item.get('type'),str) or not item['type']:
+        errors.append(f'{ref}: missing established resource type')
+    production = item.get('production_type')
+    if production not in {'generated_pdf','external'}:
+        errors.append(f'{ref}: explicit production_type must be generated_pdf or external')
+    source = item.get('source')
+    if not isinstance(source,dict) or source.get('kind') not in {'github','external_original','unknown'}:
+        errors.append(f'{ref}: missing or invalid source provenance')
+    elif source['kind']=='github':
+        source_path=source.get('path','')
+        candidate=Path(source_path)
+        if (not source_path or candidate.is_absolute() or '..' in candidate.parts
+                or candidate.parts[0] not in ('content','templates')
+                or not (R/candidate).is_file()):
+            errors.append(f'{ref}: GitHub source mapping invalid: {source_path}')
+    elif source['kind']=='external_original' and source.get('url') and not source['url'].startswith('https://'):
+        errors.append(f'{ref}: external original URL must use HTTPS')
+    build = item.get('build')
+    if production=='generated_pdf':
+        if not isinstance(source,dict) or source.get('kind')!='github':
+            errors.append(f'{ref}: generated PDFs must have GitHub editable source')
+        if not isinstance(build,dict) or bool(build.get('renderer'))==bool(build.get('output')):
+            errors.append(f'{ref}: generated PDF needs exactly one explicit build renderer or output')
+        elif build.get('renderer'):
+            if build.get('source') != (source if isinstance(source,dict) else {}).get('path'):
+                errors.append(f'{ref}: renderer source disagrees with authoritative GitHub source')
+        elif not isinstance(build.get('output'),str) or not build['output'].endswith('.pdf'):
+            errors.append(f'{ref}: build output must be a PDF filename')
+    elif production=='external' and build:
+        errors.append(f'{ref}: external materials cannot enter the generated PDF renderer')
+    publication=item.get('publication')
+    if not isinstance(publication,dict) or publication.get('verification') not in {'unknown','unverified','verified'}:
+        errors.append(f'{ref}: publication verification must be explicitly unknown, unverified or verified')
+    else:
+        if production=='external' and 'artifact_md5' in publication:
+            errors.append(f'{ref}: external resources must not claim generated-PDF checksums')
+        if publication.get('drive_file_id'):
+            source_url=item.get('url','')
+            m=re.search(r'/d/([A-Za-z0-9_-]{20,})',source_url)
+            if not m or m.group(1)!=publication['drive_file_id']:
+                errors.append(f'{ref}: recorded Drive ID conflicts with live URL')
+        if publication.get('verification')=='verified':
+            if not re.fullmatch(r'[0-9a-f]{40}',publication.get('release_revision','')):
+                errors.append(f'{ref}: verified publication needs an accepted Git revision')
+            if not publication.get('confirmed_at') or not publication.get('method'):
+                errors.append(f'{ref}: verified publication needs timestamp and method')
+            if production=='generated_pdf':
+                if publication.get('method')!='generated_pdf' or not re.fullmatch(r'[0-9a-f]{32}',publication.get('artifact_md5','')):
+                    errors.append(f'{ref}: generated release needs verified 32-hex PDF digest')
+                if not publication.get('drive_file_id'):
+                    errors.append(f'{ref}: verified generated release needs exact Drive file ID')
+            elif publication.get('method')!='external_agent':
+                errors.append(f'{ref}: external release needs agent-confirmed publication method')
+        elif publication.get('artifact_md5'):
+            errors.append(f'{ref}: unverified publication cannot assert a verified PDF digest')
     if not ref:
         errors.append('catalog contains an empty resource ID key')
     if 'resource_id' in item:
@@ -40,6 +97,26 @@ for ref,item in registry.items():
     if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
         errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
+folders_path=R/'catalog/drive_folders.json'
+if not folders_path.is_file():
+    errors.append('Missing distinct Drive staging/final-folder registry')
+else:
+    folders=json.loads(folders_path.read_text())
+    staging=(folders.get('staging') or {}).get('external') or {}
+    if 'folder_id' not in staging:
+        errors.append('External staging folder must have an explicit folder_id (null until configured)')
+    for section in [staging,(folders.get('staging') or {}).get('slide_pdfs') or {},
+                    (folders.get('published') or {})]:
+        for key in ('folder_id','default_folder_id'):
+            value=section.get(key)
+            if value is not None and not re.fullmatch(r'[A-Za-z0-9_-]{15,}',str(value)):
+                errors.append(f'catalog/drive_folders.json: invalid {key} {value!r}')
+    for resource_id,folder_id in ((folders.get('published') or {}).get('by_resource_id') or {}).items():
+        if resource_id not in registry:
+            errors.append(f'Unknown published folder resource ID: {resource_id}')
+        if not re.fullmatch(r'[A-Za-z0-9_-]{15,}',str(folder_id)):
+            errors.append(f'Invalid published destination folder ID for {resource_id}')
+
 for path in R.glob('content/**/lessons/**/lesson.draft.json'):
     errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
 for path in R.glob('content/**/lessons/**/stage.json'):
