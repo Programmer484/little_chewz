@@ -64,7 +64,9 @@ class PublishTests(unittest.TestCase):
         self.pdf = self.tmp / "out.pdf"
         self.pdf.write_bytes(PDF)
         self.entry = {"title": "Quest Overview", "url": f"https://drive.google.com/file/d/{FILE_ID}/view",
-                      "type": "published_export", "status": "pending_publish",
+                      "type": "published_export", "production_type": "generated_pdf",
+                      "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
+                      "holding_url": None, "status": "pending_publish",
                       "build": {"renderer": "claude", "source": "x.json"}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
