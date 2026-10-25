@@ -67,6 +67,16 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(result["generated"], ["ccc-q01-welcome"])
         self.assertEqual(result["blocked"], [])
 
+    def test_only_one_resource_per_release(self):
+        marker=self.marker(ids=["resource-a", "resource-b"])
+        with self.assertRaises(rel.ReleaseError):
+            rel.release_request(77, {marker})
+
+    def test_release_branch_must_match_resource(self):
+        marker=self.marker()
+        with self.assertRaisesRegex(rel.ReleaseError, "single matching"):
+            rel.plan(77, {marker}, "a"*40, "b"*40, "edit/different-resource")
+
     def test_external_never_enters_auto_pdf_publisher(self):
         marker = self.marker(ids=["ccc-q01-slides"])
         registry = {"ccc-q01-slides": {"production_type": "external", "status": "published"}}
@@ -77,7 +87,8 @@ class ReleaseTests(unittest.TestCase):
              patch.object(rel, "select", return_value=[]):
             result = rel.plan(77, {marker}, "a" * 40, "9" * 40)
         self.assertEqual(result["generated"], [])
-        self.assertEqual(result["external"][0]["action"], "agent-managed Drive publication required")
+        self.assertEqual(result["external"], [])
+        self.assertIn("External resources", result["blocked"][0]["reason"])
 
 
 if __name__ == "__main__":
