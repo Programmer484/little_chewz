@@ -78,7 +78,7 @@ class SelectionTests(unittest.TestCase):
         records=sb.read_json('catalog/resources.json')
         self.assertEqual(len(records),27)
         self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
-        self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'unapproved')
+        self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'published')
         self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
 
     def test_registry_status_only_does_not_trigger_rebuild(self):
