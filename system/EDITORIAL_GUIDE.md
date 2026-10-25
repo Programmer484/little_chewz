@@ -77,13 +77,15 @@ Prefer this deliberately small vocabulary; use the label only when the action ge
 | --- | --- |
 | **SHOW** | Display or advance to specified slide(s); play media embedded on a slide. |
 | **KEEP** | Remain on a named slide during the following action or passage. |
-| **READ** | Read an approved short passage aloud or open a linked reading. |
+| **CHOOSE** | Direct a small choice within one activity (such as a format or word choice); never choose between different Small Bites. |
+| **READ** | Open a linked reading for independent, group, or teacher read-aloud. |
+| **LISTEN** | Play or direct students to a linked standalone audio recording, including as a reading alternative. |
 | **ASK** | Ask the strongest, most relevant discussion question. |
 | **DO** | Give a short, concrete classroom direction. |
 | **GIVE** | Distribute or direct students to a linked student resource. |
 | **MORE** | Link supplementary teacher resources or additional prompts. |
 
-Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, and `CHOICE` as action labels. Do not create near-synonyms. For genuine alternatives, use `DO` to direct the teacher to select one, and identify the options (A/B/C/D) in the instruction text rather than as separate action labels. The choices must reflect real alternatives available to the teacher. Use `SHOW` for media on a slide, or `DO` with a linked resource for standalone audio.
+Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, `CHOICE`, and `PLAY` as action labels. Do not create near-synonyms. Use `CHOOSE` for small decisions within one task (such as reading versus listening or selecting a word from a bank). For format alternatives, mark them clearly as Option 1 / Option 2, then use one `DO` row for instructions shared by both. Keep `CHOOSE`, `READ`, `LISTEN`, and the shared `DO` aligned in the usual action grid—no extra indentation. For different Small Bite activities, retain structured A/B/C/D options; do not use `CHOOSE` to replace them. Use `SHOW` to play media embedded on slides, and `LISTEN` for standalone linked audio.
 
 **For engineering:** [action_labels.json](action_labels.json) owns the allowed labels and internal row types; the table explains usage. The validator and renderer must consult that file when checking validity. Rendering branches for specialized content are still appropriate.
 
