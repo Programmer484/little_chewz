@@ -239,7 +239,7 @@ def main() -> None:
                          expected_revision=args.expected_revision)
         if args.result_json:
             args.result_json.parent.mkdir(parents=True, exist_ok=True)
-            args.result_json.write_text(json.dumps(report, indent=2) + "\\n")
+            args.result_json.write_text(json.dumps(report, indent=2) + "\n")
     except subprocess.CalledProcessError as exc:
         print(f"PUBLISH FAILED: build step exited with {exc.returncode}; see the error above", file=sys.stderr)
         sys.exit(1)
