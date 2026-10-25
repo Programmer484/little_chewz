@@ -333,5 +333,20 @@
     ],
     "status": "unapproved",
     "link_note": "Legacy Day Two guide page 12; remains unsplit and unedited. Core evidence-based prompt lives in the teacher guide."
+  },
+  "ccc-q01-secret-ingredients-slides": {
+    "title": "Secret Ingredients Classroom Slides",
+    "url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
+    "type": "slide_deck",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "slides"
+    ],
+    "status": "unapproved",
+    "link_note": "Five-slide classroom deck derived from uploaded ENGAGE source PDF; converted to linked PPTX. Both files uploaded to their lesson slide folders on 2026-10-25. Review/approval and presenter-mode link tests remain outstanding; not marked published.",
+    "pdf_url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view",
+    "powerpoint_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
+    "powerpoint_filename": "02_Secret_Ingredients_Slides.pptx"
   }
 }
