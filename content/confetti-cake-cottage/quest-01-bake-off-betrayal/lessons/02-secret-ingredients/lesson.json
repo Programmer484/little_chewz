@@ -1,0 +1,200 @@
+{
+  "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.",
+  "key": "p2",
+  "title": "PART 2 / SECRET INGREDIENTS",
+  "grade": "4–6",
+  "duration": "about 45 minutes",
+  "print_note": "PRINT ONLY SELECTED PAGES",
+  "goal": "Gather visual clues, read Chapter One, and use evidence to explore character choices behind the friendship conflict.",
+  "outcomes": [
+    "Identify relevant details and make one inference from the clue scene.",
+    "Record important events, clues, and character choices from Chapter One.",
+    "Explain a character choice or conflict using story evidence."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-secret-ingredients-clue-video",
+      "description": "Three-minute investigation scene"
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-chapter-one",
+      "description": "Chapter One reading"
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-chapter-notes",
+      "description": "One per student; legacy guide p. 10"
+    }
+  ],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-secret-ingredients-chapter-audio",
+      "description": "If listening to Chapter One"
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-clue-tracker",
+      "description": "Full tracker; extension only"
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-character-profile",
+      "description": "Full profile; extension only"
+    }
+  ],
+  "prep_heading": "PREPARE YOUR CHOICES",
+  "focus": "Look for observations and character inferences supported by evidence, rather than guesses alone.",
+  "assessment": "Clue Hunt: students name a visible detail and support one quick inference. Chapter Notes or chosen Small Bite: students refer to a character action or event as evidence.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Critical Thinking"
+  ],
+  "cover": "cover.pdf",
+  "output": "secret-ingredients-teacher-guide.pdf",
+  "flow_style": "compact",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Clue Hunt + Quick Inference",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "ref": "ccc-q01-secret-ingredients-clue-video",
+          "description": "Play the 3-minute scene. Students jot 2–3 visible clues in a notebook or on paper while it plays."
+        },
+        {
+          "kind": "DO",
+          "text": "Quickly share one observed clue. Distinguish what students saw from what they think it means."
+        },
+        {
+          "kind": "ASK",
+          "text": "What might be inside the CONFIDENTIAL envelope, and what clue supports that idea?"
+        },
+        {
+          "kind": "MORE",
+          "links": [
+            {
+              "ref": "ccc-q01-secret-ingredients-clue-tracker",
+              "description": "Full written tracker; +10–15 min. Use the drawing box to sketch an extra observed clue or unresolved detail."
+            },
+            {
+              "ref": "ccc-q01-secret-ingredients-clue-answer-key",
+              "description": "Teacher reference, legacy guide p. 8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Chapter Prediction",
+      "mins": "3",
+      "rows": [
+        {
+          "kind": "GIVE",
+          "ref": "ccc-q01-secret-ingredients-chapter-notes",
+          "description": "One per student; legacy guide p. 10."
+        },
+        {
+          "kind": "DO",
+          "text": "Before reading, students jot or sketch one prediction about Chapter One."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Read or Listen + Take Notes",
+      "mins": "25",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Choose one delivery: independent reading, partners/small groups, or a whole-class read-aloud. Listening is an alternative."
+        },
+        {
+          "kind": "READ",
+          "ref": "ccc-q01-secret-ingredients-chapter-one",
+          "description": "Chapter One; open for the chosen reading format."
+        },
+        {
+          "kind": "DO",
+          "text": "As they read or listen, students record 2–3 important details: a clue, a character choice, or something that changes their prediction. Short notes or sketches are fine."
+        },
+        {
+          "kind": "MORE",
+          "links": [
+            {
+              "ref": "ccc-q01-secret-ingredients-chapter-audio",
+              "description": "Chapter One audio folder; listening alternative"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Choose One Small Bite",
+      "mins": "10",
+      "rows": [],
+      "options": [
+        {
+          "label": "A",
+          "title": "Conflict Report / Zenix Debrief",
+          "rows": [
+            {
+              "kind": "DO",
+              "text": "Use the Conflict Report and Zenix Debrief prompts from the original lesson slides 17–18. Students discuss in pairs or small groups; a short written response is optional."
+            },
+            {
+              "kind": "ASK",
+              "text": "What hurt Maddie most about the team switch? What evidence supports that view?"
+            }
+          ]
+        },
+        {
+          "label": "B",
+          "title": "Character Profile · Evidence First",
+          "rows": [
+            {
+              "kind": "DO",
+              "text": "Choose one character. In a notebook, record 2–3 known facts, one possible feeling or goal, what the character said or did as evidence, and one remaining question."
+            },
+            {
+              "kind": "MORE",
+              "links": [
+                {
+                  "ref": "ccc-q01-secret-ingredients-character-profile",
+                  "description": "Expanded original profile; optional +15–20 min"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Wrap-Up",
+      "mins": "2",
+      "rows": [
+        {
+          "kind": "ASK",
+          "text": "Which clue or character choice matters most so far, and what supports your thinking?"
+        }
+      ]
+    }
+  ],
+  "bonuses": [
+    {
+      "ref": "ccc-q01-secret-ingredients-clue-tracker",
+      "description": "— Optional +10–15 min: complete the full eight-question tracker. The drawing box is for sketching additional evidence."
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-character-profile",
+      "description": "— Optional +15–20 min: complete the expanded character profile, distinguishing evidence from imagined details."
+    }
+  ],
+  "migration_review": {
+    "notes": "Review draft, not approved or published. The legacy full Clue Tracker and Character Profile have NOT been split or rewritten. Chapter Notes scaffold is guidance in this lesson only, not yet printed on the linked worksheet.",
+    "unresolved": "Part 2's independent slide deck is not available/linked. Conflict Report / Zenix Debrief presently references historical slides 17–18; verify lesson-local numbering and add the real slide resource link before release.",
+    "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables."
+  }
+}
