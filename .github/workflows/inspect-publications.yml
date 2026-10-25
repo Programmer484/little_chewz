@@ -1,0 +1,59 @@
+name: Inspect publication
+
+# Optional, manually triggered inspection. Never scheduled and never publishes.
+on:
+  workflow_dispatch:
+    inputs:
+      resource_id:
+        description: "Optional registry resource ID; blank inspects all"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Validate and install Drive client
+        uses: ./.github/actions/pdf-setup
+        with:
+          extra-packages: "google-api-python-client>=2.100,<3 google-auth>=2.20,<3"
+
+      - name: Inspect without changing Drive or catalogue
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          RESOURCE_ID: ${{ inputs.resource_id }}
+        run: |
+          if [[ -n "$RESOURCE_ID" ]]; then
+            python scripts/inspect_publications.py --resource-id "$RESOURCE_ID" --report inspection-report.json
+          else
+            python scripts/inspect_publications.py --report inspection-report.json
+          fi
+          python - <<'PY'
+          import json, os
+          from collections import Counter
+          report=json.load(open("inspection-report.json"))
+          counts=Counter(item["result"] for item in report["resources"])
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as out:
+              out.write("### Read-only publication inspection\n\n")
+              out.write(" | ".join(f"{name}: {count}" for name,count in sorted(counts.items())) + "\n\n")
+              out.write("External content parity is unverified unless independently established. No statuses or Drive files were changed.\n")
+          PY
+
+      - name: Retain inspection report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-inspection
+          path: inspection-report.json
+          if-no-files-found: ignore
+          retention-days: 30
