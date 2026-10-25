@@ -1,19 +1,34 @@
 {
-  "$instructions": "Folder registry stores configuration only. Staging is never a published destination. Record real Google Drive folder IDs only after verification; never infer IDs from names.",
+  "$instructions": "Configured holding folders are review-only and never proof of publication. Published folders must be verified separately. Slide PDFs retain their existing human-reviewed workflow.",
   "staging": {
-    "external": {
-      "folder_id": null,
-      "status": "configuration_required",
-      "note": "Create a general-purpose external resource review folder and record its verified Drive ID."
+    "root": {
+      "folder_id": "1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ",
+      "name": "Little Chewz — Resource Holding"
+    },
+    "generated_pdf": {
+      "folder_id": "1wPdelGnXWcE9IlF5y-qTfk84gzNDSIxY",
+      "name": "PDF-generated resources"
+    },
+    "worksheets": {
+      "folder_id": "1Vw5abDxMojq9IDQ7XXIkOb1ODU1HLtun",
+      "name": "Worksheets"
+    },
+    "visuals": {
+      "folder_id": "11_lIIV2GsB93HGWgBUyk4wrvlmG0qkkQ",
+      "name": "Posters & visuals"
+    },
+    "other": {
+      "folder_id": "1nuGsEPQi30Nv-FkxOuxCLo6RwynKwpCo",
+      "name": "Other resources"
     },
     "slide_pdfs": {
       "folder_id": "1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g",
-      "note": "Existing Slide PDFs review folder; retain its separate human-reviewed workflow."
+      "name": "Existing Slide PDFs holding folder"
     }
   },
   "published": {
     "default_folder_id": null,
     "by_resource_id": {},
-    "note": "Teacher-facing destination folders are recorded only after verification. Existing resource file IDs and URLs remain in resources.json."
+    "note": "Use the established teacher-facing lesson/quest Drive destination; never infer a target from the holding folder."
   }
 }
