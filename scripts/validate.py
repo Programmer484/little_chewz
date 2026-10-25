@@ -59,6 +59,15 @@ for ref,item in registry.items():
             errors.append(f'{ref}: build output must be a PDF filename')
     elif production=='external' and build:
         errors.append(f'{ref}: external materials cannot enter the generated PDF renderer')
+    for role in ('holding_url','published_url'):
+        if role not in item:
+            errors.append(f'{ref}: missing explicit {role} (use null if unknown)')
+        elif item[role] is not None and (not isinstance(item[role],str) or not item[role].startswith('https://')):
+            errors.append(f'{ref}: {role} must be HTTPS or null')
+    if item.get('holding_url') and item.get('published_url') == item.get('holding_url'):
+        errors.append(f'{ref}: a holding copy cannot be its published destination')
+    if item.get('status') in {'pending_publish','published'} and not item.get('published_url'):
+        errors.append(f'{ref}: live or pending resource needs an established published_url')
     publication=item.get('publication')
     if not isinstance(publication,dict) or publication.get('verification') not in {'unknown','unverified','verified'}:
         errors.append(f'{ref}: publication verification must be explicitly unknown, unverified or verified')
@@ -66,7 +75,7 @@ for ref,item in registry.items():
         if production=='external' and 'artifact_md5' in publication:
             errors.append(f'{ref}: external resources must not claim generated-PDF checksums')
         if publication.get('drive_file_id'):
-            source_url=item.get('url','')
+            source_url=item.get('published_url') or item.get('url','')
             m=re.search(r'/d/([A-Za-z0-9_-]{20,})',source_url)
             if not m or m.group(1)!=publication['drive_file_id']:
                 errors.append(f'{ref}: recorded Drive ID conflicts with live URL')
@@ -102,10 +111,11 @@ if not folders_path.is_file():
     errors.append('Missing distinct Drive staging/final-folder registry')
 else:
     folders=json.loads(folders_path.read_text())
-    staging=(folders.get('staging') or {}).get('external') or {}
-    if 'folder_id' not in staging:
-        errors.append('External staging folder must have an explicit folder_id (null until configured)')
-    for section in [staging,(folders.get('staging') or {}).get('slide_pdfs') or {},
+    staging=folders.get('staging') or {}
+    for purpose in ('root','generated_pdf','worksheets','visuals','other','slide_pdfs'):
+        if not (staging.get(purpose) or {}).get('folder_id'):
+            errors.append(f'Unconfigured holding folder: {purpose}')
+    for section in [*(value for value in staging.values() if isinstance(value,dict)),
                     (folders.get('published') or {})]:
         for key in ('folder_id','default_folder_id'):
             value=section.get(key)
