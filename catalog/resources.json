@@ -112,7 +112,8 @@
       "activate",
       "guide"
     ],
-    "status": "published"
+    "status": "pending_publish",
+    "status_note": "The editable Activate lesson was previously marked approved but not confirmed live; the existing Drive guide needs source-to-output verification before treating it as synchronized."
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
