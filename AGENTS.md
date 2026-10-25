@@ -589,16 +589,19 @@ A previous **seven-page** Set the Table benchmark took approximately **1.1 secon
 4. Before upload, read target Drive metadata and verify expected **file ID and MIME type** (PDF: `application/pdf`; PPTX: `application/vnd.openxmlformats-officedocument.presentationml.presentation`). Replace bytes via Drive **files.update** / connected app's `update_file(fileId, file_uri, mime_type)`, not upload/create or rename. Preserve file IDs, folder placement, and sharing.
 5. Read back both files' metadata (IDs, MIME types, updated sizes/times) and confirm the PPTX opens and its external links work. If one replacement fails, report the partial state and retry/restore deliberately; never claim the pair was published successfully.
 
-### Verified current Drive targets (2026-10-22)
+### Verified existing Drive targets (metadata checked 2026-10-25)
 
-| Lesson | Existing PDF file ID | Existing PPTX file ID | Current review state |
+| Lesson | Existing PDF file ID | Existing PPTX file ID | Documented review state |
 | --- | --- | --- | --- |
-| Activate | `1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_` | **Not located** | Published seven-slide PDF. Do not create/replace a PPTX without locating or approving a destination. |
-| Set the Table | `1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt` | `1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd` | **Approved 7-slide PDF and PPTX replaced in place on 2026-10-22.** |
+| Activate | `1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_` | `1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom` | The catalogue records the seven-slide deck as published; both Drive files exist. The linked PPTX contains the two video URLs according to the resource note. |
+| Set the Table | `1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt` | `1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd` | Human-approved seven-slide PDF and linked PPTX, recorded as published on 2026-10-22. |
+| Secret Ingredients | `1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747` | `1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK` | Human-approved five-slide PDF and PPTX, recorded as published on 2026-10-25; presenter-mode hyperlinks were confirmed in the catalogue note. |
 
-The PDFs are in the folder above. The Set the Table PowerPoint was located separately as `Set_The_Table_Slides.pptx`; it is a stored PPTX, not a native Google Slides file. Its file ID is also recorded with the lesson resource in `catalog/resources.json`. Confirm these IDs and MIME types **afresh** for each publication.
+**Read-back scope:** On 2026-10-25, Drive returned each of these six exact IDs with the expected MIME type (`application/pdf` for PDFs; `application/vnd.openxmlformats-officedocument.presentationml.presentation` for PPTX). This metadata check does **not** independently reapprove artwork, slide content, presenter-mode links, external access, or PDF/PPTX content parity. Verify those afresh before every new publication. Preserve the file IDs, destination folders and sharing on replacements.
 
-**Latest Set the Table publication (2026-10-22):** human selected the seven-slide edition: slide 6 “Which Word Fits?”, slide 7 “Friendship Mystery #1”. The original six-page PDF's other pages remain visually unchanged; both approved Drive files were updated in place and two audio URL link annotations are preserved on slide 4. Verified remote sizes: PDF 11,933,343 bytes, PPTX 5,034,225 bytes. External PDF link-sharing to unauthenticated viewers has **not** been verified; do not change permissions without approval. The uploaded Activate PDF is seven pages with a video URL link on pages 4 and 5; no Activate PPTX target was identified.
+**Set the Table historical details (2026-10-22):** Human selected the seven-slide edition: slide 6 “Which Word Fits?” and slide 7 “Friendship Mystery #1”; the original six-page PDF's other pages stayed visually unchanged. The approved upload included two audio URL links on slide 4. Drive read-back sizes for the published PDF and PPTX are 11,933,343 and 5,034,225 bytes respectively. Unauthenticated viewer access has not been independently confirmed; do not change permissions without approval.
+
+**Activate update:** An older note from 2026-10-22 said its PPTX destination was not located. That is superseded by the verified existing PPTX file ID above and the current resource catalogue. The Activate PDF remains the original published seven-slide asset; no new approval or upload is implied by locating the PPTX.
 
 ### Future editable slides
 
