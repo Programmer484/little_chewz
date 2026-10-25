@@ -14,29 +14,29 @@
   "core": [
     {
       "ref": "ccc-q01-secret-ingredients-clue-video",
-      "description": "Three-minute investigation scene"
+      "description": "3-min scene"
     },
     {
       "ref": "ccc-q01-secret-ingredients-chapter-one",
-      "description": "Chapter One reading"
+      "description": "Full chapter"
     },
     {
       "ref": "ccc-q01-secret-ingredients-chapter-notes",
-      "description": "One per student; legacy guide p. 10"
+      "description": "One per student; p. 10"
     }
   ],
   "optional_prep": [
     {
       "ref": "ccc-q01-secret-ingredients-chapter-audio",
-      "description": "If listening to Chapter One"
+      "description": "Listening option"
     },
     {
       "ref": "ccc-q01-secret-ingredients-clue-tracker",
-      "description": "Full tracker; extension only"
+      "description": "Optional extension"
     },
     {
       "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": "Full profile; extension only"
+      "description": "Optional extension"
     }
   ],
   "prep_heading": "PREPARE YOUR CHOICES",
