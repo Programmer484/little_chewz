@@ -790,7 +790,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 
 | Editing | Read first |
 | --- | --- |
-| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#lifecycle-status). It owns lesson delivery status; branch-only edits do not change it. |
+| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states). It owns lesson delivery status; branch-only edits do not change it. |
 | `lessons/<stage>/lesson.json` | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md), then [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
 | `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
@@ -836,16 +836,20 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 
 | File | Purpose | Read first |
 | --- | --- | --- |
-| `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) (layout constants, Lato, strict links) |
+| `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) |
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md#presentation) |
-| `renderers/claude.py` | `claude` page style (Welcome PDF) | [templates/claude/README.md](templates/claude/README.md) |
-| `select_builds.py`, `build_selected.py` | Which PDFs a change previews, and the batch builder | [WORKFLOW.md: PDF build selection](system/WORKFLOW.md#pdf-build-selection) |
-| `validate.py` | Objective source checks, including `$instructions` pointers and `AGENTS.md` freshness | [AI_RULES.md: maintaining instructions](system/AI_RULES.md#maintaining-instructions) |
-| `build_agents_md.py` | Regenerates the root `AGENTS.md` from all instruction files | Run after editing any instruction file |
-| `publish_to_drive.py` | Internal in-place Drive replacement (merge wiring pending) | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
-| `pdf_to_linked_slides.py` | Reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
+| `renderers/claude.py` | Welcome/claude page style | [templates/claude/README.md](templates/claude/README.md) |
+| `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
+| `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
+| `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
+| `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
+| `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [COMMANDS.md](system/COMMANDS.md) |
+| `inspect_publications.py` | Manual read-only publication evidence inspection | [WORKFLOW.md](system/WORKFLOW.md#publication-controls) |
+| `pdf_to_linked_slides.py` | Human-reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 
-A renderer for a registry-built document is `renderers/<name>.py`, matching `build.renderer` in `catalog/resources.json`. When adding a renderer input or changing how builds are invoked, update `select_builds.py` and `tests/` in the same PR. Run `python scripts/validate.py` and `python -m unittest discover -s tests`.
+Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
+
+When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
 
 ---
 
