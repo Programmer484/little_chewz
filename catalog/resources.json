@@ -22,7 +22,9 @@
       "verification": "unverified",
       "drive_file_id": "1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
   },
   "ccc-q01-mrs-tongsleys-letter": {
     "title": "Mrs. Tongsley's Letter",
@@ -43,7 +45,9 @@
       "verification": "unverified",
       "drive_file_id": "1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view"
   },
   "ccc-school-pass-instructions": {
     "title": "Chewlandia Passport",
@@ -64,7 +68,9 @@
       "verification": "unverified",
       "drive_file_id": "11bA2JwLlOp7ZLRAirDAzwk2w17gs842G",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view"
   },
   "ccc-callie-cupcake-poster": {
     "title": "Callie Cupcake Poster",
@@ -84,7 +90,9 @@
       "verification": "unverified",
       "drive_file_id": "1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view"
   },
   "ccc-q01-mrs-tongsley-video": {
     "title": "Mrs. Tongsley's Video",
@@ -104,7 +112,9 @@
     "publication": {
       "verification": "unverified",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU"
   },
   "ccc-q01-callie-cupcake-video": {
     "title": "Callie Cupcake Video",
@@ -124,7 +134,9 @@
     "publication": {
       "verification": "unverified",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://youtu.be/qXq3cCxg8l8"
   },
   "ccc-q01-bakery-log-1958": {
     "title": "Bakery Log (1958)",
@@ -145,7 +157,9 @@
       "verification": "unverified",
       "drive_file_id": "1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view"
   },
   "ccc-q01-activate-video-questions": {
     "title": "Mission Video Questions",
@@ -168,7 +182,9 @@
     "publication": {
       "verification": "unverified",
       "drive_file_id": "1qKFGb14wUd_QZZtljKrjZF07EWJBevMj"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view"
   },
   "ccc-q01-activate-confetti-questions": {
     "title": "Confetti File Questions",
@@ -191,7 +207,9 @@
     "publication": {
       "verification": "unverified",
       "drive_file_id": "18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view"
   },
   "ccc-q01-activate-teacher-guide": {
     "title": "Activate Teacher Guide",
@@ -215,7 +233,9 @@
     "publication": {
       "verification": "unverified",
       "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view"
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
@@ -240,7 +260,9 @@
       "verification": "unverified",
       "drive_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
   },
   "ccc-q01-set-the-table-songwriting-extension": {
     "title": "Songwriting Extension",
@@ -265,7 +287,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-set-the-table-kwls-starter": {
     "title": "KWLS Starter",
@@ -285,7 +309,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
@@ -305,7 +331,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Our Vocabulary",
@@ -325,7 +353,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
@@ -349,7 +379,9 @@
     "publication": {
       "verification": "unverified",
       "drive_file_id": "1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view"
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
@@ -371,7 +403,9 @@
       "verification": "unverified",
       "drive_file_id": "1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view"
   },
   "ccc-q01-set-the-table-team-builder": {
     "title": "Team Builder",
@@ -394,7 +428,9 @@
       "verification": "unverified",
       "drive_file_id": "1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view"
   },
   "ccc-q01-set-the-table-triple-c-audio": {
     "title": "Triple C School Song — Audio Preview",
@@ -416,7 +452,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-welcome": {
     "title": "Quest Overview",
@@ -442,7 +480,9 @@
     "publication": {
       "verification": "unverified",
       "drive_file_id": "1w-es-VamWXMfCrr34pRbq59a3ASngEbL"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view"
   },
   "ccc-q01-secret-ingredients-clue-video": {
     "title": "Zenix Clue Tracker Video",
@@ -462,7 +502,9 @@
     },
     "publication": {
       "verification": "unknown"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-chapter-one": {
     "title": "Chapter One: The Bake-Off Betrayal",
@@ -482,7 +524,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
     "title": "Chapter One Audio",
@@ -501,7 +545,9 @@
     },
     "publication": {
       "verification": "unknown"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-clue-tracker": {
     "title": "Full Zenix Clue Tracker",
@@ -522,7 +568,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
@@ -542,7 +590,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
     "title": "Chapter Notes",
@@ -562,7 +612,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Expanded Character Profile",
@@ -583,7 +635,9 @@
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   },
   "ccc-q01-secret-ingredients-slides": {
     "title": "Secret Ingredients Classroom Slides",
@@ -608,7 +662,9 @@
       "verification": "unverified",
       "drive_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
       "content_parity": "unverified"
-    }
+    },
+    "holding_url": null,
+    "published_url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
   },
   "ccc-q01-secret-ingredients-teacher-guide": {
     "title": "Secret Ingredients Teacher Guide",
@@ -630,6 +686,8 @@
     },
     "publication": {
       "verification": "unknown"
-    }
+    },
+    "holding_url": null,
+    "published_url": null
   }
 }
