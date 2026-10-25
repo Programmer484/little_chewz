@@ -33,6 +33,22 @@ def nav_refs(value):
     return set()
 
 
+def generated_outputs(registry):
+    """Explicit stable resource ID mapping for every Python-rendered PDF."""
+    result = {}
+    for rid, entry in registry.items():
+        if entry.get('production_type') != 'generated_pdf':
+            continue
+        build = entry.get('build') or {}
+        name = f'{rid}.pdf' if build.get('renderer') else build.get('output')
+        if not name or not name.endswith('.pdf') or '/' in name:
+            raise ValueError(f'{rid}: generated PDF has no valid output mapping')
+        if name in result:
+            raise ValueError(f'Duplicate generated PDF output {name}: {result[name]} and {rid}')
+        result[name] = rid
+    return result
+
+
 def targets():
     """All existing lesson and companion sources are previewable; status tracks delivery."""
     result = {}
@@ -87,6 +103,13 @@ def targets():
             cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
             folder=source.parent.as_posix()
         )
+    mapping = generated_outputs(registry)
+    missing = sorted(set(result) - set(mapping))
+    extra = sorted(set(mapping) - set(result))
+    if missing or extra:
+        raise ValueError(f'Generated PDF mapping mismatch: missing {missing}; obsolete {extra}')
+    for output, rid in mapping.items():
+        result[output]['resource_id'] = rid
     return result
 
 
@@ -108,6 +131,7 @@ def select(changed, base_ref=None):
     refs = changed_registry_ids(base_ref) if registry_changed else set()
     # Navigation rows link only published/pending_publish entries, so status matters there.
     nav_changed = changed_registry_ids(base_ref, ('title', 'url', 'status')) if registry_changed else set()
+    builds_changed = changed_registry_ids(base_ref, ('build', 'production_type', 'source')) if registry_changed else set()
     # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
     # This may create extra previews, but cannot miss a new rendering dependency.
     shared = bool(changed & {
@@ -124,7 +148,8 @@ def select(changed, base_ref=None):
             prefixes.append(target['folder'] + '/')
         affected = bool(changed & dependencies) or any(
             path.startswith(prefix) for path in changed for prefix in prefixes)
-        if (shared or affected or refs & resource_refs(target['data'])
+        if (shared or affected or target.get('resource_id') in builds_changed
+                or refs & resource_refs(target['data'])
                 or nav_changed & nav_refs(target['data'])):
             selected.add(name)
     return sorted(selected)
