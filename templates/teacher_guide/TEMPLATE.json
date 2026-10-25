@@ -14,5 +14,5 @@
   "cover": "cover.pdf",
   "output": "Teacher_Guide.pdf",
   "steps": [],
-  "note": "A valid unapproved lesson.json can be previewed; human approval is required before publishing."
+  "note": "A valid lesson.json can be previewed on a resource branch; authorized merge and verified Drive delivery are required for publication."
 }

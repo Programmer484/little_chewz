@@ -124,7 +124,7 @@
       "slides"
     ],
     "status": "published",
-    "link_note": "Published seven-slide PDF/PPTX pair in Google Drive (2026-10-22); includes Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. Lesson approval is tracked separately in quest.json.",
+    "link_note": "Published seven-slide PDF/PPTX pair in Google Drive (2026-10-22); includes Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. Lesson delivery status is tracked separately in quest.json.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
     "powerpoint_filename": "01_Set_the_Table_Slides.pptx",
     "pdf_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view"
@@ -139,8 +139,8 @@
       "optional",
       "school-song"
     ],
-    "status": "unapproved",
-    "link_note": "Existing Drive PDF; linked editable companion is draft, not approved for publication."
+    "status": "unpublished",
+    "link_note": "Existing Drive PDF; linked editable companion is draft, not yet released."
   },
   "ccc-q01-set-the-table-kwls-starter": {
     "title": "KWLS Starter",
@@ -151,7 +151,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Standalone two-page KWLS Starter extracted unchanged from pages 7–8 of Quest 1 Student Booklet and uploaded to Set the Table Drive folder. Editorial/access approval not independently verified."
   },
   "ccc-q01-set-the-table-school-song-activity": {
@@ -163,7 +163,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Student-only one-page School Song Activity PDF (teacher page removed). Drive link present; source editorial/link approval remains pending."
   },
   "ccc-q01-set-the-table-our-vocabulary": {
@@ -175,7 +175,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Student-only one-page Mission_Vocabulary.pdf (teacher page removed); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending."
   },
   "ccc-q01-set-the-table-teacher-guide": {
@@ -187,7 +187,7 @@
       "set-the-table",
       "teacher-guide"
     ],
-    "status": "published",
+    "status": "pending_publish",
     "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft."
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
@@ -228,7 +228,7 @@
       "audio",
       "preview"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified."
   },
   "ccc-q01-welcome": {
@@ -241,12 +241,12 @@
       "overview",
       "navigation"
     ],
-    "status": "published",
+    "status": "pending_publish",
     "build": {
       "renderer": "claude",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
     },
-    "status_note": "2026-10-24: rebuilt Welcome PDF (claude template, PR #42) approved by the project owner in chat for Drive replacement. Drive file Quest_Overview.pdf in 00_WELCOME still holds the earlier Canva version until published."
+    "status_note": "2026-10-24: regenerated Welcome output on main differs from the earlier Canva PDF still at the Drive destination; pending publication verification."
   },
   "ccc-q01-secret-ingredients-clue-video": {
     "title": "Zenix Clue Tracker Video",
@@ -257,7 +257,7 @@
       "secret-ingredients",
       "investigation"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Historical direct-video link; lesson-specific slides are not yet verified."
   },
   "ccc-q01-secret-ingredients-chapter-one": {
@@ -269,7 +269,7 @@
       "secret-ingredients",
       "chapter-one"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Chapter download link from original Guide page 42; permissions unverified."
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
@@ -281,7 +281,7 @@
       "secret-ingredients",
       "audio"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Legacy audio folder link from original Guide page 42; specific recording and permissions unverified."
   },
   "ccc-q01-secret-ingredients-clue-tracker": {
@@ -294,7 +294,7 @@
       "optional",
       "extension"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Legacy Day Two guide, pages 6–7, not yet split into core and extension; use pages selectively, not the entire teacher PDF."
   },
   "ccc-q01-secret-ingredients-clue-answer-key": {
@@ -306,7 +306,7 @@
       "secret-ingredients",
       "answer-key"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Legacy Day Two guide page 8; guide includes teacher and student material."
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
@@ -318,7 +318,7 @@
       "secret-ingredients",
       "chapter-notes"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Legacy Day Two guide page 10; worksheet not yet revised with scaffold."
   },
   "ccc-q01-secret-ingredients-character-profile": {
@@ -331,7 +331,7 @@
       "optional",
       "extension"
     ],
-    "status": "unapproved",
+    "status": "unpublished",
     "link_note": "Legacy Day Two guide page 12; remains unsplit and unedited. Core evidence-based prompt lives in the teacher guide."
   },
   "ccc-q01-secret-ingredients-slides": {

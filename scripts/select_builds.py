@@ -34,7 +34,7 @@ def nav_refs(value):
 
 
 def targets():
-    """All existing lesson and companion sources are previewable; status controls release."""
+    """All existing lesson and companion sources are previewable; status tracks delivery."""
     result = {}
     registry = read_json('catalog/resources.json')
     for school in read_json('catalog/quests.json')['school_index']:
@@ -52,8 +52,7 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.as_posix(), kind='teacher_guide',
-                status=lesson.get('status', 'unapproved'),
-                approved=lesson.get('status', 'unapproved') in ('approved', 'published'),
+                status=lesson.get('status', 'unpublished'),
                 data=data, cover=(folder / data['cover']).as_posix()
             )
         for source in sorted((ROOT / root / 'resources/teacher_companion').glob('*.json')):
@@ -67,8 +66,8 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.relative_to(ROOT).as_posix(), kind='teacher_companion',
-                status=record.get('status', 'unapproved'),
-                approved=record.get('status', 'unapproved') in ('approved', 'published'), data=data
+                status=record.get('status', 'unpublished'),
+                data=data
             )
     # Registry entries with `build.renderer` are standalone documents (e.g. the Welcome PDF),
     # output as <resource-id>.pdf. Their whole source folder (icons, cover) is their input.
@@ -81,10 +80,10 @@ def targets():
         name = f'{resource_id}.pdf'
         if name in result:
             raise ValueError(f'Duplicate output: {name}')
-        status = record.get('status', 'unapproved')
+        status = record.get('status', 'unpublished')
         result[name] = dict(
             source=source.as_posix(), kind=build['renderer'], status=status,
-            approved=status in ('approved', 'published'), data=data,
+            data=data,
             cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
             folder=source.parent.as_posix()
         )
@@ -107,7 +106,7 @@ def select(changed, base_ref=None):
     selected = set()
     registry_changed = 'catalog/resources.json' in changed
     refs = changed_registry_ids(base_ref) if registry_changed else set()
-    # Navigation rows link only approved/published entries, so status matters there.
+    # Navigation rows link only published/pending_publish entries, so status matters there.
     nav_changed = changed_registry_ids(base_ref, ('title', 'url', 'status')) if registry_changed else set()
     # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
     # This may create extra previews, but cannot miss a new rendering dependency.
@@ -133,8 +132,8 @@ def select(changed, base_ref=None):
 
 def selection(request=None, changed=(), base_ref=None):
     registered = targets()
-    if request == 'all-approved':
-        names = sorted(name for name, t in registered.items() if t['approved'])
+    if request == 'all':
+        names = sorted(registered)
     elif request:
         if request not in registered:
             raise ValueError(f'Unknown or missing-source PDF: {request}')
@@ -150,11 +149,11 @@ def main():
     p.add_argument('--changed', nargs='*', default=[])
     p.add_argument('--base-ref')
     group = p.add_mutually_exclusive_group()
-    group.add_argument('--all', action='store_true', help='All approved PDFs only')
-    group.add_argument('--document', help='Output filename, or all-approved')
+    group.add_argument('--all', action='store_true', help='All registered PDF sources')
+    group.add_argument('--document', help='Output filename, or all')
     p.add_argument('--output', type=Path)
     a = p.parse_args()
-    result = selection('all-approved' if a.all else a.document, a.changed, a.base_ref)
+    result = selection('all' if a.all else a.document, a.changed, a.base_ref)
     if a.output:
         a.output.parent.mkdir(parents=True, exist_ok=True)
         a.output.write_text(json.dumps(result, indent=2) + '\n')
