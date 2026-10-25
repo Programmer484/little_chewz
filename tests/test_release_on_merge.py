@@ -34,8 +34,7 @@ class ReleaseTests(unittest.TestCase):
     def test_request_requires_matching_pr_and_signal(self):
         marker = self.marker()
         self.assertEqual(rel.release_request(77, {marker}), ["ccc-q01-welcome"])
-        with self.assertRaises(rel.ReleaseError):
-            rel.release_request(78, {marker})
+        self.assertEqual(rel.release_request(78, {marker}), [])
         self.marker(signal="not-authorized")
         with self.assertRaises(rel.ReleaseError):
             rel.release_request(77, {marker})
