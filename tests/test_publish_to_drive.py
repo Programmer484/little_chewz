@@ -120,7 +120,7 @@ class PublishTests(unittest.TestCase):
         service._files.store_md5 = False
         with self.assertRaises(pub.PublishError):
             self.run_publish(service)
-        self.assertEqual(self.status(), "approved")
+        self.assertEqual(self.status(), "pending_publish")
 
     def test_read_only_destination_is_refused(self):
         with self.assertRaises(pub.PublishError):
