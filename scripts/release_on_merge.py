@@ -34,18 +34,21 @@ def release_request(pr: int, changed: set[str]) -> list[str]:
             or document.get("pr_number") != pr):
         raise ReleaseError(f"{marker}: invalid /merge release authorization")
     ids = document.get("resource_ids")
-    if (not isinstance(ids, list) or not ids
+    if (not isinstance(ids, list) or len(ids) != 1
             or any(not isinstance(i, str) or not ID_RE.fullmatch(i) for i in ids)
             or len(ids) != len(set(ids))):
         raise ReleaseError(f"{marker}: resource IDs must be unique stable IDs")
     return ids
 
 
-def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str) -> dict:
+def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
+         head_branch: str | None = None) -> dict:
     ids = release_request(pr, changed)
     if not ids:
         return {"pr": pr, "result": "no authorized resource release", "generated": [],
                 "external": [], "blocked": []}
+    if head_branch is not None and head_branch != f"edit/{ids[0]}":
+        raise ReleaseError("Authorized /merge must come from the single matching generated-resource branch")
     registry = load_registry()
     registered = targets()
     affected = set(select(changed, base_ref=base_sha))
@@ -64,7 +67,7 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str) -> dict:
             continue
         production_type = item.get("production_type")
         if production_type == "external":
-            result["external"].append({"resource_id": rid, "action": "agent-managed Drive publication required"})
+            result["blocked"].append({"resource_id": rid, "reason": "External resources never use /merge or automated publishing"})
             continue
         if production_type != "generated_pdf":
             result["blocked"].append({"resource_id": rid, "reason": "missing or invalid production_type"})
@@ -112,6 +115,7 @@ def main() -> None:
     p.add_argument("--merge-sha", required=True)
     p.add_argument("--base-sha", required=True)
     p.add_argument("--changed-files", required=True, type=Path)
+    p.add_argument("--head-branch", required=True)
     p.add_argument("--report", required=True, type=Path)
     args = p.parse_args()
     if args.pr < 1 or any(not re.fullmatch(r"[0-9a-f]{40}", sha)
@@ -119,7 +123,7 @@ def main() -> None:
         p.error("Expected PR number and full Git SHAs")
     try:
         changed = set(args.changed_files.read_text().splitlines())
-        result = plan(args.pr, changed, args.merge_sha, args.base_sha)
+        result = plan(args.pr, changed, args.merge_sha, args.base_sha, args.head_branch)
         result = run_release(result)
     except Exception as exc:
         result = {"pr": args.pr, "blocked": [{"reason": str(exc)}]}
