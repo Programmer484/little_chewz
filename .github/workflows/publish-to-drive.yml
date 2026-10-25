@@ -50,9 +50,9 @@ jobs:
           DRY_RUN: ${{ inputs.dry_run }}
         run: |
           if [ "$DRY_RUN" = "true" ]; then
-            python scripts/publish_to_drive.py "$RESOURCE_ID" --dry-run
+            python scripts/publish_to_drive.py "$RESOURCE_ID" --dry-run --expected-revision "$GITHUB_SHA" --result-json publication-report.json
           else
-            python scripts/publish_to_drive.py "$RESOURCE_ID"
+            python scripts/publish_to_drive.py "$RESOURCE_ID" --expected-revision "$GITHUB_SHA" --result-json publication-report.json
           fi
 
       - name: Upload the published PDF as a run artifact
@@ -60,6 +60,15 @@ jobs:
         with:
           name: ${{ inputs.resource_id }}-pdf
           path: exports/publish/*.pdf
+          retention-days: 30
+
+      - name: Upload verification report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ inputs.resource_id }}-publication-report
+          path: publication-report.json
+          if-no-files-found: ignore
           retention-days: 30
 
       - name: Record published status
