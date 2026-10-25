@@ -14,6 +14,7 @@ import select_builds as sb
 
 GUIDE = '00-activate-teacher-guide.pdf'
 DRAFT = '01-set-the-table-teacher-guide.pdf'
+PART2 = '02-secret-ingredients-teacher-guide.pdf'
 MISSION = 'mission-video-questions.pdf'
 CONFETTI = 'confetti-file-questions.pdf'
 SONG = 'songwriting-extension.pdf'
@@ -25,8 +26,10 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        self.assertEqual(set(self.targets), {GUIDE, DRAFT, MISSION, CONFETTI, SONG, WELCOME})
+        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME})
         self.assertFalse(self.targets[DRAFT]['approved'])
+        self.assertFalse(self.targets[PART2]['approved'])
+        self.assertEqual(sb.selection(PART2)['outputs'], [PART2])
         self.assertFalse(self.targets[SONG]['approved'])
         self.assertTrue(self.targets[GUIDE]['approved'])
         self.assertEqual(sb.selection(DRAFT)['outputs'], [DRAFT])
@@ -46,7 +49,7 @@ class SelectionTests(unittest.TestCase):
                         self.assertEqual(sb.select([path]), [name])
 
     def test_unconverted_stages_have_no_placeholder_build(self):
-        for prefix in ['02-secret-ingredients', '03-the-showdown', '04-chew-on-this',
+        for prefix in ['03-the-showdown', '04-chew-on-this',
                        '05-plate-it-forward', '06-celebrate']:
             self.assertFalse(any(name.startswith(prefix) for name in self.targets))
 
@@ -73,7 +76,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_registry_keys_are_only_ids(self):
         records=sb.read_json('catalog/resources.json')
-        self.assertEqual(len(records),20)
+        self.assertEqual(len(records),27)
         self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
         self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'unapproved')
         self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
