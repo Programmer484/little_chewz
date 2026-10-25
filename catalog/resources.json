@@ -123,8 +123,8 @@
       "set-the-table",
       "slides"
     ],
-    "status": "unapproved",
-    "link_note": "Seven-slide PowerPoint classroom deck, including Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. Original slide PDF URL retained in pdf_url; other review status remains unchanged.",
+    "status": "published",
+    "link_note": "Published seven-slide PDF/PPTX pair in Google Drive (2026-10-22); includes Which Word Fits? on slide 6 and Friendship Mystery #1 on slide 7. Lesson approval is tracked separately in quest.json.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
     "powerpoint_filename": "01_Set_the_Table_Slides.pptx",
     "pdf_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view"
