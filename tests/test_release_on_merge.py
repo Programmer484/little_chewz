@@ -83,8 +83,8 @@ class ReleaseTests(unittest.TestCase):
                    "build": {"renderer": "claude", "source": "welcome.json"}}}
         report = {"generated": [], "pending": ["ccc-q01-welcome"],
                   "blocked": [{"resource_id": "ccc-q01-welcome", "reason": "superseded"}]}
-        with patch.object(rel, "load_registry", return_value=record), \\
-             patch.object(rel, "save_registry") as save:
+        with (patch.object(rel, "load_registry", return_value=record),
+              patch.object(rel, "save_registry") as save):
             rel.run_release(report)
         self.assertEqual(record["ccc-q01-welcome"]["status"], "pending_publish")
         save.assert_called_once()
