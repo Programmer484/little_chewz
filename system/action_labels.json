@@ -2,7 +2,9 @@
   "teacher_guide_actions": [
     "SHOW",
     "KEEP",
+    "CHOOSE",
     "READ",
+    "LISTEN",
     "ASK",
     "DO",
     "GIVE",
