@@ -16,8 +16,9 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
-| Linked names, destinations, stable ID object keys, and **only linked-resource lifecycle status** | `catalog/resources.json` |
+| Stable IDs, production method, holding/published URLs, build records, and linked-resource delivery status | `catalog/resources.json` |
 | Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/story/`, and `templates/claude/` (clean page style and quest navigation) |
+| Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
 
@@ -41,23 +42,41 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 
 Only maintain templates for resource types with working source-authoring workflows. Linked-only and future types need no placeholder template or renderer. Add checks and a renderer when real sources need them; `scripts/validate.py` owns implemented automatic checks.
 
-## Lifecycle status
+## Production workflows and delivery states
 
-The only delivery states are `unpublished`, `pending_publish`, and `published`. **Editorial approval is not a stored status.** The owner's authorization to merge provides the review gate.
+Each catalogue resource has an explicit `production_type`, independent of its `type` or filename extension:
 
-| Status | Meaning |
+- **`generated_pdf`:** Python-rendered Teacher Guides, teacher companions, and other repository PDF outputs. Editable GitHub source and a valid explicit `build.output` or `build.renderer` + `build.source` mapping are required. One shared `edit/<resource-id>` branch drives reviewed changes; only these resources can use an authorized `/merge` and automatic post-merge Drive PDF replacement.
+- **`external`:** image-generated worksheets, posters, externally authored PDFs, lesson slide PDFs/PPTX, media and other tool-authored files. These may have no GitHub editable source or rendering pipeline; an agent creates, holds, updates and publishes them manually. Do not infer a Python build because their filename ends in .pdf.
+
+`catalog/drive_folders.json` names verified **holding** folders for generated PDF reviews, worksheets, posters/visuals, other external resources and the pre-existing separate Slide PDFs review folder. `catalog/resources.json` stores:
+
+| Field | Meaning |
 | --- | --- |
-| `unpublished` | No confirmed teacher-facing Drive publication exists. Draft sources and unverified Drive URLs do not count. Default if absent. |
-| `pending_publish` | An older Drive publication exists, but the accepted `main` deliverable has changed or replacement has not been verified. The previous Drive version stays live. |
-| `published` | The current accepted `main` output matches the verified Drive deliverable. Linked-only resources require a verified live destination. |
+| Stable object key | Resource identity, independent of filename, Drive ID or title |
+| `production_type` | Python-generated PDF or external creation |
+| `source` | GitHub path, known external original, or explicitly unknown provenance |
+| `build` | Required only for generated PDFs, resolved against `scripts/select_builds.py.targets()` |
+| `holding_url` | Verified review copy, **never** a teacher-facing publication |
+| `published_url` | Verified or previously established official destination; not inferred from holding |
+| `url` | Compatibility link used by existing Teacher Guide renderers; preserve established links, never point it to holding |
+| `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
 
-**Work in progress is a branch, not a status.** A published resource stays published while agents edit on `edit/<stable-resource-id>`. Merging an output change makes it `pending_publish` if Drive already has a published version; first-time material remains `unpublished` until delivery. Only successful, exact Drive verification establishes `published`. Unrelated `main` commits and metadata-only changes must not affect status.
+For legacy resources whose Drive history is uncertain, preserve existing links, notes and delivery status; record publication verification as `unverified` or `unknown` rather than inventing a digest or pretending a historic upload was confirmed.
 
-**Single owners:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[<stable-id>].status` for linked resources and companions. A lesson and its separately published Teacher Guide may legitimately have different statuses. Do not copy status to `lesson.json`, `stage.json`, or companion content. Keep resource identities and Drive IDs stable.
+Only three delivery states are valid:
 
-**Target automatic detection:** persist the digest of the exact build last verified in Drive, compare it with the current accepted `main` build, and verify all deliverables for paired PDF/PPTX releases. A URL, push, merge, or successful renderer is not proof of publication. Do not label a source `published` without confirmation.
+| Status | Python-generated PDF | External resource |
+| --- | --- | --- |
+| `unpublished` | No confirmed official version exists; holding-only copies remain drafts | In holding or not confirmed live |
+| `pending_publish` | A previously live PDF exists but accepted source update has not been checksum-verified at Drive | Older live version exists; agent-managed update is awaiting verification |
+| `published` | Exact accepted PDF bytes and intended Drive file ID have been verified | Agent has confirmed official destination and recorded publication |
 
-**Implementation limitation:** automatic build/Drive hash reconciliation, merge-triggered publishing, and first-time Drive creation are not yet implemented. Existing statuses are being migrated conservatively; keep the documented stale-Drive notices and report uncertainty. No separate user-facing `/publish` command exists.
+Human approval is a decision, **not another status**. Editing a draft branch never changes a previously published resource. Merging an accepted generated-PDF change is not itself publication; only verified Drive read-back allows the publication record to advance. Subsequent generated-PDF publications persist the exact build MD5 and accepted Git revision. Externally made files have no repository build checksum; manual verification must not assert content parity without evidence.
+
+**One status owner:** lesson-source status lives in `quest.json.learning_sequence[].status`; linked-resource status and publication records live in `catalog/resources.json[<stable-id>]`. A lesson and a separately published Teacher Guide can legitimately have different status. No duplicate status in `lesson.json`, `stage.json` or companion JSON. Preserve established file IDs and slideshow pairing.
+
+The first generated PDF release requires an agent to establish its official teacher-facing Drive file and verify/register its ID; later approved `/merge` revisions use the automated in-place replacement. External publication always uses an agent-managed Drive action and a separate catalogue bookkeeping commit, never `/merge`. Publication inspection is manual and read-only. There is no scripted `/create` engine, scheduled Drive inspector, external checksum system or user-facing `/publish` command.
 
 ## Source authority
 
