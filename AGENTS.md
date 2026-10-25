@@ -20,6 +20,8 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 - `system/SLIDE_CONVERSION.md`
 - `system/DRIVE_PUBLISHING.md`
 - `system/CHAT_FILE_CREATION.md`
+- `system/COMMANDS.md`
+- `system/CREATE.md`
 - `SYSTEM_IMPROVEMENTS.md`
 - `content/AGENTS.md`
 - `catalog/AGENTS.md`
@@ -55,11 +57,11 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 
 ### Non-negotiable boundaries
 
-- Use approved facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
-- Keep lifecycle to `unapproved` → `approved` → `published`, with the one status owner defined in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Uploading, merging, rendering, or passing checks does not approve content or authorize publication.
+- Use verified facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
+- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Editorial approval is a human merge decision, not a recorded state. Merging an authorized resource change initiates publication once the required automation exists; do not claim it runs today.
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
-- Save edits through a pushed PR, reconcile simultaneous AI changes against the latest `main`, and merge when authorized. Verify the merged result and preserve unrelated work.
+- Use one remote resource branch across chats; multiple agents commit to that branch without force-pushing, reconcile changes against the latest remote head and `main`, and merge only when authorized. Verify the merged result and preserve unrelated work.
 - For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#preview-links-and-retention); do not use a preview-branch or PR Files link as the primary review link.
 
 ### Maintaining instructions
@@ -71,7 +73,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 - Keep agents routed: a new source type gets a `$instructions` pointer (defined in `scripts/validate.py`) and a template carrying it; a new folder of editable files gets an `AGENTS.md`, a row in the table above, and an entry in `scripts/build_agents_md.py`.
 - Never edit the root `AGENTS.md`; it is generated. After editing any instruction file, run `python scripts/build_agents_md.py`; `scripts/validate.py` fails while `AGENTS.md` is stale. A new instruction file is added to `SOURCES` in that script.
 - Keep editorial judgment in prose, shared values in their existing data files, and objective checks in `scripts/validate.py`. Do not add unused enforcement files or speculative tooling.
-- Apply explicit user decisions within their scope. If conflicting instructions would change approval, publication, or content meaning and intent is unclear, flag the conflict and continue independent work.
+- Apply explicit user decisions within their scope. If conflicting instructions would change human review scope, publication, or content meaning and intent is unclear, flag the conflict and continue independent work.
 - Report where the rule was saved, what now enforces it, and any existing materials still needing updates. Do not silently rewrite or publish the whole collection.
 
 ---
@@ -80,7 +82,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 
 ## Little Chewz — start here
 
-Edit the source, review the generated document, then publish only when authorized. [AGENTS.md](AGENTS.md) is the AI entry point (generated; rules live in [AI_RULES.md](system/AI_RULES.md)); [WORKFLOW.md](system/WORKFLOW.md) owns the editing and delivery routine.
+Prototype, save editable source to a resource branch, and merge/publish together when authorized. [AGENTS.md](AGENTS.md) is the AI entry point (generated; rules live in [AI_RULES.md](system/AI_RULES.md)); [WORKFLOW.md](system/WORKFLOW.md) owns the editing and delivery routine.
 
 ### Where things belong
 
@@ -89,17 +91,19 @@ Edit the source, review the generated document, then publish only when authorize
 | [AI_RULES.md](system/AI_RULES.md) | AI routing, non-negotiable boundaries, and how instructions are maintained |
 | [AGENTS.md](AGENTS.md) | **Generated** from every instruction file (`scripts/build_agents_md.py`); auto-loaded by agents and pasteable into chats. Never edit directly. |
 | Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
-| `content/` | Lesson wording, companions, stories, artwork, and local review status |
+| `content/` | Lesson wording, companions, stories, artwork, and lesson delivery status |
 | `catalog/quests.json` | Navigation to quest manifests |
-| `catalog/resources.json` | Authoritative linked names, stable resource IDs, and approved destinations |
+| `catalog/resources.json` | Authoritative linked names, stable resource IDs, and verified destinations |
 | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) | Types, paths, version authority, statuses, source/output boundaries, and asset rules (including asset-first templates) |
 | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
 | [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
 | [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
-| [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Manual **Publish to Drive** workflow: in-place replacement of approved PDFs, service-account setup |
+| [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Internal in-place Drive publisher; merge wiring pending |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
+| [COMMANDS.md](system/COMMANDS.md) | `/create`, `/update`, `/merge` agent contract |
+| [CREATE.md](system/CREATE.md) | First-time resource creation and cataloguing |
 | `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
@@ -113,16 +117,16 @@ Edit the source, review the generated document, then publish only when authorize
 
 Follow `catalog/quests.json` → the quest's `quest.json` (lesson status and folder) → `lessons/<stage>/lesson.json` when it exists. An optional short `stage.json` is historical provenance only, not a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
 
-Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Read lifecycle status before publishing: a folder's existence does not mean its material is approved.
+Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Read lifecycle status before publishing: a folder or URL does not prove its latest source is live.
 
 ### Current capabilities
 
-- Automated builds discover authored lessons and companions through the quest catalog and registry. Only `approved` or `published` items enter approved-only builds. Registry entries with a `build` renderer (currently the Welcome PDF) are discovered the same way. Current approved-only outputs: Activate Teacher Guide, Welcome, Mission Video Questions, and Confetti File Questions.
-- Every existing valid source can generate a preview: Set the Table and Songwriting Extension are unapproved; five lessons without a `lesson.json` are not renderable. Previews do not publish.
+- Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
+- Every existing valid source can generate a preview; five lessons without a `lesson.json` are not renderable. Previews do not publish.
 - Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
-- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or grant editorial approval.
+- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or verify publication.
 
-### Local checks and approved previews
+### Local checks and previews
 
 From the repository root, with Python 3.10+:
 
@@ -148,7 +152,7 @@ The original inventories and superseded slideshow decisions are in [archive/2026
 
 ## Content contract
 
-Owns file organization, source authority, review statuses, and source/output boundaries. Writing rules belong in the editorial guides; delivery belongs in [WORKFLOW.md](system/WORKFLOW.md).
+Owns file organization, source authority, delivery statuses, and source/output boundaries. Writing rules belong in the editorial guides; delivery belongs in [WORKFLOW.md](system/WORKFLOW.md).
 
 ### Organization and ownership
 
@@ -161,7 +165,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Quest facts, lesson sequence, and each lesson's **only lifecycle status** | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
 | Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
-| Unapproved and approved lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
+| Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
 | Linked names, destinations, stable ID object keys, and **only linked-resource lifecycle status** | `catalog/resources.json` |
@@ -191,37 +195,39 @@ Only maintain templates for resource types with working source-authoring workflo
 
 ### Lifecycle status
 
-Only three values are valid: `unapproved` → `approved` → `published`.
+The only delivery states are `unpublished`, `pending_publish`, and `published`. **Editorial approval is not a stored status.** The owner's authorization to merge provides the review gate.
 
 | Status | Meaning |
 | --- | --- |
-| `unapproved` | New, edited, or unreviewed work. **Default if a status is absent.** Previewable once a valid source exists. |
-| `approved` | Human approved this exact source revision; it has not yet been confirmed live. |
-| `published` | Human-approved current revision has been published to its intended Drive destination. |
+| `unpublished` | No confirmed teacher-facing Drive publication exists. Draft sources and unverified Drive URLs do not count. Default if absent. |
+| `pending_publish` | An older Drive publication exists, but the accepted `main` deliverable has changed or replacement has not been verified. The previous Drive version stays live. |
+| `published` | The current accepted `main` output matches the verified Drive deliverable. Linked-only resources require a verified live destination. |
 
-**One owner per item:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[<stable-id>].status` for linked resources/companions. A standalone raw story's frontmatter describes the local transcription, not its separate Drive distribution. Do not copy a lifecycle status into `lesson.json`, `stage.json`, or companion content.
+**Work in progress is a branch, not a status.** A published resource stays published while agents edit on `edit/<stable-resource-id>`. Merging an output change makes it `pending_publish` if Drive already has a published version; first-time material remains `unpublished` until delivery. Only successful, exact Drive verification establishes `published`. Unrelated `main` commits and metadata-only changes must not affect status.
 
-A link recorded in Drive is not necessarily a cleared resource. For legacy registry entries, a previously unverified `approved_link: false` maps conservatively to `unapproved`, even if there is already a Drive URL; the `link_note` preserves the reason. Previously verified live entries map to `published`. Never infer external permissions solely from a status or URL.
+**Single owners:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[<stable-id>].status` for linked resources and companions. A lesson and its separately published Teacher Guide may legitimately have different statuses. Do not copy status to `lesson.json`, `stage.json`, or companion content. Keep resource identities and Drive IDs stable.
 
-New editing starts in `unapproved`; editing a published source starts a new unapproved revision while the previous file stays live. **Review status is not publication authorization.** Transition to `approved` only after explicit human approval; to `published` only after the exact approved version is updated in Drive and verified. GitHub commits, generated previews, or a passing check never change statuses by themselves. A lesson whose source has not been transcribed stays `unapproved` with no `lesson.json` and is not built.
+**Target automatic detection:** persist the digest of the exact build last verified in Drive, compare it with the current accepted `main` build, and verify all deliverables for paired PDF/PPTX releases. A URL, push, merge, or successful renderer is not proof of publication. Do not label a source `published` without confirmation.
+
+**Implementation limitation:** automatic build/Drive hash reconciliation, merge-triggered publishing, and first-time Drive creation are not yet implemented. Existing statuses are being migrated conservatively; keep the documented stale-Drive notices and report uncertainty. No separate user-facing `/publish` command exists.
 
 ### Source authority
 
 1. Explicit human decisions within their stated scope, recorded in the owning source or instructions.
-2. Current approved editable content and its quest/resource-catalog status records.
-3. Current approved lesson slides or media for slide-specific details.
+2. Current accepted editable content and its quest/resource-catalog delivery records.
+3. Current reviewed lesson slides or media for slide-specific details.
 4. `Full Guide Revised.pdf` as editorial and visual benchmark, not automatic authority for current slide numbers.
 5. Older PDFs as recovery inputs only where editable sources are missing.
 
-A newer timestamp or extraction does not confer approval. Flag disagreements between records; do not silently choose the more permissive status. Historical reports and backlog proposals do not override current rules or establish implemented capabilities.
+A newer timestamp or extraction does not establish publication or content authority. Flag disagreements between records; do not silently choose the more permissive status. Historical reports and backlog proposals do not override current rules or establish implemented capabilities.
 
 ### Resources, slides, and assets
 
-- Resolve linked titles and destinations through `catalog/resources.json` (an existing PPTX target may be recorded as `powerpoint_file_id` alongside its lesson PDF resource). The registry object key is the resource ID; omit repeated `resource_id` fields. Retired aliases are archived in [`archive/2026-10/resource-aliases.json`](archive/2026-10/resource-aliases.json). Use stable `ref` IDs in lesson flow, not literal Drive URLs. Missing, stale, or unapproved destinations block release; never guess a URL or fall back to unlinked text. An approved URL record does not prove external sharing works.
-- Maintain one independent slide set per lesson, with local numbering and a stable resource ID; link that lesson's approved set in Preparation. `SHOW`/`KEEP` numbers are navigation, not resource IDs; verify them against that set. The reviewed lesson PDF is the slide source; [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) owns PPTX conversion and Drive replacement. No editable slide renderer exists. Preserve the seven-slide published Activate asset until the human approves a specific revision. Never reuse the archived 44-slide quest-wide numbering ([`quest-slideshow.json`](archive/2026-10/quest-slideshow.json)), merge decks, or republish them automatically.
+- Resolve linked titles and destinations through `catalog/resources.json` (an existing PPTX target may be recorded as `powerpoint_file_id` alongside its lesson PDF resource). The registry object key is the resource ID; omit repeated `resource_id` fields. Retired aliases are archived in [`archive/2026-10/resource-aliases.json`](archive/2026-10/resource-aliases.json). Use stable `ref` IDs in lesson flow, not literal Drive URLs. Missing, stale, or unverified destinations block release; never guess a URL or fall back to unlinked text. A recorded URL does not prove external sharing works.
+- Maintain one independent slide set per lesson, with local numbering and a stable resource ID; link that lesson's reviewed set in Preparation. `SHOW`/`KEEP` numbers are navigation, not resource IDs; verify them against that set. The reviewed lesson PDF is the slide source; [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) owns PPTX conversion and Drive replacement. No editable slide renderer exists. Preserve the seven-slide published Activate asset until the human approves a specific revision. Never reuse the archived 44-slide quest-wide numbering ([`quest-slideshow.json`](archive/2026-10/quest-slideshow.json)), merge decks, or republish them automatically.
 - Commit every image consumed by a PDF build to GitHub: covers, full-page images, backgrounds, illustrations, and reusable artwork. Keep editable text separately. Required build assets must be repository-local; a Drive link is insufficient.
 - **Build templates from individual assets.** When creating or revising a template or a templated document, save each logo, crest, icon, illustration, or other piece of artwork as its own image file (in the template's or document's `assets/` folder) and let the renderer place it alongside live text, colour, rules, and spacing. Do not generate a whole page or template as one image (AI-generated or rasterized), and do not bake editable text into artwork. The one exception is original cover artwork, kept as a losslessly cut `cover.pdf` ([CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md)).
-- A finished image distributed directly from Drive, with no PDF-building step, may remain Drive-link-only; retain its stable registry ID and approved link.
+- A finished image distributed directly from Drive, with no PDF-building step, may remain Drive-link-only; retain its stable registry ID and verified link.
 - Do not copy large exported PDFs into the source package. A legacy PDF awaiting conversion may remain a migration input. Follow [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) for source creation and binary transfer.
 
 ---
@@ -230,64 +236,34 @@ A newer timestamp or extraction does not confer approval. Flag disagreements bet
 
 ## Editing and delivery workflow
 
-Applies to source, instruction, and tooling edits. Existing user authorization carries through the task; do not ask again for an already authorized action.
+Applies to all source, instruction, and tooling changes. The three user commands are specified in [COMMANDS.md](system/COMMANDS.md).
 
 ### Routine
 
-1. **Inspect.** Check the working tree and remote state. Read the task's owning instructions and source/status records. Identify whether the request changes content, presentation, tooling, or publication.
-2. **Edit.** Multiple AIs can work simultaneously, using separate task branches and PRs. Edit the owning files and preserve unrelated changes. Before merging, compare against the latest `main` and reconcile parallel edits to avoid overwriting another AI's work. For new resources, use an existing supported template when available, assign a stable ID, and record status only in its owning source; do not add speculative templates.
-3. **Verify.** Review the diff and run `python scripts/validate.py`. Run relevant tool tests for code changes. For document changes, build only affected supported outputs and inspect pages, text, artwork, and hyperlinks. **Generate Teacher Guide review copies with the repository renderer, including unapproved sources (`python scripts/renderers/teacher_guide.py --content <lesson.json> --output <review.pdf>`); never use an independent ad-hoc layout script.** Drafts remain review-only and are not automatically covered by approved-output CI builds. Check changed instructions for conflicting rules, obsolete paths, and broken local links. Report check limits; do not imply unregistered drafts were validated or rendered.
-4. **Save.** Commit and push all intended source changes and required assets; exclude secrets and temporary/generated files. Verify the remote branch contains the commits. Open a draft PR if unfinished, or a review PR if ready, with checks and remaining blockers. Local files, commits, attachments, and PR descriptions alone are not saved GitHub source.
-5. **Finish.** The user prefers **merge-first, reconcile-on-`main`**. When authorized and checks pass, merge the PR promptly, verify `main` contains its intended changes and preserves concurrent updates, and review the resulting `main` Actions run. Do not delay an authorized merge just to preserve a temporary preview link. Otherwise leave the pushed PR and blockers stated. Unapproved source may be merged if authorized; retain its status. It may produce a review preview but remains excluded from approved-only output selection.
-6. **Clean up.** Do **not** automatically delete GitHub PDF preview branches or history folders when PRs merge or close. Never merge `pdf-preview-history` or earlier `pdf-preview-run-*` / `pdf-preview-pr-*` branches into `main`. Manual preview cleanup requires explicit user instruction. Source-branch cleanup is separate: preserve any unmerged work, check for commits added after squash merges, and synchronize local `main` safely.
+1. **Inspect.** Identify the resource from chat context and its stable ID in the catalog. Read its source and `$instructions`, the latest remote branch, and `main`.
+2. **Edit.** Use **one active branch per resource**, `edit/<stable-resource-id>`. Reuse it across AI chats and agents. Fetch its latest remote head, commit directly to it, and push non-force. If it changed during editing, reconcile and retry without overwriting another agent. Different resources have separate branches. Use temporary child branches only for genuinely overlapping concurrent edits.
+3. **Verify.** Check the diff, run `python scripts/validate.py` and relevant tests; render affected supported documents using the repository's renderer. Inspect content, layout, and hyperlinks. Previews are not Drive publications.
+4. **Save.** Push source and required assets and open/reuse the resource PR. Never consider local-only output saved.
+5. **Merge.** On `/merge` or equivalent explicit user authorization, reconcile with the latest `main`, rerun checks, merge, verify the combined `main` output, and give its post-merge Actions preview. Delete the resource branch only after verifying no unmerged commits remain.
+6. **Publish as part of merge.** Existing resources: replace the same Drive file ID in place and verify bytes. New resources: find the proper Drive folder, create the first file, verify its ID/URL and access, then finish catalogue registration. On failure, preserve `pending_publish` if there is an older live Drive version or `unpublished` otherwise, and state the blocker. Never claim `published` before verification.
+7. **Report.** Source changes, checks, PR/merge, combined preview link (Actions URL first), Drive result/ID, and any remaining failure.
 
-### Preview links and retention
+**Current implementation boundary:** GitHub has validation, targeted previews and an *internal manual* in-place Drive PDF replacement workflow. Merge-triggered publishing, first-time Drive creation and hash-based sync detection are not yet built. Until implemented, follow these steps with the available tools, disclose missing operations, and never pretend merge auto-published. **There is no independent `/publish` user command.**
 
-- Give the **actual GitHub Actions run URL** (`https://github.com/Programmer484/little_chewz/actions/runs/<run-id>`) as the **default first link** for PDF reviews. Prefer the relevant successful **post-merge `main` push run**, reflecting the combined AI edits. Use the PR run if it is the latest verified run and `main` has not generated a preview. For validation-only or failed runs, say so; never imply that a PDF exists. Never reuse an old example run for new work.
-- The run summary links to permanent `previews/<run-id>/` folders on the **single** `pdf-preview-history` branch. This avoids creating a branch per run while keeping every review URL stable. Existing `pdf-preview-run-*` branches and links remain intact. Direct PDF links can follow the run URL; do not lead with a PR Files tab or generated-branch link. Source merge and PDF preview are not teaching-content approval or Drive publication.
-- **No automatic preview deletion** on PR closure or merge. Historical branches and the per-run history folders remain intact; manual pruning requires explicit instruction. Workflow artifacts expire after **seven days**, but browser previews stay accessible.
+### Previews and cleanup
 
-### Publication is separate
+- Prefer the verified post-merge `main` Actions run URL; use a PR run when no `main` PDF preview exists. Never invent run URLs. PDF previews use per-run `previews/<run-id>/` directories on the permanent `pdf-preview-history` branch. Workflow artifacts expire after seven days; browser previews remain.
+- Delete completed resource branches after verifying merged commits. Preserve review history and any unmerged work. Never merge preview-history branches into `main`, nor delete earlier `pdf-preview-run-*` / `pdf-preview-pr-*` history as a side effect.
 
-- A source merge does not approve content, register a build target, or authorize Drive publication. Follow the status rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md).
-- Publish only within explicit authorization, after source approval and review of the exact regenerated output. Resolve missing, stale, or unapproved links first; verify intended access.
-- When updating a published Drive PDF, replace the existing file in place to preserve its ID. For registry entries with `build` instructions, use the **Publish to Drive** workflow ([DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md)), dry run first. Do not rename, duplicate, merge, or republish live assets as a side effect of source maintenance.
-- Register a new verified destination and set the linked resource status to `published` in `catalog/resources.json` after publication. Preserve stable IDs for existing resources.
+### Publishing
 
-### Classroom slide PDF to PowerPoint
-
-Slide PDF editing, approval, PPTX conversion, and in-place Drive replacement follow [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md). It is a human-approved publication path, separate from source previews and the unimplemented editable-slide generator.
-
-### Completion report
-
-State concisely:
-
-- Files changed and source/review status.
-- Checks, generated outputs, and remaining issues.
-- **Actions run URL first** for PDF previews (prefer post-merge `main`); then commit/PR link and whether `main` was verified.
-- Any unsaved work, remaining PRs, unpushed commits, local-only source/assets, or cleanup failures. Never claim all work is saved if verification failed.
-- For a published Drive replacement: exact file ID and confirmation of replacement in place.
+Drive delivery is the final phase of `/merge`, not a second user operation. See [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) for the existing internal PDF replacement path, and [CREATE.md](system/CREATE.md) for the first-time registration flow. Keep file IDs and sharing unchanged on replacements. Confirm paired slide PDF and PPTX under [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md). Unverified links block release.
 
 ### PDF build selection
 
-Relevant PR updates **and pushes to `main`** run source validation and tool tests. A review PDF renders only when one of its actual inputs changes or it is explicitly requested. PR selection compares the complete proposal against its base; `main` selection compares the before/after push commits. Generation never changes source content, grants approval, merges a PR, or publishes to Drive.
+PR updates and `main` pushes validate, run tests and rebuild only affected registered PDFs. All existing valid lesson, companion, and registry-rendered sources are previewable regardless of delivery state. Missing `lesson.json` creates no placeholder. Manual preview selection is one exact PDF filename or `all` (all registered outputs); there is no approval-filtered build mode.
 
-`scripts/select_builds.py` discovers lessons through `catalog/quests.json` → `quest.json` → each lesson's fixed `lessons/<stage>/lesson.json`; a lesson without one is skipped, with no placeholder. Every valid lesson source is previewable regardless of status. Lesson status comes **only** from `quest.json` (default `unapproved`); companion status **only** from its `catalog/resources.json` entry. `all-approved` includes only `approved` or `published` sources. There is no `stage.json` status check, `preview_enabled` flag, or separate draft filename.
-
-Registry entries with `build.renderer` (such as the Welcome PDF, `ccc-q01-welcome`) are also targets, output as `<resource-id>.pdf` with status from that registry entry. **Publish to Drive** builds through the same path.
-
-What rebuilds:
-
-- A source (even a metadata or provenance edit) or its local cover artwork rebuilds only its own output. Creating an eligible source creates its first preview.
-- A shared renderer change rebuilds its eligible consumers.
-- A resource-registry change rebuilds only documents referencing changed IDs, titles, or destinations. Status-only edits rebuild nothing, except that navigation pages rebuild when a linked entry's status changes (it decides **Open Guide** versus **Coming Soon**). Drive edits without a registry change rebuild nothing.
-- A registry-built document also rebuilds when anything in its source folder or `templates/<renderer>/assets/` changes. A change to the bundled Lato (`templates/fonts/`) rebuilds Teacher Guides and companions.
-- Any edit to `requirements.txt`, `scripts/build_selected.py`, the PDF workflow, or the shared setup action (`.github/actions/pdf-setup`) rebuilds all eligible PDFs. This deliberately favors an occasional extra preview over complex dependency detection.
-- Editorial documentation, unused templates, unrelated stories/worksheets/slides, tests, validation/selection logic, and action-label data (validation-only) rebuild nothing on their own.
-
-When adding a renderer input or changing how build commands are invoked, update the selector and its regression tests in the same PR.
-
-Manual builds (**Actions → PDF previews → Run workflow**) accept one exact eligible output filename (such as `01-set-the-table-teacher-guide.pdf`) or `all-approved` (drafts excluded). Unknown, missing-source, or unresolved-link requests fail explicitly. Drafts get the same source checks and PDF verification as approved sources; their previews may show existing unverified HTTPS links with validation warnings and do not authorize release. `scripts/build_selected.py` is the supported batch builder and rechecks eligibility before rendering. Each PDF-rendering run adds a unique folder on `pdf-preview-history` (retention above).
+A changed source, cover, template asset, renderer, relevant catalog link/title, nav status, or shared build dependency triggers relevant outputs; unrelated documentation, tests, status metadata and raw stories do not on their own render unrelated PDFs. Navigation links are live for `published` or `pending_publish` destinations; `unpublished` shows Coming Soon.
 
 ---
 
@@ -537,7 +513,7 @@ python scripts/renderers/claude.py \
 
 ### Navigation links
 
-`nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry is `approved` or `published` with an HTTPS URL; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
+`nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry is `pending_publish` or `published` with an HTTPS URL; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
 
 ### Fonts
 
@@ -545,7 +521,7 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ### Status and builds
 
-A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "claude", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md)). Rendering does not approve or publish anything.
+A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "claude", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md)). Rendering does not publish anything.
 
 Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
 
@@ -555,7 +531,7 @@ Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
 
 ## Classroom slide PDF → PowerPoint
 
-Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](system/WORKFLOW.md). Nothing here grants publication approval.
+Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](system/WORKFLOW.md). Human review is separate from publication status; nothing here publishes without authorization.
 
 ### Routine
 
@@ -563,7 +539,7 @@ Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routi
 2. **Approval gate.** The human must explicitly approve the **exact final PDF** and intended lesson. A past approval, GitHub merge, generated PPTX, or passing conversion check does not approve a changed PDF. The approved PDF's actual page count and order are authoritative: lesson metadata and outlines are context, never a slide-count requirement, so do not add or remove slides to match them. Ask only when the approved artifact itself is ambiguous.
 3. **Convert and check** (below).
 4. **Replace both existing Drive files in place:** the PDF and its paired existing binary `.pptx` (not a copy, new file, or native Google Slides conversion). A missing PPTX destination is a blocker, not permission to create one. Stage and check both deliverables before replacing either.
-5. **Read back and report** the exact file IDs and approval scope. Only the exact approved version, replaced and verified, may become `published`; uploading alone never advances status.
+5. **Read back and report** the exact file IDs and approval scope. Only the exact reviewed version, replaced and verified, may become `published`; uploading alone never advances status.
 
 ### Conversion
 
@@ -606,20 +582,20 @@ Editable slide-JSON generation remains **unimplemented** (see [SYS-002](SYSTEM_I
 
 ## Publishing to Google Drive
 
-Owns the automated in-place Drive publish step. Approval and status rules belong to [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); the edit and review routine belongs to [WORKFLOW.md](system/WORKFLOW.md).
+Owns the internal in-place Drive publish step. Delivery status rules belong to [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); the edit and review routine belongs to [WORKFLOW.md](system/WORKFLOW.md).
 
 ### What it does
 
-**Actions → Publish to Drive → Run workflow** takes one registry ID from `catalog/resources.json` and:
+**Internal fallback (not a user command):** Actions → Publish to Drive → Run workflow takes one registry ID from `catalog/resources.json` and:
 
 1. Runs only from `main`, using the same setup, validation, and tests as PDF previews (`.github/actions/pdf-setup`); publishing adds only the Google client packages.
-2. Refuses the entry unless its status is `approved` or `published`.
+2. Refuses the entry unless its status is `pending_publish` or `published`. `unpublished` requires a new-file creation path, which is not yet implemented.
 3. Builds the PDF from the entry's `build` instructions through `scripts/build_selected.py`, the same builder as GitHub previews.
 4. Checks the Drive destination (from `url`) is a PDF the service account can edit.
 5. Replaces the file's contents in place (`files.update`). The file ID, link, name, folder, and sharing stay the same; Drive keeps the previous version in **Manage versions**.
-6. Verifies Drive's MD5 matches the local PDF, then changes an `approved` entry to `published` and commits that to `main`.
+6. Verifies Drive's MD5 matches the local PDF, then changes a `pending_publish` entry to `published` and commits that to `main`.
 
-Run it first with **dry run** ticked (the default): it builds and checks access without uploading. Every run attaches the built PDF as a run artifact.
+Run it first with **dry run** ticked (the default): it builds and checks access without uploading. Every run attaches the built PDF as a run artifact. Merge-trigger automation remains to be implemented; no standalone user-facing `/publish` command exists.
 
 ### Registering a document
 
@@ -628,7 +604,7 @@ Add `build` to the registry entry. The entry's `url` must be the existing Drive 
 ```json
 "ccc-q01-welcome": {
   "url": "https://drive.google.com/file/d/<file-id>/view",
-  "status": "approved",
+  "status": "pending_publish",
   "build": {"renderer": "claude", "source": "content/.../welcome/welcome.json"}
 }
 ```
@@ -685,6 +661,44 @@ The connector procedure was verified on 2026-10-19 for a single binary ([PR #8](
 
 ---
 
+# File: `system/COMMANDS.md`
+
+## Command contract
+
+The only user-facing commands are **`/create`**, **`/update`**, and **`/merge`**. Natural-language instructions after a command apply. Infer the resource from conversation and confirm its ID against current GitHub records. These files define agent behavior; slash-command aliases require separate client configuration.
+
+### `/create [instructions]`
+
+The user has already prototyped the resource in chat. Follow [CREATE.md](system/CREATE.md): establish identity, create/reuse `edit/<stable-resource-id>`, commit editable sources/assets to GitHub, register intent as `unpublished`, validate and share the PR preview. **Do not upload to Drive yet.**
+
+### `/update [instructions]`
+
+Find/reuse the resource's branch (or branch from current `main` if missing), fetch its latest remote head, edit only the requested scope, validate, commit and push without force. Multiple agents across chats use the same resource branch. On concurrent updates reconcile rather than overwrite.
+
+### `/merge [instructions]`
+
+This is permission to accept the resource change and initiate publication. Reconcile the latest `main`, verify and merge, show the **combined `main`** output, and delete the branch after checking that all intended commits were merged. Replace the existing Drive destination in place, or create the first file in its proper Drive folder and update the catalogue. Verify exact deliverables and set `published` only after confirmation. On failure retain `pending_publish` (older live Drive version) or `unpublished` (none) and report the blocker.
+
+**No `/publish` command.** Publication is part of `/merge`. Today the merge-trigger orchestration is not built; the manual GitHub Action is an internal temporary fallback. Never claim the automatic step executed if it did not.
+
+---
+
+# File: `system/CREATE.md`
+
+## First-time resource creation
+
+This procedure follows **`/create` after a prototype already exists** in the AI conversation.
+
+1. Identify the resource's school, quest, lesson and type. Search existing IDs and Drive records; reuse an existing identity rather than duplicating it. Choose a new stable resource ID only when genuinely new.
+2. Create/reuse its `edit/<stable-resource-id>` branch based on latest `main`. Follow the source's `$instructions` and supported template. Commit editable content and separate required assets to GitHub; avoid output-only PDFs as editable source. For binary transfers follow [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md).
+3. Reserve the item in `catalog/resources.json` with type, title, tags and status `unpublished`; do not guess a Drive URL or folder ID. A lesson's status lives in its `quest.json`. Validate the source and provide the GitHub preview.
+4. Continue iterations through `/update` on the same branch. On `/merge`, reconcile and merge, build the accepted `main` version, determine the actual appropriate Drive lesson/quest folder from existing Drive records, create the first file there, verify its ID/type/access, and only then register the URL and mark `published`.
+5. If Drive folder, permissions, build output, or verification is missing, keep `unpublished` and report it. For existing resources, never create a duplicate: replace in place and preserve file IDs and sharing.
+
+**Not implemented yet:** automated first-time Drive creation and the merge orchestrator. This is the required agent workflow; do not claim unsupported operations ran.
+
+---
+
 # File: `SYSTEM_IMPROVEMENTS.md`
 
 ## System improvements
@@ -692,6 +706,12 @@ The connector procedure was verified on 2026-10-19 for a single binary ([PR #8](
 This file tracks **active** system work. The original migration and completed CI proposals are preserved in [archive/2026-10/](archive/2026-10/README.md).
 
 Live editing, status and publishing rules belong to [WORKFLOW.md](system/WORKFLOW.md), [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md). A backlog item never grants permission to publish to Drive.
+
+### SYS-004 — Merge-triggered Drive publication
+
+**Status:** Planned, not implemented. **Priority:** High.
+
+Wire `/merge` to the accepted `main` build, in-place Drive replacement or first-time creation in the correct folder, file verification, and stored published-build digests. Automatically detect `pending_publish` without agent-maintained flags. Support paired PDF/PPTX resources. Remove the internal manual fallback only after this flow is verified; do not add a `/publish` command.
 
 ### SYS-002 — Editable lesson slide generation
 
@@ -731,7 +751,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 
 | Editing | Read first |
 | --- | --- |
-| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#lifecycle-status). It owns lesson status; changes need explicit human approval. |
+| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#lifecycle-status). It owns lesson delivery status; branch-only edits do not change it. |
 | `lessons/<stage>/lesson.json` | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md), then [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
 | `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
@@ -749,8 +769,8 @@ Linked resource names, URLs, and companion status live in [catalog/resources.jso
 ## Editing the catalog
 
 - `resources.json` is the single owner of every linked resource's name, Drive URL, status, and (for built documents) `build` instructions. Its keys are the stable resource IDs. Rules: [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) and [lifecycle status](system/CONTENT_CONTRACT.md#lifecycle-status).
-- Never guess or invent a URL. A missing or unapproved destination blocks release; flag it.
-- Change `status` only on explicit human approval (`approved`) or after a verified in-place Drive replacement (`published`). Publishing: [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) or [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
+- Never guess or invent a URL. A missing or unverified destination blocks release; flag it.
+- Use only delivery statuses `unpublished`, `pending_publish`, `published`; no editorial approval flag. A verified Drive replacement sets `published`; newer `main` output with an older live destination is `pending_publish`. Publishing: [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) or [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
 - `quests.json` is a navigation index to each quest's `quest.json`, which owns lesson status.
 
 Run `python scripts/validate.py` after any edit; it checks IDs, statuses, HTTPS destinations, and every reference.
@@ -781,8 +801,8 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | `select_builds.py`, `build_selected.py` | Which PDFs a change previews, and the batch builder | [WORKFLOW.md: PDF build selection](system/WORKFLOW.md#pdf-build-selection) |
 | `validate.py` | Objective source checks, including `$instructions` pointers and `AGENTS.md` freshness | [AI_RULES.md: maintaining instructions](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerates the root `AGENTS.md` from all instruction files | Run after editing any instruction file |
-| `publish_to_drive.py` | In-place Drive replacement | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
-| `pdf_to_linked_slides.py` | Approved slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
+| `publish_to_drive.py` | Internal in-place Drive replacement (merge wiring pending) | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
+| `pdf_to_linked_slides.py` | Reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 
 A renderer for a registry-built document is `renderers/<name>.py`, matching `build.renderer` in `catalog/resources.json`. When adding a renderer input or changing how builds are invoked, update `select_builds.py` and `tests/` in the same PR. Run `python scripts/validate.py` and `python -m unittest discover -s tests`.
 
