@@ -1,35 +1,29 @@
-# Publishing to Google Drive
+# Publishing generated PDFs to Google Drive
 
-Owns the internal in-place Drive publish step. Delivery status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); the edit and review routine belongs to [WORKFLOW.md](WORKFLOW.md).
+This is the **Python-generated PDF** automation boundary. External worksheets, posters, image-generated PDFs, media and slide PDF/PPTX pairs are published manually by an agent according to [CREATE.md](CREATE.md) and [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). `/create` and `/update` are agent instructions, not Python command programs.
 
-## What it does
+## Generated PDF publication after an authorized /merge
 
-**Internal fallback (not a user command):** Actions → Publish to Drive → Run workflow takes one registry ID from `catalog/resources.json` and:
+1. The agent confirms the exact reviewed PDF and human approval, reconciles the `edit/<stable-resource-id>` branch with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with the authorized single matching resource ID.
+2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
+3. The workflow checks the accepted source and resource mapping, runs shared validation/tests and builds using `scripts/build_selected.py`. If a newer `main` update superseded the accepted PDF, publishing is blocked.
+4. An already-established official `published_url` must identify an editable Drive PDF. The publisher replaces the **same file ID** in place, preserves its name, folder and sharing, then reads back the file's ID and MD5.
+5. Only after exact verification does GitHub record the checksum, accepted Git revision, Drive version/time and `published`. If a live older release exists but the update fails, record `pending_publish` and a clear blocker. No unverifiable digest or reported upload success can mark `published`.
+6. The release Action provides its report and the matching post-merge `main` PDF preview run. The former edit branch is removed only when publication succeeded and its remote head still matches the merged PR; concurrent additions are preserved.
 
-1. Runs only from `main`, using the same setup, validation, and tests as PDF previews (`.github/actions/pdf-setup`); publishing adds only the Google client packages.
-2. Refuses the entry unless its status is `pending_publish` or `published`. `unpublished` requires a new-file creation path, which is not yet implemented.
-3. Builds the PDF from the entry's `build` instructions through `scripts/build_selected.py`, the same builder as GitHub previews.
-4. Checks the Drive destination (from `url`) is a PDF the service account can edit.
-5. Replaces the file's contents in place (`files.update`). The file ID, link, name, folder, and sharing stay the same; Drive keeps the previous version in **Manage versions**.
-6. Verifies Drive's MD5 matches the local PDF, then changes a `pending_publish` entry to `published` and commits that to `main`.
+First-time official publication is **agent-managed**: the agent moves/copies the accepted generated PDF from holding to the proper teacher-facing Drive folder, verifies the file, and registers its `published_url`, actual ID and first publication confirmation. No automated new-file creation is attempted. Subsequent accepted revisions use the automatic in-place path.
 
-Run it first with **dry run** ticked (the default): it builds and checks access without uploading. Every run attaches the built PDF as a run artifact. Merge-trigger automation remains to be implemented; no standalone user-facing `/publish` command exists.
+## Manual fallback and review copies
 
-## Registering a document
+The existing **Actions → Internal Drive replacement** workflow remains a controlled manual fallback for registered `generated_pdf` resources with established destinations. Use dry run first. Its status/version updates use the same verifier. It is **not** a user-facing `/publish` command or an external-resource publisher.
 
-Add `build` to the registry entry. The entry's `url` must be the existing Drive file to replace.
+For `/create`, an agent builds the PDF preview and uploads it to the verified `PDF-generated resources` holding folder in `catalog/drive_folders.json`. This holding copy is never an official release. `holding_url`, `published_url`, and the compatibility `url` must remain distinct, and existing Drive IDs must not be changed merely for housekeeping.
 
-```json
-"ccc-q01-welcome": {
-  "url": "https://drive.google.com/file/d/<file-id>/view",
-  "status": "pending_publish",
-  "build": {"renderer": "claude", "source": "content/.../welcome/welcome.json"}
-}
-```
+The publisher's destination is resolved only from the resource's recorded official file. Example generated registry build mapping: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}`; ordinary Teacher Guides use `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these output names. No external asset receives a Python build just because it is a PDF.
 
-The renderer is `scripts/renderers/<renderer>.py`, and the entry becomes a preview target named `<resource-id>.pdf`. For a Teacher Guide or companion, name its preview output instead: `"build": {"output": "00-activate-teacher-guide.pdf"}`.
+## On-demand inspection
 
-Currently registered: `ccc-q01-welcome` (Quest_Overview.pdf in 00_WELCOME).
+**Actions → Inspect publication** is manual-only and read-only. For generated PDFs it can compare current rendered checksum, recorded published checksum and Drive metadata. For external resources it can confirm Drive metadata or report the missing evidence but **cannot infer content parity**. The inspector never changes status or republishes files.
 
 ## One-time setup
 
