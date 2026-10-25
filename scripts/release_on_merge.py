@@ -59,7 +59,7 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
     changed_after = set(git("diff", "--name-only", merge_sha, head).splitlines())
     superseded = set(select(changed_after, base_ref=merge_sha)) if changed_after else set()
     result = {"pr": pr, "merge_revision": merge_sha, "build_revision": head,
-              "generated": [], "external": [], "blocked": []}
+              "generated": [], "external": [], "pending": [], "blocked": []}
     for rid in ids:
         item = registry.get(rid)
         if item is None:
@@ -77,6 +77,8 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
         except PublishError as exc:
             result["blocked"].append({"resource_id": rid, "reason": str(exc)})
             continue
+        if output in affected and item.get("status") == "published":
+            result["pending"].append(rid)
         if output not in registered:
             result["blocked"].append({"resource_id": rid, "reason": "generated output is not registered"})
         elif output not in affected:
@@ -92,12 +94,13 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
 
 def run_release(result: dict) -> dict:
     """A failed upload leaves pending_publish; external releases are never auto-uploaded."""
-    for rid in result["generated"]:
+    for rid in result.get("pending", []):
         registry = load_registry()
         item = registry[rid]
         if item.get("status") == "published":
             item["status"] = "pending_publish"
             save_registry(registry)
+    for rid in result["generated"]:
         try:
             verified = publish(rid, expected_revision=result["build_revision"])
             result.setdefault("published", []).append({
