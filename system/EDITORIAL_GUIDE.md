@@ -77,7 +77,6 @@ Prefer this deliberately small vocabulary; use the label only when the action ge
 | --- | --- |
 | **SHOW** | Display or advance to specified slide(s); play media embedded on a slide. |
 | **KEEP** | Remain on a named slide during the following action or passage. |
-| **CHOOSE** | Direct a small choice within one activity (such as a format or word choice); never choose between different Small Bites. |
 | **READ** | Open a linked reading for independent, group, or teacher read-aloud. |
 | **LISTEN** | Play or direct students to a linked standalone audio recording, including as a reading alternative. |
 | **ASK** | Ask the strongest, most relevant discussion question. |
@@ -85,7 +84,7 @@ Prefer this deliberately small vocabulary; use the label only when the action ge
 | **GIVE** | Distribute or direct students to a linked student resource. |
 | **MORE** | Link supplementary teacher resources or additional prompts. |
 
-Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, `CHOICE`, and `PLAY` as action labels. Do not create near-synonyms. Use `CHOOSE` for small decisions within one task (such as reading versus listening or selecting a word from a bank). For format alternatives, mark them clearly as Option 1 / Option 2, then use one `DO` row for instructions shared by both. Keep `CHOOSE`, `READ`, `LISTEN`, and the shared `DO` aligned in the usual action grid—no extra indentation. For different Small Bite activities, retain structured A/B/C/D options; do not use `CHOOSE` to replace them. Use `SHOW` to play media embedded on slides, and `LISTEN` for standalone linked audio.
+Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, `CHOICE`, `CHOOSE`, and `PLAY` as action labels. Do not create near-synonyms. For alternate ways of completing the same reading task, title the step `Read or Listen` and put `READ` and `LISTEN` on equal action rows, with no Option 1/2 labels or extra indentation. Give instructions that apply to both in a single `DO` row, using `For either format` when needed. Reserve structured A/B/C/D options for different Small Bite activities. Use `SHOW` for media embedded on slides and `LISTEN` for standalone linked audio.
 
 **For engineering:** [action_labels.json](action_labels.json) owns the allowed labels and internal row types; the table explains usage. The validator and renderer must consult that file when checking validity. Rendering branches for specialized content are still appropriate.
 
