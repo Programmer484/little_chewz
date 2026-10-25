@@ -1,17 +1,23 @@
-# Command contract
+# Agent command contract
 
-The only user-facing commands are **`/create`**, **`/update`**, and **`/merge`**. Natural-language instructions after a command apply. Infer the resource from conversation and confirm its ID against current GitHub records. These files define agent behavior; slash-command aliases require separate client configuration.
+The user-facing phrases **`/create`**, **`/update`**, and **`/merge`** are AI-agent instructions, not executable programs. The source procedure is [CREATE.md](CREATE.md); client-side slash aliases require separate configuration. Infer the requested resource from the conversation and verify its stable ID in live GitHub records.
 
 ## `/create [instructions]`
 
-The user has already prototyped the resource in chat. Follow [CREATE.md](CREATE.md): establish identity, create/reuse `edit/<stable-resource-id>`, commit editable sources/assets to GitHub, register intent as `unpublished`, validate and share the PR preview. **Do not upload to Drive yet.**
+Use the already prototyped content. Follow [CREATE.md](CREATE.md) and the correct `production_type` workflow. Create a review copy in the actual Google Drive holding folder, record its `holding_url` separately from `published_url`, preserve existing identities, and keep `status: unpublished` until confirmed official publication.
+
+- **`generated_pdf`:** commit editable source and build assets on `edit/<resource-id>`, build through the existing Python renderer, upload a review PDF to the PDF-generated holding folder, register the build, then provide a PR and preview.
+- **`external`:** create using the appropriate agent tool, upload the finished file to the relevant holding folder, and commit catalogue metadata. No GitHub source branch, editable-source copy, renderer, or PR merge is required to publish the external asset.
 
 ## `/update [instructions]`
 
-Find/reuse the resource's branch (or branch from current `main` if missing), fetch its latest remote head, edit only the requested scope, validate, commit and push without force. Multiple agents across chats use the same resource branch. On concurrent updates reconcile rather than overwrite.
+- **Generated PDF:** fetch the remote `edit/<resource-id>` branch, reconcile concurrent changes, update only the authorized source/assets, validate and preview, and non-force push. Never overwrite another agent's commits.
+- **External:** edit in the original creation tool, replace the existing holding file **in place** when possible, verify the file and update the catalogue through a normal GitHub bookkeeping change. Do not invoke a PDF build or resource merge.
 
-## `/merge [instructions]`
+Editing a draft does not change the currently verified live release status.
 
-This is permission to accept the resource change and initiate publication. Reconcile the latest `main`, verify and merge, show the **combined `main`** output, and delete the branch after checking that all intended commits were merged. Replace the existing Drive destination in place, or create the first file in its proper Drive folder and update the catalogue. Verify exact deliverables and set `published` only after confirmation. On failure retain `pending_publish` (older live Drive version) or `unpublished` (none) and report the blocker.
+## `/merge [instructions]` — generated PDFs only
 
-**No `/publish` command.** Publication is part of `/merge`. Today the merge-trigger orchestration is not built; the manual GitHub Action is an internal temporary fallback. Never claim the automatic step executed if it did not.
+Requires explicit human approval of the exact reviewed generated PDF. Reconcile and validate the resource branch, append its **single-resource** authorized release marker at `.github/resource-releases/<PR-number>.json` with `{"signal":"authorized-resource-merge","pr_number":<PR-number>,"resource_ids":["<resource-id>"]}`, then merge the PR into `main`. GitHub Actions runs a guarded build, replaces the established official PDF **in place**, reads back the exact Drive checksum/file ID, records publication, and safely deletes the old branch only if it has not advanced. Check the Actions run and report errors truthfully. A first-ever official destination must be placed and verified by an agent before later automatic replacements.
+
+**Do not use `/merge` for external resources.** External publication is a distinct agent-managed Drive procedure: move or replace in the official destination, verify, then record the confirmed status in GitHub. There is no separate user-facing `/publish` command, scheduled inspection, or external checksum pipeline.
