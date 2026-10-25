@@ -247,5 +247,91 @@
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
     },
     "status_note": "2026-10-24: rebuilt Welcome PDF (claude template, PR #42) approved by the project owner in chat for Drive replacement. Drive file Quest_Overview.pdf in 00_WELCOME still holds the earlier Canva version until published."
+  },
+  "ccc-q01-secret-ingredients-clue-video": {
+    "title": "Zenix Clue Tracker Video",
+    "url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
+    "type": "media",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "investigation"
+    ],
+    "status": "unapproved",
+    "link_note": "Historical direct-video link; lesson-specific slides are not yet verified."
+  },
+  "ccc-q01-secret-ingredients-chapter-one": {
+    "title": "Chapter One: The Bake-Off Betrayal",
+    "url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view",
+    "type": "story",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "chapter-one"
+    ],
+    "status": "unapproved",
+    "link_note": "Chapter download link from original Guide page 42; permissions unverified."
+  },
+  "ccc-q01-secret-ingredients-chapter-audio": {
+    "title": "Chapter One Audio",
+    "url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing",
+    "type": "media",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "audio"
+    ],
+    "status": "unapproved",
+    "link_note": "Legacy audio folder link from original Guide page 42; specific recording and permissions unverified."
+  },
+  "ccc-q01-secret-ingredients-clue-tracker": {
+    "title": "Full Zenix Clue Tracker",
+    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "optional",
+      "extension"
+    ],
+    "status": "unapproved",
+    "link_note": "Legacy Day Two guide, pages 6–7, not yet split into core and extension; use pages selectively, not the entire teacher PDF."
+  },
+  "ccc-q01-secret-ingredients-clue-answer-key": {
+    "title": "Clue Tracker Answer Key",
+    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "type": "teacher_reference",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "answer-key"
+    ],
+    "status": "unapproved",
+    "link_note": "Legacy Day Two guide page 8; guide includes teacher and student material."
+  },
+  "ccc-q01-secret-ingredients-chapter-notes": {
+    "title": "Chapter Notes",
+    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "chapter-notes"
+    ],
+    "status": "unapproved",
+    "link_note": "Legacy Day Two guide page 10; worksheet not yet revised with scaffold."
+  },
+  "ccc-q01-secret-ingredients-character-profile": {
+    "title": "Expanded Character Profile",
+    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "optional",
+      "extension"
+    ],
+    "status": "unapproved",
+    "link_note": "Legacy Day Two guide page 12; remains unsplit and unedited. Core evidence-based prompt lives in the teacher guide."
   }
 }
