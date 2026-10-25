@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build one approved document and replace its Drive file in place.
+"""Build one registered document and replace its Drive file in place.
 
 The registry entry in catalog/resources.json names the Drive destination
 (`url`) and how to build the PDF (`build`):
@@ -10,7 +10,7 @@ The registry entry in catalog/resources.json names the Drive destination
 Publishing replaces the file's contents through the Drive API, so the file
 ID, link, name, folder, and sharing stay the same and Drive keeps the old
 version in its history. After Drive reports the same MD5 as the local PDF,
-an `approved` entry is marked `published`.
+a `pending_publish` entry is marked `published`.
 
 Credentials: a Google service account key (JSON) in the environment
 variable GOOGLE_SERVICE_ACCOUNT_JSON. Share the target file or folder with
@@ -34,7 +34,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "catalog" / "resources.json"
 OUT = ROOT / "exports" / "publish"
-PUBLISHABLE = {"approved", "published"}
+PUBLISHABLE = {"pending_publish", "published"}
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 DRIVE_ID = re.compile(r"/d/([A-Za-z0-9_-]{20,})")
 
@@ -61,9 +61,9 @@ def drive_file_id(url: str) -> str:
 def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     if entry is None:
         raise PublishError(f"Unknown resource ID: {resource_id}")
-    status = entry.get("status", "unapproved")
+    status = entry.get("status", "unpublished")
     if status not in PUBLISHABLE:
-        raise PublishError(f"{resource_id} is {status}; only approved or published entries can be published")
+        raise PublishError(f"{resource_id} is {status}; only pending_publish or published entries with existing Drive targets can be replaced")
     build = entry.get("build")
     if not isinstance(build, dict) or not (build.get("source") or build.get("output")):
         raise PublishError(f"{resource_id} has no 'build' instructions in the registry")
@@ -156,7 +156,7 @@ def publish(resource_id: str, dry_run: bool = False, service=None, builder=build
             raise PublishError(f"MD5 mismatch after upload: Drive {after.get('md5Checksum')}, local {local_md5}")
         report.update(result="replaced in place", new_version=after.get("version"),
                       modified=after.get("modifiedTime"), link=after.get("webViewLink"))
-    if entry.get("status") == "approved":
+    if entry.get("status") == "pending_publish":
         entry["status"] = "published"
         save_registry(registry)
         report["status_after"] = "published"

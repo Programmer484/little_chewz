@@ -27,16 +27,16 @@ class SelectionTests(unittest.TestCase):
 
     def test_all_existing_sources_can_preview_without_flag(self):
         self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME})
-        self.assertFalse(self.targets[DRAFT]['approved'])
-        self.assertFalse(self.targets[PART2]['approved'])
+        self.assertEqual(self.targets[DRAFT]['status'], 'pending_publish')
+        self.assertEqual(self.targets[PART2]['status'], 'unpublished')
         self.assertEqual(sb.selection(PART2)['outputs'], [PART2])
-        self.assertFalse(self.targets[SONG]['approved'])
-        self.assertTrue(self.targets[GUIDE]['approved'])
+        self.assertEqual(self.targets[SONG]['status'], 'unpublished')
+        self.assertEqual(self.targets[GUIDE]['status'], 'pending_publish')
         self.assertEqual(sb.selection(DRAFT)['outputs'], [DRAFT])
         self.assertEqual(sb.selection(SONG)['outputs'], [SONG])
-        self.assertEqual(sb.selection('all-approved')['outputs'], [GUIDE, WELCOME, CONFETTI, MISSION])
-        self.assertEqual(sb.selection(DRAFT)['status'][DRAFT], 'unapproved')
-        self.assertEqual(sb.selection(GUIDE)['status'][GUIDE], 'approved')
+        self.assertEqual(set(sb.selection('all')['outputs']), set(self.targets))
+        self.assertEqual(sb.selection(DRAFT)['status'][DRAFT], 'pending_publish')
+        self.assertEqual(sb.selection(GUIDE)['status'][GUIDE], 'pending_publish')
         self.assertEqual(sb.selection(MISSION)['status'][MISSION], 'published')
         with self.assertRaisesRegex(ValueError, 'Unknown'):
             sb.selection('missing.pdf')
@@ -116,7 +116,7 @@ class SelectionTests(unittest.TestCase):
     def test_navigation_status_change_rebuilds_welcome(self):
         path = 'catalog/resources.json'
         altered = copy.deepcopy(sb.read_json(path))
-        altered['ccc-q01-set-the-table-teacher-guide']['status'] = 'unapproved'
+        altered['ccc-q01-set-the-table-teacher-guide']['status'] = 'unpublished'
         with patch.object(sb, 'previous', return_value=json.dumps(altered)):
             self.assertEqual(sb.select([path], 'base'), [WELCOME])
 

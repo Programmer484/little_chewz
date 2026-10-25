@@ -1,6 +1,6 @@
 # Classroom slide PDF → PowerPoint
 
-Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](WORKFLOW.md). Nothing here grants publication approval.
+Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](WORKFLOW.md). Human review is separate from publication status; nothing here publishes without authorization.
 
 ## Routine
 
@@ -8,7 +8,7 @@ Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routi
 2. **Approval gate.** The human must explicitly approve the **exact final PDF** and intended lesson. A past approval, GitHub merge, generated PPTX, or passing conversion check does not approve a changed PDF. The approved PDF's actual page count and order are authoritative: lesson metadata and outlines are context, never a slide-count requirement, so do not add or remove slides to match them. Ask only when the approved artifact itself is ambiguous.
 3. **Convert and check** (below).
 4. **Replace both existing Drive files in place:** the PDF and its paired existing binary `.pptx` (not a copy, new file, or native Google Slides conversion). A missing PPTX destination is a blocker, not permission to create one. Stage and check both deliverables before replacing either.
-5. **Read back and report** the exact file IDs and approval scope. Only the exact approved version, replaced and verified, may become `published`; uploading alone never advances status.
+5. **Read back and report** the exact file IDs and approval scope. Only the exact reviewed version, replaced and verified, may become `published`; uploading alone never advances status.
 
 ## Conversion
 

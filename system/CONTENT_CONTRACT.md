@@ -1,6 +1,6 @@
 # Content contract
 
-Owns file organization, source authority, review statuses, and source/output boundaries. Writing rules belong in the editorial guides; delivery belongs in [WORKFLOW.md](WORKFLOW.md).
+Owns file organization, source authority, delivery statuses, and source/output boundaries. Writing rules belong in the editorial guides; delivery belongs in [WORKFLOW.md](WORKFLOW.md).
 
 ## Organization and ownership
 
@@ -13,7 +13,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Quest facts, lesson sequence, and each lesson's **only lifecycle status** | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
 | Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
-| Unapproved and approved lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
+| Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
 | Linked names, destinations, stable ID object keys, and **only linked-resource lifecycle status** | `catalog/resources.json` |
@@ -43,35 +43,37 @@ Only maintain templates for resource types with working source-authoring workflo
 
 ## Lifecycle status
 
-Only three values are valid: `unapproved` → `approved` → `published`.
+The only delivery states are `unpublished`, `pending_publish`, and `published`. **Editorial approval is not a stored status.** The owner's authorization to merge provides the review gate.
 
 | Status | Meaning |
 | --- | --- |
-| `unapproved` | New, edited, or unreviewed work. **Default if a status is absent.** Previewable once a valid source exists. |
-| `approved` | Human approved this exact source revision; it has not yet been confirmed live. |
-| `published` | Human-approved current revision has been published to its intended Drive destination. |
+| `unpublished` | No confirmed teacher-facing Drive publication exists. Draft sources and unverified Drive URLs do not count. Default if absent. |
+| `pending_publish` | An older Drive publication exists, but the accepted `main` deliverable has changed or replacement has not been verified. The previous Drive version stays live. |
+| `published` | The current accepted `main` output matches the verified Drive deliverable. Linked-only resources require a verified live destination. |
 
-**One owner per item:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[<stable-id>].status` for linked resources/companions. A standalone raw story's frontmatter describes the local transcription, not its separate Drive distribution. Do not copy a lifecycle status into `lesson.json`, `stage.json`, or companion content.
+**Work in progress is a branch, not a status.** A published resource stays published while agents edit on `edit/<stable-resource-id>`. Merging an output change makes it `pending_publish` if Drive already has a published version; first-time material remains `unpublished` until delivery. Only successful, exact Drive verification establishes `published`. Unrelated `main` commits and metadata-only changes must not affect status.
 
-A link recorded in Drive is not necessarily a cleared resource. For legacy registry entries, a previously unverified `approved_link: false` maps conservatively to `unapproved`, even if there is already a Drive URL; the `link_note` preserves the reason. Previously verified live entries map to `published`. Never infer external permissions solely from a status or URL.
+**Single owners:** `quest.json.learning_sequence[].status` for lesson source; `catalog/resources.json[<stable-id>].status` for linked resources and companions. A lesson and its separately published Teacher Guide may legitimately have different statuses. Do not copy status to `lesson.json`, `stage.json`, or companion content. Keep resource identities and Drive IDs stable.
 
-New editing starts in `unapproved`; editing a published source starts a new unapproved revision while the previous file stays live. **Review status is not publication authorization.** Transition to `approved` only after explicit human approval; to `published` only after the exact approved version is updated in Drive and verified. GitHub commits, generated previews, or a passing check never change statuses by themselves. A lesson whose source has not been transcribed stays `unapproved` with no `lesson.json` and is not built.
+**Target automatic detection:** persist the digest of the exact build last verified in Drive, compare it with the current accepted `main` build, and verify all deliverables for paired PDF/PPTX releases. A URL, push, merge, or successful renderer is not proof of publication. Do not label a source `published` without confirmation.
+
+**Implementation limitation:** automatic build/Drive hash reconciliation, merge-triggered publishing, and first-time Drive creation are not yet implemented. Existing statuses are being migrated conservatively; keep the documented stale-Drive notices and report uncertainty. No separate user-facing `/publish` command exists.
 
 ## Source authority
 
 1. Explicit human decisions within their stated scope, recorded in the owning source or instructions.
-2. Current approved editable content and its quest/resource-catalog status records.
-3. Current approved lesson slides or media for slide-specific details.
+2. Current accepted editable content and its quest/resource-catalog delivery records.
+3. Current reviewed lesson slides or media for slide-specific details.
 4. `Full Guide Revised.pdf` as editorial and visual benchmark, not automatic authority for current slide numbers.
 5. Older PDFs as recovery inputs only where editable sources are missing.
 
-A newer timestamp or extraction does not confer approval. Flag disagreements between records; do not silently choose the more permissive status. Historical reports and backlog proposals do not override current rules or establish implemented capabilities.
+A newer timestamp or extraction does not establish publication or content authority. Flag disagreements between records; do not silently choose the more permissive status. Historical reports and backlog proposals do not override current rules or establish implemented capabilities.
 
 ## Resources, slides, and assets
 
-- Resolve linked titles and destinations through `catalog/resources.json` (an existing PPTX target may be recorded as `powerpoint_file_id` alongside its lesson PDF resource). The registry object key is the resource ID; omit repeated `resource_id` fields. Retired aliases are archived in [`archive/2026-10/resource-aliases.json`](../archive/2026-10/resource-aliases.json). Use stable `ref` IDs in lesson flow, not literal Drive URLs. Missing, stale, or unapproved destinations block release; never guess a URL or fall back to unlinked text. An approved URL record does not prove external sharing works.
-- Maintain one independent slide set per lesson, with local numbering and a stable resource ID; link that lesson's approved set in Preparation. `SHOW`/`KEEP` numbers are navigation, not resource IDs; verify them against that set. The reviewed lesson PDF is the slide source; [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) owns PPTX conversion and Drive replacement. No editable slide renderer exists. Preserve the seven-slide published Activate asset until the human approves a specific revision. Never reuse the archived 44-slide quest-wide numbering ([`quest-slideshow.json`](../archive/2026-10/quest-slideshow.json)), merge decks, or republish them automatically.
+- Resolve linked titles and destinations through `catalog/resources.json` (an existing PPTX target may be recorded as `powerpoint_file_id` alongside its lesson PDF resource). The registry object key is the resource ID; omit repeated `resource_id` fields. Retired aliases are archived in [`archive/2026-10/resource-aliases.json`](../archive/2026-10/resource-aliases.json). Use stable `ref` IDs in lesson flow, not literal Drive URLs. Missing, stale, or unverified destinations block release; never guess a URL or fall back to unlinked text. A recorded URL does not prove external sharing works.
+- Maintain one independent slide set per lesson, with local numbering and a stable resource ID; link that lesson's reviewed set in Preparation. `SHOW`/`KEEP` numbers are navigation, not resource IDs; verify them against that set. The reviewed lesson PDF is the slide source; [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) owns PPTX conversion and Drive replacement. No editable slide renderer exists. Preserve the seven-slide published Activate asset until the human approves a specific revision. Never reuse the archived 44-slide quest-wide numbering ([`quest-slideshow.json`](../archive/2026-10/quest-slideshow.json)), merge decks, or republish them automatically.
 - Commit every image consumed by a PDF build to GitHub: covers, full-page images, backgrounds, illustrations, and reusable artwork. Keep editable text separately. Required build assets must be repository-local; a Drive link is insufficient.
 - **Build templates from individual assets.** When creating or revising a template or a templated document, save each logo, crest, icon, illustration, or other piece of artwork as its own image file (in the template's or document's `assets/` folder) and let the renderer place it alongside live text, colour, rules, and spacing. Do not generate a whole page or template as one image (AI-generated or rasterized), and do not bake editable text into artwork. The one exception is original cover artwork, kept as a losslessly cut `cover.pdf` ([CHAT_FILE_CREATION.md](CHAT_FILE_CREATION.md)).
-- A finished image distributed directly from Drive, with no PDF-building step, may remain Drive-link-only; retain its stable registry ID and approved link.
+- A finished image distributed directly from Drive, with no PDF-building step, may remain Drive-link-only; retain its stable registry ID and verified link.
 - Do not copy large exported PDFs into the source package. A legacy PDF awaiting conversion may remain a migration input. Follow [CHAT_FILE_CREATION.md](CHAT_FILE_CREATION.md) for source creation and binary transfer.

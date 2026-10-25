@@ -1,5 +1,5 @@
 {
-  "$instructions": "Owns each lesson's only lifecycle status (unapproved, approved, published). Change a status only with explicit human approval, per system/CONTENT_CONTRACT.md. Workflow: system/WORKFLOW.md.",
+  "$instructions": "Owns lesson delivery status (unpublished, pending_publish, published); WIP on branches does not alter it. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.",
   "id": "ccc-q01",
   "product": "Little Chewz",
   "program": "Chewlandia Academy",
@@ -18,7 +18,7 @@
     {
       "folder": "00-activate",
       "title": "Activate",
-      "status": "approved",
+      "status": "pending_publish",
       "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf.",
       "cover": {
         "source": "Full_Guide_v1.pdf page 1",
@@ -31,37 +31,37 @@
     {
       "folder": "01-set-the-table",
       "title": "Set the Table",
-      "status": "unapproved",
+      "status": "pending_publish",
       "source_note": "Revised Guide pages 5–8; slideshow pages 8–13 in older continuous deck."
     },
     {
       "folder": "02-secret-ingredients",
       "title": "Secret Ingredients",
-      "status": "unapproved",
+      "status": "unpublished",
       "source_note": "Revised Guide pages 9–13; slideshow pages 14–18 in older continuous deck."
     },
     {
       "folder": "03-the-showdown",
       "title": "The Showdown",
-      "status": "unapproved",
+      "status": "unpublished",
       "source_note": "Revised Guide pages 14–17; slideshow pages 19–21 in older continuous deck."
     },
     {
       "folder": "04-chew-on-this",
       "title": "Chew On This",
-      "status": "unapproved",
+      "status": "unpublished",
       "source_note": "Revised Guide pages 18–21; slideshow pages 22–29 in older continuous deck."
     },
     {
       "folder": "05-plate-it-forward",
       "title": "Plate It Forward",
-      "status": "unapproved",
+      "status": "unpublished",
       "source_note": "Revised Guide pages 22–25; slideshow pages 30–32 in older continuous deck."
     },
     {
       "folder": "06-celebrate",
       "title": "Celebrate",
-      "status": "unapproved",
+      "status": "unpublished",
       "source_note": "Revised Guide pages 26–29; slideshow pages 33–44 in older continuous deck."
     }
   ],

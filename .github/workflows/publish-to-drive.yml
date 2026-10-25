@@ -1,6 +1,7 @@
-name: Publish to Drive
+name: Internal Drive replacement
 
-# Manual only. Builds one approved registry entry from main and replaces its
+# Temporary internal fallback until merge-trigger publication exists.
+# Builds one live/pending registry entry from main and replaces its
 # Drive file in place (same file ID and link; Drive keeps the old version).
 on:
   workflow_dispatch:

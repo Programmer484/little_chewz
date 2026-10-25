@@ -13,8 +13,8 @@ pages; each page has a header (mark, eyebrow, title) and blocks:
   list        numbered rows: title, text, optional note {label, text}
   callout     coral bar with a short statement and optional subtext
   nav         quest navigation rows; each row links to a registry
-              resource (catalog/resources.json) when it is approved or
-              published, otherwise shows the pending label
+              resource (catalog/resources.json) when a live Drive version exists (published or
+              pending_publish), otherwise shows the pending label
 
 Before editing: read templates/claude/README.md for the block format and
 system/CONTENT_CONTRACT.md for the asset rule (artwork comes from separate
@@ -44,7 +44,7 @@ ASSETS = REPO / "templates" / "claude" / "assets"
 FONTS = ASSETS / "fonts"
 REGISTRY = REPO / "catalog" / "resources.json"
 DOC_DIR = REPO  # set to the document folder by render(); icon paths are relative to it
-LINKABLE = {"approved", "published"}
+LINKABLE = {"pending_publish", "published"}
 
 # Page matches the Welcome PDF exactly (Canva A4).
 PAGE_W, PAGE_H = 595.5, 842.25

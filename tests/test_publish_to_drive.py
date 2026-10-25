@@ -64,7 +64,7 @@ class PublishTests(unittest.TestCase):
         self.pdf = self.tmp / "out.pdf"
         self.pdf.write_bytes(PDF)
         self.entry = {"title": "Quest Overview", "url": f"https://drive.google.com/file/d/{FILE_ID}/view",
-                      "type": "published_export", "status": "approved",
+                      "type": "published_export", "status": "pending_publish",
                       "build": {"renderer": "claude", "source": "x.json"}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
@@ -106,11 +106,11 @@ class PublishTests(unittest.TestCase):
         service = FakeService()
         report = self.run_publish(service, dry_run=True)
         self.assertEqual(service._files.updates, [])
-        self.assertEqual(self.status(), "approved")
+        self.assertEqual(self.status(), "pending_publish")
         self.assertIn("dry run", report["result"])
 
-    def test_unapproved_entry_is_refused(self):
-        self.entry["status"] = "unapproved"
+    def test_unpublished_entry_is_refused(self):
+        self.entry["status"] = "unpublished"
         self.write({"ccc-q01-welcome": self.entry})
         with self.assertRaises(pub.PublishError):
             self.run_publish(FakeService())
@@ -120,7 +120,7 @@ class PublishTests(unittest.TestCase):
         service._files.store_md5 = False
         with self.assertRaises(pub.PublishError):
             self.run_publish(service)
-        self.assertEqual(self.status(), "approved")
+        self.assertEqual(self.status(), "pending_publish")
 
     def test_read_only_destination_is_refused(self):
         with self.assertRaises(pub.PublishError):

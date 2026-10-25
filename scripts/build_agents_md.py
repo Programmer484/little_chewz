@@ -34,6 +34,8 @@ SOURCES = [
     "system/SLIDE_CONVERSION.md",
     "system/DRIVE_PUBLISHING.md",
     "system/CHAT_FILE_CREATION.md",
+    "system/COMMANDS.md",
+    "system/CREATE.md",
     "SYSTEM_IMPROVEMENTS.md",
     "content/AGENTS.md",
     "catalog/AGENTS.md",

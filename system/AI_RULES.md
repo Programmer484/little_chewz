@@ -22,11 +22,11 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 
 ## Non-negotiable boundaries
 
-- Use approved facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
-- Keep lifecycle to `unapproved` → `approved` → `published`, with the one status owner defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Uploading, merging, rendering, or passing checks does not approve content or authorize publication.
+- Use verified facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
+- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Editorial approval is a human merge decision, not a recorded state. Merging an authorized resource change initiates publication once the required automation exists; do not claim it runs today.
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
-- Save edits through a pushed PR, reconcile simultaneous AI changes against the latest `main`, and merge when authorized. Verify the merged result and preserve unrelated work.
+- Use one remote resource branch across chats; multiple agents commit to that branch without force-pushing, reconcile changes against the latest remote head and `main`, and merge only when authorized. Verify the merged result and preserve unrelated work.
 - For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](WORKFLOW.md#preview-links-and-retention); do not use a preview-branch or PR Files link as the primary review link.
 
 ## Maintaining instructions
@@ -38,5 +38,5 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 - Keep agents routed: a new source type gets a `$instructions` pointer (defined in `scripts/validate.py`) and a template carrying it; a new folder of editable files gets an `AGENTS.md`, a row in the table above, and an entry in `scripts/build_agents_md.py`.
 - Never edit the root `AGENTS.md`; it is generated. After editing any instruction file, run `python scripts/build_agents_md.py`; `scripts/validate.py` fails while `AGENTS.md` is stale. A new instruction file is added to `SOURCES` in that script.
 - Keep editorial judgment in prose, shared values in their existing data files, and objective checks in `scripts/validate.py`. Do not add unused enforcement files or speculative tooling.
-- Apply explicit user decisions within their scope. If conflicting instructions would change approval, publication, or content meaning and intent is unclear, flag the conflict and continue independent work.
+- Apply explicit user decisions within their scope. If conflicting instructions would change human review scope, publication, or content meaning and intent is unclear, flag the conflict and continue independent work.
 - Report where the rule was saved, what now enforces it, and any existing materials still needing updates. Do not silently rewrite or publish the whole collection.

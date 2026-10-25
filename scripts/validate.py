@@ -7,14 +7,14 @@ R=Path(__file__).resolve().parents[1]
 registry=json.loads((R/'catalog/resources.json').read_text())
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
-STATUSES={'unapproved','approved','published'}
+STATUSES={'unpublished','pending_publish','published'}
 # Every editable source names the instructions an editor must read; agents meet
 # this pointer as soon as they open the file. Templates carry it so new files do too.
 INSTRUCTIONS={
     'lesson':'Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.',
     'stage':'Provenance only; never add status or teaching content here. To convert this lesson, create lesson.json from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.',
     'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.',
-    'quest':'Owns each lesson\'s only lifecycle status (unapproved, approved, published). Change a status only with explicit human approval, per system/CONTENT_CONTRACT.md. Workflow: system/WORKFLOW.md.',
+    'quest':'Owns lesson delivery status (unpublished, pending_publish, published); WIP on branches does not alter it. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.',
     'quest_catalog':'Navigation index only. Start at the root AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).',
     'claude':'Before editing, read templates/claude/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
 }
@@ -33,12 +33,12 @@ for ref,item in registry.items():
         errors.append(f'{ref}: redundant resource_id; the registry key is the stable ID')
     if 'legacy_alias' in item:
         errors.append(f'{ref}: legacy_alias belongs in archive/2026-10/resource-aliases.json')
-    if item.get('status', 'unapproved') not in STATUSES:
+    if item.get('status', 'unpublished') not in STATUSES:
         errors.append(f'{ref}: invalid status {item.get("status")}')
     if 'approved_link' in item:
         errors.append(f'{ref}: obsolete approved_link field; use status')
-    if item.get('status')=='published' and not str(item.get('url','')).startswith('https://'):
-        errors.append(f'{ref}: published resource has no HTTPS URL')
+    if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
+        errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
 for path in R.glob('content/**/lessons/**/lesson.draft.json'):
     errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
@@ -53,12 +53,12 @@ for school in read_json('catalog/quests.json')['school_index']:
     quest=json.loads(quest_path.read_text())
     check_instructions(quest_path,quest,'quest')
     for lesson in quest['learning_sequence']:
-        status=lesson.get('status','unapproved')
+        status=lesson.get('status','unpublished')
         if status not in STATUSES:
             errors.append(f'{quest_path}: invalid lesson status {status}')
         folder=quest_path.parent/'lessons'/lesson['folder']
-        if status in ('approved','published') and not (folder/'lesson.json').is_file():
-            errors.append(f'{folder}: approved/published lesson has no lesson.json')
+        if status in ('pending_publish','published') and not (folder/'lesson.json').is_file():
+            errors.append(f'{folder}: live/pending lesson has no lesson.json')
 lesson_paths = sorted(R.glob('content/**/lessons/**/lesson.json'))
 for path in lesson_paths:
     d=json.loads(path.read_text())
@@ -99,8 +99,8 @@ for path in R.glob('content/**/resources/**/*.json'):
         errors.append(f'{path}: companion missing registered resource ID')
     if 'review_status' in d or 'preview_enabled' in d:
         errors.append(f'{path}: status belongs in catalog/resources.json')
-    if registry.get(d.get('resource_id'),{}).get('status','unapproved')=='unapproved':
-        warnings.append(f'{path.name}: unapproved companion; preview only')
+    if registry.get(d.get('resource_id'),{}).get('status','unpublished')=='unpublished':
+        warnings.append(f'{path.name}: unpublished companion; preview only')
 for path in R.glob('content/**/story/*.md'):
     if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
         errors.append(f'{path}: frontmatter must include the line "{STORY_INSTRUCTIONS}"')
@@ -129,8 +129,8 @@ try:
             record = registry.get(ref, {})
             if not str(record.get('url', '')).startswith('https://'):
                 errors.append(f'{name}: unresolved HTTPS destination for {ref}')
-            elif record.get('status','unapproved')!='published':
-                warnings.append(f'{name}: {ref} is not published; preview only')
+            elif record.get('status','unpublished')!='published':
+                warnings.append(f'{name}: {ref} is not verified current on Drive; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')
 try:
