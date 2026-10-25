@@ -23,10 +23,10 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 ## Non-negotiable boundaries
 
 - Use verified facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
-- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Editorial approval is a human merge decision, not a recorded state. Merging an authorized resource change initiates publication once the required automation exists; do not claim it runs today.
+- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Production type is explicit: generated PDFs alone use human-authorized resource `/merge` and automatic in-place Drive verification; external resources use agent-managed publishing, with no automated merge. A holding file is never evidence of publication.
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
-- Use one remote resource branch across chats; multiple agents commit to that branch without force-pushing, reconcile changes against the latest remote head and `main`, and merge only when authorized. Verify the merged result and preserve unrelated work.
+- For generated PDFs, use one remote `edit/<resource-id>` branch across chats, reconcile against the latest remote head and `main`, and never force-push. External resources use their original authoring tool and an ordinary catalogue bookkeeping change, not a GitHub resource branch or `/merge`. Preserve unrelated work.
 - For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](WORKFLOW.md#preview-links-and-retention); do not use a preview-branch or PR Files link as the primary review link.
 
 ## Maintaining instructions
