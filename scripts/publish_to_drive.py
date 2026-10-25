@@ -29,6 +29,7 @@ import os
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,10 +65,16 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     status = entry.get("status", "unpublished")
     if status not in PUBLISHABLE:
         raise PublishError(f"{resource_id} is {status}; only pending_publish or published entries with existing Drive targets can be replaced")
+    if entry.get("production_type", "generated_pdf") != "generated_pdf":
+        raise PublishError(f"{resource_id} is external; agent-managed publication required")
     build = entry.get("build")
     if not isinstance(build, dict) or not (build.get("source") or build.get("output")):
         raise PublishError(f"{resource_id} has no 'build' instructions in the registry")
-    return drive_file_id(entry.get("url", "")), build
+    file_id = drive_file_id(entry.get("url", ""))
+    recorded_id = (entry.get("publication") or {}).get("drive_file_id")
+    if recorded_id and recorded_id != file_id:
+        raise PublishError(f"{resource_id} has conflicting publication Drive file ID")
+    return file_id, build
 
 
 def output_name(resource_id: str, build: dict) -> str:
@@ -131,21 +138,52 @@ def upload(service, file_id: str, pdf: Path) -> dict:
                                   supportsAllDrives=True).execute()
 
 
-def publish(resource_id: str, dry_run: bool = False, service=None, builder=build_pdf) -> dict:
+def current_revision() -> str:
+    """The accepted code revision, not the later status-metadata commit."""
+    try:
+        revision = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True, stderr=subprocess.DEVNULL
+        ).strip()
+    except (OSError, subprocess.CalledProcessError) as exc:
+        raise PublishError("Cannot identify the accepted Git revision") from exc
+    if not re.fullmatch(r"[0-9a-f]{40}", revision):
+        raise PublishError(f"Invalid accepted revision: {revision!r}")
+    return revision
+
+
+def assert_revision(expected: str | None) -> str:
+    actual = current_revision()
+    if expected is not None and expected != actual:
+        raise PublishError(f"Accepted main revision changed: expected {expected}, found {actual}")
+    return actual
+
+
+def publish(resource_id: str, dry_run: bool = False, service=None,
+            builder=build_pdf, expected_revision: str | None = None) -> dict:
     registry = load_registry()
     entry = registry.get(resource_id)
     file_id, build = check_entry(resource_id, entry)
+    revision = assert_revision(expected_revision)
+    # Every generated document uses the same explicit output mapping as previews.
+    if builder is build_pdf:
+        from select_builds import targets
+        name = output_name(resource_id, build)
+        if name not in targets():
+            raise PublishError(f"{resource_id}: unregistered generated PDF output {name}")
     pdf = builder(resource_id, build)
+    assert_revision(revision)
     local_md5 = md5(pdf)
     service = service or drive_service()
     before = check_destination(service, file_id)
     report = {"resource_id": resource_id, "file_id": file_id, "name": before.get("name"),
               "local_md5": local_md5, "previous_md5": before.get("md5Checksum"),
               "previous_version": before.get("version"), "bytes": pdf.stat().st_size,
-              "dry_run": dry_run, "status_before": entry.get("status")}
+              "dry_run": dry_run, "status_before": entry.get("status"),
+              "release_revision": revision}
     if dry_run:
         report["result"] = "dry run: built and checked access; Drive not changed"
         return report
+    assert_revision(revision)
     if before.get("md5Checksum") == local_md5:
         report["result"] = "unchanged: Drive already has these exact bytes"
     else:
@@ -156,12 +194,36 @@ def publish(resource_id: str, dry_run: bool = False, service=None, builder=build
             raise PublishError(f"MD5 mismatch after upload: Drive {after.get('md5Checksum')}, local {local_md5}")
         report.update(result="replaced in place", new_version=after.get("version"),
                       modified=after.get("modifiedTime"), link=after.get("webViewLink"))
-    if entry.get("status") == "pending_publish":
-        entry["status"] = "published"
-        save_registry(registry)
+    # Read back actual Drive metadata. A successful update request alone is not
+    # evidence that the teacher-facing destination contains the expected bytes.
+    confirmed = check_destination(service, file_id)
+    if confirmed.get("id") != file_id or confirmed.get("md5Checksum") != local_md5:
+        raise PublishError(f"Drive read-back checksum or file ID mismatch for {resource_id}")
+    assert_revision(revision)
+    prior = entry.get("publication") or {}
+    if (prior.get("verification") == "verified"
+            and prior.get("method") == "generated_pdf"
+            and prior.get("drive_file_id") == file_id
+            and prior.get("release_revision") == revision
+            and prior.get("artifact_md5") == local_md5
+            and prior.get("drive_version") == str(confirmed.get("version"))
+            and entry.get("status") == "published"):
         report["status_after"] = "published"
-    else:
-        report["status_after"] = entry.get("status")
+        report["publication"] = prior
+        return report
+    entry["publication"] = {
+        "verification": "verified",
+        "method": "generated_pdf",
+        "drive_file_id": file_id,
+        "release_revision": revision,
+        "artifact_md5": local_md5,
+        "drive_version": str(confirmed["version"]) if confirmed.get("version") is not None else None,
+        "confirmed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+    entry["status"] = "published"
+    save_registry(registry)
+    report["status_after"] = "published"
+    report["publication"] = entry["publication"]
     return report
 
 
@@ -169,9 +231,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("resource_id", help="registry ID, for example ccc-q01-welcome")
     parser.add_argument("--dry-run", action="store_true", help="build and check access without uploading")
+    parser.add_argument("--expected-revision", help="Reject a stale or unexpected main HEAD")
+    parser.add_argument("--result-json", type=Path, help="Write verified publication report as JSON")
     args = parser.parse_args()
     try:
-        report = publish(args.resource_id, dry_run=args.dry_run)
+        report = publish(args.resource_id, dry_run=args.dry_run,
+                         expected_revision=args.expected_revision)
+        if args.result_json:
+            args.result_json.parent.mkdir(parents=True, exist_ok=True)
+            args.result_json.write_text(json.dumps(report, indent=2) + "\n")
     except subprocess.CalledProcessError as exc:
         print(f"PUBLISH FAILED: build step exited with {exc.returncode}; see the error above", file=sys.stderr)
         sys.exit(1)
