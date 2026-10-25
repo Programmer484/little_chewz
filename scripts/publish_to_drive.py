@@ -65,12 +65,15 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     status = entry.get("status", "unpublished")
     if status not in PUBLISHABLE:
         raise PublishError(f"{resource_id} is {status}; only pending_publish or published entries with existing Drive targets can be replaced")
-    if entry.get("production_type", "generated_pdf") != "generated_pdf":
+    if entry.get("production_type") != "generated_pdf":
         raise PublishError(f"{resource_id} is external; agent-managed publication required")
     build = entry.get("build")
     if not isinstance(build, dict) or not (build.get("source") or build.get("output")):
         raise PublishError(f"{resource_id} has no 'build' instructions in the registry")
-    file_id = drive_file_id(entry.get("url", ""))
+    official_url = entry.get("published_url") or entry.get("url")
+    if entry.get("holding_url") and entry.get("holding_url") == official_url:
+        raise PublishError(f"{resource_id}: holding URL cannot be a publishing destination")
+    file_id = drive_file_id(official_url)
     recorded_id = (entry.get("publication") or {}).get("drive_file_id")
     if recorded_id and recorded_id != file_id:
         raise PublishError(f"{resource_id} has conflicting publication Drive file ID")
@@ -220,6 +223,7 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
         "drive_version": str(confirmed["version"]) if confirmed.get("version") is not None else None,
         "confirmed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
+    entry["published_url"] = entry.get("published_url") or entry["url"]
     entry["status"] = "published"
     save_registry(registry)
     report["status_after"] = "published"
