@@ -50,7 +50,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
    | Resource names, links, status, publishing | [catalog/AGENTS.md](catalog/AGENTS.md) | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) |
-   | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection) |
+   | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
    | The instructions themselves | [system/AGENTS.md](system/AGENTS.md) | [Maintaining instructions](#maintaining-instructions) |
 
 3. For every edit, follow [WORKFLOW.md](system/WORKFLOW.md). For file creation or binary transfers through a connector, read [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md).
@@ -62,7 +62,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
 - For generated PDFs, use one remote `edit/<resource-id>` branch across chats, reconcile against the latest remote head and `main`, and never force-push. External resources use their original authoring tool and an ordinary catalogue bookkeeping change, not a GitHub resource branch or `/merge`. Preserve unrelated work.
-- For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#preview-links-and-retention); do not use a preview-branch or PR Files link as the primary review link.
+- For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup); do not use a preview-branch or PR Files link as the primary review link.
 
 ### Maintaining instructions
 
@@ -148,7 +148,7 @@ Lato and the other fonts are bundled under `templates/`, so renders match CI. `s
 
 ### GitHub previews
 
-Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs as permanent browser previews; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#preview-links-and-retention). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
+Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs as permanent browser previews; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
 
 The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.
 
