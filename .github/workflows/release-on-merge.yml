@@ -1,0 +1,145 @@
+name: Authorized resource release
+
+# Only a merged resource PR containing its own explicit /merge marker may release.
+# Never trigger from ordinary pushes, documentation changes, or publication commits.
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: little-chewz-resource-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && startsWith(github.event.pull_request.head.ref, 'edit/')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out latest accepted main
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Confirm explicit merged-PR release marker
+        id: marker
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" \
+            --jq '.[].filename' > /tmp/release-pr-files.txt
+          marker=".github/resource-releases/${PR_NUMBER}.json"
+          if grep -Fxq "$marker" /tmp/release-pr-files.txt && [[ -f "$marker" ]]; then
+            echo 'enabled=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'No explicit release marker in this merged PR.'
+            echo 'enabled=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate tools and install Drive client
+        if: steps.marker.outputs.enabled == 'true'
+        uses: ./.github/actions/pdf-setup
+        with:
+          extra-packages: "google-api-python-client>=2.100,<3 google-auth>=2.20,<3"
+
+      - name: Release accepted resources
+        id: execute
+        if: steps.marker.outputs.enabled == 'true'
+        continue-on-error: true
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          python scripts/release_on_merge.py \
+            --pr "$PR_NUMBER" --merge-sha "$MERGE_SHA" --base-sha "$BASE_SHA" \
+            --changed-files /tmp/release-pr-files.txt --head-branch "$HEAD_BRANCH" --report release-report.json
+
+      - name: Persist verified statuses without overwriting newer commits
+        id: persist
+        if: steps.marker.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- catalog/resources.json; then
+            echo "No publication record changes."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add catalog/resources.json
+          git commit -m "Record outcomes for resource PR #${{ github.event.pull_request.number }}"
+          # Never force or silently overwrite another merge. A non-fast-forward
+          # here leaves a report and requires reinspection/reconciliation.
+          git push origin HEAD:main
+
+      - name: Clean up merged resource branch safely
+        if: steps.execute.outcome == 'success' && steps.persist.outcome == 'success' && steps.marker.outputs.enabled == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$HEAD_BRANCH" == edit/* ]] || exit 0
+          actual=$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/${HEAD_BRANCH}" --jq '.object.sha' 2>/dev/null || true)
+          if [[ -z "$actual" ]]; then
+            echo "Resource branch was already removed."
+          elif [[ "$actual" == "$HEAD_SHA" ]]; then
+            gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${HEAD_BRANCH}"
+            echo "Removed merged resource branch ${HEAD_BRANCH}."
+          else
+            echo "Resource branch advanced after merge; preserving additional work."
+          fi
+
+      - name: Report release outcome
+        if: always() && steps.marker.outputs.enabled == 'true'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          {
+            echo "### Authorized resource PR #${PR_NUMBER}"
+            echo "- [Accepted PR](https://github.com/${GITHUB_REPOSITORY}/pull/${PR_NUMBER})"
+            echo "- Accepted revision: \`${MERGE_SHA}\`"
+            echo "- Combined preview: see the [PDF previews workflow](https://github.com/${GITHUB_REPOSITORY}/actions/workflows/build-resources.yml) for the corresponding main run."
+            if [[ -f release-report.json ]]; then
+              echo '#### Drive results and blockers'
+              echo '\`\`\`json'
+              cat release-report.json
+              echo '\`\`\`'
+            else
+              echo 'Release validation did not produce a report.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Retain report for troubleshooting
+        if: always() && steps.marker.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: resource-release-${{ github.event.pull_request.number }}
+          path: release-report.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Fail on blocked or unsaved release
+        if: always() && steps.marker.outputs.enabled == 'true'
+        env:
+          EXEC_RESULT: ${{ steps.execute.outcome }}
+          PERSIST_RESULT: ${{ steps.persist.outcome }}
+        run: |
+          if [[ "$EXEC_RESULT" != 'success' || "$PERSIST_RESULT" != 'success' ]]; then
+            echo '::error::Release has blockers or publication metadata was not saved safely.'
+            exit 1
+          fi

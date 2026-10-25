@@ -64,7 +64,9 @@ class PublishTests(unittest.TestCase):
         self.pdf = self.tmp / "out.pdf"
         self.pdf.write_bytes(PDF)
         self.entry = {"title": "Quest Overview", "url": f"https://drive.google.com/file/d/{FILE_ID}/view",
-                      "type": "published_export", "status": "pending_publish",
+                      "type": "published_export", "production_type": "generated_pdf",
+                      "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
+                      "holding_url": None, "status": "pending_publish",
                       "build": {"renderer": "claude", "source": "x.json"}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
@@ -135,6 +137,54 @@ class PublishTests(unittest.TestCase):
         report = self.run_publish(service)
         self.assertEqual(service._files.updates, [])
         self.assertIn("unchanged", report["result"])
+
+    def test_persists_verified_digest_and_revision(self):
+        revision = "a" * 40
+        with patch.object(pub, "current_revision", return_value=revision):
+            report = self.run_publish(FakeService())
+        record = json.loads(self.registry.read_text())["ccc-q01-welcome"]["publication"]
+        self.assertEqual(record["verification"], "verified")
+        self.assertEqual(record["method"], "generated_pdf")
+        self.assertEqual(record["drive_file_id"], FILE_ID)
+        self.assertEqual(record["release_revision"], revision)
+        self.assertEqual(record["artifact_md5"], hashlib.md5(PDF).hexdigest())
+        self.assertEqual(record["drive_version"], "8")
+        self.assertEqual(report["publication"], record)
+
+    def test_completed_retry_does_not_update_or_duplicate(self):
+        service = FakeService()
+        with patch.object(pub, "current_revision", return_value="a" * 40):
+            self.run_publish(service)
+            first = self.registry.read_text()
+            self.run_publish(service)
+        self.assertEqual(self.registry.read_text(), first)
+        self.assertEqual(service._files.updates, [FILE_ID])
+
+    def test_external_resources_must_not_enter_pdf_publisher(self):
+        self.entry["production_type"] = "external"
+        self.write({"ccc-q01-welcome": self.entry})
+        with self.assertRaisesRegex(pub.PublishError, "external"):
+            self.run_publish(FakeService())
+
+    def test_stale_accepted_revision_is_rejected_before_drive_upload(self):
+        service = FakeService()
+        with patch.object(pub, "current_revision", return_value="a" * 40):
+            with self.assertRaisesRegex(pub.PublishError, "revision changed"):
+                pub.publish("ccc-q01-welcome", expected_revision="b" * 40,
+                            service=service, builder=lambda *_: self.pdf)
+        self.assertEqual(service._files.updates, [])
+        self.assertEqual(self.status(), "pending_publish")
+
+    def test_readback_mismatch_keeps_pending(self):
+        service = FakeService()
+        good = dict(service._files.meta)
+        bad = dict(good, md5Checksum="different")
+        with patch.object(pub, "current_revision", return_value="a" * 40):
+            with patch.object(pub, "check_destination", side_effect=[good, bad]):
+                with self.assertRaisesRegex(pub.PublishError, "read-back"):
+                    self.run_publish(service)
+        self.assertEqual(self.status(), "pending_publish")
+        self.assertNotIn("publication", json.loads(self.registry.read_text())["ccc-q01-welcome"])
 
     def test_drive_file_id_parsing(self):
         self.assertEqual(pub.drive_file_id(f"https://drive.google.com/file/d/{FILE_ID}/view?usp=x"), FILE_ID)

@@ -1,39 +1,31 @@
 # System improvements
 
-This file tracks **active** system work. The original migration and completed CI proposals are preserved in [archive/2026-10/](archive/2026-10/README.md).
+This file tracks **active** work; repository instructions and publication authority live in [WORKFLOW.md](system/WORKFLOW.md) and [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Backlog entries never authorize publication.
 
-Live editing, status and publishing rules belong to [WORKFLOW.md](system/WORKFLOW.md), [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md). A backlog item never grants permission to publish to Drive.
+## Implemented — two resource workflows (2026-10-25)
 
-## SYS-004 — Merge-triggered Drive publication
+- Production-based registry: `generated_pdf` vs `external`, source provenance, explicit generated-PDF build mapping, holding vs official URLs and publication evidence.
+- Verified Google Drive review holding root and four category folders; existing Slide PDFs review folder remains separate.
+- Authorized single-resource generated-PDF PR merge Action, same-ID Drive replacement with MD5 and accepted revision, failure reporting and safe edit-branch cleanup.
+- External resources stay agent-created and agent-published; no external `/merge` integration, external checksum automation or GitHub source-creation engine.
+- Manual-only read-only publication inspector, with external content parity explicitly unverified.
 
-**Status:** Planned, not implemented. **Priority:** High.
-
-Wire `/merge` to the accepted `main` build, in-place Drive replacement or first-time creation in the correct folder, file verification, and stored published-build digests. Automatically detect `pending_publish` without agent-maintained flags. Support paired PDF/PPTX resources. Remove the internal manual fallback only after this flow is verified; do not add a `/publish` command.
+**Operational prerequisites:** service-account access to specific official Drive targets; agent establishment of each generated PDF's first official destination. Existing legacy items with unknown history retain unverified evidence until independently checked. A passing CI check does not grant Drive access or publication authority.
 
 ## SYS-002 — Editable lesson slide generation
 
-**Status:** Planned, not implemented. **Priority:** Optional.
+**Status:** Optional, not implemented.
 
-Current slides are independently maintained human-reviewed lesson PDFs. The supported `scripts/pdf_to_linked_slides.py` tool derives image-based, linked PowerPoint files from an approved PDF.
-
-An eventual editable slide renderer could regenerate a single changed slide or the affected lesson from reviewed editable sources. Build this only when a real editing need justifies it. Do not add placeholder slide JSON, reuse the old continuous 44-slide deck, introduce unused templates, or automatically publish to Drive.
+Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linked_slides.py` derives linked PPTX. Do not add speculative slide JSON, reuse the archived continuous 44-slide deck, or automatically publish external slides.
 
 ## SYS-003 — Teacher-owned presentation copies
 
-**Status:** Proposed, not implemented. **Priority:** To be decided.
+**Status:** Proposed, not implemented.
 
-Allow each teacher to make or receive their **own copy of a lesson's slide deck**, then mark slides they do not want to show as **skipped/hidden during presentation**, without deleting the slides or changing the master deck.
+Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
 
-**Desired result:**
-- Each teacher can independently choose which slides appear in their presentation.
-- Hidden slides remain available for the teacher to restore later.
-- The approved master deck and other teachers' copies stay unchanged.
-- Preserve slide order, clickable media/resource links, and lesson-local numbering wherever the presentation format supports them.
+## Previously implemented
 
-**To determine before implementation:** Teacher access and the copy-delivery workflow (for example, a copyable Google Slides presentation versus a downloadable PowerPoint). Confirm that the chosen format actually supports skipping slides during its presenter/slideshow mode and that copied media links continue to work. This is a teacher-facing convenience feature, **not** permission to edit or republish the approved master.
-
-## Already implemented
-
-- GitHub Actions validation, targeted PDF previews, and permanent browser previews on a shared history branch: [WORKFLOW.md](system/WORKFLOW.md#pdf-build-selection).
-- Approved lesson PDF to linked PPTX conversion: [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
-- Prior designs and completed proposals: [historical system improvements](archive/2026-10/SYSTEM_IMPROVEMENTS_ORIGINAL.md).
+- Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).
+- Human-reviewed slide PDF to linked PPTX conversion: [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
+- Historical backlog: [archive/2026-10/](archive/2026-10/README.md).

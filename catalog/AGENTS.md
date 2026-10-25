@@ -1,8 +1,10 @@
-# Editing the catalog
+# Editing the catalogue
 
-- `resources.json` is the single owner of every linked resource's name, Drive URL, status, and (for built documents) `build` instructions. Its keys are the stable resource IDs. Rules: [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md#resources-slides-and-assets) and [lifecycle status](../system/CONTENT_CONTRACT.md#lifecycle-status).
-- Never guess or invent a URL. A missing or unverified destination blocks release; flag it.
-- Use only delivery statuses `unpublished`, `pending_publish`, `published`; no editorial approval flag. A verified Drive replacement sets `published`; newer `main` output with an older live destination is `pending_publish`. Publishing: [DRIVE_PUBLISHING.md](../system/DRIVE_PUBLISHING.md) or [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md).
-- `quests.json` is a navigation index to each quest's `quest.json`, which owns lesson status.
+- `resources.json` owns stable linked-resource IDs, production type, provenance, holding and official URLs, build mapping, publication evidence and linked-resource delivery status. See [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states).
+- Use `generated_pdf` only for existing Python-rendered PDF outputs with GitHub editable sources and explicit `build`. Externally authored PDFs remain `external`, as do slides and image-based resources.
+- `drive_folders.json` owns verified review-holding folder IDs. The existing Slide PDFs area remains separate. Never invent file IDs, URLs, statuses or folder IDs; a `holding_url` must never be treated as `published_url`.
+- Delivery states are `unpublished`, `pending_publish`, `published`. Generated PDFs use exact Drive checksum confirmation after an authorized PDF `/merge`; external resources are published by agents and recorded only after live verification. Legacy records may remain explicitly unverified.
+- The compatibility `url` is used by existing Teacher Guides; preserve established live links and never redirect them to a holding file.
+- `quests.json` indexes quest manifests; each quest's `quest.json` owns lesson-source delivery status, separate from linked resource status.
 
-Run `python scripts/validate.py` after any edit; it checks IDs, statuses, HTTPS destinations, and every reference.
+Follow [CREATE.md](../system/CREATE.md), [DRIVE_PUBLISHING.md](../system/DRIVE_PUBLISHING.md), and [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md) as appropriate. Run `python scripts/validate.py` after changes.
