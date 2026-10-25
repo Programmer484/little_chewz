@@ -343,8 +343,8 @@
       "secret-ingredients",
       "slides"
     ],
-    "status": "unapproved",
-    "link_note": "Five-slide classroom deck derived from uploaded ENGAGE source PDF; converted to linked PPTX. Both files uploaded to their lesson slide folders on 2026-10-25. Review/approval and presenter-mode link tests remain outstanding; not marked published.",
+    "status": "published",
+    "link_note": "Five-slide PDF and derived linked PPTX uploaded to the official Drive folders on 2026-10-25. Human confirmed presenter-mode hyperlinks work and approved the deck on 2026-10-25.",
     "pdf_url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view",
     "powerpoint_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
     "powerpoint_filename": "02_Secret_Ingredients_Slides.pptx"
