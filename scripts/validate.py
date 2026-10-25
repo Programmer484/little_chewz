@@ -53,7 +53,7 @@ for ref,item in registry.items():
         if not isinstance(build,dict) or bool(build.get('renderer'))==bool(build.get('output')):
             errors.append(f'{ref}: generated PDF needs exactly one explicit build renderer or output')
         elif build.get('renderer'):
-            if build.get('source') != source.get('path'):
+            if build.get('source') != (source if isinstance(source,dict) else {}).get('path'):
                 errors.append(f'{ref}: renderer source disagrees with authoritative GitHub source')
         elif not isinstance(build.get('output'),str) or not build['output'].endswith('.pdf'):
             errors.append(f'{ref}: build output must be a PDF filename')
@@ -97,6 +97,26 @@ for ref,item in registry.items():
     if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
         errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
+folders_path=R/'catalog/drive_folders.json'
+if not folders_path.is_file():
+    errors.append('Missing distinct Drive staging/final-folder registry')
+else:
+    folders=json.loads(folders_path.read_text())
+    staging=(folders.get('staging') or {}).get('external') or {}
+    if 'folder_id' not in staging:
+        errors.append('External staging folder must have an explicit folder_id (null until configured)')
+    for section in [staging,(folders.get('staging') or {}).get('slide_pdfs') or {},
+                    (folders.get('published') or {})]:
+        for key in ('folder_id','default_folder_id'):
+            value=section.get(key)
+            if value is not None and not re.fullmatch(r'[A-Za-z0-9_-]{15,}',str(value)):
+                errors.append(f'catalog/drive_folders.json: invalid {key} {value!r}')
+    for resource_id,folder_id in ((folders.get('published') or {}).get('by_resource_id') or {}).items():
+        if resource_id not in registry:
+            errors.append(f'Unknown published folder resource ID: {resource_id}')
+        if not re.fullmatch(r'[A-Za-z0-9_-]{15,}',str(folder_id)):
+            errors.append(f'Invalid published destination folder ID for {resource_id}')
+
 for path in R.glob('content/**/lessons/**/lesson.draft.json'):
     errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
 for path in R.glob('content/**/lessons/**/stage.json'):
