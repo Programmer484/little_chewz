@@ -76,10 +76,29 @@ class SelectionTests(unittest.TestCase):
 
     def test_registry_keys_are_only_ids(self):
         records=sb.read_json('catalog/resources.json')
-        self.assertEqual(len(records),28)
+        self.assertEqual(len(records),29)
         self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
         self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'published')
         self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
+
+    def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
+        records=sb.read_json('catalog/resources.json')
+        mapping=sb.generated_outputs(records)
+        self.assertEqual(set(mapping), set(self.targets))
+        for output, resource_id in mapping.items():
+            self.assertEqual(self.targets[output]['resource_id'], resource_id)
+            self.assertEqual(records[resource_id]['production_type'], 'generated_pdf')
+            self.assertEqual(records[resource_id]['source']['kind'], 'github')
+        self.assertTrue(all('build' not in item
+                            for item in records.values() if item['production_type']=='external'))
+
+    def test_publication_record_change_does_not_rebuild_pdf(self):
+        previous=copy.deepcopy(sb.read_json('catalog/resources.json'))
+        altered=copy.deepcopy(previous)
+        altered['ccc-q01-welcome']['publication']['verification']='unverified'
+        altered['ccc-q01-welcome']['publication']['drive_version']='new'
+        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
+            self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [])
 
     def test_registry_status_only_does_not_trigger_rebuild(self):
         path='catalog/resources.json'
