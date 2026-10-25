@@ -1,19 +1,19 @@
 # Publishing to Google Drive
 
-Owns the automated in-place Drive publish step. Approval and status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); the edit and review routine belongs to [WORKFLOW.md](WORKFLOW.md).
+Owns the internal in-place Drive publish step. Delivery status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); the edit and review routine belongs to [WORKFLOW.md](WORKFLOW.md).
 
 ## What it does
 
-**Actions → Publish to Drive → Run workflow** takes one registry ID from `catalog/resources.json` and:
+**Internal fallback (not a user command):** Actions → Publish to Drive → Run workflow takes one registry ID from `catalog/resources.json` and:
 
 1. Runs only from `main`, using the same setup, validation, and tests as PDF previews (`.github/actions/pdf-setup`); publishing adds only the Google client packages.
-2. Refuses the entry unless its status is `approved` or `published`.
+2. Refuses the entry unless its status is `pending_publish` or `published`. `unpublished` requires a new-file creation path, which is not yet implemented.
 3. Builds the PDF from the entry's `build` instructions through `scripts/build_selected.py`, the same builder as GitHub previews.
 4. Checks the Drive destination (from `url`) is a PDF the service account can edit.
 5. Replaces the file's contents in place (`files.update`). The file ID, link, name, folder, and sharing stay the same; Drive keeps the previous version in **Manage versions**.
-6. Verifies Drive's MD5 matches the local PDF, then changes an `approved` entry to `published` and commits that to `main`.
+6. Verifies Drive's MD5 matches the local PDF, then changes a `pending_publish` entry to `published` and commits that to `main`.
 
-Run it first with **dry run** ticked (the default): it builds and checks access without uploading. Every run attaches the built PDF as a run artifact.
+Run it first with **dry run** ticked (the default): it builds and checks access without uploading. Every run attaches the built PDF as a run artifact. Merge-trigger automation remains to be implemented; no standalone user-facing `/publish` command exists.
 
 ## Registering a document
 
@@ -22,7 +22,7 @@ Add `build` to the registry entry. The entry's `url` must be the existing Drive 
 ```json
 "ccc-q01-welcome": {
   "url": "https://drive.google.com/file/d/<file-id>/view",
-  "status": "approved",
+  "status": "pending_publish",
   "build": {"renderer": "claude", "source": "content/.../welcome/welcome.json"}
 }
 ```

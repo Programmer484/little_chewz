@@ -4,6 +4,12 @@ This file tracks **active** system work. The original migration and completed CI
 
 Live editing, status and publishing rules belong to [WORKFLOW.md](system/WORKFLOW.md), [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md). A backlog item never grants permission to publish to Drive.
 
+## SYS-004 — Merge-triggered Drive publication
+
+**Status:** Planned, not implemented. **Priority:** High.
+
+Wire `/merge` to the accepted `main` build, in-place Drive replacement or first-time creation in the correct folder, file verification, and stored published-build digests. Automatically detect `pending_publish` without agent-maintained flags. Support paired PDF/PPTX resources. Remove the internal manual fallback only after this flow is verified; do not add a `/publish` command.
+
 ## SYS-002 — Editable lesson slide generation
 
 **Status:** Planned, not implemented. **Priority:** Optional.
