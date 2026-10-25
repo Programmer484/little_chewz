@@ -106,26 +106,22 @@
       "mins": "25",
       "rows": [
         {
-          "kind": "DO",
-          "text": "Choose one delivery: independent reading, partners/small groups, or a whole-class read-aloud. Listening is an alternative."
+          "kind": "CHOOSE",
+          "text": "One way to experience Chapter One:"
         },
         {
           "kind": "READ",
           "ref": "ccc-q01-secret-ingredients-chapter-one",
-          "description": "Chapter One; open for the chosen reading format."
+          "description": "Option 1 — Read independently, with a partner or group, or as a teacher read-aloud."
+        },
+        {
+          "kind": "LISTEN",
+          "ref": "ccc-q01-secret-ingredients-chapter-audio",
+          "description": "Option 2 — Play the full chapter recording."
         },
         {
           "kind": "DO",
-          "text": "As they read or listen, students record 2–3 important details: a clue, a character choice, or something that changes their prediction. Short notes or sketches are fine."
-        },
-        {
-          "kind": "MORE",
-          "links": [
-            {
-              "ref": "ccc-q01-secret-ingredients-chapter-audio",
-              "description": "Chapter One audio folder; listening alternative"
-            }
-          ]
+          "text": "For either option, students record 2–3 important details: a clue, a character choice, or something that changes their prediction. Short notes or sketches are fine."
         }
       ]
     },
