@@ -200,6 +200,17 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
     if confirmed.get("id") != file_id or confirmed.get("md5Checksum") != local_md5:
         raise PublishError(f"Drive read-back checksum or file ID mismatch for {resource_id}")
     assert_revision(revision)
+    prior = entry.get("publication") or {}
+    if (prior.get("verification") == "verified"
+            and prior.get("method") == "generated_pdf"
+            and prior.get("drive_file_id") == file_id
+            and prior.get("release_revision") == revision
+            and prior.get("artifact_md5") == local_md5
+            and prior.get("drive_version") == str(confirmed.get("version"))
+            and entry.get("status") == "published"):
+        report["status_after"] = "published"
+        report["publication"] = prior
+        return report
     entry["publication"] = {
         "verification": "verified",
         "method": "generated_pdf",
