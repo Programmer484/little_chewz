@@ -16,22 +16,24 @@ def inspect_one(resource_id: str, item: dict, service=None, builder=build_pdf) -
     production = item.get("production_type")
     recorded = item.get("publication") or {}
     result = {"resource_id": resource_id, "status": status,
+              "holding_present": bool(item.get("holding_url")),
               "production_type": production, "content_parity": "unverified",
               "observations": []}
     if production not in {"generated_pdf", "external"}:
         result["result"] = "unknown"
         result["observations"].append("Missing production classification")
         return result
-    if not item.get("url"):
+    published_url = item.get("published_url")
+    if not published_url:
         result["result"] = "unpublished" if status == "unpublished" else "discrepancy"
         result["observations"].append("No registered published destination")
         return result
-    if not re.search(r"(?:drive|docs)\.google\.com/", item["url"]):
+    if not re.search(r"(?:drive|docs)\.google\.com/", published_url):
         result["result"] = "unverified"
         result["observations"].append("External provider cannot be authenticated through Drive inspection")
         return result
     try:
-        file_id = drive_file_id(item["url"])
+        file_id = drive_file_id(published_url)
         if recorded.get("drive_file_id") and recorded["drive_file_id"] != file_id:
             raise PublishError("Recorded published file ID conflicts with resource URL")
         if service is None:
