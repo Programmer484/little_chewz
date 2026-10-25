@@ -77,6 +77,18 @@ class ReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(rel.ReleaseError, "single matching"):
             rel.plan(77, {marker}, "a"*40, "b"*40, "edit/different-resource")
 
+    def test_failed_verified_release_keeps_pending_for_old_live_version(self):
+        record = {"ccc-q01-welcome": {"production_type": "generated_pdf",
+                   "status": "published", "url": "https://drive.google.com/file/d/12345678901234567890/view",
+                   "build": {"renderer": "claude", "source": "welcome.json"}}}
+        report = {"generated": [], "pending": ["ccc-q01-welcome"],
+                  "blocked": [{"resource_id": "ccc-q01-welcome", "reason": "superseded"}]}
+        with patch.object(rel, "load_registry", return_value=record), \\
+             patch.object(rel, "save_registry") as save:
+            rel.run_release(report)
+        self.assertEqual(record["ccc-q01-welcome"]["status"], "pending_publish")
+        save.assert_called_once()
+
     def test_external_never_enters_auto_pdf_publisher(self):
         marker = self.marker(ids=["ccc-q01-slides"])
         registry = {"ccc-q01-slides": {"production_type": "external", "status": "published"}}
