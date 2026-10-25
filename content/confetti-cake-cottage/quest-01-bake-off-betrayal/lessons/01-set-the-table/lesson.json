@@ -158,8 +158,8 @@
               "text": "Slide 6 — Display the two scenarios and eight-word bank."
             },
             {
-              "kind": "CHOOSE",
-              "text": "Students select the best-fitting word for each scenario, then explain their reasoning to a partner before checking definitions."
+              "kind": "DO",
+              "text": "Students choose which word best describes each situation, then explain their reasons to a partner before checking definitions."
             },
             {
               "kind": "GIVE",
