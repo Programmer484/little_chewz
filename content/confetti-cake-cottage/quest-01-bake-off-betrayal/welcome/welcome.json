@@ -3,7 +3,7 @@
   "id": "ccc-q01-welcome",
   "template": "claude",
   "title": "Confetti Cake Cottage School: Restore the Sparkle",
-  "footer": "CONFETTI FILE  •  CCC-2026",
+  "footer": "CONFETTI FILE  •  CCC-2025",
   "cover": "cover.pdf",
   "source_note": "Text transcribed from 01_Welcome_updated.pdf (visible text only; hidden legacy text layers on pages 2 and 5 were not used). Cover is page 1 of that file, cut losslessly with qpdf. Typo fixed: 'exlationships' to 'relationships'. Navigation rows follow quest_navigation_preview.pdf; guide links resolve through catalog/resources.json.",
   "pages": [
