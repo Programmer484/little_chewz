@@ -466,7 +466,7 @@
       "overview",
       "navigation"
     ],
-    "status": "pending_publish",
+    "status": "published",
     "build": {
       "renderer": "claude",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
@@ -478,8 +478,13 @@
       "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
     },
     "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1w-es-VamWXMfCrr34pRbq59a3ASngEbL"
+      "verification": "verified",
+      "method": "generated_pdf",
+      "drive_file_id": "1w-es-VamWXMfCrr34pRbq59a3ASngEbL",
+      "release_revision": "d9841e175089aa1c0d186b9e46f7b2b154ca1638",
+      "artifact_md5": "f580361687172d6b0da5dbae7cc67414",
+      "drive_version": "34",
+      "confirmed_at": "2026-10-27T03:08:46+00:00"
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view"
