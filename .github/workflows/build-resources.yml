@@ -163,3 +163,43 @@ jobs:
             echo ""
             echo "These PDFs are review copies; they are not published teacher resources."
           } >> "$GITHUB_STEP_SUMMARY"
+
+  publication-inspection-live-test:
+    name: Verify production catalogue with read-only Drive inspection
+    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'test/live-inspection-acceptance' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/pdf-setup
+        with:
+          extra-packages: "google-api-python-client>=2.100,<3 google-auth>=2.20,<3"
+      - name: Read-only live publication inspection
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          set -euo pipefail
+          python scripts/inspect_publications.py --report live-all-publications.json
+          python - <<'PY'
+          import json
+          from collections import Counter
+          data=json.load(open("live-all-publications.json"))
+          assert data["read_only"] is True
+          resources=data["resources"]
+          assert len(resources)==29, len(resources)
+          welcome=next(v for v in resources if v["resource_id"]=="ccc-q01-welcome")
+          assert welcome["result"]=="verified", welcome
+          assert welcome["content_parity"]=="verified", welcome
+          print("LIVE READ-ONLY INSPECTION:",dict(Counter(v["result"] for v in resources)))
+          print("WELCOME:",welcome)
+          PY
+      - name: Retain read-only inspection report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: acceptance-read-only-inspection
+          path: live-all-publications.json
+          if-no-files-found: ignore
+          retention-days: 7
