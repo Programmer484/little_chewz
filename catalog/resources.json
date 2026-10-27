@@ -471,7 +471,7 @@
       "renderer": "claude",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
     },
-    "status_note": "2026-10-24: regenerated Welcome output on main differs from the earlier Canva PDF still at the Drive destination; pending publication verification.",
+    "status_note": "2026-10-26: authorized PR #65 release verified the current Welcome PDF against the established Drive destination. Local and Drive MD5 matched; no file replacement was needed. Publication record stores the verified release revision and Drive version.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
