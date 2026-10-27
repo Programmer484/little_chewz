@@ -481,10 +481,10 @@
       "verification": "verified",
       "method": "generated_pdf",
       "drive_file_id": "1w-es-VamWXMfCrr34pRbq59a3ASngEbL",
-      "release_revision": "598093cd43a86ed4c5d61cc5bdf1c7a223f329a9",
-      "artifact_md5": "12bf9eedbba7b1a0d19498bb37f4ad5b",
-      "drive_version": "35",
-      "confirmed_at": "2026-10-27T03:30:15+00:00"
+      "release_revision": "685df51222da6f50e726e4229b39a8b5f948a0ca",
+      "artifact_md5": "f580361687172d6b0da5dbae7cc67414",
+      "drive_version": "38",
+      "confirmed_at": "2026-10-27T03:32:39+00:00"
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view"
