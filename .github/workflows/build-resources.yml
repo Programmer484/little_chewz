@@ -163,3 +163,42 @@ jobs:
             echo ""
             echo "These PDFs are review copies; they are not published teacher resources."
           } >> "$GITHUB_STEP_SUMMARY"
+
+  publisher-smoke-test:
+    name: Test Drive publisher (dry run, no upload)
+    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'test/drive-publisher-dry-run' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out PR test revision
+        uses: actions/checkout@v5
+
+      - name: Configure Python PDF tools
+        uses: ./.github/actions/pdf-setup
+        with:
+          extra-packages: "google-api-python-client>=2.100,<3 google-auth>=2.20,<3"
+
+      - name: Dry-run existing Welcome PDF publisher against live Drive
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$GOOGLE_SERVICE_ACCOUNT_JSON" ]]; then
+            echo "::error::GitHub secret GOOGLE_SERVICE_ACCOUNT_JSON is unavailable."
+            exit 1
+          fi
+          python scripts/publish_to_drive.py ccc-q01-welcome \
+            --dry-run --expected-revision "$GITHUB_SHA" \
+            --result-json publication-smoke-report.json
+
+      - name: Preserve non-secret verification report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: dry-run-publisher-verification
+          path: publication-smoke-report.json
+          if-no-files-found: ignore
+          retention-days: 7
