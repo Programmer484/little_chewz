@@ -577,6 +577,51 @@
     "holding_url": null,
     "published_url": null
   },
+  "ccc-q01-secret-ingredients-clue-tracker-core": {
+    "title": "Zenix Clue Tracker — Core (Page 1)",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "core",
+      "clue-hunt"
+    ],
+    "status": "unpublished",
+    "link_note": "Core follow-up to independent clue observations. Original Clue Tracker page 1, questions 1–5, preserved without edits; hand out after the 3-minute scene and initial clue share. Holding/review only.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": "https://drive.google.com/file/d/1Ml-sPRMKDFq_Pup6m1NHTbr13bZHzc9Q/view",
+    "published_url": null
+  },
+  "ccc-q01-secret-ingredients-clue-tracker-extension": {
+    "title": "Zenix Clue Tracker — Extension (Page 2)",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "optional",
+      "extension",
+      "inference"
+    ],
+    "status": "unpublished",
+    "link_note": "Extension +10–15 min. Original Clue Tracker page 2, questions 6–8 including the drawing box, preserved without edits; follows the core page. Holding/review only.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": "https://drive.google.com/file/d/1GpytMiNCwLrpkde5hERXiku0xk-r-M54/view",
+    "published_url": null
+  },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
     "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
@@ -642,6 +687,27 @@
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
     },
     "holding_url": null,
+    "published_url": null
+  },
+  "ccc-q01-secret-ingredients-character-profile-core": {
+    "title": "Character Profile — Core",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "core",
+      "character-analysis"
+    ],
+    "status": "unpublished",
+    "link_note": "New one-page evidence-first character profile, based on the approved chat prototype. Distinguishes 2–3 known facts, inference, supporting story evidence and one unanswered question. Original expanded profile remains unchanged. Holding/review only.",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": "https://drive.google.com/file/d/1DxcJ6dDE8QCyqnzoXLee7d9RP5d1F-5G/view",
     "published_url": null
   },
   "ccc-q01-secret-ingredients-slides": {
