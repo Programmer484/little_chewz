@@ -1,0 +1,42 @@
+{
+  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
+  "title": "Clue Tracker Answer Key",
+  "kind": "answer_key",
+  "meta": [
+    "Teacher reference",
+    "Use with Clue Tracker Core and Extension"
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Core · Clue Tracker page 1"
+    },
+    {
+      "type": "answers",
+      "items": [
+        "Confetti Cake Cottage School",
+        "Battle of the Bakers",
+        "Maddie",
+        "Double Chocolate Hazelnut Cupcakes",
+        "Possible predictions: a secret recipe, a surprise competition challenge, or special instructions. This is an inference, not a confirmed fact."
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Extension · Clue Tracker page 2"
+    },
+    {
+      "type": "answers",
+      "items": [
+        "The team arrangement may have changed after the mug was made. Maddie’s crossed-out name suggests she and Zoe may no longer be teammates. Other evidence-based explanations are valid.",
+        "Answers will vary. Students should name a possible false lead and explain why it might be misleading or unrelated.",
+        "Open response. Students record or sketch additional observations. Look for specific details and clear separation of what was seen from what was inferred."
+      ]
+    }
+  ],
+  "source_note": "Transcribed verbatim from the user-supplied Clue Tracker Answer Key PDF on 2026-10-31; numbering continues 1–8 across Core and Extension as in the original.",
+  "resource_id": "ccc-q01-secret-ingredients-clue-answer-key",
+  "resource_type": "teacher_companion",
+  "audience": "teacher",
+  "stage": "02-secret-ingredients"
+}

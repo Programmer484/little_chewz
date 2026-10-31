@@ -19,6 +19,7 @@ MISSION = 'mission-video-questions.pdf'
 CONFETTI = 'confetti-file-questions.pdf'
 SONG = 'songwriting-extension.pdf'
 WELCOME = 'ccc-q01-welcome.pdf'
+ANSWER_KEY = 'clue-tracker-answer-key.pdf'
 
 
 class SelectionTests(unittest.TestCase):
@@ -26,7 +27,7 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME})
+        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME, ANSWER_KEY})
         self.assertEqual(self.targets[DRAFT]['status'], 'pending_publish')
         self.assertEqual(self.targets[PART2]['status'], 'published')
         self.assertEqual(sb.selection(PART2)['outputs'], [PART2])

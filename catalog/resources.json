@@ -640,17 +640,18 @@
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
     "url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
-    "type": "teacher_reference",
+    "type": "teacher_companion",
     "audience": "teacher",
     "tags": [
       "secret-ingredients",
       "answer-key"
     ],
     "status": "published",
-    "link_note": "Standalone answer key with Core (1–5) and Extension (6–8) answers, in teacher-resource styling.",
-    "production_type": "external",
+    "link_note": "Standalone answer key with Core (1–5) and Extension (6–8) answers, in teacher-resource styling. 2026-10-31: converted to a generated companion source with the shared resource masthead. The live file below is the earlier external release; the next authorized generated release replaces it in place.",
+    "production_type": "generated_pdf",
     "source": {
-      "kind": "unknown"
+      "kind": "github",
+      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/clue-tracker-answer-key.json"
     },
     "publication": {
       "verification": "verified",
@@ -661,7 +662,10 @@
       "note": "Standalone PDF in official 04_EXTRA_RESOURCES folder with anyone-reader access."
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view"
+    "published_url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
+    "build": {
+      "output": "clue-tracker-answer-key.pdf"
+    }
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
     "title": "Chapter Notes",

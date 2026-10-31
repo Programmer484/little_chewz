@@ -82,7 +82,12 @@ for ref,item in registry.items():
                 errors.append(f'{ref}: verified publication needs an accepted Git revision')
             if not publication.get('confirmed_at') or not publication.get('method'):
                 errors.append(f'{ref}: verified publication needs timestamp and method')
-            if production=='generated_pdf':
+            if production=='generated_pdf' and publication.get('method')=='external_agent':
+                # Live file predates its generated source (converted resource); the next
+                # verified generated release replaces it in place and records a digest.
+                if publication.get('artifact_md5'):
+                    errors.append(f'{ref}: an external release cannot assert a generated-PDF digest')
+            elif production=='generated_pdf':
                 if publication.get('method')!='generated_pdf' or not re.fullmatch(r'[0-9a-f]{32}',publication.get('artifact_md5','')):
                     errors.append(f'{ref}: generated release needs verified 32-hex PDF digest')
                 if not publication.get('drive_file_id'):
