@@ -13,6 +13,10 @@
   ],
   "core": [
     {
+      "ref": "ccc-q01-secret-ingredients-slides",
+      "description": "Slides 1–5"
+    },
+    {
       "ref": "ccc-q01-secret-ingredients-clue-video",
       "description": "3-min scene"
     },
@@ -65,13 +69,12 @@
       "mins": "5",
       "rows": [
         {
-          "kind": "DO",
-          "ref": "ccc-q01-secret-ingredients-clue-video",
-          "description": "Play the 3-minute scene. Students jot 2–3 visible clues in a notebook or on paper while it plays."
+          "kind": "SHOW",
+          "text": "Slides 1–2 — Introduce the Zenix investigation and play the clue video on Slide 2."
         },
         {
           "kind": "DO",
-          "text": "Invite 1–2 students to share what they noticed before showing the Clue Tracker. Distinguish observations from guesses."
+          "text": "Students jot 2–3 visible clues in a notebook or on paper while watching."
         },
         {
           "kind": "ASK",
@@ -118,6 +121,10 @@
       "mins": "25",
       "rows": [
         {
+          "kind": "SHOW",
+          "text": "Slide 3 — Introduce Chapter 1 before students read or listen."
+        },
+        {
           "kind": "READ",
           "ref": "ccc-q01-secret-ingredients-chapter-one",
           "description": "Read independently, with a partner or group, or as a teacher read-aloud."
@@ -144,8 +151,12 @@
           "title": "Conflict Report / Zenix Debrief",
           "rows": [
             {
+              "kind": "SHOW",
+              "text": "Slides 4–5 — Conflict Report and Zenix Debrief."
+            },
+            {
               "kind": "DO",
-              "text": "Use the Conflict Report and Zenix Debrief prompts from the original lesson slides 17–18. Students discuss in pairs or small groups; a short written response is optional."
+              "text": "Discuss the team switch in pairs or small groups; a short written response is optional."
             },
             {
               "kind": "ASK",
@@ -203,7 +214,7 @@
   ],
   "migration_review": {
     "notes": "Five standalone student worksheets have been published in the official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder and are linked in this lesson. Chapter Notes remains unchanged; the 2–3 detail scaffold is in teaching directions.",
-    "unresolved": "Part 2's independent slide deck is not available/linked. Conflict Report / Zenix Debrief presently references historical slides 17–18; verify lesson-local numbering and add the real slide resource link before release.",
+    "unresolved": "The current five-slide Secret Ingredients deck supplies slides 1–2 for clue investigation, slide 3 for Chapter 1, and slides 4–5 for Conflict Report / Zenix Debrief. Verify that the published PPTX still matches the supplied five-page PDF.",
     "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables."
   }
 }
