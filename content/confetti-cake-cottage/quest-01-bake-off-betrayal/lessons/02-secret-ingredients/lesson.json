@@ -32,19 +32,19 @@
     },
     {
       "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
-      "description": "Post-video clue questions"
+      "description": ""
     },
     {
       "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-      "description": "Optional deeper investigation"
+      "description": ""
     },
     {
       "ref": "ccc-q01-secret-ingredients-character-profile-core",
-      "description": "Small Bite B"
+      "description": ""
     },
     {
       "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": "Optional extended profile"
+      "description": ""
     }
   ],
   "prep_heading": "PREPARE YOUR CHOICES",
