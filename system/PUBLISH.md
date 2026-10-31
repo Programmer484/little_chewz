@@ -12,7 +12,7 @@
 
 ## External resources — agent-managed publication
 
-Worksheets, posters, external PDFs, media and slides use `production_type: external` and are not published through authorized generated-PDF release or Python PDF builds.
+Worksheets, posters, external PDFs, media and slides use `production_type: external` and are not published by the generated-PDF release mechanism or Python PDF builds.
 
 1. Move the exact reviewed file to the verified teacher-facing folder, preserving its ID where possible. For a previously published asset, replace the official file **in place** rather than creating duplicates.
 2. Read back the official file ID, MIME, folder and access metadata. For slides, [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) adds mandatory PDF/PPTX pairing, conversion and verification; both must be checked.
@@ -34,7 +34,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ## Manual fallback and review copies
 
-**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or public publishing slash command command.
+**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
 
 For draft creation, upload the review PDF to the verified PDF-generated holding folder from `catalog/drive_folders.json`; this is never release. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](CREATE.md).
 
