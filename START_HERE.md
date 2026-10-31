@@ -1,6 +1,13 @@
 # Little Chewz — start here
 
-Prototype in chat, then choose the Python-generated PDF branch-and-merge workflow or the separate agent-managed external resource workflow. [AGENTS.md](AGENTS.md) is the AI entry point (generated; rules live in [AI_RULES.md](system/AI_RULES.md)); [WORKFLOW.md](system/WORKFLOW.md) owns the editing and delivery routine.
+Prototype in chat, then choose the Python-generated PDF or external-resource workflow. [AGENTS.md](AGENTS.md) is the generated AI entry point; **[COMMANDS.md](system/COMMANDS.md) routes requests**, **[CREATE.md](system/CREATE.md) owns drafts**, **[WORKFLOW.md](system/WORKFLOW.md) owns editing/review**, and **[DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) owns all publication**.
+
+## Quick route
+
+- Create: **COMMANDS → CREATE**; stop at a review copy in holding.
+- Update: **COMMANDS → WORKFLOW**; do not alter a verified live release.
+- Publish: **DRIVE_PUBLISHING**; verify the official Drive copy before recording `published`.
+- Identify IDs, links or status: **CONTENT_CONTRACT** and `catalog/resources.json`.
 
 ## Where things belong
 
@@ -17,12 +24,12 @@ Prototype in chat, then choose the Python-generated PDF branch-and-merge workflo
 | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
 | [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
-| [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
+| [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save and report; not publication |
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
-| [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Generated-PDF merge publisher and manual fallback, not external resource publishing |
+| [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Single publication owner for generated PDFs and external resources, checks and verification |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| [COMMANDS.md](system/COMMANDS.md) | `/create`, `/update`, `/merge` agent contract |
-| [CREATE.md](system/CREATE.md) | Agent procedure for generated and external resources; no scripted creation engine |
+| [COMMANDS.md](system/COMMANDS.md) | Command and natural-language publication routing |
+| [CREATE.md](system/CREATE.md) | Draft-only resource creation and holding-folder staging |
 | `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |

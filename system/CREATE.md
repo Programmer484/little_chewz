@@ -19,12 +19,10 @@ For image-created worksheets, posters, externally authored PDFs, and slides, pro
 
 1. Create the artifact in the appropriate external tool. Do not create a GitHub source or edit branch solely for this resource.
 2. Upload to the verified Worksheets, Posters & visuals, Other resources, or separate Slide PDFs holding folder. Read back the file ID and URL.
-3. Commit only catalogue bookkeeping (including holding_url and published_url) via an ordinary GitHub change. New unconfirmed resources remain unpublished. Later updates replace holding bytes in place when possible.
+3. Commit only catalogue bookkeeping, recording the verified `holding_url` and preserving any already-verified `published_url` and `url`. A new resource remains `unpublished`. Later draft updates replace holding bytes in place when possible.
 
-## Publishing
+## Stop at review
 
-Only generated PDFs use /merge. The agent first places a new generated PDF at its official teacher-facing Drive destination and verifies and registers that destination; later merged updates automatically replace it in place with checksum verification.
+`/create` ends with the exact reviewed artifact in its verified holding folder and its GitHub review/catalogue record saved. **Never move it to the official folder or mark it published as part of `/create`.** A new resource remains `unpublished`; an update must preserve any verified older release. Keep `holding_url` distinct from `published_url` and compatibility `url` per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
 
-External publication stays agent-managed outside /merge. Move or replace the actual file in its official Drive location, verify ID, type, access, and slides' PDF/PPTX pair, then manually record published status. Holding alone is never publication. No external checksum system, automated external merge, scripted creation engine, or separate /publish command.
-
-Follow system/COMMANDS.md, system/WORKFLOW.md, and system/SLIDE_CONVERSION.md. Never invent a Drive file or folder ID.
+For a later authorized release, follow the **only publication procedure** in [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md), and for slides also follow [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). Never invent a file or folder ID.

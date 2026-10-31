@@ -4,6 +4,14 @@ Owns how agents find instructions, the non-negotiable boundaries, and how instru
 
 This is an editable educational source repository. PDFs are outputs; legacy PDFs are inputs only while awaiting conversion.
 
+## First stop: user intent
+
+- **`/create`** → [COMMANDS.md](COMMANDS.md) → [CREATE.md](CREATE.md). Save a review draft; **never publish**.
+- **`/update`** → [COMMANDS.md](COMMANDS.md) → [WORKFLOW.md](WORKFLOW.md). Edit/review while preserving live releases.
+- **`/merge` for `generated_pdf`** → [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md). Exact reviewed version and human approval required.
+- **“Publish” any resource**, including external worksheets or first-time PDFs → **[DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md)**. This is the single publishing procedure.
+- **IDs, URLs and delivery status** → [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) for definitions, `catalog/resources.json` for values. Holding is not publication.
+
 ## Read for the task
 
 1. Read [START_HERE.md](../START_HERE.md) for navigation and current capabilities, and [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) for ownership, status, assets, and version authority.
@@ -12,7 +20,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
    | Changing | Folder guide | Main rules |
    | --- | --- | --- |
    | Lessons, companions, stories, quest status, Welcome | [content/AGENTS.md](../content/AGENTS.md) | [EDITORIAL_GUIDE.md](EDITORIAL_GUIDE.md), [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md) |
-   | Resource names, links, status, publishing | [catalog/AGENTS.md](../catalog/AGENTS.md) | [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md) |
+   | Resource names, links, status, publishing | [catalog/AGENTS.md](../catalog/AGENTS.md) | [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) (data), [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md) (actions) |
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](../templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md#resources-slides-and-assets) |
    | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](../scripts/AGENTS.md) | [WORKFLOW.md](WORKFLOW.md#previews-and-cleanup) |

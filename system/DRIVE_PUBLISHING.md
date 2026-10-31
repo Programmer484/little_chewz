@@ -1,8 +1,29 @@
-# Publishing generated PDFs to Google Drive
+# Publishing resources to Google Drive
 
-This is the **Python-generated PDF** automation boundary. External worksheets, posters, image-generated PDFs, media and slide PDF/PPTX pairs are published manually by an agent according to [CREATE.md](CREATE.md) and [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). `/create` and `/update` are agent instructions, not Python command programs.
+**Single authoritative publication procedure** for Python-generated PDFs and externally authored resources. Creation and staging belong to [CREATE.md](CREATE.md), review and edits to [WORKFLOW.md](WORKFLOW.md), and data/status definitions to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Nothing publishes automatically on `/create`, `/update`, ordinary PR merge or preview.
 
-## Generated PDF publication after an authorized /merge
+## Publication prerequisites and release gate
+
+1. Confirm explicit human authorization for the **exact reviewed resource/version**, its stable ID, production type, current publication record and official Drive destination. A holding upload or passing check does not imply approval.
+2. Prefer **moving the same holding file** to its official folder to preserve Drive file ID and URL. Verify that the ID remains unchanged; if copying creates a new ID, register the verified new ID and update references. Never guess IDs or folder destinations.
+3. Before releasing a **Teacher Guide**, review every referenced resource. A released guide must not depend on holding-folder-only links, missing or unverified official URLs, or `unpublished`/`pending_publish` dependencies. Review PDFs are not official releases. **This is an agent check, not a claim that a cross-resource automated release gate exists.**
+4. Verify official file identity, MIME, parent folder and sharing/access as far as the tools allow. User testing in incognito is useful but not a substitute for accurate agent records; do not claim incognito testing the agent cannot perform.
+5. **Only after successful official Drive verification**, update `published_url`, compatibility `url`, publication evidence and `status: published` in `catalog/resources.json`. A review `holding_url` remains distinct; neither a valid URL nor metadata access proves anonymous access.
+
+## External resources — agent-managed publication
+
+Worksheets, posters, external PDFs, media and slides use `production_type: external` and are not published through `/merge` or Python PDF builds.
+
+1. Move the exact reviewed file to the verified teacher-facing folder, preserving its ID where possible. For a previously published asset, replace the official file **in place** rather than creating duplicates.
+2. Read back the official file ID, MIME, folder and access metadata. For slides, [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) adds mandatory PDF/PPTX pairing, conversion and verification; both must be checked.
+3. After successful verification, commit the catalogue record: `published_url`, compatibility `url`, `status: published`, and honest `publication` confirmation (file ID and verification method/time). Retain holding history only where appropriate.
+4. On failure, report the precise blocker. A new file stays `unpublished`; where an older verified release exists but a revision has not been verified, preserve the live record and use `pending_publish` as defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Never invent checksums or assert external content parity without evidence.
+
+## First-time generated PDF publication — agent-managed
+
+Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID, publication evidence and `published` status. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
+
+## Generated PDF publication after authorized /merge
 
 1. The agent confirms the exact reviewed PDF and human approval, reconciles the `edit/<stable-resource-id>` branch with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with the authorized single matching resource ID.
 2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
@@ -11,19 +32,17 @@ This is the **Python-generated PDF** automation boundary. External worksheets, p
 5. Only after exact verification does GitHub record the checksum, accepted Git revision, Drive version/time and `published`. If a live older release exists but the update fails, record `pending_publish` and a clear blocker. No unverifiable digest or reported upload success can mark `published`.
 6. The release Action provides its report and the matching post-merge `main` PDF preview run. The former edit branch is removed only when publication succeeded and its remote head still matches the merged PR; concurrent additions are preserved.
 
-First-time official publication is **agent-managed**: the agent moves/copies the accepted generated PDF from holding to the proper teacher-facing Drive folder, verifies the file, and registers its `published_url`, actual ID and first publication confirmation. No automated new-file creation is attempted. Subsequent accepted revisions use the automatic in-place path.
-
 ## Manual fallback and review copies
 
-The existing **Actions → Internal Drive replacement** workflow remains a controlled manual fallback for registered `generated_pdf` resources with established destinations. Use dry run first. Its status/version updates use the same verifier. It is **not** a user-facing `/publish` command or an external-resource publisher.
+**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or public `/publish` command.
 
-For `/create`, an agent builds the PDF preview and uploads it to the verified `PDF-generated resources` holding folder in `catalog/drive_folders.json`. This holding copy is never an official release. `holding_url`, `published_url`, and the compatibility `url` must remain distinct, and existing Drive IDs must not be changed merely for housekeeping.
+During `/create`, upload the review PDF to the verified PDF-generated holding folder from `catalog/drive_folders.json`; this is never release. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](CREATE.md).
 
-The publisher's destination is resolved only from the resource's recorded official file. Example generated registry build mapping: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}`; ordinary Teacher Guides use `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these output names. No external asset receives a Python build just because it is a PDF.
+The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
 ## On-demand inspection
 
-**Actions → Inspect publication** is manual-only and read-only. For generated PDFs it can compare current rendered checksum, recorded published checksum and Drive metadata. For external resources it can confirm Drive metadata or report the missing evidence but **cannot infer content parity**. The inspector never changes status or republishes files.
+**Actions → Inspect publication** is manual and read-only. It can compare a generated PDF's recorded checksum and Drive metadata or report evidence for an external file, but cannot prove external content parity. It does not publish files or change status.
 
 ## One-time setup
 

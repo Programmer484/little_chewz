@@ -76,7 +76,7 @@ Human approval is a decision, **not another status**. Editing a draft branch nev
 
 **One status owner:** lesson-source status lives in `quest.json.learning_sequence[].status`; linked-resource status and publication records live in `catalog/resources.json[<stable-id>]`. A lesson and a separately published Teacher Guide can legitimately have different status. No duplicate status in `lesson.json`, `stage.json` or companion JSON. Preserve established file IDs and slideshow pairing.
 
-The first generated PDF release requires an agent to establish its official teacher-facing Drive file and verify/register its ID; later approved `/merge` revisions use the automated in-place replacement. External publication always uses an agent-managed Drive action and a separate catalogue bookkeeping commit, never `/merge`. Publication inspection is manual and read-only. There is no scripted `/create` engine, scheduled Drive inspector, external checksum system or user-facing `/publish` command.
+Publication procedures, release checks, and the timing of status updates belong exclusively to [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md). This contract defines identity and status, not a release authorization. On-demand inspection is read-only; there is no scripted `/create` engine, scheduled inspector, external checksum system or configured `/publish` command.
 
 ## Source authority
 
