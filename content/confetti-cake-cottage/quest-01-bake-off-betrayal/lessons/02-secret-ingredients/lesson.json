@@ -31,12 +31,20 @@
       "description": "Listening option"
     },
     {
-      "ref": "ccc-q01-secret-ingredients-clue-tracker",
-      "description": "Optional extension"
+      "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
+      "description": "Post-video clue questions"
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
+      "description": "Optional deeper investigation"
+    },
+    {
+      "ref": "ccc-q01-secret-ingredients-character-profile-core",
+      "description": "Small Bite B"
     },
     {
       "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": "Optional extension"
+      "description": "Optional extended profile"
     }
   ],
   "prep_heading": "PREPARE YOUR CHOICES",
@@ -63,7 +71,7 @@
         },
         {
           "kind": "DO",
-          "text": "Invite 1–2 students to share a clue they noticed before showing any worksheet. Ask what they actually saw before discussing possible meaning."
+          "text": "Invite 1–2 students to share what they noticed before showing the Clue Tracker. Distinguish observations from guesses."
         },
         {
           "kind": "ASK",
@@ -73,12 +81,16 @@
           "kind": "MORE",
           "links": [
             {
-              "ref": "ccc-q01-secret-ingredients-clue-tracker",
-              "description": "Legacy full tracker; new separate core page (questions 1–5) and extension page (questions 6–8) are staged for review."
+              "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
+              "description": "Questions 1–5; use after independent observation."
+            },
+            {
+              "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
+              "description": "Questions 6–8; optional +10–15 min."
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-answer-key",
-              "description": "Teacher reference, legacy guide p. 8"
+              "description": "Teacher reference"
             }
           ]
         }
@@ -146,15 +158,20 @@
           "title": "Character Profile · Evidence First",
           "rows": [
             {
+              "kind": "GIVE",
+              "ref": "ccc-q01-secret-ingredients-character-profile-core",
+              "description": "One per student choosing Small Bite B"
+            },
+            {
               "kind": "DO",
-              "text": "Choose one character. Use the new evidence-first Core Character Profile: 2–3 known facts, one feeling or goal inferred from the story, what the character said or did as evidence, and one remaining question. Worksheet link activates after publication; until then, use notebook responses."
+              "text": "Students record 2–3 story facts, one character inference, supporting evidence, and one remaining question."
             },
             {
               "kind": "MORE",
               "links": [
                 {
                   "ref": "ccc-q01-secret-ingredients-character-profile",
-                  "description": "Original full Advanced Character Profile; optional +15–20 min. Separate review PDF staged."
+                  "description": "Advanced Character Profile; optional +15–20 min."
                 }
               ]
             }
@@ -176,25 +193,17 @@
   ],
   "bonuses": [
     {
-      "ref": "ccc-q01-secret-ingredients-clue-tracker",
-      "description": "— Optional +10–15 min: complete the full eight-question tracker. The drawing box is for sketching additional evidence."
+      "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
+      "description": "— Optional +10–15 min: examine the team discrepancy, false leads, and additional observations."
     },
     {
       "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": "— Optional +15–20 min: complete the expanded character profile, distinguishing evidence from imagined details."
+      "description": "— Optional +15–20 min: expand the character profile and distinguish evidence from imagination."
     }
   ],
   "migration_review": {
-    "notes": "Review draft, not approved or published. Four external worksheets are staged in the Worksheets holding folder: Clue Tracker Core (original page 1), Clue Tracker Extension (original page 2), Character Profile Core (new image-based worksheet), and Advanced Character Profile (original full page). Holding links are not teacher-facing live links. Actual stand-alone Chapter Notes PDF is staged for review; optional note-taking scaffold remains in the lesson teaching directions, not printed on the worksheet.",
+    "notes": "Five standalone student worksheets have been published in the official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder and are linked in this lesson. Chapter Notes remains unchanged; the 2–3 detail scaffold is in teaching directions.",
     "unresolved": "Part 2's independent slide deck is not available/linked. Conflict Report / Zenix Debrief presently references historical slides 17–18; verify lesson-local numbering and add the real slide resource link before release.",
-    "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables.",
-    "pending_worksheet_refs": [
-      "ccc-q01-secret-ingredients-clue-tracker-core",
-      "ccc-q01-secret-ingredients-clue-tracker-extension",
-      "ccc-q01-secret-ingredients-character-profile-core",
-      "ccc-q01-secret-ingredients-character-profile",
-      "ccc-q01-secret-ingredients-chapter-notes"
-    ],
-    "link_activation_note": "After approval and verified agent-managed publication, add core and extension refs to Preparation and the appropriate GIVE/MORE Teaching Flow rows, and replace the legacy full-tracker reference. Resolve published URLs from catalog/resources.json; never use holding URLs for teacher-facing links."
+    "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables."
   }
 }
