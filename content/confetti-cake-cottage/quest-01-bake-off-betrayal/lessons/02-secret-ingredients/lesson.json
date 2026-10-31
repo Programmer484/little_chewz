@@ -63,7 +63,7 @@
         },
         {
           "kind": "DO",
-          "text": "Invite 1–2 students to share a clue they noticed. Ask what they actually saw before discussing what it might mean."
+          "text": "Invite 1–2 students to share a clue they noticed before showing any worksheet. Ask what they actually saw before discussing possible meaning."
         },
         {
           "kind": "ASK",
@@ -74,7 +74,7 @@
           "links": [
             {
               "ref": "ccc-q01-secret-ingredients-clue-tracker",
-              "description": "Full written tracker; +10–15 min. Use the drawing box to sketch an extra observed clue or unresolved detail."
+              "description": "Legacy full tracker; new separate core page (questions 1–5) and extension page (questions 6–8) are staged for review."
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-answer-key",
@@ -147,14 +147,14 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Choose one character. In a notebook, record 2–3 known facts, one possible feeling or goal, what the character said or did as evidence, and one remaining question."
+              "text": "Choose one character. Use the new evidence-first Core Character Profile: 2–3 known facts, one feeling or goal inferred from the story, what the character said or did as evidence, and one remaining question. Worksheet link activates after publication; until then, use notebook responses."
             },
             {
               "kind": "MORE",
               "links": [
                 {
                   "ref": "ccc-q01-secret-ingredients-character-profile",
-                  "description": "Expanded original profile; optional +15–20 min"
+                  "description": "Original full Advanced Character Profile; optional +15–20 min. Separate review PDF staged."
                 }
               ]
             }
@@ -185,8 +185,15 @@
     }
   ],
   "migration_review": {
-    "notes": "Review draft, not approved or published. The legacy full Clue Tracker and Character Profile have NOT been split or rewritten. Chapter Notes scaffold is guidance in this lesson only, not yet printed on the linked worksheet.",
+    "notes": "Review draft, not approved or published. Four external worksheets are staged in the Worksheets holding folder: Clue Tracker Core (original page 1), Clue Tracker Extension (original page 2), Character Profile Core (new image-based worksheet), and Advanced Character Profile (original full page). Holding links are not teacher-facing live links. Chapter Notes scaffold has not yet been added to its worksheet.",
     "unresolved": "Part 2's independent slide deck is not available/linked. Conflict Report / Zenix Debrief presently references historical slides 17–18; verify lesson-local numbering and add the real slide resource link before release.",
-    "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables."
+    "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables.",
+    "pending_worksheet_refs": [
+      "ccc-q01-secret-ingredients-clue-tracker-core",
+      "ccc-q01-secret-ingredients-clue-tracker-extension",
+      "ccc-q01-secret-ingredients-character-profile-core",
+      "ccc-q01-secret-ingredients-character-profile"
+    ],
+    "link_activation_note": "After approval and verified agent-managed publication, add core and extension refs to Preparation and the appropriate GIVE/MORE Teaching Flow rows, and replace the legacy full-tracker reference. Resolve published URLs from catalog/resources.json; never use holding URLs for teacher-facing links."
   }
 }
