@@ -202,16 +202,7 @@
       ]
     }
   ],
-  "bonuses": [
-    {
-      "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-      "description": "— Optional +10–15 min: examine the team discrepancy, false leads, and additional observations."
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": "— Optional +15–20 min: expand the character profile and distinguish evidence from imagination."
-    }
-  ],
+  "bonuses": [],
   "migration_review": {
     "notes": "Five standalone student worksheets have been published in the official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder and are linked in this lesson. Chapter Notes remains unchanged; the 2–3 detail scaffold is in teaching directions.",
     "unresolved": "The current five-slide Secret Ingredients deck supplies slides 1–2 for clue investigation, slide 3 for Chapter 1, and slides 4–5 for Conflict Report / Zenix Debrief. Verify that the published PPTX still matches the supplied five-page PDF.",
