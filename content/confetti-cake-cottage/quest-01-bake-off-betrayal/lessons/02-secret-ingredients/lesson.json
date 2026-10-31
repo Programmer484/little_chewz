@@ -22,7 +22,7 @@
     },
     {
       "ref": "ccc-q01-secret-ingredients-chapter-notes",
-      "description": "One per student; p. 10"
+      "description": "One per student; stand-alone worksheet (review staged)"
     }
   ],
   "optional_prep": [
@@ -92,7 +92,7 @@
         {
           "kind": "GIVE",
           "ref": "ccc-q01-secret-ingredients-chapter-notes",
-          "description": "One per student; legacy guide p. 10."
+          "description": "One per student; stand-alone Chapter Notes worksheet (review staged)."
         },
         {
           "kind": "DO",
@@ -185,14 +185,15 @@
     }
   ],
   "migration_review": {
-    "notes": "Review draft, not approved or published. Four external worksheets are staged in the Worksheets holding folder: Clue Tracker Core (original page 1), Clue Tracker Extension (original page 2), Character Profile Core (new image-based worksheet), and Advanced Character Profile (original full page). Holding links are not teacher-facing live links. Chapter Notes scaffold has not yet been added to its worksheet.",
+    "notes": "Review draft, not approved or published. Four external worksheets are staged in the Worksheets holding folder: Clue Tracker Core (original page 1), Clue Tracker Extension (original page 2), Character Profile Core (new image-based worksheet), and Advanced Character Profile (original full page). Holding links are not teacher-facing live links. Actual stand-alone Chapter Notes PDF is staged for review; optional note-taking scaffold remains in the lesson teaching directions, not printed on the worksheet.",
     "unresolved": "Part 2's independent slide deck is not available/linked. Conflict Report / Zenix Debrief presently references historical slides 17–18; verify lesson-local numbering and add the real slide resource link before release.",
     "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables.",
     "pending_worksheet_refs": [
       "ccc-q01-secret-ingredients-clue-tracker-core",
       "ccc-q01-secret-ingredients-clue-tracker-extension",
       "ccc-q01-secret-ingredients-character-profile-core",
-      "ccc-q01-secret-ingredients-character-profile"
+      "ccc-q01-secret-ingredients-character-profile",
+      "ccc-q01-secret-ingredients-chapter-notes"
     ],
     "link_activation_note": "After approval and verified agent-managed publication, add core and extension refs to Preparation and the appropriate GIVE/MORE Teaching Flow rows, and replace the legacy full-tracker reference. Resolve published URLs from catalog/resources.json; never use holding URLs for teacher-facing links."
   }
