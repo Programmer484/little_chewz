@@ -119,7 +119,7 @@ def generator(data, output, registry=None):
         elif typ == "links":
             for item in block.get("items", []):
                 entry = registry.get(item.get("ref", ""), {}) if registry else {}
-                url = item.get("url") or entry.get("url")
+                url = entry.get("url") if item.get("ref") in registry else item.get("url")
                 label = item.get("title") or entry.get("title")
                 if not url or not label:raise ValueError(f"Missing link URL/title: {item}")
                 if not url.startswith("https://"):raise ValueError("Links must be approved HTTPS URLs")

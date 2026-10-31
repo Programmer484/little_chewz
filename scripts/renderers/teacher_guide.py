@@ -176,7 +176,11 @@ def hdr(p,eyebrow,title,accent=CORAL):
     return HDR_RULE
 
 def resolve(item,registry):
-    record=dict(registry.get(item.get('ref'),{}));record.update(item)
+    record=dict(registry.get(item.get('ref'),{}))
+    registry_url=record.get('url') if item.get('ref') in registry else None
+    record.update(item)
+    if registry_url is not None:
+        record['url']=registry_url  # Never let a lesson override the verified registry destination.
     if not record.get('title'):raise ValueError(f'Resource has no title: {item}')
     return record
 
