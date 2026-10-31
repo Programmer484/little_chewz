@@ -498,7 +498,7 @@
       "secret-ingredients",
       "investigation"
     ],
-    "status": "unpublished",
+    "status": "published",
     "link_note": "Historical direct-video link; lesson-specific slides are not yet verified.",
     "production_type": "external",
     "source": {
@@ -506,10 +506,11 @@
       "url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY"
     },
     "publication": {
-      "verification": "unknown"
+      "verification": "unverified",
+      "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY"
   },
   "ccc-q01-secret-ingredients-chapter-one": {
     "title": "Chapter One: The Bake-Off Betrayal",
@@ -520,18 +521,19 @@
       "secret-ingredients",
       "chapter-one"
     ],
-    "status": "unpublished",
+    "status": "published",
     "link_note": "Chapter download link from original Guide page 42; permissions unverified.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
     },
     "publication": {
-      "verification": "unknown",
-      "drive_file_id": "14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC"
+      "verification": "unverified",
+      "drive_file_id": "14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC",
+      "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view"
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
     "title": "Chapter One Audio",
@@ -542,17 +544,18 @@
       "secret-ingredients",
       "audio"
     ],
-    "status": "unpublished",
+    "status": "published",
     "link_note": "Legacy audio folder link from original Guide page 42; specific recording and permissions unverified.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
     },
     "publication": {
-      "verification": "unknown"
+      "verification": "unverified",
+      "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing"
   },
   "ccc-q01-secret-ingredients-clue-tracker": {
     "title": "Full Zenix Clue Tracker",
