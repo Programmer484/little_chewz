@@ -22,7 +22,7 @@
     },
     {
       "ref": "ccc-q01-secret-ingredients-chapter-notes",
-      "description": "One per student; stand-alone worksheet (review staged)"
+      "description": "One per student"
     }
   ],
   "optional_prep": [
@@ -92,7 +92,7 @@
         {
           "kind": "GIVE",
           "ref": "ccc-q01-secret-ingredients-chapter-notes",
-          "description": "One per student; stand-alone Chapter Notes worksheet (review staged)."
+          "description": "One per student"
         },
         {
           "kind": "DO",
