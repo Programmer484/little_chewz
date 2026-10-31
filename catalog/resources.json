@@ -577,6 +577,63 @@
     "holding_url": null,
     "published_url": null
   },
+  "ccc-q01-secret-ingredients-clue-tracker-core": {
+    "title": "Clue Tracker — Core",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "core",
+      "clue-hunt"
+    ],
+    "status": "published",
+    "link_note": "Core follow-up to independent clue observations. Original Clue Tracker page 1, questions 1–5, preserved without edits; hand out after the 3-minute scene and initial clue share. Published in official student materials.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
+    },
+    "publication": {
+      "verification": "verified",
+      "method": "external_agent",
+      "drive_file_id": "1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv",
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
+    },
+    "holding_url": "https://drive.google.com/file/d/1Ml-sPRMKDFq_Pup6m1NHTbr13bZHzc9Q/view",
+    "published_url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
+    "url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view"
+  },
+  "ccc-q01-secret-ingredients-clue-tracker-extension": {
+    "title": "Clue Tracker — Extension",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "optional",
+      "extension",
+      "inference"
+    ],
+    "status": "published",
+    "link_note": "Extension +10–15 min. Original Clue Tracker page 2, questions 6–8 including the drawing box, preserved without edits; follows the core page. Published in official student materials.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
+    },
+    "publication": {
+      "verification": "verified",
+      "method": "external_agent",
+      "drive_file_id": "1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh",
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
+    },
+    "holding_url": "https://drive.google.com/file/d/1GpytMiNCwLrpkde5hERXiku0xk-r-M54/view",
+    "published_url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
+    "url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view"
+  },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
     "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
@@ -601,29 +658,34 @@
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
     "title": "Chapter Notes",
-    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
       "secret-ingredients",
       "chapter-notes"
     ],
-    "status": "unpublished",
-    "link_note": "Legacy Day Two guide page 10; worksheet not yet revised with scaffold.",
+    "status": "published",
+    "link_note": "Standalone Chapter Notes worksheet, original prediction prompt and open notes/drawing area. Published in official student materials; 2–3-detail scaffold appears in teaching directions.",
     "production_type": "external",
     "source": {
-      "kind": "unknown"
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
     },
     "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
+      "verification": "verified",
+      "method": "external_agent",
+      "drive_file_id": "107xSYGXDG-46-bQA652m7HOhFR1CVb17",
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
-    "holding_url": null,
-    "published_url": null
+    "holding_url": "https://drive.google.com/file/d/1nFkHSZceWwkSUjFGdYP6m9UtxWoTEprT/view",
+    "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view"
   },
   "ccc-q01-secret-ingredients-character-profile": {
-    "title": "Expanded Character Profile",
-    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "title": "Character Profile — Advanced",
+    "url": "https://drive.google.com/file/d/10jiuQLjv3zc3JFh6LrLcYggDsBYxcxkX/view",
     "type": "student_worksheet",
     "audience": "teacher",
     "tags": [
@@ -631,18 +693,50 @@
       "optional",
       "extension"
     ],
-    "status": "unpublished",
-    "link_note": "Legacy Day Two guide page 12; remains unsplit and unedited. Core evidence-based prompt lives in the teacher guide.",
+    "status": "published",
+    "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min), published in official student materials.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
+    },
+    "publication": {
+      "verification": "verified",
+      "method": "external_agent",
+      "drive_file_id": "10jiuQLjv3zc3JFh6LrLcYggDsBYxcxkX",
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
+    },
+    "holding_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
+    "published_url": "https://drive.google.com/file/d/10jiuQLjv3zc3JFh6LrLcYggDsBYxcxkX/view"
+  },
+  "ccc-q01-secret-ingredients-character-profile-core": {
+    "title": "Character Profile — Core",
+    "type": "student_worksheet",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "core",
+      "character-analysis"
+    ],
+    "status": "published",
+    "link_note": "New one-page evidence-first character profile, based on the approved chat prototype. Distinguishes 2–3 known facts, inference, supporting story evidence and one unanswered question. Original expanded profile remains unchanged. Published in official student materials.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
     },
     "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
+      "verification": "verified",
+      "method": "external_agent",
+      "drive_file_id": "1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU",
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
-    "holding_url": null,
-    "published_url": null
+    "holding_url": "https://drive.google.com/file/d/1DxcJ6dDE8QCyqnzoXLee7d9RP5d1F-5G/view",
+    "published_url": "https://drive.google.com/file/d/1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU/view",
+    "url": "https://drive.google.com/file/d/1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU/view"
   },
   "ccc-q01-secret-ingredients-slides": {
     "title": "Secret Ingredients Classroom Slides",
