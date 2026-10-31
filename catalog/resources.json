@@ -654,16 +654,17 @@
       "chapter-notes"
     ],
     "status": "unpublished",
-    "link_note": "Legacy Day Two guide page 10; worksheet not yet revised with scaffold.",
+    "link_note": "Actual stand-alone Chapter 1 student worksheet supplied by user, staged in Worksheets holding. Prediction prompt and open note/drawing space preserved. Legacy compatibility URL remains until official publication; scaffold wording is in lesson guide only.",
     "production_type": "external",
     "source": {
-      "kind": "unknown"
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
     },
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
     },
-    "holding_url": null,
+    "holding_url": "https://drive.google.com/file/d/1nFkHSZceWwkSUjFGdYP6m9UtxWoTEprT/view",
     "published_url": null
   },
   "ccc-q01-secret-ingredients-character-profile": {
