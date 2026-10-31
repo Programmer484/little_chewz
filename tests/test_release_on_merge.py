@@ -74,22 +74,39 @@ class ReleaseTests(unittest.TestCase):
 
     def test_release_branch_must_match_resource(self):
         marker=self.marker()
-        with self.assertRaisesRegex(rel.ReleaseError, "lesson branch or legacy"):
+        with self.assertRaisesRegex(rel.ReleaseError, "does not own"):
             rel.plan(77, {marker}, "a"*40, "b"*40, "edit/different-resource")
 
-    def test_lesson_branch_is_allowed(self):
+    def test_lesson_branch_must_own_resource(self):
         marker = self.marker()
         registry = {"ccc-q01-welcome": {"production_type": "generated_pdf", "status": "published",
                     "url": "https://drive.google.com/file/d/12345678901234567890/view",
                     "build": {"renderer": "claude", "source": "welcome.json"}}}
-        with patch.object(rel, "git", return_value="a" * 40), \
-             patch.object(rel.subprocess, "run", return_value=type("P", (), {"returncode": 0})()), \
-             patch.object(rel, "load_registry", return_value=registry), \
-             patch.object(rel, "targets", return_value={"ccc-q01-welcome.pdf": {}}), \
-             patch.object(rel, "select", return_value=["ccc-q01-welcome.pdf"]):
-            result = rel.plan(77, {marker, "welcome.json"}, "a" * 40, "9" * 40,
+        with patch.object(rel, "load_registry", return_value=registry), \
+             patch.object(rel, "targets", return_value={"ccc-q01-welcome.pdf": {}}):
+            with self.assertRaisesRegex(rel.ReleaseError, "does not own"):
+                rel.plan(77, {marker}, "a" * 40, "9" * 40,
+                         head_branch="lesson/ccc-q01-02-secret-ingredients")
+
+    def test_lesson_branch_matches_own_teacher_guide(self):
+        marker = self.marker(ids=["ccc-q01-secret-ingredients-teacher-guide"])
+        registry = {"ccc-q01-secret-ingredients-teacher-guide": {
+            "production_type": "generated_pdf", "status": "pending_publish",
+            "url": "https://drive.google.com/file/d/12345678901234567890/view",
+            "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}}}
+        targets = {"02-secret-ingredients-teacher-guide.pdf": {
+            "kind": "teacher_guide", "resource_id": "ccc-q01-secret-ingredients-teacher-guide",
+            "source": "content/ccc/quest-01/lessons/02-secret-ingredients/lesson.json", "data": {}}}
+        def fake_git(*args):
+            return "a" * 40 if args[0] == "rev-parse" else ""
+        with patch.object(rel, "load_registry", return_value=registry), \
+             patch.object(rel, "targets", return_value=targets), \
+             patch.object(rel, "select", return_value=["02-secret-ingredients-teacher-guide.pdf"]), \
+             patch.object(rel, "git", side_effect=fake_git), \
+             patch.object(rel.subprocess, "run", return_value=type("P", (), {"returncode": 0})()):
+            result = rel.plan(77, {marker, "lesson.json"}, "a" * 40, "9" * 40,
                               head_branch="lesson/ccc-q01-02-secret-ingredients")
-        self.assertEqual(result["generated"], ["ccc-q01-welcome"])
+        self.assertEqual(result["generated"], ["ccc-q01-secret-ingredients-teacher-guide"])
 
     def test_failed_verified_release_keeps_pending_for_old_live_version(self):
         record = {"ccc-q01-welcome": {"production_type": "generated_pdf",
