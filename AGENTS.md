@@ -188,7 +188,7 @@ The original inventories and superseded slideshow decisions are in [archive/2026
 
 1. Confirm school, lesson, resource type, **unused stable ID**, source path, and supported build renderer/output.
 2. Author editable JSON and required separate versioned assets on the lesson branch; use the repository renderer, validate, test, and inspect pages and working hyperlinks.
-3. Upload the first review PDF to the verified holding folder under `01_TEACHER_GUIDES` (or the matching category for its resource type). Read back its Drive ID and URL.
+3. Upload a new **Teacher Guide** PDF under `01_TEACHER_GUIDES/PDF-generated resources`; a generated **companion** belongs under `04_EXTRA_RESOURCES/Other resources`. Use the configured existing holding folder ID, then read back the Drive ID and URL. The special Welcome material retains its established folder routing.
 4. Register `production_type: generated_pdf`, source/build mapping, `holding_url`, and `status: unpublished` in `catalog/resources.json`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
 5. Push the lesson branch, open/update its review PR and share the Actions review and holding link. **Stop without publication.**
 
@@ -216,7 +216,7 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 1. Use the existing shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch; only create it from `main` if absent. Reconcile its latest head with `main`. Do not create a separate task branch unless explicitly requested; preserve concurrent edits and never force-push.
 2. Edit authorized JSON/text source and separate required assets; keep the current official file ID, live URL and publication evidence unchanged.
 3. Validate, test, render through the existing repository PDF renderer and inspect the pages and clickable links.
-4. Upload or replace the **review PDF in holding**; verify its Drive ID and update the recorded `holding_url` if needed.
+4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_EXTRA_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
 5. Save source to GitHub, open/update the PR and share the actual Actions run and review copy. A passing build or ordinary merge is not publication.
 
 ### External resources
