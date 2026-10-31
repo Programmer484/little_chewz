@@ -155,10 +155,11 @@ jobs:
             echo "### PDF review links"
             echo "**Primary review link:** [This Actions run](https://github.com/${REPO}/actions/runs/${RUN_ID})"
             echo ""
-            echo "Open PDFs directly in GitHub:"
+            echo "| PDF | Preview | Download |"
+            echo "| --- | --- | --- |"
             for pdf in "$run_folder"/*.pdf; do
               name="${pdf##*/}"
-              echo "- [Preview ${name}](https://github.com/${REPO}/blob/${preview_branch}/${pdf}) · [Download PDF (working links)](https://github.com/${REPO}/raw/refs/heads/${preview_branch}/${pdf})"
+              echo "| ${name} | [Preview](https://github.com/${REPO}/blob/${preview_branch}/${pdf}) | [Download PDF](https://github.com/${REPO}/raw/refs/heads/${preview_branch}/${pdf}) |"
             done
             echo ""
             echo "GitHub browser previews may not activate PDF hyperlinks. Download and open in a PDF reader to test interactive links."
