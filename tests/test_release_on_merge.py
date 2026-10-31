@@ -74,8 +74,22 @@ class ReleaseTests(unittest.TestCase):
 
     def test_release_branch_must_match_resource(self):
         marker=self.marker()
-        with self.assertRaisesRegex(rel.ReleaseError, "single matching"):
+        with self.assertRaisesRegex(rel.ReleaseError, "lesson branch or legacy"):
             rel.plan(77, {marker}, "a"*40, "b"*40, "edit/different-resource")
+
+    def test_lesson_branch_is_allowed(self):
+        marker = self.marker()
+        registry = {"ccc-q01-welcome": {"production_type": "generated_pdf", "status": "published",
+                    "url": "https://drive.google.com/file/d/12345678901234567890/view",
+                    "build": {"renderer": "claude", "source": "welcome.json"}}}
+        with patch.object(rel, "git", return_value="a" * 40), \
+             patch.object(rel.subprocess, "run", return_value=type("P", (), {"returncode": 0})()), \
+             patch.object(rel, "load_registry", return_value=registry), \
+             patch.object(rel, "targets", return_value={"ccc-q01-welcome.pdf": {}}), \
+             patch.object(rel, "select", return_value=["ccc-q01-welcome.pdf"]):
+            result = rel.plan(77, {marker, "welcome.json"}, "a" * 40, "9" * 40,
+                              head_branch="lesson/ccc-q01-02-secret-ingredients")
+        self.assertEqual(result["generated"], ["ccc-q01-welcome"])
 
     def test_failed_verified_release_keeps_pending_for_old_live_version(self):
         record = {"ccc-q01-welcome": {"production_type": "generated_pdf",

@@ -5,8 +5,8 @@ Use alongside the independent [Create](CREATE.md) and [Update](UPDATE.md) workfl
 ## Source and branch hygiene
 
 - Read the owning file's `$instructions` pointer and verify current stable ID, GitHub revision, catalogue record and Drive metadata before writing.
-- Generated PDFs use a remote `edit/<resource-id>` branch; reconcile concurrent changes against the latest branch head and `main`, without force-pushing. Commit required images separately from text.
-- Externally authored resources stay in their own creation tool and use ordinary catalogue bookkeeping, not the generated-PDF pipeline.
+- Default to a shared remote `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch for all work on that lesson. Reuse it across chats and resources; reconcile concurrent changes against its latest head and `main`, without force-pushing. **Only create a separate task branch when the user explicitly requests it.** Commit required images separately from text.
+- Externally authored resources stay in their own creation tool and save catalogue changes on the lesson branch, not the generated-PDF pipeline. Non-lesson resources retain their established owner branch.
 - Commit source changes, verify remote state and exclude secrets, temporary transfers and generated exports. Preserve unrelated work.
 
 ## Validation and previews
