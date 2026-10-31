@@ -70,30 +70,30 @@
       "rows": [
         {
           "kind": "SHOW",
-          "text": "Slides 1–2 — Introduce the Zenix investigation and play the clue video on Slide 2."
+          "text": "Slides 1–2 — Introduce Zenix; play the video on Slide 2."
         },
         {
           "kind": "DO",
-          "text": "Students jot 2–3 visible clues in a notebook or on paper while watching."
+          "text": "Students jot 2–3 clues while watching."
         },
         {
           "kind": "ASK",
-          "text": "What might be inside the CONFIDENTIAL envelope, and what clue supports that idea?"
+          "text": "What might be in the CONFIDENTIAL envelope? Which clue supports your idea?"
         },
         {
           "kind": "MORE",
           "links": [
             {
               "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
-              "description": "Questions 1–5; use after independent observation."
+              "description": "Questions 1–5"
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-              "description": "Questions 6–8; optional +10–15 min."
+              "description": "Questions 6–8; optional +10–15 min"
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-answer-key",
-              "description": "Teacher reference"
+              "description": ""
             }
           ]
         }
@@ -122,12 +122,12 @@
       "rows": [
         {
           "kind": "SHOW",
-          "text": "Slide 3 — Introduce Chapter 1 before students read or listen."
+          "text": "Slide 3 — Introduce Chapter 1."
         },
         {
           "kind": "READ",
           "ref": "ccc-q01-secret-ingredients-chapter-one",
-          "description": "Read independently, with a partner or group, or as a teacher read-aloud."
+          "description": "Read independently, in groups, or aloud."
         },
         {
           "kind": "LISTEN",
@@ -136,7 +136,7 @@
         },
         {
           "kind": "DO",
-          "text": "For either format, students record 2–3 important details: a clue, a character choice, or something that changes their prediction. Short notes or sketches are fine."
+          "text": "Students note 2–3 important clues or character choices."
         }
       ]
     },
@@ -156,7 +156,7 @@
             },
             {
               "kind": "DO",
-              "text": "Discuss the team switch in pairs or small groups; a short written response is optional."
+              "text": "Discuss the team switch in pairs or groups."
             },
             {
               "kind": "ASK",
@@ -175,7 +175,7 @@
             },
             {
               "kind": "DO",
-              "text": "Students record 2–3 story facts, one character inference, supporting evidence, and one remaining question."
+              "text": "Record 2–3 facts, an inference, supporting evidence, and one question."
             },
             {
               "kind": "MORE",
