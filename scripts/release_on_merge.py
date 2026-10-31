@@ -48,10 +48,23 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
     if not ids:
         return {"pr": pr, "result": "no authorized resource release", "generated": [],
                 "external": [], "blocked": []}
-    if head_branch is not None and not (head_branch.startswith("lesson/") or head_branch == f"edit/{ids[0]}"):
-        raise ReleaseError("Generated release must come from the shared lesson branch or legacy matching edit branch")
     registry = load_registry()
     registered = targets()
+    if head_branch is not None and head_branch != f"edit/{ids[0]}":
+        expected = None
+        for target in registered.values():
+            if target.get("kind") != "teacher_guide":
+                continue
+            guide_id = target.get("resource_id", "")
+            prefix = guide_id.removesuffix("-teacher-guide")
+            if ids[0] != guide_id and not ids[0].startswith(prefix + "-"):
+                continue
+            source = Path(target.get("source", ""))
+            if "lessons" in source.parts:
+                expected = f"lesson/{'-'.join(guide_id.split('-')[:2])}-{source.parent.name}"
+                break
+        if not expected or head_branch != expected:
+            raise ReleaseError("Release branch does not own this resource or lesson")
     affected = set(select(changed, base_ref=base_sha))
     head = git("rev-parse", "HEAD")
     if subprocess.run(["git", "merge-base", "--is-ancestor", merge_sha, head],
