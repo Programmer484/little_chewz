@@ -677,16 +677,17 @@
       "extension"
     ],
     "status": "unpublished",
-    "link_note": "Legacy Day Two guide page 12; remains unsplit and unedited. Core evidence-based prompt lives in the teacher guide.",
+    "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min); preserved prompts and artwork. Reviewed one-page PDF in Worksheets holding; legacy compatibility URL remains unchanged until official publication.",
     "production_type": "external",
     "source": {
-      "kind": "unknown"
+      "kind": "external_original",
+      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
     },
     "publication": {
       "verification": "unknown",
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
     },
-    "holding_url": null,
+    "holding_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
     "published_url": null
   },
   "ccc-q01-secret-ingredients-character-profile-core": {
