@@ -7,7 +7,8 @@
     },
     "generated_pdf": {
       "folder_id": "1wPdelGnXWcE9IlF5y-qTfk84gzNDSIxY",
-      "name": "PDF-generated resources"
+      "name": "PDF-generated resources",
+      "note": "Teacher Guides only; generated companions belong under 04_EXTRA_RESOURCES/Other resources."
     },
     "worksheets": {
       "folder_id": "1Vw5abDxMojq9IDQ7XXIkOb1ODU1HLtun",
@@ -19,7 +20,8 @@
     },
     "other": {
       "folder_id": "1nuGsEPQi30Nv-FkxOuxCLo6RwynKwpCo",
-      "name": "Other resources"
+      "name": "Other resources",
+      "note": "External extras and generated teacher companions; verified files remain unpublished until official move."
     },
     "slide_pdfs": {
       "folder_id": "1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g",

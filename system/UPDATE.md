@@ -7,7 +7,7 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 1. Use the existing shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch; only create it from `main` if absent. Reconcile its latest head with `main`. Do not create a separate task branch unless explicitly requested; preserve concurrent edits and never force-push.
 2. Edit authorized JSON/text source and separate required assets; keep the current official file ID, live URL and publication evidence unchanged.
 3. Validate, test, render through the existing repository PDF renderer and inspect the pages and clickable links.
-4. Upload or replace the **review PDF in holding**; verify its Drive ID and update the recorded `holding_url` if needed.
+4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_EXTRA_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
 5. Save source to GitHub, open/update the PR and share the actual Actions run and review copy. A passing build or ordinary merge is not publication.
 
 ## External resources
