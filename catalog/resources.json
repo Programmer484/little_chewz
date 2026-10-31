@@ -721,7 +721,7 @@
       "character-analysis"
     ],
     "status": "published",
-    "link_note": "One-page evidence-first Character Profile. Published as an image (PNG) for clearer direct printing; same verified Drive file ID and URL.",
+    "link_note": "One-page evidence-first Character Profile, now published as a US Letter PDF converted from the supplied worksheet image. Teacher Guide links to this PDF.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -729,14 +729,14 @@
     "publication": {
       "verification": "verified",
       "method": "external_agent",
-      "drive_file_id": "1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU",
-      "note": "Existing published file replaced in place with image/png; exact Drive ID, official parent folder, and anyone-reader permission verified.",
+      "drive_file_id": "1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ",
+      "note": "Published PDF verified in official Secret Ingredients student materials folder, replacing prior PNG destination.",
       "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
-      "confirmed_at": "2026-10-31T16:01:58+00:00"
+      "confirmed_at": "2026-10-31T16:12:24+00:00"
     },
     "holding_url": "https://drive.google.com/file/d/1DxcJ6dDE8QCyqnzoXLee7d9RP5d1F-5G/view",
-    "published_url": "https://drive.google.com/file/d/1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU/view",
-    "url": "https://drive.google.com/file/d/1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU/view"
+    "published_url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
+    "url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view"
   },
   "ccc-q01-secret-ingredients-slides": {
     "title": "Secret Ingredients Classroom Slides",
