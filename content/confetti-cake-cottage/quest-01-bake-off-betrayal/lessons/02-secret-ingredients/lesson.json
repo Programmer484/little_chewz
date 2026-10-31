@@ -13,6 +13,10 @@
   ],
   "core": [
     {
+      "ref": "ccc-q01-secret-ingredients-slides",
+      "description": "Slides 1–5"
+    },
+    {
       "ref": "ccc-q01-secret-ingredients-clue-video",
       "description": "3-min scene"
     },
@@ -49,7 +53,7 @@
   ],
   "prep_heading": "PREPARE YOUR CHOICES",
   "focus": "Look for observations and character inferences supported by evidence, rather than guesses alone.",
-  "assessment": "Clue Hunt: students name a visible detail and support one quick inference. Small Bite: For either Conflict Report/Zenix Debrief or Character Profile, look for conclusions supported by evidence from Chapter 1.",
+  "assessment": "Clue Hunt: identifies a visible detail and supports an inference. Small Bite: supports a character interpretation with story evidence.",
   "curriculum": [
     "English Language Arts",
     "Health / SEL",
@@ -65,28 +69,24 @@
       "mins": "5",
       "rows": [
         {
-          "kind": "DO",
-          "ref": "ccc-q01-secret-ingredients-clue-video",
-          "description": "Play the 3-minute scene. Students jot 2–3 visible clues in a notebook or on paper while it plays."
+          "kind": "SHOW",
+          "text": "Slides 1–2 — Introduce the investigation; play the clue video on Slide 2."
         },
         {
           "kind": "DO",
-          "text": "Invite 1–2 students to share what they noticed before showing the Clue Tracker. Distinguish observations from guesses."
+          "text": "Students jot clues independently while watching."
         },
         {
-          "kind": "ASK",
-          "text": "What might be inside the CONFIDENTIAL envelope, and what clue supports that idea?"
+          "kind": "GIVE",
+          "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
+          "description": "After the video, students pair up to complete questions 1–5."
         },
         {
           "kind": "MORE",
           "links": [
             {
-              "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
-              "description": "Questions 1–5; use after independent observation."
-            },
-            {
               "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-              "description": "Questions 6–8; optional +10–15 min."
+              "description": "Questions 6–8; optional +10–15 min"
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-answer-key",
@@ -118,9 +118,13 @@
       "mins": "25",
       "rows": [
         {
+          "kind": "SHOW",
+          "text": "Slide 3 — Introduce Chapter 1."
+        },
+        {
           "kind": "READ",
           "ref": "ccc-q01-secret-ingredients-chapter-one",
-          "description": "Read independently, with a partner or group, or as a teacher read-aloud."
+          "description": "Read independently, in groups, or aloud."
         },
         {
           "kind": "LISTEN",
@@ -129,7 +133,7 @@
         },
         {
           "kind": "DO",
-          "text": "For either format, students record 2–3 important details: a clue, a character choice, or something that changes their prediction. Short notes or sketches are fine."
+          "text": "Students note 2–3 important clues or character choices."
         }
       ]
     },
@@ -144,8 +148,12 @@
           "title": "Conflict Report / Zenix Debrief",
           "rows": [
             {
+              "kind": "SHOW",
+              "text": "Slides 4–5 — Conflict Report and Zenix Debrief."
+            },
+            {
               "kind": "DO",
-              "text": "Use the Conflict Report and Zenix Debrief prompts from the original lesson slides 17–18. Students discuss in pairs or small groups; a short written response is optional."
+              "text": "Discuss the team switch in pairs or groups."
             },
             {
               "kind": "ASK",
@@ -164,7 +172,7 @@
             },
             {
               "kind": "DO",
-              "text": "Students record 2–3 story facts, one character inference, supporting evidence, and one remaining question."
+              "text": "Record 2–3 facts, an inference, supporting evidence, and one question."
             },
             {
               "kind": "MORE",
@@ -191,19 +199,10 @@
       ]
     }
   ],
-  "bonuses": [
-    {
-      "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-      "description": "— Optional +10–15 min: examine the team discrepancy, false leads, and additional observations."
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": "— Optional +15–20 min: expand the character profile and distinguish evidence from imagination."
-    }
-  ],
+  "bonuses": [],
   "migration_review": {
     "notes": "Five standalone student worksheets have been published in the official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder and are linked in this lesson. Chapter Notes remains unchanged; the 2–3 detail scaffold is in teaching directions.",
-    "unresolved": "Part 2's independent slide deck is not available/linked. Conflict Report / Zenix Debrief presently references historical slides 17–18; verify lesson-local numbering and add the real slide resource link before release.",
+    "unresolved": "The current five-slide Secret Ingredients deck supplies slides 1–2 for clue investigation, slide 3 for Chapter 1, and slides 4–5 for Conflict Report / Zenix Debrief. Verify that the published PPTX still matches the supplied five-page PDF.",
     "source": "Full Guide Revised pages 9–13; original Full Guide pages 35–45; Notion Secret Ingredients actionables."
   }
 }
