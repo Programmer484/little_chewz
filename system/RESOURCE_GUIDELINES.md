@@ -1,6 +1,6 @@
 # Companion resource guidelines (Draft)
 
-Companions support the Teacher Guide without repeating its Teaching Flow. Each must make sense when opened alone. These guidelines retain their draft status; this cleanup does not approve content.
+Companions (question banks, extensions, answer keys and other teacher pages) support the Teacher Guide without repeating its Teaching Flow. Each must make sense when opened alone. These guidelines retain their draft status; this cleanup does not approve content.
 
 ## Writing
 
@@ -13,15 +13,21 @@ Companions support the Teacher Guide without repeating its Teaching Flow. Each m
 
 ## Presentation
 
-- Default to a small section name, clear resource title, optional time, and ample white space.
-- Identify the origin with section accent colour plus text; never rely on colour alone.
-- No decorative header, badge, page number, or boxed layout by default. Use illustrations, setup photos, badges, or folder motifs only when they aid comprehension or navigation.
-- Match the Teacher Guide's readable typography and economical palette. Use one title style across companions and **8 pt title-to-section-label spacing**.
-- Keep question banks easy to scan. An illustrated instruction page is appropriate when it demonstrates setup, printing, assembly, or use.
+Every companion uses the shared resource masthead and footer, rendered by `scripts/renderers/teacher_companion.py`; do not restyle individual documents.
+
+- **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header.
+- **Section and colour** come from the companion's `stage` and `quest.json`, using the Teacher Guide's section palette. Never set them by hand; colour always appears with the section name.
+- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions` or `reference`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
+- **Title:** short and matching the resource's catalogue title, so the Teacher Guide link and the document agree. No section names or dashes in the title.
+- **Meta line:** two or three short facts in `meta`: whether it is optional, added time, and when or with what to use it (`Optional · Adds about 15–25 minutes · Follows Small Bite 1: School Song`).
+- **Footer:** `LITTLE CHEWZ · CHEWLANDIA ACADEMY` and `page / total` on every page.
+- **Numbered lists (tight column, approved 2026-10-31):** numbers on the margin in the section colour, same size and baseline as their text; text 12 pt after the widest number. `questions` and `answers` rows are separated by hairline dividers with equal 11 pt optical space above and below; `steps` show a bold title line and are separated by whitespace only. Dividers and gaps never strand at a page edge.
+- **Group labels:** `heading` blocks render as small tracked caps in the section colour, for groups such as `Core · Clue Tracker page 1`.
+- No other decorative headers, badges or boxes. Use illustrations or setup photos only when they aid comprehension.
 - For multiple resource variants, link the Teacher Guide to one instruction/chooser PDF that links to the separate versions.
 
 ## Source and generation
 
-Companions use JSON with optional `paragraph`, `steps`, `questions`, `bullets`, `heading`, `note`, `image`, `links`, and `spacer` blocks. No fixed block order, minimum count, one-page requirement, or decorative filler. Start from `templates/teacher_companion/TEMPLATE.json`.
+Companions use JSON with required `title`, `kind`, `stage` and `meta`, an optional `intro`, and optional `paragraph`, `steps`, `questions`, `answers`, `bullets`, `heading`, `note`, `image`, `links`, and `spacer` blocks. List blocks number continuously across a document; set `start` on a block to restart. No fixed block order, minimum count, one-page requirement, or decorative filler. Start from `templates/teacher_companion/TEMPLATE.json`.
 
 Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Layout implementation lives in `scripts/renderers/teacher_companion.py`; follow [WORKFLOW.md](WORKFLOW.md) for checking, previews, and publication. See [START_HERE.md](../START_HERE.md#local-checks-and-approved-previews) for current commands.

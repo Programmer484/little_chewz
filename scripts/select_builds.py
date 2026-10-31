@@ -144,6 +144,8 @@ def select(changed, base_ref=None):
         prefixes = [f'templates/{kind}/assets/']
         if kind in ('teacher_guide', 'teacher_companion'):
             prefixes.append('templates/fonts/')  # bundled Lato
+        if kind == 'teacher_companion':
+            dependencies.add('templates/claude/assets/crest.png')  # shared masthead crest
         if target.get('folder'):
             prefixes.append(target['folder'] + '/')
         affected = bool(changed & dependencies) or any(

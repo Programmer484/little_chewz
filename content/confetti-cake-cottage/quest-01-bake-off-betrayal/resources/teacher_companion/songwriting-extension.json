@@ -1,9 +1,12 @@
 {
   "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
   "title": "Songwriting Extension",
-  "section": "Set the Table",
-  "eyebrow": "OPTIONAL EXTENSION",
-  "time": "Add approximately 15–25 minutes",
+  "kind": "extension",
+  "meta": [
+    "Optional",
+    "Adds about 15–25 minutes",
+    "Follows Small Bite 1: School Song"
+  ],
   "intro": "Use the words students collected from Triple C to create an original school song with a partner.",
   "blocks": [
     {

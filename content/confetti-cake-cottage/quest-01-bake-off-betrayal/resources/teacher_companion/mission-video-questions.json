@@ -1,8 +1,11 @@
 {
   "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
-  "title": "Mrs. Tongsley's Video — Additional Questions",
-  "section": "Activate",
-  "eyebrow": "OPTIONAL QUESTIONS",
+  "title": "Mission Video Questions",
+  "kind": "questions",
+  "meta": [
+    "Optional",
+    "Use after Mrs. Tongsley's video"
+  ],
   "intro": "Choose questions that fit the class discussion; there is no need to use them all.",
   "blocks": [
     {

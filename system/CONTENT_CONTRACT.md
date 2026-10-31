@@ -31,7 +31,7 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 | Type | Source | Consumer |
 | --- | --- | --- |
 | `lesson` | JSON | Teacher Guide renderer |
-| `teacher_companion` | JSON blocks | Companion renderer |
+| `teacher_companion` | JSON blocks (question banks, extensions, answer keys) | Companion renderer with the shared resource masthead |
 | `student_worksheet` | Linked or externally authored files | No repository worksheet renderer |
 | `teacher_reference` | Linked or externally authored files | No repository reference renderer |
 | `slide_deck` | Human-reviewed lesson PDF and derived PPTX | `pdf_to_linked_slides.py`; no editable slide JSON renderer |
