@@ -1,5 +1,5 @@
 {
-  "$instructions": "Configured holding folders are review-only and never proof of publication. Published folders must be verified separately. Slide PDFs retain their existing human-reviewed workflow.",
+  "$instructions": "Four staging categories mirror the official lesson material categories. Subfolders keep their stable IDs/links. Only verified official Drive placement plus publication status permits release.",
   "staging": {
     "root": {
       "folder_id": "1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ",
@@ -7,7 +7,8 @@
     },
     "generated_pdf": {
       "folder_id": "1wPdelGnXWcE9IlF5y-qTfk84gzNDSIxY",
-      "name": "PDF-generated resources"
+      "name": "PDF-generated resources",
+      "note": "Teacher Guides only; generated companions belong under 04_EXTRA_RESOURCES/Other resources."
     },
     "worksheets": {
       "folder_id": "1Vw5abDxMojq9IDQ7XXIkOb1ODU1HLtun",
@@ -19,11 +20,31 @@
     },
     "other": {
       "folder_id": "1nuGsEPQi30Nv-FkxOuxCLo6RwynKwpCo",
-      "name": "Other resources"
+      "name": "Other resources",
+      "note": "External extras and generated teacher companions; verified files remain unpublished until official move."
     },
     "slide_pdfs": {
       "folder_id": "1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g",
-      "name": "Existing Slide PDFs holding folder"
+      "name": "Existing Slide PDFs holding folder",
+      "note": "Existing separately reviewed Slide PDFs folder remains in its original location; do not move approved originals without explicit request."
+    },
+    "categories": {
+      "01_TEACHER_GUIDES": {
+        "folder_id": "1ekwbIU5qWzEI4u_iCHdRt7XytOcgS5uT",
+        "name": "01_TEACHER_GUIDES"
+      },
+      "02_CLASSROOM_SLIDES": {
+        "folder_id": "1-h6GNx9rOGojwpiCmNy--zKBwUuuEkJ1",
+        "name": "02_CLASSROOM_SLIDES"
+      },
+      "03_STUDENT_MATERIALS": {
+        "folder_id": "1vCShrtxj38R3fnRe4mPGwfUZ8goVn5Jf",
+        "name": "03_STUDENT_MATERIALS"
+      },
+      "04_EXTRA_RESOURCES": {
+        "folder_id": "1YEUMNc-MjAvd7CSIR6iRt4arGU6iX-Ic",
+        "name": "04_EXTRA_RESOURCES"
+      }
     }
   },
   "published": {

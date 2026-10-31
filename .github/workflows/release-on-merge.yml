@@ -1,6 +1,6 @@
 name: Authorized resource release
 
-# Only a merged resource PR containing its own explicit /merge marker may release.
+# Only an explicitly authorized generated-PDF release marker can publish.
 # Never trigger from ordinary pushes, documentation changes, or publication commits.
 on:
   pull_request:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && startsWith(github.event.pull_request.head.ref, 'edit/')
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && (startsWith(github.event.pull_request.head.ref, 'lesson/') || startsWith(github.event.pull_request.head.ref, 'edit/'))
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

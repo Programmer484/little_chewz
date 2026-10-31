@@ -12,7 +12,7 @@ from select_builds import ROOT, targets
 OUT = ROOT / "exports"
 
 
-def render(manifest):
+def render(manifest, release=False):
     names = manifest["outputs"]
     registered = targets()
     if set(names) - set(registered):
@@ -27,10 +27,14 @@ def render(manifest):
             cmd = [sys.executable, str(ROOT / "scripts/renderers/teacher_guide.py"),
                    "--root", str(ROOT), "--content", str(source),
                    "--output", str(output)]
+            if release:
+                cmd.append("--release")
         elif registered[name]["kind"] == "teacher_companion":
             cmd = [sys.executable, str(ROOT / "scripts/renderers/teacher_companion.py"),
                    str(source), "-o", str(output), "--registry",
                    str(ROOT / "catalog/resources.json")]
+            if release:
+                cmd.append("--release")
         else:  # Registry-built document; renderer named by its `build.renderer`.
             cmd = [sys.executable, str(ROOT / f"scripts/renderers/{registered[name]['kind']}.py"),
                    str(source), "--output", str(output)]
@@ -57,5 +61,6 @@ def render(manifest):
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--manifest", type=Path, required=True)
+    p.add_argument("--release", action="store_true", help="Use only verified published resource links")
     args = p.parse_args()
-    render(json.loads(args.manifest.read_text()))
+    render(json.loads(args.manifest.read_text()), release=args.release)

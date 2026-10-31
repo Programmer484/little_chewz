@@ -4,6 +4,16 @@ Owns how agents find instructions, the non-negotiable boundaries, and how instru
 
 This is an editable educational source repository. PDFs are outputs; legacy PDFs are inputs only while awaiting conversion.
 
+## First stop: choose the workflow
+
+Read the independent workflow for the requested action (no slash-command integration exists):
+
+- **Create** a new resource: [CREATE.md](CREATE.md). Stage a draft in holding; do not publish.
+- **Update** an existing resource: [UPDATE.md](UPDATE.md). Revise and review without disturbing the live version.
+- **Publish** an approved resource: [PUBLISH.md](PUBLISH.md). Verify the official Drive version before recording publication; generated-PDF updates may use an authorized release-PR merge.
+
+For IDs, URLs and statuses read [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); for shared preview/validation conventions read [WORKFLOW.md](WORKFLOW.md).
+
 ## Read for the task
 
 1. Read [START_HERE.md](../START_HERE.md) for navigation and current capabilities, and [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) for ownership, status, assets, and version authority.
@@ -12,7 +22,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
    | Changing | Folder guide | Main rules |
    | --- | --- | --- |
    | Lessons, companions, stories, quest status, Welcome | [content/AGENTS.md](../content/AGENTS.md) | [EDITORIAL_GUIDE.md](EDITORIAL_GUIDE.md), [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md) |
-   | Resource names, links, status, publishing | [catalog/AGENTS.md](../catalog/AGENTS.md) | [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md) |
+   | Resource names, links, status, publishing | [catalog/AGENTS.md](../catalog/AGENTS.md) | [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) (data), [PUBLISH.md](PUBLISH.md) (actions) |
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](../templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md#resources-slides-and-assets) |
    | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](../scripts/AGENTS.md) | [WORKFLOW.md](WORKFLOW.md#previews-and-cleanup) |
@@ -23,10 +33,10 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 ## Non-negotiable boundaries
 
 - Use verified facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
-- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Production type is explicit: generated PDFs alone use human-authorized resource `/merge` and automatic in-place Drive verification; external resources use agent-managed publishing, with no automated merge. A holding file is never evidence of publication.
+- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). A Drive URL may remain **identical** from holding to official publication; only verified folder placement and status distinguish them. Generated PDFs use the authorized guarded release pipeline, external resources use agent-managed publication, and holding is never publication proof.
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
-- For generated PDFs, use one remote `edit/<resource-id>` branch across chats, reconcile against the latest remote head and `main`, and never force-push. External resources use their original authoring tool and an ordinary catalogue bookkeeping change, not a GitHub resource branch or `/merge`. Preserve unrelated work.
+- Work on the **shared lesson branch** by default (`lesson/<quest-id>-<two-digit-stage>-<stage-slug>`), across all lesson resources and chats. Create separate task branches only on explicit user instruction. Reconcile with the remote head and `main`, never force-push, and preserve unrelated work. External files use their original creation tool and lesson catalogue bookkeeping.
 - For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](WORKFLOW.md#previews-and-cleanup); do not use a preview-branch or PR Files link as the primary review link.
 
 ## Maintaining instructions

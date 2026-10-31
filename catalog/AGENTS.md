@@ -2,9 +2,9 @@
 
 - `resources.json` owns stable linked-resource IDs, production type, provenance, holding and official URLs, build mapping, publication evidence and linked-resource delivery status. See [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states).
 - Use `generated_pdf` only for existing Python-rendered PDF outputs with GitHub editable sources and explicit `build`. Externally authored PDFs remain `external`, as do slides and image-based resources.
-- `drive_folders.json` owns verified review-holding folder IDs. The existing Slide PDFs area remains separate. Never invent file IDs, URLs, statuses or folder IDs; a `holding_url` must never be treated as `published_url`.
-- Delivery states are `unpublished`, `pending_publish`, `published`. Generated PDFs use exact Drive checksum confirmation after an authorized PDF `/merge`; external resources are published by agents and recorded only after live verification. Legacy records may remain explicitly unverified.
-- The compatibility `url` is used by existing Teacher Guides; preserve established live links and never redirect them to a holding file.
+- `drive_folders.json` owns four holding category folder IDs mirroring the official Drive layout; existing nested subfolders retain their IDs. Legacy Slide PDF originals remain separate. Never invent file or folder IDs. A holding file is not published **even when its permanent URL will be unchanged**.
+- [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) owns status definitions; **[PUBLISH.md](../system/PUBLISH.md) alone owns the actions and verification that permit recording `published`**. Legacy records can remain explicitly unverified.
+- Review Teacher Guides may link to verified holding files; release builds use only `published_url` and require each referenced resource to have `status: published`. Automated publisher checks enforce this for generated PDFs.
 - `quests.json` indexes quest manifests; each quest's `quest.json` owns lesson-source delivery status, separate from linked resource status.
 
-Follow [CREATE.md](../system/CREATE.md), [DRIVE_PUBLISHING.md](../system/DRIVE_PUBLISHING.md), and [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md) as appropriate. Run `python scripts/validate.py` after changes.
+Follow [CREATE.md](../system/CREATE.md) for new drafts, [UPDATE.md](../system/UPDATE.md) for revisions, and [PUBLISH.md](../system/PUBLISH.md) for release; [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md) owns slide-specific conversion. Run `python scripts/validate.py` after changes.

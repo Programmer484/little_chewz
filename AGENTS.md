@@ -11,6 +11,9 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 
 - `system/AI_RULES.md`
 - `START_HERE.md`
+- `system/CREATE.md`
+- `system/UPDATE.md`
+- `system/PUBLISH.md`
 - `system/CONTENT_CONTRACT.md`
 - `system/WORKFLOW.md`
 - `system/EDITORIAL_GUIDE.md`
@@ -18,10 +21,7 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 - `system/RESOURCE_GUIDELINES.md`
 - `templates/claude/README.md`
 - `system/SLIDE_CONVERSION.md`
-- `system/DRIVE_PUBLISHING.md`
 - `system/CHAT_FILE_CREATION.md`
-- `system/COMMANDS.md`
-- `system/CREATE.md`
 - `SYSTEM_IMPROVEMENTS.md`
 - `content/AGENTS.md`
 - `catalog/AGENTS.md`
@@ -39,6 +39,16 @@ Owns how agents find instructions, the non-negotiable boundaries, and how instru
 
 This is an editable educational source repository. PDFs are outputs; legacy PDFs are inputs only while awaiting conversion.
 
+### First stop: choose the workflow
+
+Read the independent workflow for the requested action (no slash-command integration exists):
+
+- **Create** a new resource: [CREATE.md](system/CREATE.md). Stage a draft in holding; do not publish.
+- **Update** an existing resource: [UPDATE.md](system/UPDATE.md). Revise and review without disturbing the live version.
+- **Publish** an approved resource: [PUBLISH.md](system/PUBLISH.md). Verify the official Drive version before recording publication; generated-PDF updates may use an authorized release-PR merge.
+
+For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); for shared preview/validation conventions read [WORKFLOW.md](system/WORKFLOW.md).
+
 ### Read for the task
 
 1. Read [START_HERE.md](START_HERE.md) for navigation and current capabilities, and [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) for ownership, status, assets, and version authority.
@@ -47,7 +57,7 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
    | Changing | Folder guide | Main rules |
    | --- | --- | --- |
    | Lessons, companions, stories, quest status, Welcome | [content/AGENTS.md](content/AGENTS.md) | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md), [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
-   | Resource names, links, status, publishing | [catalog/AGENTS.md](catalog/AGENTS.md) | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
+   | Resource names, links, status, publishing | [catalog/AGENTS.md](catalog/AGENTS.md) | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) (data), [PUBLISH.md](system/PUBLISH.md) (actions) |
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) |
    | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
@@ -58,10 +68,10 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 ### Non-negotiable boundaries
 
 - Use verified facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
-- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Production type is explicit: generated PDFs alone use human-authorized resource `/merge` and automatic in-place Drive verification; external resources use agent-managed publishing, with no automated merge. A holding file is never evidence of publication.
+- Use only `unpublished`, `pending_publish`, and `published` for Drive delivery, per [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). A Drive URL may remain **identical** from holding to official publication; only verified folder placement and status distinguish them. Generated PDFs use the authorized guarded release pipeline, external resources use agent-managed publication, and holding is never publication proof.
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
-- For generated PDFs, use one remote `edit/<resource-id>` branch across chats, reconcile against the latest remote head and `main`, and never force-push. External resources use their original authoring tool and an ordinary catalogue bookkeeping change, not a GitHub resource branch or `/merge`. Preserve unrelated work.
+- Work on the **shared lesson branch** by default (`lesson/<quest-id>-<two-digit-stage>-<stage-slug>`), across all lesson resources and chats. Create separate task branches only on explicit user instruction. Reconcile with the remote head and `main`, never force-push, and preserve unrelated work. External files use their original creation tool and lesson catalogue bookkeeping.
 - For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup); do not use a preview-branch or PR Files link as the primary review link.
 
 ### Maintaining instructions
@@ -82,7 +92,15 @@ This is an editable educational source repository. PDFs are outputs; legacy PDFs
 
 ## Little Chewz — start here
 
-Prototype in chat, then choose the Python-generated PDF branch-and-merge workflow or the separate agent-managed external resource workflow. [AGENTS.md](AGENTS.md) is the AI entry point (generated; rules live in [AI_RULES.md](system/AI_RULES.md)); [WORKFLOW.md](system/WORKFLOW.md) owns the editing and delivery routine.
+Prototype in chat, then follow the **independent workflow matching the action**. [AGENTS.md](AGENTS.md) is the generated AI entry point. Shared definitions and checks are in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [WORKFLOW.md](system/WORKFLOW.md).
+
+### Choose a workflow
+
+- **[Create](system/CREATE.md):** for genuinely **new** resources only; stage a review copy in holding and stop before publication.
+- **[Update](system/UPDATE.md):** for **existing** resources; revise on the shared lesson branch, validate, and preserve the live release.
+- **[Publish](system/PUBLISH.md):** after explicit human authorization, deliver the exact reviewed resource, verify the official Drive file, then record `published`. Existing generated PDFs use a guarded release-PR merge within this workflow.
+
+Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unless you explicitly request a separate task branch. No chat slash-command integration exists; ordinary GitHub merges and previews do not publish.
 
 ### Where things belong
 
@@ -99,12 +117,12 @@ Prototype in chat, then choose the Python-generated PDF branch-and-merge workflo
 | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
 | [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
-| [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save, merge, publish, and report |
+| [WORKFLOW.md](system/WORKFLOW.md) | Shared validation, preview, and review/reporting conventions |
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
-| [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Generated-PDF merge publisher and manual fallback, not external resource publishing |
+| [PUBLISH.md](system/PUBLISH.md) | Single publication owner for generated PDFs and external resources, checks and verification |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| [COMMANDS.md](system/COMMANDS.md) | `/create`, `/update`, `/merge` agent contract |
-| [CREATE.md](system/CREATE.md) | Agent procedure for generated and external resources; no scripted creation engine |
+| [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
+| [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
 | `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
@@ -122,10 +140,10 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 ### Current capabilities
 
-- Only `generated_pdf` resources (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub source branches and the authorized `/merge`→Drive checksum pipeline. Generated first release needs manual destination setup.
-- `external` resources (including PDFs made outside the renderer, posters, images, worksheets and slide pairs) stay in Drive holding until an agent manually publishes and verifies them. No external `/merge` or checksum tracking.
-- The new [Drive holding area](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) has PDF-generated, worksheets, posters/visuals and other folders; existing Slide PDFs remain separate. Holding is not publication.
-- `/create`, `/update` and `/merge` are agent instructions defined in [COMMANDS.md](system/COMMANDS.md), not Python create/update CLI programs.
+- Only `generated_pdf` resources (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub branches and an authorized release-PR merge/checksum pipeline. First release needs manual destination setup.
+- `external` resources (including PDFs made outside the renderer, posters, images, worksheets and slide pairs) stay in holding until an agent manually publishes and verifies them. No automatic external release or checksum tracking.
+- [Drive holding](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) now mirrors the official four categories: `01_TEACHER_GUIDES`, `02_CLASSROOM_SLIDES`, `03_STUDENT_MATERIALS`, `04_EXTRA_RESOURCES`. Existing subfolders retain their Drive IDs; legacy Slide PDF originals remain in their separate review folder. Holding is not publication.
+- Use Create, Update, and Publish workflow documents directly; no chat slash commands are configured.
 
 - Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
 - Every existing valid source can generate a preview; five lessons without a `lesson.json` are not renderable. Previews do not publish.
@@ -151,6 +169,127 @@ Lato and the other fonts are bundled under `templates/`, so renders match CI. `s
 Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs as permanent browser previews; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
 
 The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.
+
+---
+
+# File: `system/CREATE.md`
+
+## Create a NEW resource
+
+**Use only when a resource does not yet exist.** Check `catalog/resources.json`, the lesson source and Google Drive first. If its stable ID or intended file already exists, stop creation and use [UPDATE.md](system/UPDATE.md)—do not create duplicates or overwrite an existing resource. Use [WORKFLOW.md](system/WORKFLOW.md) for common validation, review and saving.
+
+### Branch ownership
+
+- Default to the **existing lesson branch**, `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` (for example `lesson/ccc-q01-02-secret-ingredients`). Create it from current `main` only if it does not exist. All new Teacher Guides, companions and lesson-associated sources for that lesson share the branch.
+- Do **not** create separate task branches, nested-looking feature branches or PRs for individual resources unless the user explicitly requests one. Git branches do not nest. Non-lesson-wide items (for example Welcome) use their existing ownership branch; if none exists, use a dedicated resource branch.
+- Reconcile the lesson branch with latest remote changes and `main` before editing; never force-push or override another agent.
+
+### New Python-generated PDF
+
+1. Confirm school, lesson, resource type, **unused stable ID**, source path, and supported build renderer/output.
+2. Author editable JSON and required separate versioned assets on the lesson branch; use the repository renderer, validate, test, and inspect pages and working hyperlinks.
+3. Upload a new **Teacher Guide** PDF under `01_TEACHER_GUIDES/PDF-generated resources`; a generated **companion** belongs under `04_EXTRA_RESOURCES/Other resources`. Use the configured existing holding folder ID, then read back the Drive ID and URL. The special Welcome material retains its established folder routing.
+4. Register `production_type: generated_pdf`, source/build mapping, `holding_url`, and `status: unpublished` in `catalog/resources.json`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
+5. Push the lesson branch, open/update its review PR and share the Actions review and holding link. **Stop without publication.**
+
+### New external worksheet, artwork, slide or media
+
+1. Create the new resource with the original authoring tool (not the repository PDF renderer); register `production_type: external`.
+2. Upload to the matching verified holding category in `catalog/drive_folders.json`, and read back its ID, MIME and URL. Existing legacy Slide PDF originals retain their separate approved review folder until explicitly moved.
+3. Add only catalogue bookkeeping on the lesson branch: `holding_url`, resource identity, source provenance and `status: unpublished`. If no source branch is needed, save the catalogue change through the lesson's ordinary GitHub PR; do not create a resource-specific branch by default.
+4. Preserve the verified Drive URL for links in review PDFs. Once published by **moving the same file**, the ID and URL remain unchanged.
+
+### End of creation
+
+Creation ends with a verified new resource staged in holding, registered and ready for review. **Never publish, change live resource status or promote Drive files** during Create. A subsequent revision follows [UPDATE.md](system/UPDATE.md); an explicitly authorized release follows [PUBLISH.md](system/PUBLISH.md). Status and URL semantics belong to [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md).
+
+---
+
+# File: `system/UPDATE.md`
+
+## Update an existing resource
+
+Use this workflow when asked to **revise, fix, or replace an existing resource**, whether draft or published. Resolve its stable ID, exact GitHub source and Drive IDs from current records. If the resource does not exist, use [CREATE.md](system/CREATE.md) instead. This is a **review operation, not publication**. See [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) for status/URL semantics and [WORKFLOW.md](system/WORKFLOW.md) for shared checks.
+
+### Python-generated PDFs
+
+1. Use the existing shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch; only create it from `main` if absent. Reconcile its latest head with `main`. Do not create a separate task branch unless explicitly requested; preserve concurrent edits and never force-push.
+2. Edit authorized JSON/text source and separate required assets; keep the current official file ID, live URL and publication evidence unchanged.
+3. Validate, test, render through the existing repository PDF renderer and inspect the pages and clickable links.
+4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_EXTRA_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
+5. Save source to GitHub, open/update the PR and share the actual Actions run and review copy. A passing build or ordinary merge is not publication.
+
+### External resources
+
+1. Edit using the original creation tool; do not invent a Python renderer or separate per-resource branch.
+2. Replace the same holding Drive file in place where possible; otherwise stage a new review copy in the verified appropriate holding folder.
+3. Verify ID, MIME, size, URL, visuals, text and links. Slide-specific PDF/PPTX review checks are in [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
+4. Save catalogue bookkeeping on the shared lesson branch through its existing PR when available. Preserve the published file, verified `published_url`, compatibility `url` and current publication evidence; do not mark the new draft published.
+
+### Finish
+
+Report the review copy, GitHub PR/record, checks and blockers. **Do not replace or move the official Drive file as part of an update.** When the user later approves publication of that exact version, follow [PUBLISH.md](system/PUBLISH.md).
+
+---
+
+# File: `system/PUBLISH.md`
+
+## Publishing resources to Google Drive
+
+**Single authoritative publication procedure** for Python-generated PDFs and externally authored resources. Creating belongs to [CREATE.md](system/CREATE.md), revising to [UPDATE.md](system/UPDATE.md), shared review checks to [WORKFLOW.md](system/WORKFLOW.md), and field/status definitions to [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Creating, revising, ordinary PR merges and previewing do not publish.
+
+### Publication prerequisites and release gate
+
+1. Confirm explicit human authorization for the **exact reviewed resource/version**, its stable ID, production type, current publication record and official Drive destination. A holding upload or passing check does not imply approval.
+2. Prefer **moving the same holding file** to its official folder to preserve Drive file ID and URL. Verify that the ID remains unchanged; if copying creates a new ID, register the verified new ID and update references. Do not confuse a valid link with publication; **the file's folder placement and successful verification control status**. Never guess IDs or folders.
+3. **Automated release gate:** Before publishing a generated Teacher Guide (or companion), check every referenced registry ID: require `status: published` and a `published_url`; otherwise block. This is enforced in the guarded merge publisher **and** the direct Drive replacement command. For external resources, an agent must perform the equivalent registry check before delivery; no external-resource release automation exists. A resource's original Drive URL may stay identical when moved from holding to official—the gate checks status, not URL inequality.
+4. Verify official file identity, MIME, parent folder and sharing/access as far as the tools allow. User testing in incognito is useful but not a substitute for accurate agent records; do not claim incognito testing the agent cannot perform.
+5. **Only after successful official Drive verification**, update `published_url`, compatibility `url`, publication evidence and `status: published` in `catalog/resources.json`. When moving the same file, the permanent URL is unchanged. The old `holding_url` may be cleared after moving; never manufacture a different link. Neither a URL nor metadata access alone proves anonymous access.
+
+### External resources — agent-managed publication
+
+Worksheets, posters, external PDFs, media and slides use `production_type: external` and are not published by the generated-PDF release mechanism or Python PDF builds.
+
+1. Move the exact reviewed file to the verified teacher-facing folder, preserving its ID where possible. For a previously published asset, replace the official file **in place** rather than creating duplicates.
+2. Read back the official file ID, MIME, folder and access metadata. For slides, [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) adds mandatory PDF/PPTX pairing, conversion and verification; both must be checked.
+3. After successful verification, commit the catalogue record: `published_url`, compatibility `url`, `status: published`, and honest `publication` confirmation (file ID and verification method/time). Retain holding history only where appropriate.
+4. On failure, report the precise blocker. A new file stays `unpublished`; where an older verified release exists but a revision has not been verified, preserve the live record and use `pending_publish` as defined in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Never invent checksums or assert external content parity without evidence. Prefer automated Drive metadata checks; reserve human incognito testing for access behavior tools cannot prove.
+
+### First-time generated PDF publication — agent-managed
+
+Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID, publication evidence and `published` status. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
+
+### Authorized release PR for an established generated PDF
+
+1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with only the explicitly authorized resource ID. Other lesson resources on the branch do not automatically publish.
+2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
+3. The workflow checks the accepted source and resource mapping, runs shared validation/tests and builds using `scripts/build_selected.py`. If a newer `main` update superseded the accepted PDF, publishing is blocked.
+4. An already-established official `published_url` must identify an editable Drive PDF. The publisher replaces the **same file ID** in place, preserves its name, folder and sharing, then reads back the file's ID and MD5.
+5. Only after exact verification does GitHub record the checksum, accepted Git revision, Drive version/time and `published`. If a live older release exists but the update fails, record `pending_publish` and a clear blocker. No unverifiable digest or reported upload success can mark `published`.
+6. The release Action provides its report and matching post-merge `main` PDF preview. **Keep the shared lesson branch** for subsequent work. Legacy per-resource `edit/` branches may be cleaned up only after verified release and only if they have not advanced; preserve concurrent additions.
+
+### Manual fallback and review copies
+
+**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
+
+For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_EXTRA_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
+
+The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
+
+### On-demand inspection
+
+**Actions → Inspect publication** is manual and read-only. It can compare a generated PDF's recorded checksum and Drive metadata or report evidence for an external file, but cannot prove external content parity. It does not publish files or change status.
+
+### One-time setup
+
+1. In [Google Cloud Console](https://console.cloud.google.com/), create a project (for example `little-chewz-publish`).
+2. **APIs & Services → Library**: enable **Google Drive API**.
+3. **IAM & Admin → Service Accounts → Create service account** (for example `drive-publisher`). Skip the optional role and access steps.
+4. Open the service account → **Keys → Add key → Create new key → JSON**. A key file downloads. Treat it like a password.
+5. In Drive, share each target file or its folder with the service account's email (`…@…iam.gserviceaccount.com`) as **Editor**, with notifications off.
+6. In GitHub: **Settings → Secrets and variables → Actions → New repository secret**, name `GOOGLE_SERVICE_ACCOUNT_JSON`, value: the entire contents of the key file. Then delete the downloaded key file.
+
+The service account can only see files explicitly shared with it. Remove its access in Drive, or delete the key in Cloud Console, to revoke publishing.
 
 ---
 
@@ -204,7 +343,7 @@ Only maintain templates for resource types with working source-authoring workflo
 
 Each catalogue resource has an explicit `production_type`, independent of its `type` or filename extension:
 
-- **`generated_pdf`:** Python-rendered Teacher Guides, teacher companions, and other repository PDF outputs. Editable GitHub source and a valid explicit `build.output` or `build.renderer` + `build.source` mapping are required. One shared `edit/<resource-id>` branch drives reviewed changes; only these resources can use an authorized `/merge` and automatic post-merge Drive PDF replacement.
+- **`generated_pdf`:** Python-rendered Teacher Guides, teacher companions, and other repository PDF outputs. Editable GitHub source and a valid explicit `build.output` or `build.renderer` + `build.source` mapping are required. Use the shared lesson editing branch by default (legacy `edit/<resource-id>` branches remain supported); only generated PDFs can use the authorized release marker and automatic post-merge Drive PDF replacement.
 - **`external`:** image-generated worksheets, posters, externally authored PDFs, lesson slide PDFs/PPTX, media and other tool-authored files. These may have no GitHub editable source or rendering pipeline; an agent creates, holds, updates and publishes them manually. Do not infer a Python build because their filename ends in .pdf.
 
 `catalog/drive_folders.json` names verified **holding** folders for generated PDF reviews, worksheets, posters/visuals, other external resources and the pre-existing separate Slide PDFs review folder. `catalog/resources.json` stores:
@@ -215,9 +354,9 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |
 | `build` | Required only for generated PDFs, resolved against `scripts/select_builds.py.targets()` |
-| `holding_url` | Verified review copy, **never** a teacher-facing publication |
-| `published_url` | Verified or previously established official destination; not inferred from holding |
-| `url` | Compatibility link used by existing Teacher Guide renderers; preserve established links, never point it to holding |
+| `holding_url` | Verified review file URL; permitted in preview PDFs even when the resource is unpublished. Not proof of publication. |
+| `published_url` | Verified official destination; may be the **same URL as the former holding URL** if the same file was moved without changing its Drive ID |
+| `url` | Backward-compatible link; review renderers prefer the verified holding URL, while publication renders require the published URL and published status. Never assume a URL proves publication. |
 | `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
 
 For legacy resources whose Drive history is uncertain, preserve existing links, notes and delivery status; record publication verification as `unverified` or `unknown` rather than inventing a digest or pretending a historic upload was confirmed.
@@ -232,9 +371,9 @@ Only three delivery states are valid:
 
 Human approval is a decision, **not another status**. Editing a draft branch never changes a previously published resource. Merging an accepted generated-PDF change is not itself publication; only verified Drive read-back allows the publication record to advance. Subsequent generated-PDF publications persist the exact build MD5 and accepted Git revision. Externally made files have no repository build checksum; manual verification must not assert content parity without evidence.
 
-**One status owner:** lesson-source status lives in `quest.json.learning_sequence[].status`; linked-resource status and publication records live in `catalog/resources.json[<stable-id>]`. A lesson and a separately published Teacher Guide can legitimately have different status. No duplicate status in `lesson.json`, `stage.json` or companion JSON. Preserve established file IDs and slideshow pairing.
+**One status owner:** lesson-source status lives in `quest.json.learning_sequence[].status`; linked-resource status and publication records live in `catalog/resources.json[<stable-id>]`. A lesson and a separately published Teacher Guide can legitimately have different status. Stable file URLs do not determine status; verified official placement does. No duplicate status in `lesson.json`, `stage.json` or companion JSON. Preserve established file IDs and slideshow pairing.
 
-The first generated PDF release requires an agent to establish its official teacher-facing Drive file and verify/register its ID; later approved `/merge` revisions use the automated in-place replacement. External publication always uses an agent-managed Drive action and a separate catalogue bookkeeping commit, never `/merge`. Publication inspection is manual and read-only. There is no scripted `/create` engine, scheduled Drive inspector, external checksum system or user-facing `/publish` command.
+Publication procedures, release checks, and the timing of status updates belong exclusively to [PUBLISH.md](system/PUBLISH.md). For generated guides and companions, the publisher automatically blocks release while **any referenced catalogue item** is not `published` with an official URL. This contract defines identity and status, not a release authorization. On-demand inspection is read-only; there is no scripted `/create` engine, scheduled inspector, external checksum system or configured publishing slash command.
 
 ### Source authority
 
@@ -259,37 +398,27 @@ A newer timestamp or extraction does not establish publication or content author
 
 # File: `system/WORKFLOW.md`
 
-## Editing and delivery workflow
+## Shared editing and review checks
 
-Little Chewz has **two production workflows**. `/create` and `/update` are agent instructions; `/merge` is used **only for Python-generated PDFs**. See [COMMANDS.md](system/COMMANDS.md) and [CREATE.md](system/CREATE.md). Never infer resource production type from the file extension.
+Use alongside the independent [Create](system/CREATE.md) and [Update](system/UPDATE.md) workflows. This file owns common validation, preview, source coordination and reporting conventions, **not publication**. Release steps live in [PUBLISH.md](system/PUBLISH.md); status definitions in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md).
 
-### Python-generated PDFs
+### Source and branch hygiene
 
-1. **Identify.** Resolve the stable catalogue ID, GitHub source, build mapping, holding copy, published destination and current delivery status. Read the source's instructions.
-2. **Edit.** Use one shared `edit/<resource-id>` branch. Fetch its latest remote head; reconcile simultaneous edits without force-pushing or overwriting work. Save editable source and separate required assets in GitHub.
-3. **Preview.** Validate, run relevant tests, render with the repository renderer, and inspect the PDF and hyperlinks. The agent uploads/replaces the **holding copy** in the configured PDF-generated review folder. Holding is not publication.
-4. **Approve and merge.** After the user approves the exact generated PDF, add the single-resource authorization marker to the existing PR and merge only after checks and reconciliation with current `main`. The merged `main` PDF-preview Actions run is the primary review link.
-5. **Publish.** For an established official PDF destination, the guarded GitHub Actions merge workflow builds the accepted PDF, replaces the same Drive file ID, reads back its checksum, writes the revision and publication evidence, and removes the merged edit branch only if it has not advanced. Failed verification retains `pending_publish` for an older live release. The agent must establish and verify a first-time official Drive destination manually before subsequent automated releases.
-6. **Report.** Give the real Actions run URL, PR/commit, validation and Drive results, exact file ID and any failure. A merge or upload is not proof of publication.
+- Read the owning file's `$instructions` pointer and verify current stable ID, GitHub revision, catalogue record and Drive metadata before writing.
+- Default to a shared remote `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch for all work on that lesson. Reuse it across chats and resources; reconcile concurrent changes against its latest head and `main`, without force-pushing. **Only create a separate task branch when the user explicitly requests it.** Commit required images separately from text.
+- Externally authored resources stay in their own creation tool and save catalogue changes on the lesson branch, not the generated-PDF pipeline. Non-lesson resources retain their established owner branch.
+- Commit source changes, verify remote state and exclude secrets, temporary transfers and generated exports. Preserve unrelated work.
 
-### All external resources
+### Validation and previews
 
-Author the file with the appropriate tool. Upload to the configured **holding folder** (or the separate Slide PDFs review folder), verify the ID, and record catalogue metadata through a normal GitHub bookkeeping change. Do not create a GitHub source branch or Python renderer just to track an externally generated file. For updates, replace the existing holding copy in place when possible.
+- Run `python scripts/validate.py` for content changes and relevant tests for tooling changes. Render generated PDFs with the repository renderer; inspect layout, content and links, and verify the review file in its holding folder.
+- `scripts/select_builds.py` and `scripts/build_selected.py` are the supported Python preview path. Valid authored sources can be previewed regardless of delivery status; absent lesson sources produce no placeholders. Manual selection accepts an exact output filename or `all`.
+- PR updates and `main` pushes validate and rebuild affected PDFs. Changes to sources, used assets, renderers, referenced resource links or shared dependencies rebuild their consumers. Documentation-only and status-only changes generally do not rebuild PDFs.
+- Give the verified **GitHub Actions run URL first** for PDF reviews (prefer the successful post-merge `main` run). Previews remain under `pdf-preview-history/previews/<run-id>/`; workflow artifacts expire sooner. Never automatically merge or delete historical preview branches.
 
-Once the agent has been instructed to publish the external resource, manually move or replace the file into the appropriate teacher-facing Drive destination; verify ID, MIME, access and any paired PDF/PPTX deliverables. **Only then** record `published_url`, compatibility `url`, status and agent confirmation in the catalogue. There is no external `/merge`, automatic Drive publishing, content-checksum comparison or scheduled monitoring.
+### Report and stop
 
-### Previews and cleanup
-
-- `scripts/select_builds.py` and `scripts/build_selected.py` are the supported Python PDF preview path. All existing valid authored sources are previewable irrespective of delivery status; absent lesson source files produce no placeholders. Manual selector accepts an exact output filename or `all`.
-- PR updates and pushes to `main` validate and rebuild affected PDFs. A changed source, relevant asset, renderer, resource link or shared dependency rebuilds only its consumers; unrelated documentation and publication-only metadata do not rebuild content.
-- Prefer the successful **post-merge `main` Actions run URL** when citing PDF reviews. Preview PDFs remain in `pdf-preview-history/previews/<run-id>/`; workflow attachments have short retention. Never merge or delete historical preview branches automatically.
-- GitHub Actions cleans up a generated-resource edit branch only after successful verified publication and only when the remote branch head still matches the merged PR. Agents preserve unmerged work and inspect failures.
-
-### Publication controls
-
-The only statuses are `unpublished`, `pending_publish`, `published`. They are delivery states, not additional human-approval states. Work in progress does not change a verified published version. `catalog/resources.json` records linked-resource status, `quest.json` records lesson-source status. Exact generated-PDF verification uses a stored MD5 and accepted revision; external resources use agent confirmation, never an invented checksum.
-
-A manual [publication inspection](.github/workflows/inspect-publications.yml) is available; it is **read-only and on demand**. Published links, live IDs and resource privacy must be checked; lack of evidence is reported as unverified. Drive publishing details are in [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md).
+Report saved file locations, checks, preview links and unresolved blockers. Holding uploads, validation passes and ordinary merges **never prove publication**. For authorized official releases, linked-resource preflight, external publication, generated-PDF release merging and status changes use [PUBLISH.md](system/PUBLISH.md).
 
 ---
 
@@ -549,7 +678,7 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ### Status and builds
 
-A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "claude", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md)). Rendering does not publish anything.
+A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "claude", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)). Rendering does not publish anything.
 
 Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
 
@@ -609,48 +738,6 @@ Editable slide-JSON generation remains **unimplemented** (see [SYS-002](SYSTEM_I
 
 ---
 
-# File: `system/DRIVE_PUBLISHING.md`
-
-## Publishing generated PDFs to Google Drive
-
-This is the **Python-generated PDF** automation boundary. External worksheets, posters, image-generated PDFs, media and slide PDF/PPTX pairs are published manually by an agent according to [CREATE.md](system/CREATE.md) and [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md). `/create` and `/update` are agent instructions, not Python command programs.
-
-### Generated PDF publication after an authorized /merge
-
-1. The agent confirms the exact reviewed PDF and human approval, reconciles the `edit/<stable-resource-id>` branch with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with the authorized single matching resource ID.
-2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
-3. The workflow checks the accepted source and resource mapping, runs shared validation/tests and builds using `scripts/build_selected.py`. If a newer `main` update superseded the accepted PDF, publishing is blocked.
-4. An already-established official `published_url` must identify an editable Drive PDF. The publisher replaces the **same file ID** in place, preserves its name, folder and sharing, then reads back the file's ID and MD5.
-5. Only after exact verification does GitHub record the checksum, accepted Git revision, Drive version/time and `published`. If a live older release exists but the update fails, record `pending_publish` and a clear blocker. No unverifiable digest or reported upload success can mark `published`.
-6. The release Action provides its report and the matching post-merge `main` PDF preview run. The former edit branch is removed only when publication succeeded and its remote head still matches the merged PR; concurrent additions are preserved.
-
-First-time official publication is **agent-managed**: the agent moves/copies the accepted generated PDF from holding to the proper teacher-facing Drive folder, verifies the file, and registers its `published_url`, actual ID and first publication confirmation. No automated new-file creation is attempted. Subsequent accepted revisions use the automatic in-place path.
-
-### Manual fallback and review copies
-
-The existing **Actions → Internal Drive replacement** workflow remains a controlled manual fallback for registered `generated_pdf` resources with established destinations. Use dry run first. Its status/version updates use the same verifier. It is **not** a user-facing `/publish` command or an external-resource publisher.
-
-For `/create`, an agent builds the PDF preview and uploads it to the verified `PDF-generated resources` holding folder in `catalog/drive_folders.json`. This holding copy is never an official release. `holding_url`, `published_url`, and the compatibility `url` must remain distinct, and existing Drive IDs must not be changed merely for housekeeping.
-
-The publisher's destination is resolved only from the resource's recorded official file. Example generated registry build mapping: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}`; ordinary Teacher Guides use `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these output names. No external asset receives a Python build just because it is a PDF.
-
-### On-demand inspection
-
-**Actions → Inspect publication** is manual-only and read-only. For generated PDFs it can compare current rendered checksum, recorded published checksum and Drive metadata. For external resources it can confirm Drive metadata or report the missing evidence but **cannot infer content parity**. The inspector never changes status or republishes files.
-
-### One-time setup
-
-1. In [Google Cloud Console](https://console.cloud.google.com/), create a project (for example `little-chewz-publish`).
-2. **APIs & Services → Library**: enable **Google Drive API**.
-3. **IAM & Admin → Service Accounts → Create service account** (for example `drive-publisher`). Skip the optional role and access steps.
-4. Open the service account → **Keys → Add key → Create new key → JSON**. A key file downloads. Treat it like a password.
-5. In Drive, share each target file or its folder with the service account's email (`…@…iam.gserviceaccount.com`) as **Editor**, with notifications off.
-6. In GitHub: **Settings → Secrets and variables → Actions → New repository secret**, name `GOOGLE_SERVICE_ACCOUNT_JSON`, value: the entire contents of the key file. Then delete the downloaded key file.
-
-The service account can only see files explicitly shared with it. Remove its access in Drive, or delete the key in Cloud Console, to revoke publishing.
-
----
-
 # File: `system/CHAT_FILE_CREATION.md`
 
 ## Creating and transferring source files
@@ -683,69 +770,6 @@ Transfer only authorized project files. Do not include secrets, create public tr
 ### Verification history
 
 The connector procedure was verified on 2026-10-19 for a single binary ([PR #8](https://github.com/Programmer484/little_chewz/pull/8)) and a batch of two PNGs plus one JSON file ([commit fe197fec](https://github.com/Programmer484/little_chewz/commit/fe197fec38888fd2bd64d63c797a8b63a2ed2d22)); remote blob SHAs matched and temporary Drive files were deleted. Covers have since moved to losslessly cut `cover.pdf` files, per the rule above.
-
----
-
-# File: `system/COMMANDS.md`
-
-## Agent command contract
-
-The user-facing phrases **`/create`**, **`/update`**, and **`/merge`** are AI-agent instructions, not executable programs. The source procedure is [CREATE.md](system/CREATE.md); client-side slash aliases require separate configuration. Infer the requested resource from the conversation and verify its stable ID in live GitHub records.
-
-### `/create [instructions]`
-
-Use the already prototyped content. Follow [CREATE.md](system/CREATE.md) and the correct `production_type` workflow. Create a review copy in the actual Google Drive holding folder, record its `holding_url` separately from `published_url`, preserve existing identities, and keep `status: unpublished` until confirmed official publication.
-
-- **`generated_pdf`:** commit editable source and build assets on `edit/<resource-id>`, build through the existing Python renderer, upload a review PDF to the PDF-generated holding folder, register the build, then provide a PR and preview.
-- **`external`:** create using the appropriate agent tool, upload the finished file to the relevant holding folder, and commit catalogue metadata. No GitHub source branch, editable-source copy, renderer, or PR merge is required to publish the external asset.
-
-### `/update [instructions]`
-
-- **Generated PDF:** fetch the remote `edit/<resource-id>` branch, reconcile concurrent changes, update only the authorized source/assets, validate and preview, and non-force push. Never overwrite another agent's commits.
-- **External:** edit in the original creation tool, replace the existing holding file **in place** when possible, verify the file and update the catalogue through a normal GitHub bookkeeping change. Do not invoke a PDF build or resource merge.
-
-Editing a draft does not change the currently verified live release status.
-
-### `/merge [instructions]` — generated PDFs only
-
-Requires explicit human approval of the exact reviewed generated PDF. Reconcile and validate the resource branch, append its **single-resource** authorized release marker at `.github/resource-releases/<PR-number>.json` with `{"signal":"authorized-resource-merge","pr_number":<PR-number>,"resource_ids":["<resource-id>"]}`, then merge the PR into `main`. GitHub Actions runs a guarded build, replaces the established official PDF **in place**, reads back the exact Drive checksum/file ID, records publication, and safely deletes the old branch only if it has not advanced. Check the Actions run and report errors truthfully. A first-ever official destination must be placed and verified by an agent before later automatic replacements.
-
-**Do not use `/merge` for external resources.** External publication is a distinct agent-managed Drive procedure: move or replace in the official destination, verify, then record the confirmed status in GitHub. There is no separate user-facing `/publish` command, scheduled inspection, or external checksum pipeline.
-
----
-
-# File: `system/CREATE.md`
-
-## First-time resource creation
-
-This is the agent procedure for /create; it is not an executable program. Begin with an approved or prototyped resource in the chat. Check the current GitHub catalogue and Google Drive records before assigning an identity or destination.
-
-### Generated PDFs
-
-For Teacher Guides, Python-rendered companions, and other PDF outputs generated by the repository:
-
-1. Confirm school, lesson, resource type and stable ID. Reuse existing IDs and records.
-2. Create/reuse the shared edit/<resource-id> branch from the latest main; save editable JSON and required versioned assets.
-3. Generate and inspect the PDF with the repository renderer, and run validation and tests.
-4. Upload the first review copy into the verified PDF-generated resources holding folder in catalog/drive_folders.json. Confirm the actual Drive ID and holding URL.
-5. Catalogue production_type=generated_pdf, GitHub source, explicit build mapping, holding_url, and unpublished status for new resources. Preserve prior live publication records on updates.
-6. Push the PR and share the Actions preview and holding copy. Do not publish from /create.
-
-### External resources
-
-For image-created worksheets, posters, externally authored PDFs, and slides, production_type=external even when the final file is PDF.
-
-1. Create the artifact in the appropriate external tool. Do not create a GitHub source or edit branch solely for this resource.
-2. Upload to the verified Worksheets, Posters & visuals, Other resources, or separate Slide PDFs holding folder. Read back the file ID and URL.
-3. Commit only catalogue bookkeeping (including holding_url and published_url) via an ordinary GitHub change. New unconfirmed resources remain unpublished. Later updates replace holding bytes in place when possible.
-
-### Publishing
-
-Only generated PDFs use /merge. The agent first places a new generated PDF at its official teacher-facing Drive destination and verifies and registers that destination; later merged updates automatically replace it in place with checksum verification.
-
-External publication stays agent-managed outside /merge. Move or replace the actual file in its official Drive location, verify ID, type, access, and slides' PDF/PPTX pair, then manually record published status. Holding alone is never publication. No external checksum system, automated external merge, scripted creation engine, or separate /publish command.
-
-Follow system/COMMANDS.md, system/WORKFLOW.md, and system/SLIDE_CONVERSION.md. Never invent a Drive file or folder ID.
 
 ---
 
@@ -812,12 +836,12 @@ Linked resource names, URLs, and companion status live in [catalog/resources.jso
 
 - `resources.json` owns stable linked-resource IDs, production type, provenance, holding and official URLs, build mapping, publication evidence and linked-resource delivery status. See [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states).
 - Use `generated_pdf` only for existing Python-rendered PDF outputs with GitHub editable sources and explicit `build`. Externally authored PDFs remain `external`, as do slides and image-based resources.
-- `drive_folders.json` owns verified review-holding folder IDs. The existing Slide PDFs area remains separate. Never invent file IDs, URLs, statuses or folder IDs; a `holding_url` must never be treated as `published_url`.
-- Delivery states are `unpublished`, `pending_publish`, `published`. Generated PDFs use exact Drive checksum confirmation after an authorized PDF `/merge`; external resources are published by agents and recorded only after live verification. Legacy records may remain explicitly unverified.
-- The compatibility `url` is used by existing Teacher Guides; preserve established live links and never redirect them to a holding file.
+- `drive_folders.json` owns four holding category folder IDs mirroring the official Drive layout; existing nested subfolders retain their IDs. Legacy Slide PDF originals remain separate. Never invent file or folder IDs. A holding file is not published **even when its permanent URL will be unchanged**.
+- [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) owns status definitions; **[PUBLISH.md](system/PUBLISH.md) alone owns the actions and verification that permit recording `published`**. Legacy records can remain explicitly unverified.
+- Review Teacher Guides may link to verified holding files; release builds use only `published_url` and require each referenced resource to have `status: published`. Automated publisher checks enforce this for generated PDFs.
 - `quests.json` indexes quest manifests; each quest's `quest.json` owns lesson-source delivery status, separate from linked resource status.
 
-Follow [CREATE.md](system/CREATE.md), [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md), and [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) as appropriate. Run `python scripts/validate.py` after changes.
+Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.md) for revisions, and [PUBLISH.md](system/PUBLISH.md) for release; [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) owns slide-specific conversion. Run `python scripts/validate.py` after changes.
 
 ---
 
@@ -845,12 +869,12 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
-| `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) |
-| `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [COMMANDS.md](system/COMMANDS.md) |
-| `inspect_publications.py` | Manual read-only publication evidence inspection | [WORKFLOW.md](system/WORKFLOW.md#publication-controls) |
+| `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](system/PUBLISH.md) |
+| `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](system/PUBLISH.md) |
+| `inspect_publications.py` | Manual read-only publication evidence inspection | [PUBLISH.md](system/PUBLISH.md#on-demand-inspection) |
 | `pdf_to_linked_slides.py` | Human-reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 
-Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
+PDF previews use `renderers/resource_links.py` to select holding URLs; generated-PDF release builds use published URLs and `publication_checks.py` to reject unpublished dependencies. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
 When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
 

@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from select_builds import ROOT, select, targets
+from publication_checks import unpublished_references
 from publish_to_drive import PublishError, load_registry, save_registry, publish, output_name
 
 SIGNAL_DIR = Path(".github/resource-releases")
@@ -47,10 +48,23 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
     if not ids:
         return {"pr": pr, "result": "no authorized resource release", "generated": [],
                 "external": [], "blocked": []}
-    if head_branch is not None and head_branch != f"edit/{ids[0]}":
-        raise ReleaseError("Authorized /merge must come from the single matching generated-resource branch")
     registry = load_registry()
     registered = targets()
+    if head_branch is not None and head_branch != f"edit/{ids[0]}":
+        expected = None
+        for target in registered.values():
+            if target.get("kind") != "teacher_guide":
+                continue
+            guide_id = target.get("resource_id", "")
+            prefix = guide_id.removesuffix("-teacher-guide")
+            if ids[0] != guide_id and not ids[0].startswith(prefix + "-"):
+                continue
+            source = Path(target.get("source", ""))
+            if "lessons" in source.parts:
+                expected = f"lesson/{'-'.join(guide_id.split('-')[:2])}-{source.parent.name}"
+                break
+        if not expected or head_branch != expected:
+            raise ReleaseError("Release branch does not own this resource or lesson")
     affected = set(select(changed, base_ref=base_sha))
     head = git("rev-parse", "HEAD")
     if subprocess.run(["git", "merge-base", "--is-ancestor", merge_sha, head],
@@ -87,6 +101,9 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
             result["blocked"].append({"resource_id": rid, "reason": "accepted source superseded by newer main"})
         elif not item.get("url") or item.get("status") == "unpublished":
             result["blocked"].append({"resource_id": rid, "reason": "initial upload/verification required"})
+        elif unpublished_references(registered[output], registry):
+            result["blocked"].append({"resource_id": rid,
+                "reason": "unpublished linked resources: " + ", ".join(unpublished_references(registered[output], registry))})
         else:
             result["generated"].append(rid)
     return result
