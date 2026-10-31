@@ -595,9 +595,11 @@
     },
     "publication": {
       "verification": "verified",
-      "method": "agent_managed",
+      "method": "external_agent",
       "drive_file_id": "1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access."
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
     "holding_url": "https://drive.google.com/file/d/1Ml-sPRMKDFq_Pup6m1NHTbr13bZHzc9Q/view",
     "published_url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
@@ -622,9 +624,11 @@
     },
     "publication": {
       "verification": "verified",
-      "method": "agent_managed",
+      "method": "external_agent",
       "drive_file_id": "1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access."
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
     "holding_url": "https://drive.google.com/file/d/1GpytMiNCwLrpkde5hERXiku0xk-r-M54/view",
     "published_url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
@@ -662,7 +666,7 @@
       "chapter-notes"
     ],
     "status": "published",
-    "link_note": "Actual stand-alone Chapter 1 student worksheet supplied by user, staged in Worksheets holding. Prediction prompt and open note/drawing space preserved. Legacy compatibility URL remains until official publication; scaffold wording is in lesson guide only.",
+    "link_note": "Standalone Chapter Notes worksheet, original prediction prompt and open notes/drawing area. Published in official student materials; 2–3-detail scaffold appears in teaching directions.",
     "production_type": "external",
     "source": {
       "kind": "external_original",
@@ -670,9 +674,11 @@
     },
     "publication": {
       "verification": "verified",
-      "method": "agent_managed",
+      "method": "external_agent",
       "drive_file_id": "107xSYGXDG-46-bQA652m7HOhFR1CVb17",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access."
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
     "holding_url": "https://drive.google.com/file/d/1nFkHSZceWwkSUjFGdYP6m9UtxWoTEprT/view",
     "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view"
@@ -688,7 +694,7 @@
       "extension"
     ],
     "status": "published",
-    "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min); preserved prompts and artwork. Reviewed one-page PDF in Worksheets holding; legacy compatibility URL remains unchanged until official publication.",
+    "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min), published in official student materials.",
     "production_type": "external",
     "source": {
       "kind": "external_original",
@@ -696,9 +702,11 @@
     },
     "publication": {
       "verification": "verified",
-      "method": "agent_managed",
+      "method": "external_agent",
       "drive_file_id": "10jiuQLjv3zc3JFh6LrLcYggDsBYxcxkX",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access."
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
     "holding_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
     "published_url": "https://drive.google.com/file/d/10jiuQLjv3zc3JFh6LrLcYggDsBYxcxkX/view"
@@ -720,9 +728,11 @@
     },
     "publication": {
       "verification": "verified",
-      "method": "agent_managed",
+      "method": "external_agent",
       "drive_file_id": "1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access."
+      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
+      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
+      "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
     "holding_url": "https://drive.google.com/file/d/1DxcJ6dDE8QCyqnzoXLee7d9RP5d1F-5G/view",
     "published_url": "https://drive.google.com/file/d/1G8SZHE4RLuA6EeJ_TsgHuotOuNRQ6aPU/view",
