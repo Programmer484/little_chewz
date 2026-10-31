@@ -28,7 +28,7 @@ class SelectionTests(unittest.TestCase):
     def test_all_existing_sources_can_preview_without_flag(self):
         self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME})
         self.assertEqual(self.targets[DRAFT]['status'], 'pending_publish')
-        self.assertEqual(self.targets[PART2]['status'], 'unpublished')
+        self.assertEqual(self.targets[PART2]['status'], 'published')
         self.assertEqual(sb.selection(PART2)['outputs'], [PART2])
         self.assertEqual(self.targets[SONG]['status'], 'unpublished')
         self.assertEqual(self.targets[GUIDE]['status'], 'pending_publish')
