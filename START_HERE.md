@@ -1,13 +1,14 @@
 # Little Chewz — start here
 
-Prototype in chat, then choose the Python-generated PDF or external-resource workflow. [AGENTS.md](AGENTS.md) is the generated AI entry point; **[COMMANDS.md](system/COMMANDS.md) routes requests**, **[CREATE.md](system/CREATE.md) owns drafts**, **[WORKFLOW.md](system/WORKFLOW.md) owns editing/review**, and **[DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) owns all publication**.
+Prototype in chat, then follow the **independent workflow matching the action**. [AGENTS.md](AGENTS.md) is the generated AI entry point. Shared definitions and checks are in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [WORKFLOW.md](system/WORKFLOW.md).
 
-## Quick route
+## Choose a workflow
 
-- Create: **COMMANDS → CREATE**; stop at a review copy in holding.
-- Update: **COMMANDS → WORKFLOW**; do not alter a verified live release.
-- Publish: **DRIVE_PUBLISHING**; verify the official Drive copy before recording `published`.
-- Identify IDs, links or status: **CONTENT_CONTRACT** and `catalog/resources.json`.
+- **[Create](system/CREATE.md):** make a new resource and stage its review copy in holding; stop before publication.
+- **[Update](system/UPDATE.md):** revise a draft or live resource, validate, and save a new review copy while preserving the official release.
+- **[Publish](system/PUBLISH.md):** after explicit human authorization, deliver the exact reviewed resource, verify the official Drive file, then record `published`. Existing generated PDFs use a guarded release-PR merge within this workflow.
+
+No working chat slash-command integration exists. Ordinary GitHub merges and preview builds do not publish.
 
 ## Where things belong
 
@@ -24,12 +25,12 @@ Prototype in chat, then choose the Python-generated PDF or external-resource wor
 | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
 | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
 | [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
-| [WORKFLOW.md](system/WORKFLOW.md) | Edit, validate, review, save and report; not publication |
+| [WORKFLOW.md](system/WORKFLOW.md) | Shared validation, preview, and review/reporting conventions |
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
-| [DRIVE_PUBLISHING.md](system/DRIVE_PUBLISHING.md) | Single publication owner for generated PDFs and external resources, checks and verification |
+| [PUBLISH.md](system/PUBLISH.md) | Single publication owner for generated PDFs and external resources, checks and verification |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| [COMMANDS.md](system/COMMANDS.md) | Command and natural-language publication routing |
-| [CREATE.md](system/CREATE.md) | Draft-only resource creation and holding-folder staging |
+| [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
+| [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
 | `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
@@ -47,10 +48,10 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 ## Current capabilities
 
-- Only `generated_pdf` resources (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub source branches and the authorized `/merge`→Drive checksum pipeline. Generated first release needs manual destination setup.
-- `external` resources (including PDFs made outside the renderer, posters, images, worksheets and slide pairs) stay in Drive holding until an agent manually publishes and verifies them. No external `/merge` or checksum tracking.
+- Only `generated_pdf` resources (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub branches and an authorized release-PR merge/checksum pipeline. First release needs manual destination setup.
+- `external` resources (including PDFs made outside the renderer, posters, images, worksheets and slide pairs) stay in holding until an agent manually publishes and verifies them. No automatic external release or checksum tracking.
 - The new [Drive holding area](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) has PDF-generated, worksheets, posters/visuals and other folders; existing Slide PDFs remain separate. Holding is not publication.
-- `/create`, `/update` and `/merge` are agent instructions defined in [COMMANDS.md](system/COMMANDS.md), not Python create/update CLI programs.
+- Use Create, Update, and Publish workflow documents directly; no chat slash commands are configured.
 
 - Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
 - Every existing valid source can generate a preview; five lessons without a `lesson.json` are not renderable. Previews do not publish.

@@ -1,6 +1,6 @@
 # Publishing resources to Google Drive
 
-**Single authoritative publication procedure** for Python-generated PDFs and externally authored resources. Creation and staging belong to [CREATE.md](CREATE.md), review and edits to [WORKFLOW.md](WORKFLOW.md), and data/status definitions to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Nothing publishes automatically on `/create`, `/update`, ordinary PR merge or preview.
+**Single authoritative publication procedure** for Python-generated PDFs and externally authored resources. Creating belongs to [CREATE.md](CREATE.md), revising to [UPDATE.md](UPDATE.md), shared review checks to [WORKFLOW.md](WORKFLOW.md), and field/status definitions to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Creating, revising, ordinary PR merges and previewing do not publish.
 
 ## Publication prerequisites and release gate
 
@@ -12,7 +12,7 @@
 
 ## External resources — agent-managed publication
 
-Worksheets, posters, external PDFs, media and slides use `production_type: external` and are not published through `/merge` or Python PDF builds.
+Worksheets, posters, external PDFs, media and slides use `production_type: external` and are not published through authorized generated-PDF release or Python PDF builds.
 
 1. Move the exact reviewed file to the verified teacher-facing folder, preserving its ID where possible. For a previously published asset, replace the official file **in place** rather than creating duplicates.
 2. Read back the official file ID, MIME, folder and access metadata. For slides, [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) adds mandatory PDF/PPTX pairing, conversion and verification; both must be checked.
@@ -23,7 +23,7 @@ Worksheets, posters, external PDFs, media and slides use `production_type: exter
 
 Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID, publication evidence and `published` status. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
 
-## Generated PDF publication after authorized /merge
+## Authorized release PR for an established generated PDF
 
 1. The agent confirms the exact reviewed PDF and human approval, reconciles the `edit/<stable-resource-id>` branch with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with the authorized single matching resource ID.
 2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
@@ -34,9 +34,9 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ## Manual fallback and review copies
 
-**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or public `/publish` command.
+**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or public publishing slash command command.
 
-During `/create`, upload the review PDF to the verified PDF-generated holding folder from `catalog/drive_folders.json`; this is never release. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](CREATE.md).
+For draft creation, upload the review PDF to the verified PDF-generated holding folder from `catalog/drive_folders.json`; this is never release. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](CREATE.md).
 
 The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 

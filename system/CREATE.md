@@ -1,6 +1,6 @@
 # First-time resource creation
 
-This is the agent procedure for /create; it is not an executable program. Begin with an approved or prototyped resource in the chat. Check the current GitHub catalogue and Google Drive records before assigning an identity or destination.
+Use this workflow when asked to **create a new resource or initial draft**. Begin with supplied or prototyped content. Check the current GitHub catalogue and Google Drive records before assigning a stable ID or destination. Apply the shared checks in [WORKFLOW.md](WORKFLOW.md).
 
 ## Generated PDFs
 
@@ -11,7 +11,7 @@ For Teacher Guides, Python-rendered companions, and other PDF outputs generated 
 3. Generate and inspect the PDF with the repository renderer, and run validation and tests.
 4. Upload the first review copy into the verified PDF-generated resources holding folder in catalog/drive_folders.json. Confirm the actual Drive ID and holding URL.
 5. Catalogue production_type=generated_pdf, GitHub source, explicit build mapping, holding_url, and unpublished status for new resources. Preserve prior live publication records on updates.
-6. Push the PR and share the Actions preview and holding copy. Do not publish from /create.
+6. Push the PR and share the Actions preview and holding copy. Do not publish during creation.
 
 ## External resources
 
@@ -19,10 +19,10 @@ For image-created worksheets, posters, externally authored PDFs, and slides, pro
 
 1. Create the artifact in the appropriate external tool. Do not create a GitHub source or edit branch solely for this resource.
 2. Upload to the verified Worksheets, Posters & visuals, Other resources, or separate Slide PDFs holding folder. Read back the file ID and URL.
-3. Commit only catalogue bookkeeping, recording the verified `holding_url` and preserving any already-verified `published_url` and `url`. A new resource remains `unpublished`. Later draft updates replace holding bytes in place when possible.
+3. Commit only catalogue bookkeeping, recording the verified `holding_url` and preserving any already-verified `published_url` and `url`. A new resource remains `unpublished`. Later revisions follow [UPDATE.md](UPDATE.md); replace holding bytes in place when possible.
 
 ## Stop at review
 
-`/create` ends with the exact reviewed artifact in its verified holding folder and its GitHub review/catalogue record saved. **Never move it to the official folder or mark it published as part of `/create`.** A new resource remains `unpublished`; an update must preserve any verified older release. Keep `holding_url` distinct from `published_url` and compatibility `url` per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
+Creating ends with the exact reviewed artifact in its verified holding folder and its GitHub review/catalogue record saved. **Never move it to the official folder or mark it published as part of Creating.** A new resource remains `unpublished`; subsequent revisions follow [UPDATE.md](UPDATE.md) and preserve any verified older release. Keep `holding_url` distinct from `published_url` and compatibility `url` per [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
 
-For a later authorized release, follow the **only publication procedure** in [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md), and for slides also follow [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). Never invent a file or folder ID.
+For a later authorized release, follow the **only publication procedure** in [PUBLISH.md](PUBLISH.md), and for slides also follow [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md). Never invent a file or folder ID.

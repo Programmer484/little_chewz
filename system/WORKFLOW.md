@@ -1,25 +1,21 @@
-# Editing and review workflow
+# Shared editing and review checks
 
-This file owns edits, previews, tests, source saving and reporting, **not publication**. Route user intent through [COMMANDS.md](COMMANDS.md); draft creation is in [CREATE.md](CREATE.md), status definitions in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md), and all release procedures in [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md).
+Use alongside the independent [Create](CREATE.md) and [Update](UPDATE.md) workflows. This file owns common validation, preview, source coordination and reporting conventions, **not publication**. Release steps live in [PUBLISH.md](PUBLISH.md); status definitions in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
 
-## Python-generated PDFs — edit and review
+## Source and branch hygiene
 
-1. **Identify.** Read stable ID, editable GitHub source, build mapping, holding file, official file and current delivery status. Read the source's instructions.
-2. **Edit.** Reuse the remote `edit/<resource-id>` branch across chats. Reconcile with latest remote head and `main`; preserve concurrent edits, save separate required assets and never force-push.
-3. **Preview.** Validate, test, render with the repository renderer and inspect layout and links. Upload or replace a review copy in the verified generated-PDF holding folder. Holding is never publication.
-4. **Save/report.** Push the branch, open/update its PR, verify remote files, give the actual Actions preview and holding copy, and report blockers. A preview or normal PR merge does not authorize release.
+- Read the owning file's `$instructions` pointer and verify current stable ID, GitHub revision, catalogue record and Drive metadata before writing.
+- Generated PDFs use a remote `edit/<resource-id>` branch; reconcile concurrent changes against the latest branch head and `main`, without force-pushing. Commit required images separately from text.
+- Externally authored resources stay in their own creation tool and use ordinary catalogue bookkeeping, not the generated-PDF pipeline.
+- Commit source changes, verify remote state and exclude secrets, temporary transfers and generated exports. Preserve unrelated work.
 
-## External resources — edit and review
+## Validation and previews
 
-Create/edit with the original authoring tool. Verify the holding Drive file and replace the **same holding file ID** where possible; update catalogue bookkeeping through an ordinary GitHub change. Do not create a generated-PDF renderer or resource-specific `edit/` branch for an external file. Preserve any live official file and status. For initial staging use [CREATE.md](CREATE.md); for authorized publication use [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md).
+- Run `python scripts/validate.py` for content changes and relevant tests for tooling changes. Render generated PDFs with the repository renderer; inspect layout, content and links, and verify the review file in its holding folder.
+- `scripts/select_builds.py` and `scripts/build_selected.py` are the supported Python preview path. Valid authored sources can be previewed regardless of delivery status; absent lesson sources produce no placeholders. Manual selection accepts an exact output filename or `all`.
+- PR updates and `main` pushes validate and rebuild affected PDFs. Changes to sources, used assets, renderers, referenced resource links or shared dependencies rebuild their consumers. Documentation-only and status-only changes generally do not rebuild PDFs.
+- Give the verified **GitHub Actions run URL first** for PDF reviews (prefer the successful post-merge `main` run). Previews remain under `pdf-preview-history/previews/<run-id>/`; workflow artifacts expire sooner. Never automatically merge or delete historical preview branches.
 
-## Previews and cleanup
+## Report and stop
 
-- `scripts/select_builds.py` and `scripts/build_selected.py` are the supported Python preview path. Every existing valid authored source is previewable regardless of delivery status; missing lesson source files create no placeholders. Manual selection accepts an exact output filename or `all`.
-- PR updates and `main` pushes validate and rebuild affected PDFs. A changed source, asset, renderer, resource link or shared dependency rebuilds its consumers; unrelated docs and status-only bookkeeping do not rebuild content.
-- Prefer the successful **post-merge `main` Actions run URL** for PDF review. Previews stay in `pdf-preview-history/previews/<run-id>/`; workflow artifacts have short retention. Never merge or automatically delete historical preview branches.
-- Preserve unmerged work and report errors; generated-resource branch cleanup rules are in [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md).
-
-## Release boundary
-
-For first-time official Drive placement, approved `/merge`, agent-managed external publication, release-verification checks, `pending_publish` handling, and read-only inspection, **follow [DRIVE_PUBLISHING.md](DRIVE_PUBLISHING.md)**. This workflow is only for drafts and review. Status and URL field semantics remain in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
+Report saved file locations, checks, preview links and unresolved blockers. Holding uploads, validation passes and ordinary merges **never prove publication**. For authorized official releases, linked-resource preflight, external publication, generated-PDF release merging and status changes use [PUBLISH.md](PUBLISH.md).
