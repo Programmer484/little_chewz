@@ -70,30 +70,27 @@
       "rows": [
         {
           "kind": "SHOW",
-          "text": "Slides 1–2 — Introduce Zenix; play the video on Slide 2."
+          "text": "Slides 1–2 — Introduce the investigation; play the clue video on Slide 2."
         },
         {
           "kind": "DO",
-          "text": "Students jot 2–3 clues while watching."
+          "text": "Students jot clues independently while watching."
         },
         {
-          "kind": "ASK",
-          "text": "What might be in the CONFIDENTIAL envelope? Which clue supports your idea?"
+          "kind": "GIVE",
+          "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
+          "description": "After the video, students pair up to complete questions 1–5."
         },
         {
           "kind": "MORE",
           "links": [
-            {
-              "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
-              "description": "Questions 1–5"
-            },
             {
               "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
               "description": "Questions 6–8; optional +10–15 min"
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-answer-key",
-              "description": ""
+              "description": "Teacher reference"
             }
           ]
         }
