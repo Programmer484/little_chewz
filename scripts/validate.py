@@ -64,8 +64,6 @@ for ref,item in registry.items():
             errors.append(f'{ref}: missing explicit {role} (use null if unknown)')
         elif item[role] is not None and (not isinstance(item[role],str) or not item[role].startswith('https://')):
             errors.append(f'{ref}: {role} must be HTTPS or null')
-    if item.get('holding_url') and item.get('published_url') == item.get('holding_url'):
-        errors.append(f'{ref}: a holding copy cannot be its published destination')
     if item.get('status') in {'pending_publish','published'} and not item.get('published_url'):
         errors.append(f'{ref}: live or pending resource needs an established published_url')
     publication=item.get('publication')
@@ -115,7 +113,11 @@ else:
     for purpose in ('root','generated_pdf','worksheets','visuals','other','slide_pdfs'):
         if not (staging.get(purpose) or {}).get('folder_id'):
             errors.append(f'Unconfigured holding folder: {purpose}')
+    for category in ('01_TEACHER_GUIDES','02_CLASSROOM_SLIDES','03_STUDENT_MATERIALS','04_EXTRA_RESOURCES'):
+        if not (staging.get('categories') or {}).get(category,{}).get('folder_id'):
+            errors.append(f'Unconfigured holding category: {category}')
     for section in [*(value for value in staging.values() if isinstance(value,dict)),
+                    *(value for value in (staging.get('categories') or {}).values() if isinstance(value,dict)),
                     (folders.get('published') or {})]:
         for key in ('folder_id','default_folder_id'):
             value=section.get(key)

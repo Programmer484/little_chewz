@@ -14,6 +14,7 @@ or LITTLE_CHEWZ_FONT_DIR points elsewhere.
 """
 from __future__ import annotations
 import argparse
+from resource_links import resolved_registry
 import json
 import os
 from pathlib import Path
@@ -470,13 +471,14 @@ def build(content:Path,registry:dict,output:Path|None=None):
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2])
+    ap.add_argument('--release',action='store_true',help='Use published-only Drive links')
     ap.add_argument('--content',type=Path,help='Lesson JSON path under content/<school>/<quest>/lessons/<stage>/')
     ap.add_argument('--output',type=Path,help='Optional output path for a single lesson')
     ap.add_argument('--font-dir',type=Path)
     args=ap.parse_args()
     configure_fonts(args.font_dir)
     root=args.root.resolve()
-    registry=json.loads((root/'catalog/resources.json').read_text(encoding='utf-8'))
+    registry=resolved_registry(json.loads((root/'catalog/resources.json').read_text(encoding='utf-8')),release=args.release)
     if args.content:
         paths=[(args.content if args.content.is_absolute() else root/args.content).resolve()]
     else:

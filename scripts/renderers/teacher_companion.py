@@ -9,6 +9,7 @@ This is a standalone companion generator; it does NOT modify the Teacher Guide.
 Before editing: read system/RESOURCE_GUIDELINES.md (presentation rules).
 """
 import argparse
+from resource_links import resolved_registry
 import html
 import json
 from pathlib import Path
@@ -144,10 +145,11 @@ def main():
     parser.add_argument("content",type=Path)
     parser.add_argument("-o","--output",type=Path)
     parser.add_argument("--registry",type=Path,help="Optional approved resources.json")
+    parser.add_argument("--release",action="store_true",help="Use published-only Drive links")
     args=parser.parse_args()
     data=json.loads(args.content.read_text(encoding="utf-8"))
     data["_base"]=str(args.content.resolve().parent)
-    registry=json.loads(args.registry.read_text()) if args.registry else {}
+    registry=resolved_registry(json.loads(args.registry.read_text()),release=args.release) if args.registry else {}
     output=args.output or args.content.with_suffix(".pdf")
     generator(data,output,registry)
     print(output)

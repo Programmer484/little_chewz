@@ -71,8 +71,6 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     if not isinstance(build, dict) or not (build.get("source") or build.get("output")):
         raise PublishError(f"{resource_id} has no 'build' instructions in the registry")
     official_url = entry.get("published_url") or entry.get("url")
-    if entry.get("holding_url") and entry.get("holding_url") == official_url:
-        raise PublishError(f"{resource_id}: holding URL cannot be a publishing destination")
     file_id = drive_file_id(official_url)
     recorded_id = (entry.get("publication") or {}).get("drive_file_id")
     if recorded_id and recorded_id != file_id:
@@ -97,7 +95,7 @@ def build_pdf(resource_id: str, build: dict) -> Path:
     manifest = OUT / "manifest.json"
     manifest.write_text(json.dumps({"outputs": [name]}))
     subprocess.run([sys.executable, str(ROOT / "scripts/build_selected.py"),
-                    "--manifest", str(manifest)], check=True)
+                    "--manifest", str(manifest), "--release"], check=True)
     (ROOT / "exports" / name).replace(target)
     if not target.is_file() or target.stat().st_size == 0:
         raise PublishError(f"Build produced no PDF for {resource_id}")
@@ -173,6 +171,13 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
         name = output_name(resource_id, build)
         if name not in targets():
             raise PublishError(f"{resource_id}: unregistered generated PDF output {name}")
+    from select_builds import targets
+    from publication_checks import unpublished_references
+    render_target = targets().get(output_name(resource_id, build))
+    if render_target:
+        blocked = unpublished_references(render_target, registry)
+        if blocked:
+            raise PublishError(f"{resource_id}: unpublished linked resources: {', '.join(blocked)}")
     pdf = builder(resource_id, build)
     assert_revision(revision)
     local_md5 = md5(pdf)

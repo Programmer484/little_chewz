@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from select_builds import ROOT, select, targets
+from publication_checks import unpublished_references
 from publish_to_drive import PublishError, load_registry, save_registry, publish, output_name
 
 SIGNAL_DIR = Path(".github/resource-releases")
@@ -47,8 +48,8 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
     if not ids:
         return {"pr": pr, "result": "no authorized resource release", "generated": [],
                 "external": [], "blocked": []}
-    if head_branch is not None and head_branch != f"edit/{ids[0]}":
-        raise ReleaseError("Authorized /merge must come from the single matching generated-resource branch")
+    if head_branch is not None and not (head_branch.startswith("lesson/") or head_branch == f"edit/{ids[0]}"):
+        raise ReleaseError("Generated release must come from the shared lesson branch or legacy matching edit branch")
     registry = load_registry()
     registered = targets()
     affected = set(select(changed, base_ref=base_sha))
@@ -87,6 +88,9 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
             result["blocked"].append({"resource_id": rid, "reason": "accepted source superseded by newer main"})
         elif not item.get("url") or item.get("status") == "unpublished":
             result["blocked"].append({"resource_id": rid, "reason": "initial upload/verification required"})
+        elif unpublished_references(registered[output], registry):
+            result["blocked"].append({"resource_id": rid,
+                "reason": "unpublished linked resources: " + ", ".join(unpublished_references(registered[output], registry))})
         else:
             result["generated"].append(rid)
     return result
