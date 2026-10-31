@@ -158,8 +158,10 @@ jobs:
             echo "Open PDFs directly in GitHub:"
             for pdf in "$run_folder"/*.pdf; do
               name="${pdf##*/}"
-              echo "- [Preview ${name}](https://github.com/${REPO}/blob/${preview_branch}/${pdf})"
+              echo "- [Preview ${name}](https://github.com/${REPO}/blob/${preview_branch}/${pdf}) · [Download PDF (working links)](https://github.com/${REPO}/raw/refs/heads/${preview_branch}/${pdf})"
             done
+            echo ""
+            echo "GitHub browser previews may not activate PDF hyperlinks. Download and open in a PDF reader to test interactive links."
             echo ""
             echo "These PDFs are review copies; they are not published teacher resources."
           } >> "$GITHUB_STEP_SUMMARY"
