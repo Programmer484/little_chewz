@@ -636,25 +636,29 @@
   },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
-    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
     "type": "teacher_reference",
     "audience": "teacher",
     "tags": [
       "secret-ingredients",
       "answer-key"
     ],
-    "status": "unpublished",
-    "link_note": "Legacy Day Two guide page 8; guide includes teacher and student material.",
+    "status": "published",
+    "link_note": "Standalone answer key with Core (1–5) and Extension (6–8) answers, in teacher-resource styling.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
     },
     "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
+      "verification": "verified",
+      "method": "external_agent",
+      "drive_file_id": "1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0",
+      "release_revision": "4bbec3b4a8161576eba2296d6e967791c3a4ae5f",
+      "confirmed_at": "2026-10-31T16:28:41+00:00",
+      "note": "Standalone PDF in official 04_EXTRA_RESOURCES folder with anyone-reader access."
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view"
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
     "title": "Chapter Notes",
