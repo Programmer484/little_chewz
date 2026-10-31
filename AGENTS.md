@@ -290,6 +290,7 @@ The publisher resolves only recorded official targets. Registry build examples: 
 6. In GitHub: **Settings → Secrets and variables → Actions → New repository secret**, name `GOOGLE_SERVICE_ACCOUNT_JSON`, value: the entire contents of the key file. Then delete the downloaded key file.
 
 The service account can only see files explicitly shared with it. Remove its access in Drive, or delete the key in Cloud Console, to revoke publishing.
+
 ---
 
 # File: `system/CONTENT_CONTRACT.md`
