@@ -25,11 +25,11 @@ BRIEF = ROOT / "AGENTS.md"
 SOURCES = [
     "system/AI_RULES.md",
     "START_HERE.md",
-    "system/UPDATE.md",
     "system/CREATE.md",
+    "system/UPDATE.md",
+    "system/PUBLISH.md",
     "system/CONTENT_CONTRACT.md",
     "system/WORKFLOW.md",
-    "system/PUBLISH.md",
     "system/EDITORIAL_GUIDE.md",
     "system/action_labels.json",
     "system/RESOURCE_GUIDELINES.md",
