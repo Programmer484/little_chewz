@@ -4,7 +4,7 @@
 The registry entry in catalog/resources.json names the Drive destination
 (`url`) and how to build the PDF (`build`):
 
-    "build": {"renderer": "claude", "source": "content/.../welcome.json"}
+    "build": {"renderer": "welcome", "source": "content/.../welcome.json"}
     "build": {"output": "00-activate-teacher-guide.pdf"}   # select_builds target
 
 Publishing replaces the file's contents through the Drive API, so the file

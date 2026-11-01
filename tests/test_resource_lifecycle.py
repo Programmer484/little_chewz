@@ -50,7 +50,7 @@ class ResourceLifecycleTests(unittest.TestCase):
                                 "published_url": URL}}), [])
 
     def test_unpublished_navigation_is_not_a_clickable_dependency(self):
-        target = {"kind": "claude", "data": {"nav": [{"resource": "a"}]}}
+        target = {"kind": "welcome", "data": {"nav": [{"resource": "a"}]}}
         self.assertEqual(unpublished_references(target, {"a": {"status": "unpublished"}}), [])
 
 

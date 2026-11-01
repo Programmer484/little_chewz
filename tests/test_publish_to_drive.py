@@ -67,7 +67,7 @@ class PublishTests(unittest.TestCase):
                       "type": "published_export", "production_type": "generated_pdf",
                       "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
                       "holding_url": None, "status": "pending_publish",
-                      "build": {"renderer": "claude", "source": "x.json"}}
+                      "build": {"renderer": "welcome", "source": "x.json"}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
         try:
@@ -192,7 +192,7 @@ class PublishTests(unittest.TestCase):
             pub.drive_file_id("https://example.com/nothing")
 
     def test_build_names_match_preview_outputs(self):
-        self.assertEqual(pub.output_name("ccc-q01-welcome", {"renderer": "claude", "source": "x.json"}),
+        self.assertEqual(pub.output_name("ccc-q01-welcome", {"renderer": "welcome", "source": "x.json"}),
                          "ccc-q01-welcome.pdf")
         self.assertEqual(pub.output_name("x", {"output": "00-activate-teacher-guide.pdf"}),
                          "00-activate-teacher-guide.pdf")

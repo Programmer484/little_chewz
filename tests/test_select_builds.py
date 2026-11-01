@@ -55,7 +55,7 @@ class SelectionTests(unittest.TestCase):
             self.assertFalse(any(name.startswith(prefix) for name in self.targets))
 
     def test_renderer_consumers(self):
-        for kind in ['teacher_guide', 'teacher_companion', 'claude']:
+        for kind in ['teacher_guide', 'teacher_companion', 'welcome']:
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
 
@@ -122,14 +122,14 @@ class SelectionTests(unittest.TestCase):
     def test_registry_built_document_inputs(self):
         folder = self.targets[WELCOME]['folder']
         for path in [f'{folder}/learning-cycle/1-set-the-table.png',
-                     'templates/claude/assets/fonts/Outfit-Regular.ttf']:
+                     'templates/welcome/assets/fonts/Outfit-Regular.ttf']:
             with self.subTest(path=path):
                 self.assertEqual(sb.select([path]), [WELCOME])
-        self.assertEqual(sb.select(['templates/claude/README.md']), [])
+        self.assertEqual(sb.select(['templates/welcome/README.md']), [])
 
     def test_shared_crest_rebuilds_welcome_and_companions(self):
         expected = sorted([WELCOME] + [n for n, t in self.targets.items() if t['kind'] == 'teacher_companion'])
-        self.assertEqual(sb.select(['templates/claude/assets/crest.png']), expected)
+        self.assertEqual(sb.select(['templates/welcome/assets/crest.png']), expected)
 
     def test_bundled_lato_rebuilds_guides_and_companions(self):
         expected = sorted(n for n, t in self.targets.items()

@@ -51,7 +51,7 @@ class ReleaseTests(unittest.TestCase):
         registry = {"ccc-q01-welcome": {"production_type": "generated_pdf",
                                         "status": "pending_publish",
                                         "url": "https://drive.google.com/file/d/12345678901234567890/view",
-                                        "build": {"renderer": "claude", "source": "welcome.json"}}}
+                                        "build": {"renderer": "welcome", "source": "welcome.json"}}}
         def git(*args):
             if args[0] == "rev-parse":
                 return "b" * 40
@@ -81,7 +81,7 @@ class ReleaseTests(unittest.TestCase):
         marker = self.marker()
         registry = {"ccc-q01-welcome": {"production_type": "generated_pdf", "status": "published",
                     "url": "https://drive.google.com/file/d/12345678901234567890/view",
-                    "build": {"renderer": "claude", "source": "welcome.json"}}}
+                    "build": {"renderer": "welcome", "source": "welcome.json"}}}
         with patch.object(rel, "load_registry", return_value=registry), \
              patch.object(rel, "targets", return_value={"ccc-q01-welcome.pdf": {}}):
             with self.assertRaisesRegex(rel.ReleaseError, "does not own"):
@@ -111,7 +111,7 @@ class ReleaseTests(unittest.TestCase):
     def test_failed_verified_release_keeps_pending_for_old_live_version(self):
         record = {"ccc-q01-welcome": {"production_type": "generated_pdf",
                    "status": "published", "url": "https://drive.google.com/file/d/12345678901234567890/view",
-                   "build": {"renderer": "claude", "source": "welcome.json"}}}
+                   "build": {"renderer": "welcome", "source": "welcome.json"}}}
         report = {"generated": [], "pending": ["ccc-q01-welcome"],
                   "blocked": [{"resource_id": "ccc-q01-welcome", "reason": "superseded"}]}
         with (patch.object(rel, "load_registry", return_value=record),

@@ -24,7 +24,7 @@ def resource_refs(value):
 
 
 def nav_refs(value):
-    """Registry IDs named by claude-style navigation rows (`resource` keys)."""
+    """Registry IDs named by welcome-style navigation rows (`resource` keys)."""
     if isinstance(value, dict):
         own = {value['resource']} if isinstance(value.get('resource'), str) else set()
         return own.union(*(nav_refs(v) for v in value.values()))
@@ -145,7 +145,7 @@ def select(changed, base_ref=None):
         if kind in ('teacher_guide', 'teacher_companion'):
             prefixes.append('templates/fonts/')  # bundled Lato
         if kind == 'teacher_companion':
-            dependencies.add('templates/claude/assets/crest.png')  # shared masthead crest
+            dependencies.add('templates/welcome/assets/crest.png')  # shared masthead crest
         if target.get('folder'):
             prefixes.append(target['folder'] + '/')
         affected = bool(changed & dependencies) or any(
