@@ -4,7 +4,22 @@ from pathlib import Path
 import json,sys,re
 from select_builds import targets, resource_refs, read_json
 R=Path(__file__).resolve().parents[1]
-registry=json.loads((R/'catalog/resources.json').read_text())
+def read_registry():
+    duplicates = []
+    def unique_pairs(pairs):
+        seen = set()
+        for key, _ in pairs:
+            if key in seen:
+                duplicates.append(key)
+            seen.add(key)
+        return dict(pairs)
+    records = json.loads((R/'catalog/resources.json').read_text(),
+                         object_pairs_hook=unique_pairs)
+    if duplicates:
+        raise SystemExit(f"ERROR: duplicate resource JSON keys: {sorted(set(duplicates))}")
+    return records
+
+registry=read_registry()
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
 STATUSES={'unpublished','pending_publish','published'}
