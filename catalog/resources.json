@@ -829,7 +829,7 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
   },
   "ccc-q01-showdown-design-guide": {
-    "title": "Design Teacher Guide",
+    "title": "Design Challenge",
     "url": "https://drive.google.com/",
     "type": "teacher_reference",
     "audience": "teacher",
@@ -850,7 +850,7 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
   },
   "ccc-q01-showdown-decorate-guide": {
-    "title": "Decorate Teacher Guide",
+    "title": "Decorate Challenge",
     "url": "https://drive.google.com/",
     "type": "teacher_reference",
     "audience": "teacher",
@@ -871,7 +871,7 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
   },
   "ccc-q01-showdown-bake-mystery-guide": {
-    "title": "Bake & Mystery Guide",
+    "title": "Bake & Mystery Challenge",
     "url": "https://drive.google.com/",
     "type": "teacher_reference",
     "audience": "teacher",
@@ -893,7 +893,7 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
   },
   "ccc-q01-showdown-design-sheet": {
-    "title": "Design Your Cupcake",
+    "title": "Design Your Cupcake Worksheet",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
@@ -958,5 +958,111 @@
     "holding_url": null,
     "published_url": null,
     "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists."
+  },
+  "ccc-q01-showdown-design-card": {
+    "title": "Design Challenge Card",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "design"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+  },
+  "ccc-q01-showdown-decorate-card": {
+    "title": "Decorate Challenge Card",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "decorate"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+  },
+  "ccc-q01-showdown-bake-card": {
+    "title": "Bake Challenge Card",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "bake"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+  },
+  "ccc-q01-showdown-mystery-card": {
+    "title": "Mystery Challenge Card",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "mystery"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+  },
+  "ccc-q01-showdown-recipe": {
+    "title": "Chocolate Cupcake Recipe",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "bake",
+      "mystery"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
   }
 }
