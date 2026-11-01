@@ -31,9 +31,22 @@ const error = (status: number, message: string) => json({ error: message }, stat
 
 const isLocal = (url: URL) => url.hostname === "localhost" || url.hostname === "127.0.0.1";
 
-/** Null when real Drive files may be served for this request; otherwise the refusal. */
-async function driveGate(request: Request, env: Env, fetcher: typeof fetch): Promise<Response | null> {
+export const accessRequired = (env: Env) => env.REQUIRE_ACCESS?.trim().toLowerCase() !== "false";
+
+/** Null when this real Drive file may be served for this request; otherwise the refusal. */
+async function driveGate(
+  request: Request,
+  env: Env,
+  from: "published" | "holding",
+  fetcher: typeof fetch,
+): Promise<Response | null> {
   const url = new URL(request.url);
+  // Without a login, serve only published files (already shared publicly); review copies stay behind Access.
+  if (!accessRequired(env)) {
+    if (from === "published") return null;
+    if (env.LOCAL_DRIVE_TESTING !== "true" || !isLocal(url))
+      return error(403, "This review file needs the pilot login, which is switched off on this site.");
+  }
   const teamDomain = env.ACCESS_TEAM_DOMAIN?.trim();
   const aud = env.ACCESS_AUD?.trim();
   if (!teamDomain || !aud) {
@@ -69,7 +82,7 @@ export async function handleResource(
     return new Response(bytes as Uint8Array<ArrayBuffer>, { headers: { ...headers, "content-length": String(bytes.length) } });
   }
 
-  const refusal = await driveGate(request, env, fetcher);
+  const refusal = await driveGate(request, env, served.source.from, fetcher);
   if (refusal) return refusal;
   const sa = parseServiceAccount(env.GOOGLE_SERVICE_ACCOUNT_JSON);
   if (!sa) return error(503, "Google Drive credentials are not configured on the server.");
@@ -98,6 +111,7 @@ export async function handleRequest(
   if (url.pathname === "/api/health")
     return json({
       mode,
+      accessRequired: accessRequired(env),
       accessConfigured: Boolean(env.ACCESS_TEAM_DOMAIN?.trim() && env.ACCESS_AUD?.trim()),
       driveConfigured: parseServiceAccount(env.GOOGLE_SERVICE_ACCOUNT_JSON) !== null,
       limits: LIMITS,

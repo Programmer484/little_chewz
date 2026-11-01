@@ -32,7 +32,7 @@ export interface DemoResource {
 }
 
 export type ServedSource =
-  | { kind: "drive"; fileId: string }
+  | { kind: "drive"; fileId: string; from: PilotAllowEntry["source"] }
   | { kind: "demo-fixture"; fixture: string }
   | { kind: "demo-placeholder"; pages: number };
 
@@ -104,11 +104,12 @@ export function createCatalog(input: CatalogInput) {
     }
 
   /** Allowlisted real resources that pass every registry check. */
-  const real = new Map<string, { title: string; mimeType: AllowedMime; fileId: string }>();
+  const real = new Map<string, { title: string; mimeType: AllowedMime; fileId: string; from: PilotAllowEntry["source"] }>();
   const problems = new Map<string, string>();
   for (const [id, entry] of Object.entries(input.allowlist)) {
     const result = trustedDriveFile(Object.hasOwn(input.registry, id) ? input.registry[id] : undefined, entry);
-    if ("fileId" in result) real.set(id, { title: input.registry[id].title, mimeType: entry.mimeType, fileId: result.fileId });
+    if ("fileId" in result)
+      real.set(id, { title: input.registry[id].title, mimeType: entry.mimeType, fileId: result.fileId, from: entry.source });
     else problems.set(id, result.problem);
   }
 
@@ -154,7 +155,7 @@ export function createCatalog(input: CatalogInput) {
     }
     if (mode === "drive") {
       const r = real.get(id);
-      return r ? { id, title: r.title, mimeType: r.mimeType, source: { kind: "drive", fileId: r.fileId } } : null;
+      return r ? { id, title: r.title, mimeType: r.mimeType, source: { kind: "drive", fileId: r.fileId, from: r.from } } : null;
     }
     return null;
   }

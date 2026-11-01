@@ -1,6 +1,9 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 import { resetAccessCache } from "../worker/access.ts";
 import { base64UrlEncode } from "../worker/b64.ts";
+import { createCatalog } from "../worker/catalog.ts";
 import { resetTokenCache } from "../worker/google.ts";
 import { handleRequest } from "../worker/index.ts";
 import { env, fixture } from "./helpers.ts";
@@ -99,6 +102,42 @@ describe("worker API", () => {
       const local = await handleRequest(get(`/api/resources/${REAL}`, {}, "http://localhost:5173"), e);
       expect(local.status).toBe(503);
       expect(await local.text()).toMatch(/credentials are not configured/);
+    });
+
+    it("serves published files without a login when REQUIRE_ACCESS is false", async () => {
+      const google = await rsaKeys("g2");
+      const pdf = fixture("reading-log.pdf");
+      const fetcher = (async (input: RequestInfo | URL) => {
+        const url = String(input);
+        if (url.includes("oauth2")) return Response.json({ access_token: "tok", expires_in: 3600 });
+        if (url.includes("cloudflareaccess")) throw new Error("Access must not be consulted");
+        return url.includes("alt=media") ? new Response(pdf) : Response.json({ mimeType: "application/pdf" });
+      }) as typeof fetch;
+      const sa = JSON.stringify({ client_email: "r@x.iam.gserviceaccount.com", private_key: google.pem });
+      const e = env({ RESOURCE_MODE: "drive", REQUIRE_ACCESS: "false", GOOGLE_SERVICE_ACCOUNT_JSON: sa });
+      const res = await handleRequest(get(`/api/resources/${REAL}`), e, undefined, fetcher);
+      expect(res.status).toBe(200);
+      expect(new Uint8Array(await res.arrayBuffer())).toEqual(pdf);
+      const health = await (await handleRequest(get("/api/health"), e)).json();
+      expect(health).toMatchObject({ accessRequired: false });
+      // The allowlist and every other check still apply.
+      expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-team-builder"), e, undefined, fetcher)).status).toBe(404);
+    });
+
+    it("still refuses holding (review) files without a login", async () => {
+      const registry = JSON.parse(readFileSync(resolve(__dirname, "../../../catalog/resources.json"), "utf8"));
+      registry["test-holding"] = { title: "Review copy", type: "student_worksheet", status: "unpublished", holding_url: "https://drive.google.com/file/d/abcdefghijklmnop/view" };
+      const withHolding = createCatalog({
+        registry,
+        allowlist: { "test-holding": { source: "holding", mimeType: "application/pdf", approval: "Test pilot approval" } },
+        manifests: [],
+        quests: [],
+        demo: { lesson: { lessonId: "d", questId: "demo", order: 0, title: "D", status: "in_progress", sections: [] }, quest: { id: "demo", title: "Demo", order: 0 }, resources: {} },
+      });
+      const e = env({ RESOURCE_MODE: "drive", REQUIRE_ACCESS: "false", GOOGLE_SERVICE_ACCOUNT_JSON: "{}" });
+      const res = await handleRequest(get("/api/resources/test-holding"), e, withHolding);
+      expect(res.status).toBe(403);
+      expect(await res.text()).toMatch(/needs the pilot login/);
     });
 
     it("verifies the Access token, then fetches the allowlisted Drive file", async () => {

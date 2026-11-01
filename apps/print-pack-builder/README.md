@@ -140,12 +140,21 @@ Mapping decisions to confirm: Secret Ingredients prints Clue Tracker Core **one 
 | --- | --- | --- |
 | `disabled` (default in `wrangler.jsonc`) | nothing (503) | safe default for any deployment |
 | `demo` | synthetic fixtures and labelled placeholders; never contacts Google | local demo, public preview |
-| `drive` | real files from Google Drive | private pilot |
+| `drive` | real files from Google Drive | pilot |
+
+### Login (`REQUIRE_ACCESS`)
+
+The pilot currently runs **without a login** (`REQUIRE_ACCESS: "false"` in `wrangler.jsonc`). This is safe for the current allowlist because every allowlisted worksheet is a published Drive file already shared as "anyone with the link can view" (checked 2026-11-01). Even without a login:
+
+- only allowlisted, published and verified resources are served, so the Worker can never become a proxy for other Drive files;
+- allowlist entries with `"source": "holding"` (review copies, which may be private) are **refused** with 403 unless a login is required.
+
+To require a login later, set `REQUIRE_ACCESS` to `"true"` (or remove it) and follow [Optional: private login](#optional-private-login-cloudflare-access). Do this before allowlisting any file that is not public.
 
 In `drive` mode every resource request must pass, in order:
 
 1. Resource ID format check, then the server-side allowlist (unknown and unapproved IDs both get 404).
-2. **Cloudflare Access:** the `Cf-Access-Jwt-Assertion` token is verified against your team's public keys (RS256 signature, audience, issuer, expiry). If `ACCESS_TEAM_DOMAIN` or `ACCESS_AUD` is not set, real downloads are **switched off** (503). The only exception is local testing: `LOCAL_DRIVE_TESTING=true` on `localhost`.
+2. **Login, when required:** the Cloudflare Access `Cf-Access-Jwt-Assertion` token is verified against your team's public keys (RS256 signature, audience, issuer, expiry). If a login is required but `ACCESS_TEAM_DOMAIN` or `ACCESS_AUD` is not set, real downloads are **switched off** (503); the only exception is local testing with `LOCAL_DRIVE_TESTING=true` on `localhost`. Without a login, only published files pass this step.
 3. Google credentials present (`GOOGLE_SERVICE_ACCOUNT_JSON` secret), else 503.
 4. Drive metadata check: not trashed, MIME type equals the allowlisted type, size within 25 MB.
 5. Download streamed back with its first bytes checked (a real PDF/PNG/JPEG) and size enforced while streaming.
@@ -157,8 +166,9 @@ Responses are `Cache-Control: private, no-store` and `X-Content-Type-Options: no
 | Name | Kind | Value |
 | --- | --- | --- |
 | `RESOURCE_MODE` | variable | `disabled`, `demo` or `drive` |
-| `ACCESS_TEAM_DOMAIN` | variable | your Zero Trust team domain, e.g. `littlechewz.cloudflareaccess.com` |
-| `ACCESS_AUD` | variable | the Access application's Audience (AUD) tag |
+| `REQUIRE_ACCESS` | variable | `"false"` for no login (published files only); anything else requires Cloudflare Access |
+| `ACCESS_TEAM_DOMAIN` | variable | only with a login: your Zero Trust team domain, e.g. `littlechewz.cloudflareaccess.com` |
+| `ACCESS_AUD` | variable | only with a login: the Access application's Audience (AUD) tag |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | **secret** | full JSON key of a read-only service account |
 | `LOCAL_DRIVE_TESTING` | local only (`.dev.vars`) | `true` to test real Drive files on localhost without Access |
 
@@ -188,17 +198,23 @@ npx wrangler login
 npm run deploy
 ```
 
-This creates `little-chewz-print-pack-builder.<your-subdomain>.workers.dev` with `RESOURCE_MODE=disabled`. For a public demo-only preview, set `RESOURCE_MODE` to `demo` (it serves only synthetic files and placeholders).
+This creates `little-chewz-print-pack-builder.<your-subdomain>.workers.dev` with `RESOURCE_MODE=disabled`. For a demo-only preview, set `RESOURCE_MODE` to `demo` (it serves only synthetic files and placeholders).
 
-### 3. Private pilot access (Cloudflare Access, free for up to 50 users)
+### 3. Switch on real worksheets
+
+After step 1's secret is set, change `RESOURCE_MODE` to `"drive"` in `wrangler.jsonc` and run `npm run deploy` again. With `REQUIRE_ACCESS: "false"`, anyone with the site address can download packs of the allowlisted (already public) worksheets. Check: open Secret Ingredients in an incognito window and download a pack.
+
+### Optional: private login (Cloudflare Access)
+
+Not needed while every allowlisted file is public. Free for up to 50 users.
 
 1. Cloudflare dashboard → **Zero Trust** (pick a team name; the Free plan is enough).
 2. **Access → Applications → Add an application → Self-hosted**. Domain: the `workers.dev` hostname above (or the custom domain later). Alternatively, in **Workers → your Worker → Settings → Domains & Routes**, turn on Cloudflare Access for the `workers.dev` route.
 3. Add an **Allow** policy for the invited pilot teachers' emails (one-time PIN login works without any other identity provider).
-4. Copy the application's **Audience (AUD) tag**. Set `ACCESS_TEAM_DOMAIN` (`<team>.cloudflareaccess.com`) and `ACCESS_AUD` in `wrangler.jsonc` `vars` (or the dashboard), set `RESOURCE_MODE` to `drive`, and deploy.
+4. Copy the application's **Audience (AUD) tag**. Set `ACCESS_TEAM_DOMAIN` (`<team>.cloudflareaccess.com`) and `ACCESS_AUD` in `wrangler.jsonc` `vars` (or the dashboard), set `REQUIRE_ACCESS` to `"true"`, and deploy.
 5. Check: an incognito window must get the Access login page; after signing in, Secret Ingredients downloads real worksheets.
 
-`preview_urls` is off in `wrangler.jsonc` so version preview hostnames do not bypass Access. The Worker re-verifies the Access token anyway.
+`preview_urls` is off in `wrangler.jsonc` so version preview hostnames do not bypass Access. When a login is required, the Worker re-verifies the Access token anyway.
 
 ### 4. Deploy from GitHub (optional)
 
@@ -213,11 +229,11 @@ The build reads `../../catalog/resources.json`, which is present because Workers
 
 ### 5. Custom domain later
 
-Add the domain to Cloudflare, then **Workers → your Worker → Settings → Domains & Routes → Add → Custom domain**. Add the same hostname to the Access application **before** switching on `drive` mode there. Nothing in the app needs to change.
+Add the domain to Cloudflare, then **Workers → your Worker → Settings → Domains & Routes → Add → Custom domain**. If a login is required, add the same hostname to the Access application **before** switching on `drive` mode there. Nothing in the app needs to change.
 
 ## Free tier notes
 
-One Worker with static assets. Static asset requests are free; the Worker runs only for `/api/*` (about one request per worksheet in a pack plus one for the lesson list). The Workers Free plan allows 100,000 Worker requests per day and 10 ms CPU per request; fetching from Drive is network time, not CPU. Assembly runs in the teacher's browser. Cloudflare Access Free covers up to 50 users. These are current published limits, not guarantees; check the Cloudflare pricing pages before a larger rollout.
+One Worker with static assets. Static asset requests are free; the Worker runs only for `/api/*` (about one request per worksheet in a pack plus one for the lesson list). The Workers Free plan allows 100,000 Worker requests per day and 10 ms CPU per request; fetching from Drive is network time, not CPU. Assembly runs in the teacher's browser. Without a login, anyone with the address can use the site, so these request limits are shared by everyone; switch on Access if traffic or abuse becomes a concern. Cloudflare Access Free covers up to 50 users. These are current published limits, not guarantees; check the Cloudflare pricing pages before a larger rollout.
 
 ## Known limits and follow-ups
 
