@@ -33,7 +33,7 @@ SOURCES = [
     "system/EDITORIAL_GUIDE.md",
     "system/action_labels.json",
     "system/RESOURCE_GUIDELINES.md",
-    "templates/claude/README.md",
+    "templates/welcome/README.md",
     "system/SLIDE_CONVERSION.md",
     "system/CHAT_FILE_CREATION.md",
     "SYSTEM_IMPROVEMENTS.md",

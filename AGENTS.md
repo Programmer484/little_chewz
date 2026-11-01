@@ -19,7 +19,7 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 - `system/EDITORIAL_GUIDE.md`
 - `system/action_labels.json`
 - `system/RESOURCE_GUIDELINES.md`
-- `templates/claude/README.md`
+- `templates/welcome/README.md`
 - `system/SLIDE_CONVERSION.md`
 - `system/CHAT_FILE_CREATION.md`
 - `SYSTEM_IMPROVEMENTS.md`
@@ -123,7 +123,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
 | [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
-| `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
+| `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `welcome` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
@@ -274,7 +274,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_EXTRA_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
 
-The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
+The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
 ### On-demand inspection
 
@@ -314,7 +314,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, build records, and linked-resource delivery status | `catalog/resources.json` |
-| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/story/`, and `templates/claude/` (clean page style and quest navigation) |
+| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/story/`, and `templates/welcome/` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -659,18 +659,18 @@ Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](system/CONTEN
 
 ---
 
-# File: `templates/claude/README.md`
+# File: `templates/welcome/README.md`
 
-## `claude` template: clean page style and quest navigation
+## `welcome` template: clean page style and quest navigation
 
 A left-aligned A4 page style for Little Chewz documents, matching the Confetti Cake Cottage School look: cream page, crest or Little Chewz logo, brush headline, coral numbers and labels, hairline dividers. It includes a quest navigation page that links each stage to its Teacher Guide.
 
 - `TEMPLATE.json`: skeleton document showing every block type (`lede`, `paragraphs`, `list`, `callout`, `nav`).
-- Renderer: [`scripts/renderers/claude.py`](scripts/renderers/claude.py), with ReportLab and pypdf. Each page's spacing stretches to fill the page; a page that overflows fails loudly.
+- Renderer: [`scripts/renderers/welcome.py`](scripts/renderers/welcome.py), with ReportLab and pypdf. Each page's spacing stretches to fill the page; a page that overflows fails loudly.
 - `assets/`: school crest and Little Chewz logo (extracted from the Welcome PDF) and open-licensed fonts. New artwork goes here as separate files, never as a pre-rendered full page ([asset rule](system/CONTENT_CONTRACT.md#resources-slides-and-assets)).
 
 ```bash
-python scripts/renderers/claude.py \
+python scripts/renderers/welcome.py \
   content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json \
   --output exports/01-welcome.pdf
 ```
@@ -685,7 +685,7 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ### Status and builds
 
-A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "claude", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)). Rendering does not publish anything.
+A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "welcome", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)). Rendering does not publish anything.
 
 Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
 
@@ -835,7 +835,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
 | `story/*.md` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); approved text only, wording preserved |
-| `welcome/` (registry-built documents) | [templates/claude/README.md](templates/claude/README.md) |
+| `welcome/` (registry-built documents) | [templates/welcome/README.md](templates/welcome/README.md) |
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 
@@ -862,7 +862,7 @@ Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.m
 
 ## Editing templates
 
-Templates are starting structures for supported source types: `teacher_guide/` (lesson.json), `teacher_companion/`, `story/`, and the `claude/` page style with its assets. `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
+Templates are starting structures for supported source types: `teacher_guide/` (lesson.json), `teacher_companion/`, `story/`, and the `welcome/` page style with its assets. `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
 
 - **Build templates from individual assets.** Logos, crests, icons, and illustrations go in the template's `assets/` folder as separate image files that the renderer places around live text. Never generate or rasterize a whole page as one image. Full rule: [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets).
 - Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need (the story template has an `instructions:` line), so copies inherit it. `scripts/validate.py` checks this.
@@ -878,7 +878,7 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | --- | --- | --- |
 | `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) |
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md#presentation) |
-| `renderers/claude.py` | Welcome/claude page style | [templates/claude/README.md](templates/claude/README.md) |
+| `renderers/welcome.py` | Welcome page style | [templates/welcome/README.md](templates/welcome/README.md) |
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |

@@ -67,7 +67,7 @@ class PublishTests(unittest.TestCase):
                       "type": "published_export", "production_type": "generated_pdf",
                       "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
                       "holding_url": None, "status": "pending_publish",
-                      "build": {"renderer": "claude", "source": "x.json"}}
+                      "build": {"renderer": "welcome", "source": "x.json"}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
         try:

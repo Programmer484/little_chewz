@@ -468,7 +468,7 @@
     ],
     "status": "published",
     "build": {
-      "renderer": "claude",
+      "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
     },
     "status_note": "2026-10-26: production acceptance tested via authorized PRs #65, #67, and #68. A changed Welcome PDF was replaced in place and then the exact original source and published PDF bytes were restored. Final confirmed PDF MD5: f580361687172d6b0da5dbae7cc67414; existing Drive file ID preserved, final Drive version 38.",
