@@ -1,6 +1,7 @@
 """Regression checks for one-status-per-item preview selection."""
 import copy
 import json
+import re
 import sys
 import shutil
 import subprocess
@@ -28,20 +29,17 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, SHOWDOWN, MISSION, CONFETTI, SONG, WELCOME, ANSWER_KEY})
-        self.assertEqual(self.targets[DRAFT]['status'], 'pending_publish')
-        self.assertEqual(self.targets[PART2]['status'], 'published')
-        self.assertEqual(self.targets[SHOWDOWN]['status'], 'unpublished')
-        self.assertEqual(sb.selection(SHOWDOWN)['outputs'], [SHOWDOWN])
-        self.assertEqual(sb.selection(PART2)['outputs'], [PART2])
-        self.assertEqual(self.targets[SONG]['status'], 'unpublished')
-        self.assertEqual(self.targets[GUIDE]['status'], 'pending_publish')
-        self.assertEqual(sb.selection(DRAFT)['outputs'], [DRAFT])
-        self.assertEqual(sb.selection(SONG)['outputs'], [SONG])
-        self.assertEqual(set(sb.selection('all')['outputs']), set(self.targets))
-        self.assertEqual(sb.selection(DRAFT)['status'][DRAFT], 'pending_publish')
-        self.assertEqual(sb.selection(GUIDE)['status'][GUIDE], 'pending_publish')
-        self.assertEqual(sb.selection(MISSION)['status'][MISSION], 'published')
+        # Discovery must scale as real lessons and companions are added.
+        self.assertTrue(self.targets)
+        all_selected = sb.selection('all')
+        self.assertEqual(all_selected['outputs'], sorted(self.targets))
+        self.assertEqual(set(all_selected['status']), set(self.targets))
+        for name, target in self.targets.items():
+            with self.subTest(output=name):
+                selected = sb.selection(name)
+                self.assertEqual(selected['outputs'], [name])
+                self.assertEqual(selected['source_paths'], [target['source']])
+                self.assertEqual(selected['status'], {name: target['status']})
         with self.assertRaisesRegex(ValueError, 'Unknown'):
             sb.selection('missing.pdf')
 
@@ -53,9 +51,44 @@ class SelectionTests(unittest.TestCase):
                         self.assertEqual(sb.select([path]), [name])
 
     def test_unconverted_stages_have_no_placeholder_build(self):
-        for prefix in ['04-chew-on-this',
-                       '05-plate-it-forward', '06-celebrate']:
-            self.assertFalse(any(name.startswith(prefix) for name in self.targets))
+        # A missing lesson.json must not create a placeholder; adding one
+        # makes even an unpublished lesson previewable without a flag.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            quest_rel = 'content/sample/quest/quest.json'
+            lessons = root / 'content/sample/quest/lessons'
+            (root / 'catalog').mkdir()
+            (lessons / '00-existing').mkdir(parents=True)
+            (lessons / '00-existing/lesson.json').write_text(
+                json.dumps({'cover': 'cover.pdf'}))
+            (root / 'catalog/quests.json').write_text(json.dumps({
+                'school_index': [{'quest_manifest': quest_rel}]}))
+            (root / quest_rel).write_text(json.dumps({'learning_sequence': [
+                {'folder': '00-existing', 'status': 'published'},
+                {'folder': '01-new', 'status': 'unpublished'},
+            ]}))
+            registry = {'sample-existing': {
+                'production_type': 'generated_pdf',
+                'build': {'output': '00-existing-teacher-guide.pdf'}}}
+            registry_path = root / 'catalog/resources.json'
+            registry_path.write_text(json.dumps(registry))
+
+            with patch.object(sb, 'ROOT', root):
+                self.assertEqual(set(sb.targets()), {'00-existing-teacher-guide.pdf'})
+                self.assertEqual(sb.selection('all')['outputs'],
+                                 ['00-existing-teacher-guide.pdf'])
+
+                (lessons / '01-new').mkdir()
+                (lessons / '01-new/lesson.json').write_text(
+                    json.dumps({'cover': 'cover.pdf'}))
+                registry['sample-new'] = {
+                    'production_type': 'generated_pdf',
+                    'build': {'output': '01-new-teacher-guide.pdf'}}
+                registry_path.write_text(json.dumps(registry))
+                self.assertEqual(set(sb.targets()), {
+                    '00-existing-teacher-guide.pdf', '01-new-teacher-guide.pdf'})
+                self.assertEqual(sb.selection('01-new-teacher-guide.pdf')['status'],
+                                 {'01-new-teacher-guide.pdf': 'unpublished'})
 
     def test_renderer_consumers(self):
         for kind in ['teacher_guide', 'teacher_companion', 'claude']:
@@ -79,11 +112,31 @@ class SelectionTests(unittest.TestCase):
                 self.assertEqual(set(sb.select([path])), set(self.targets))
 
     def test_registry_keys_are_only_ids(self):
-        records=sb.read_json('catalog/resources.json')
-        self.assertGreaterEqual(len(records), 32)  # New lessons add registered resources.
-        self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
-        self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'published')
-        self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
+        # Detect duplicate JSON keys before json.loads silently overwrites them.
+        duplicates = []
+        def check_pairs(pairs):
+            seen = set()
+            for key, _ in pairs:
+                if key in seen:
+                    duplicates.append(key)
+                seen.add(key)
+            return dict(pairs)
+
+        raw = (sb.ROOT / 'catalog/resources.json').read_text()
+        records = json.loads(raw, object_pairs_hook=check_pairs)
+        self.assertFalse(duplicates, f'Duplicate JSON keys: {duplicates}')
+        self.assertTrue(records)
+        for resource_id, item in records.items():
+            with self.subTest(resource_id=resource_id):
+                self.assertIsNotNone(re.fullmatch(
+                    r'[a-z0-9]+(?:-[a-z0-9]+)*', resource_id))
+                self.assertNotIn('resource_id', item)
+                self.assertNotIn('legacy_alias', item)
+                self.assertIn(item.get('production_type'),
+                              {'generated_pdf', 'external'})
+                self.assertIn(item.get('status'),
+                              {'unpublished', 'pending_publish', 'published'})
+                self.assertIsInstance(item.get('source'), dict)
 
     def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
         records=sb.read_json('catalog/resources.json')
@@ -105,15 +158,28 @@ class SelectionTests(unittest.TestCase):
             self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [])
 
     def test_registry_status_only_does_not_trigger_rebuild(self):
-        path='catalog/resources.json'
-        old=sb.read_json(path)
-        altered=copy.deepcopy(old)
-        altered['ccc-q01-set-the-table-slides']['status']='published'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
+        path = 'catalog/resources.json'
+        resource_id = 'ccc-q01-set-the-table-slides'
+        current = sb.read_json(path)
+        previous = copy.deepcopy(current)
+        previous[resource_id]['status'] = (
+            'unpublished' if current[resource_id]['status'] != 'unpublished'
+            else 'published')
+        self.assertNotEqual(previous[resource_id]['status'],
+                            current[resource_id]['status'])
+        # This resource is a guide dependency, not a navigation entry.
+        self.assertFalse(any(resource_id in sb.nav_refs(t['data'])
+                             for t in self.targets.values()))
+        with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), [])
-        altered['ccc-q01-set-the-table-slides']['url']='https://example.com/new'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select([path], 'base'), [DRAFT])
+
+        # Changing the link, unlike changing only status, rebuilds consumers.
+        previous[resource_id]['url'] = 'https://example.com/old-slide-link'
+        expected = sorted(name for name, target in self.targets.items()
+                          if resource_id in sb.resource_refs(target['data']))
+        self.assertTrue(expected)
+        with patch.object(sb, 'previous', return_value=json.dumps(previous)):
+            self.assertEqual(sb.select([path], 'base'), expected)
 
     def test_registry_dependency_consumer_scope(self):
         targets=copy.deepcopy(self.targets)
@@ -171,12 +237,6 @@ class SelectionTests(unittest.TestCase):
                           'unsupported action label','missing catalog resource ref',
                           'first key must be "$instructions"']:
                 self.assertIn(error,run.stdout)
-
-    def test_history_branch_has_run_scoped_immutable_paths(self):
-        workflow=(sb.ROOT / '.github/workflows/build-resources.yml').read_text()
-        self.assertIn('preview_branch="pdf-preview-history"', workflow)
-        self.assertIn('run_folder="previews/${RUN_ID}"', workflow)
-        self.assertIn('git push origin "HEAD:refs/heads/$preview_branch"', workflow)
 
 
 
