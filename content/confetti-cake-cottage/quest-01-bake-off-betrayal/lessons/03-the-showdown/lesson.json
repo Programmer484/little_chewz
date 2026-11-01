@@ -14,25 +14,25 @@
   "core": [
     {
       "ref": "ccc-q01-showdown-slides",
-      "description": "Showdown lesson slides; draft link"
+      "description": "Draft slides"
     }
   ],
   "optional_prep": [
     {
       "ref": "ccc-q01-showdown-design-guide",
-      "description": "A · paper/no food"
+      "description": "A · paper"
     },
     {
       "ref": "ccc-q01-showdown-decorate-guide",
-      "description": "B · premade or craft"
+      "description": "B · premade"
     },
     {
       "ref": "ccc-q01-showdown-bake-mystery-guide",
-      "description": "C/D · baking + twist"
+      "description": "C/D · food"
     },
     {
       "ref": "ccc-q01-showdown-taste-reflection",
-      "description": "Optional written follow-up"
+      "description": "Optional writing"
     }
   ],
   "prep_heading": "PREPARE YOUR CHOICE",
