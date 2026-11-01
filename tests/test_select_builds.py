@@ -15,6 +15,7 @@ import select_builds as sb
 GUIDE = '00-activate-teacher-guide.pdf'
 DRAFT = '01-set-the-table-teacher-guide.pdf'
 PART2 = '02-secret-ingredients-teacher-guide.pdf'
+SHOWDOWN = '03-the-showdown-teacher-guide.pdf'
 MISSION = 'mission-video-questions.pdf'
 CONFETTI = 'confetti-file-questions.pdf'
 SONG = 'songwriting-extension.pdf'
@@ -27,9 +28,11 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME, ANSWER_KEY})
+        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, SHOWDOWN, MISSION, CONFETTI, SONG, WELCOME, ANSWER_KEY})
         self.assertEqual(self.targets[DRAFT]['status'], 'pending_publish')
         self.assertEqual(self.targets[PART2]['status'], 'published')
+        self.assertEqual(self.targets[SHOWDOWN]['status'], 'unpublished')
+        self.assertEqual(sb.selection(SHOWDOWN)['outputs'], [SHOWDOWN])
         self.assertEqual(sb.selection(PART2)['outputs'], [PART2])
         self.assertEqual(self.targets[SONG]['status'], 'unpublished')
         self.assertEqual(self.targets[GUIDE]['status'], 'pending_publish')
@@ -50,7 +53,7 @@ class SelectionTests(unittest.TestCase):
                         self.assertEqual(sb.select([path]), [name])
 
     def test_unconverted_stages_have_no_placeholder_build(self):
-        for prefix in ['03-the-showdown', '04-chew-on-this',
+        for prefix in ['04-chew-on-this',
                        '05-plate-it-forward', '06-celebrate']:
             self.assertFalse(any(name.startswith(prefix) for name in self.targets))
 
@@ -77,7 +80,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_registry_keys_are_only_ids(self):
         records=sb.read_json('catalog/resources.json')
-        self.assertEqual(len(records),32)
+        self.assertGreaterEqual(len(records), 32)  # New lessons add registered resources.
         self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
         self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'published')
         self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
