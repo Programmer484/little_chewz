@@ -89,17 +89,25 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Paper cupcake, no food or kitchen. Sketch briefly, then combine ideas into one team design showing three teamwork qualities."
+              "text": "Paper-based, no food or kitchen. Combine individual sketches into one shared design."
             },
             {
               "kind": "DO",
               "ref": "ccc-q01-showdown-design-guide",
-              "description": "Full setup and directions"
+              "description": "Teacher guide"
             },
             {
               "kind": "GIVE",
-              "ref": "ccc-q01-showdown-design-sheet",
-              "description": "One shared design sheet per team"
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-design-card",
+                  "description": "One per team"
+                },
+                {
+                  "ref": "ccc-q01-showdown-design-sheet",
+                  "description": "One shared design per team"
+                }
+              ]
             }
           ]
         },
@@ -109,12 +117,21 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Premade cupcakes or craft alternative; no oven. Each person suggests an idea before the team chooses a shared plan."
+              "text": "Premade cupcakes or craft alternative; no oven. Everyone contributes an idea to the plan."
             },
             {
               "kind": "DO",
               "ref": "ccc-q01-showdown-decorate-guide",
-              "description": "Full setup and directions"
+              "description": "Teacher guide"
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-decorate-card",
+                  "description": "One per team"
+                }
+              ]
             }
           ]
         },
@@ -124,12 +141,25 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Recipe and supervised oven. Teams agree on roles, then prepare and bake; allow extra time for oven capacity and cooling."
+              "text": "Ingredients and a supervised oven. Agree on roles before baking; allow cooling time."
             },
             {
               "kind": "DO",
               "ref": "ccc-q01-showdown-bake-mystery-guide",
-              "description": "Comprehensive food guide"
+              "description": "C/D teacher guide"
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-bake-card",
+                  "description": "One per team"
+                },
+                {
+                  "ref": "ccc-q01-showdown-recipe",
+                  "description": "Recipe per baking team"
+                }
+              ]
             }
           ]
         },
@@ -139,12 +169,25 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Baking plus one teacher-prepared constraint. Prefer a safe non-ingredient twist and discuss how the team will adapt."
+              "text": "Bake with one preplanned safe twist. Agree how to adapt; avoid unapproved ingredients."
             },
             {
               "kind": "DO",
               "ref": "ccc-q01-showdown-bake-mystery-guide",
-              "description": "Comprehensive food guide"
+              "description": "C/D teacher guide"
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-mystery-card",
+                  "description": "One per team"
+                },
+                {
+                  "ref": "ccc-q01-showdown-recipe",
+                  "description": "Recipe per baking team"
+                }
+              ]
             }
           ]
         }
@@ -185,7 +228,7 @@
   "bonuses": [],
   "migration_review": {
     "basis": "05_The_Showdown.pdf (7 pages), Full Guide Revised.pdf pp. 14–17, Full Guide.pdf v0 pp. 46–62",
-    "not_yet_verified": "Lesson-local slides, three detailed teacher guides, design worksheet, and TASTE sheet are placeholders in this review draft; all draft links intentionally point to https://drive.google.com/.",
+    "not_yet_verified": "All linked option guides, handouts, recipe, slides, and TASTE sheet are draft-only placeholders pointing to the Drive homepage; replace with verified resources before publication.",
     "timing": "Option totals are planning estimates; Bake/Mystery may need a longer session for oven and cooling."
   }
 }
