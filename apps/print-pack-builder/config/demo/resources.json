@@ -1,0 +1,8 @@
+{
+  "$instructions": "Synthetic demo resources. Bytes come from worker/demo/fixtures.generated.ts (scripts/make_fixtures.py). Never put real worksheets here.",
+  "demo-reading-log": { "title": "Sample Reading Log", "fixture": "reading-log.pdf", "mimeType": "application/pdf" },
+  "demo-exit-ticket": { "title": "Sample Exit Ticket", "fixture": "exit-ticket.pdf", "mimeType": "application/pdf" },
+  "demo-station-poster": { "title": "Sample Station Poster", "fixture": "station-poster.png", "mimeType": "image/png" },
+  "demo-photo-prompt": { "title": "Sample Photo Prompt", "fixture": "photo-prompt.jpg", "mimeType": "image/jpeg" },
+  "demo-team-cards": { "title": "Sample Team Challenge Cards", "fixture": "team-cards.pdf", "mimeType": "application/pdf" }
+}

@@ -41,6 +41,7 @@ SOURCES = [
     "catalog/AGENTS.md",
     "templates/AGENTS.md",
     "scripts/AGENTS.md",
+    "apps/AGENTS.md",
     "system/AGENTS.md",
 ]
 

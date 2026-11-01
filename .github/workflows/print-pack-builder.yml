@@ -1,0 +1,52 @@
+name: Print Pack Builder
+
+# Checks the teacher web app only. Independent of the Teacher Guide PDF pipeline:
+# app changes do not rebuild PDFs, and this workflow never deploys.
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/print-pack-builder.yml"
+      - "apps/print-pack-builder/**"
+      # The app reads these; a registry or lesson change must keep its manifests valid.
+      - "catalog/resources.json"
+      - "catalog/quests.json"
+      - "content/**/quest.json"
+      - "content/**/lesson.json"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/print-pack-builder.yml"
+      - "apps/print-pack-builder/**"
+      - "catalog/resources.json"
+      - "catalog/quests.json"
+      - "content/**/quest.json"
+      - "content/**/lesson.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: print-pack-builder-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck, lint, test and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: apps/print-pack-builder
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/print-pack-builder/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build

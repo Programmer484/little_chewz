@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "little-chewz-print-pack-builder",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    // The React build. Unknown paths fall back to index.html so /lesson/<id> deep links work.
+    "not_found_handling": "single-page-application",
+    // API routes always reach the Worker, never the static-asset fallback.
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true },
+  // The pilot runs on the workers.dev URL behind Cloudflare Access. Version preview
+  // URLs are off so no second, unprotected hostname serves the app.
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    // "disabled" (default, safe): no worksheet bytes are served.
+    // "demo": synthetic fixtures and placeholder pages only; no Google access.
+    // "drive": real worksheets from Google Drive; requires Cloudflare Access settings below.
+    "RESOURCE_MODE": "disabled",
+    // Cloudflare Access application settings for the pilot (see README).
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": ""
+  }
+  // Secret (never in this file): GOOGLE_SERVICE_ACCOUNT_JSON
+  // Set with: npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON
+}

@@ -27,6 +27,7 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 - `catalog/AGENTS.md`
 - `templates/AGENTS.md`
 - `scripts/AGENTS.md`
+- `apps/AGENTS.md`
 - `system/AGENTS.md`
 
 ---
@@ -61,6 +62,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) |
    | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
+   | Teacher web apps (Print Pack Builder) | [apps/AGENTS.md](apps/AGENTS.md) | App README; registry rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
    | The instructions themselves | [system/AGENTS.md](system/AGENTS.md) | [Maintaining instructions](#maintaining-instructions) |
 
 3. For every edit, follow [WORKFLOW.md](system/WORKFLOW.md). For file creation or binary transfers through a connector, read [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md).
@@ -130,6 +132,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | `tests/` | Checks for the tools |
 | `.github/workflows/` | Automated validation and retained PDF previews after PR updates and `main` merges |
 | `exports/` | Generated PDFs; never the editable source |
+| `apps/` | Standalone teacher web apps, such as the [Print Pack Builder](apps/print-pack-builder/README.md); read-only consumers of the catalogue, never publishers |
 | [SYSTEM_IMPROVEMENTS.md](SYSTEM_IMPROVEMENTS.md) | Tooling backlog; each entry records its implementation status |
 
 ### Find a lesson
@@ -883,6 +886,23 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 PDF previews use `renderers/resource_links.py` to select holding URLs; generated-PDF release builds use published URLs and `publication_checks.py` to reject unpublished dependencies. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
 When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
+
+---
+
+# File: `apps/AGENTS.md`
+
+## Editing apps
+
+`apps/` holds standalone teacher-facing web apps. They are separate from the Python Teacher Guide pipeline: they read repository records but never edit lesson sources, change publication status, or publish to Drive.
+
+| App | Purpose | Read first |
+| --- | --- | --- |
+| `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
+
+- **Print manifests** (`print-pack-builder/config/lessons/*.json`) reference stable IDs in `catalog/resources.json` and must follow the lesson's Teaching Flow. Never put Drive IDs or URLs in them. Card counts per sheet and page counts must be verified from the actual file.
+- **Pilot allowlist** (`print-pack-builder/config/pilot-allowlist.json`) is the only list of resources the app may serve. Adding an entry is a human pilot decision; it never changes a resource's `status` ([CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states)).
+- Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).
+- Use a dedicated non-lesson branch for app work. After editing, run `npm run check` in the app folder; CI runs the same in `.github/workflows/print-pack-builder.yml`.
 
 ---
 

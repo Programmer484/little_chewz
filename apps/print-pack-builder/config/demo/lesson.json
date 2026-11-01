@@ -1,0 +1,65 @@
+{
+  "lessonId": "demo-sample-lesson",
+  "questId": "demo",
+  "order": 0,
+  "title": "Sample Lesson (demo files)",
+  "status": "ready",
+  "defaults": { "groupSize": 4 },
+  "sections": [
+    {
+      "kind": "core",
+      "id": "reading",
+      "title": "Step 1 · Reading",
+      "materials": [
+        { "resourceId": "demo-reading-log", "quantity": { "rule": "per_student" }, "pages": 2, "note": "Two-page PDF, one per student" }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "station",
+      "title": "Step 2 · Choose One Station",
+      "options": [
+        {
+          "id": "poster",
+          "label": "A",
+          "title": "Poster Station",
+          "materials": [
+            { "resourceId": "demo-station-poster", "quantity": { "rule": "per_group" }, "pages": 1, "note": "PNG worksheet, one per group" }
+          ]
+        },
+        {
+          "id": "photo",
+          "label": "B",
+          "title": "Photo Station",
+          "materials": [
+            { "resourceId": "demo-photo-prompt", "quantity": { "rule": "per_group" }, "pages": 1, "note": "JPEG worksheet, one per group" }
+          ],
+          "extensions": [
+            {
+              "id": "photo-cards",
+              "title": "Team challenge cards",
+              "summary": "Four cards print on each sheet",
+              "materials": [
+                { "resourceId": "demo-team-cards", "quantity": { "rule": "per_group" }, "cardsPerSheet": 4, "pages": 1, "note": "One card per group" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "optional",
+      "id": "wrap-up",
+      "title": "Step 3 · Optional",
+      "items": [
+        {
+          "id": "exit-ticket",
+          "title": "Exit ticket",
+          "materials": [
+            { "resourceId": "demo-exit-ticket", "quantity": { "rule": "teacher_adjustable", "count": 25 }, "pages": 1, "note": "Adjustable quantity" }
+          ]
+        }
+      ]
+    }
+  ]
+}
