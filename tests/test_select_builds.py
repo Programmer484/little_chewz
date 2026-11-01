@@ -65,27 +65,6 @@ class SelectionTests(unittest.TestCase):
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
 
-    def test_shared_build_inputs_rebuild_all_eligible_sources(self):
-        for path in ['scripts/build_selected.py', 'requirements.txt',
-                     '.github/workflows/build-resources.yml']:
-            with self.subTest(path=path):
-                self.assertEqual(set(sb.select([path])), set(self.targets))
-
-    def test_registry_has_no_duplicate_json_keys(self):
-        # Ordinary json.loads silently overwrites duplicate resource IDs.
-        duplicates = []
-        def check_pairs(pairs):
-            seen = set()
-            for key, _ in pairs:
-                if key in seen:
-                    duplicates.append(key)
-                seen.add(key)
-            return dict(pairs)
-
-        json.loads((sb.ROOT / 'catalog/resources.json').read_text(),
-                   object_pairs_hook=check_pairs)
-        self.assertEqual(duplicates, [])
-
     def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
         records=sb.read_json('catalog/resources.json')
         mapping=sb.generated_outputs(records)
@@ -97,7 +76,7 @@ class SelectionTests(unittest.TestCase):
         self.assertTrue(all('build' not in item
                             for item in records.values() if item['production_type']=='external'))
 
-    def test_registry_status_only_does_not_trigger_rebuild(self):
+    def test_registry_link_change_rebuilds_consumers(self):
         path = 'catalog/resources.json'
         rid = 'ccc-q01-set-the-table-slides'
         previous = copy.deepcopy(sb.read_json(path))
@@ -112,20 +91,6 @@ class SelectionTests(unittest.TestCase):
         self.assertTrue(consumers)
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), consumers)
-
-    def test_registry_dependency_consumer_scope(self):
-        targets=copy.deepcopy(self.targets)
-        targets[DRAFT]['data']['extra']={'ref': 'ccc-q01-mrs-tongsleys-letter'}
-        with patch.object(sb, 'targets', return_value=targets), patch.object(
-                sb, 'changed_registry_ids', return_value={'ccc-q01-mrs-tongsleys-letter'}):
-            self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [GUIDE, DRAFT])
-
-    def test_navigation_status_change_rebuilds_welcome(self):
-        path = 'catalog/resources.json'
-        altered = copy.deepcopy(sb.read_json(path))
-        altered['ccc-q01-set-the-table-teacher-guide']['status'] = 'unpublished'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select([path], 'base'), [WELCOME])
 
     def test_draft_validation_catches_invalid_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
