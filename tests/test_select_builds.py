@@ -12,15 +12,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import select_builds as sb
 
-GUIDE = '00-activate-teacher-guide.pdf'
 DRAFT = '01-set-the-table-teacher-guide.pdf'
-PART2 = '02-secret-ingredients-teacher-guide.pdf'
-SHOWDOWN = '03-the-showdown-teacher-guide.pdf'
-MISSION = 'mission-video-questions.pdf'
-CONFETTI = 'confetti-file-questions.pdf'
-SONG = 'songwriting-extension.pdf'
-WELCOME = 'ccc-q01-welcome.pdf'
-ANSWER_KEY = 'clue-tracker-answer-key.pdf'
 
 
 class SelectionTests(unittest.TestCase):
@@ -112,8 +104,6 @@ class SelectionTests(unittest.TestCase):
                           'unsupported action label','missing catalog resource ref',
                           'first key must be "$instructions"']:
                 self.assertIn(error,run.stdout)
-
-
 
 if __name__=='__main__':
     unittest.main()
