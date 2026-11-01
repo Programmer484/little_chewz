@@ -89,12 +89,8 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Paper-based, no food or kitchen. Combine individual sketches into one shared design."
-            },
-            {
-              "kind": "DO",
               "ref": "ccc-q01-showdown-design-guide",
-              "description": "Teacher guide"
+              "description": "Paper-based, no food or kitchen. Combine individual sketches into one shared cupcake design."
             },
             {
               "kind": "GIVE",
@@ -117,12 +113,8 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Premade cupcakes or craft alternative; no oven. Everyone contributes an idea to the plan."
-            },
-            {
-              "kind": "DO",
               "ref": "ccc-q01-showdown-decorate-guide",
-              "description": "Teacher guide"
+              "description": "Decorate premade cupcakes or use a craft alternative; include everyone's idea in one shared plan."
             },
             {
               "kind": "GIVE",
@@ -141,12 +133,8 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Ingredients and a supervised oven. Agree on roles before baking; allow cooling time."
-            },
-            {
-              "kind": "DO",
               "ref": "ccc-q01-showdown-bake-mystery-guide",
-              "description": "C/D teacher guide"
+              "description": "Bake using a supervised oven; agree on team roles and allow extra time for cooling."
             },
             {
               "kind": "GIVE",
@@ -169,12 +157,8 @@
           "rows": [
             {
               "kind": "DO",
-              "text": "Bake with one preplanned safe twist. Agree how to adapt; avoid unapproved ingredients."
-            },
-            {
-              "kind": "DO",
               "ref": "ccc-q01-showdown-bake-mystery-guide",
-              "description": "C/D teacher guide"
+              "description": "Bake with one teacher-prepared safe twist; agree how to adapt without unapproved ingredients."
             },
             {
               "kind": "GIVE",
