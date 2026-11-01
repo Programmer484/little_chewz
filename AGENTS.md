@@ -261,7 +261,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ### Authorized release PR for an established generated PDF
 
-1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with only the explicitly authorized resource ID. Other lesson resources on the branch do not automatically publish.
+1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` listing only the explicitly authorized resource IDs. Each listed resource must belong to that branch and independently pass publication checks; other lesson resources on the branch do not automatically publish.
 2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
 3. The workflow checks the accepted source and resource mapping, runs shared validation/tests and builds using `scripts/build_selected.py`. If a newer `main` update superseded the accepted PDF, publishing is blocked.
 4. An already-established official `published_url` must identify an editable Drive PDF. The publisher replaces the **same file ID** in place, preserves its name, folder and sharing, then reads back the file's ID and MD5.
@@ -790,7 +790,7 @@ This file tracks **active** work; repository instructions and publication author
 
 - Production-based registry: `generated_pdf` vs `external`, source provenance, explicit generated-PDF build mapping, holding vs official URLs and publication evidence.
 - Verified Google Drive review holding root and four category folders; existing Slide PDFs review folder remains separate.
-- Authorized single-resource generated-PDF PR merge Action, same-ID Drive replacement with MD5 and accepted revision, failure reporting and safe edit-branch cleanup.
+- Authorized generated-PDF PR merge Action supporting multiple explicitly approved resource IDs per release, with per-resource ownership checks, same-ID Drive replacement, MD5 and accepted revision verification, failure reporting and safe edit-branch cleanup.
 - External resources stay agent-created and agent-published; no external `/merge` integration, external checksum automation or GitHub source-creation engine.
 - Manual-only read-only publication inspector, with external content parity explicitly unverified.
 
@@ -807,6 +807,12 @@ Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linke
 **Status:** Proposed, not implemented.
 
 Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
+
+### SYS-004 — Verify teacher access to published Drive resources
+
+**Status:** Low priority, proposed; not implemented.
+
+Add a **read-only** audit for Google Drive resources marked `published`, starting with those linked by current Teacher Guides. Verify the exact official file ID, intended reader permissions (including inherited access where applicable), and, when practical, actual access as a teacher without publisher credentials. Report `accessible`, `access problem`, or `unable to verify` with the affected resource ID; never mistake authenticated owner access or recorded publication status for teacher access. Do not automatically change permissions or publish resources. Run on demand or periodically rather than on every content edit; keep the existing manual publication-access checks until the audit exists.
 
 ### Previously implemented
 
