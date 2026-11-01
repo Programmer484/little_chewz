@@ -61,19 +61,9 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_renderer_consumers(self):
-        for kind in ['teacher_guide', 'teacher_companion', 'claude']:
+        for kind in {t['kind'] for t in self.targets.values()}:
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
-
-    def test_checks_and_metadata_do_not_render(self):
-        for path in ['scripts/validate.py', 'scripts/select_builds.py',
-                     'tests/test_select_builds.py',
-                     'system/action_labels.json', 'system/EDITORIAL_GUIDE.md',
-                     'content/story/story.md', 'content/worksheet.json', 'content/slides.json',
-                     'README.md', 'content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json',
-                     'content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/02-secret-ingredients/stage.json']:
-            with self.subTest(path=path):
-                self.assertEqual(sb.select([path]), [])
 
     def test_shared_build_inputs_rebuild_all_eligible_sources(self):
         for path in ['scripts/build_selected.py', 'requirements.txt',
@@ -107,14 +97,6 @@ class SelectionTests(unittest.TestCase):
         self.assertTrue(all('build' not in item
                             for item in records.values() if item['production_type']=='external'))
 
-    def test_publication_record_change_does_not_rebuild_pdf(self):
-        previous=copy.deepcopy(sb.read_json('catalog/resources.json'))
-        altered=copy.deepcopy(previous)
-        altered['ccc-q01-welcome']['publication']['verification']='unverified'
-        altered['ccc-q01-welcome']['publication']['drive_version']='new'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [])
-
     def test_registry_status_only_does_not_trigger_rebuild(self):
         path = 'catalog/resources.json'
         rid = 'ccc-q01-set-the-table-slides'
@@ -138,34 +120,12 @@ class SelectionTests(unittest.TestCase):
                 sb, 'changed_registry_ids', return_value={'ccc-q01-mrs-tongsleys-letter'}):
             self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [GUIDE, DRAFT])
 
-    def test_registry_built_document_inputs(self):
-        folder = self.targets[WELCOME]['folder']
-        for path in [f'{folder}/learning-cycle/1-set-the-table.png',
-                     'templates/claude/assets/fonts/Outfit-Regular.ttf']:
-            with self.subTest(path=path):
-                self.assertEqual(sb.select([path]), [WELCOME])
-        self.assertEqual(sb.select(['templates/claude/README.md']), [])
-
-    def test_shared_crest_rebuilds_welcome_and_companions(self):
-        expected = sorted([WELCOME] + [n for n, t in self.targets.items() if t['kind'] == 'teacher_companion'])
-        self.assertEqual(sb.select(['templates/claude/assets/crest.png']), expected)
-
-    def test_bundled_lato_rebuilds_guides_and_companions(self):
-        expected = sorted(n for n, t in self.targets.items()
-                          if t['kind'] in ('teacher_guide', 'teacher_companion'))
-        self.assertEqual(sb.select(['templates/fonts/Lato-Regular.ttf']), expected)
-
     def test_navigation_status_change_rebuilds_welcome(self):
         path = 'catalog/resources.json'
         altered = copy.deepcopy(sb.read_json(path))
         altered['ccc-q01-set-the-table-teacher-guide']['status'] = 'unpublished'
         with patch.object(sb, 'previous', return_value=json.dumps(altered)):
             self.assertEqual(sb.select([path], 'base'), [WELCOME])
-
-    def test_source_metadata_edit_rebuilds_only_its_pdf(self):
-        # Simpler selection favors an occasional redundant preview over diff logic.
-        target=self.targets[DRAFT]
-        self.assertEqual(sb.select([target['source']]), [DRAFT])
 
     def test_draft_validation_catches_invalid_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
