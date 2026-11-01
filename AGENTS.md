@@ -261,7 +261,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ### Authorized release PR for an established generated PDF
 
-1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with only the explicitly authorized resource ID. Other lesson resources on the branch do not automatically publish.
+1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` listing only the explicitly authorized resource IDs. Each listed resource must belong to that branch and independently pass publication checks; other lesson resources on the branch do not automatically publish.
 2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
 3. The workflow checks the accepted source and resource mapping, runs shared validation/tests and builds using `scripts/build_selected.py`. If a newer `main` update superseded the accepted PDF, publishing is blocked.
 4. An already-established official `published_url` must identify an editable Drive PDF. The publisher replaces the **same file ID** in place, preserves its name, folder and sharing, then reads back the file's ID and MD5.
@@ -488,12 +488,13 @@ Assessment: Omitted — Teaching focus is sufficient for Activate.
 - Each lesson has **its own slide set/deck**. Link only that lesson's approved slideshow in Preparation. In Teaching Flow, `SHOW`/`KEEP` slide numbers are local to the lesson and must be verified against its current approved slides. Historical quest-wide slide numbers are not current lesson numbers.
 - A command such as `SHOW Slides 1–3 — Introduce the school.` is slide navigation, **not** a separately linked resource entry. `KEEP Slide 3 — Display during the welcome letter.` is likewise slide navigation.
 
-**Preparation should be a resource list, not an instruction paragraph.** Its purpose is to show what the teacher needs ready before class.
+**Preparation is a short pre-class action list, not a second resource index.** Include links only when teachers must review, choose, test, or print something **before** students arrive. **Do not repeat resources already linked at their point of use in Teaching Flow by default.** Exceptions are high-stakes pre-class decisions (such as selecting a food-based challenge), the lesson slideshow that needs advance review, and essential printables when no selected print-pack tool is available. Put safety-critical choices first and identify the decision explicitly.
 
-- Under **CORE RESOURCES**, list the lesson slideshow and materials used by every student or class, with one linked resource title per line.
-- When activities offer alternatives, use **PREPARE YOUR CHOICES** for choice-dependent materials. Reserve **OPTIONAL PREPARATION** for extras that are not tied to an activity choice.
-- Give each resource a short `—` description only when useful, such as which choice uses it or how many copies to prepare (`One per student`, `One per group of 3–4`). Keep activity directions in Teaching Flow.
-- Omit activities that require no separate resources or printing and routine classroom supplies. Do not compress resource lists into an italic `prep_note` paragraph or repeat listed materials in prose; use a note only for essential setup information that cannot fit on a resource line.
+- Under **CORE RESOURCES**, list the lesson slideshow and genuinely necessary classwide pre-class materials, rather than every resource students use later.
+- When activities offer alternatives, use **PREPARE YOUR CHOICES** for decisions and resources requiring advance preparation, not a duplicate list of all A/B/C/D handouts. Reserve **OPTIONAL PREPARATION** for extras the teacher may need to arrange beforehand.
+- If a selected print-pack tool is available, link it here once rather than listing all the individual printable worksheets; keep the worksheet links at the relevant `GIVE` steps in Teaching Flow.
+- Give each preparation link a short, action-oriented `—` description, such as `Choose before class`, `Preview the video`, or `Print one per team`. Keep classroom activity instructions in Teaching Flow.
+- Omit routine supplies and resources that teachers can simply open during the lesson. Do not compress preparation links into an italic `prep_note` paragraph; use a note only for essential setup information that cannot fit on a resource line.
 
 ### 4. Approved Teaching Flow action labels
 
@@ -789,7 +790,7 @@ This file tracks **active** work; repository instructions and publication author
 
 - Production-based registry: `generated_pdf` vs `external`, source provenance, explicit generated-PDF build mapping, holding vs official URLs and publication evidence.
 - Verified Google Drive review holding root and four category folders; existing Slide PDFs review folder remains separate.
-- Authorized single-resource generated-PDF PR merge Action, same-ID Drive replacement with MD5 and accepted revision, failure reporting and safe edit-branch cleanup.
+- Authorized generated-PDF PR merge Action supporting multiple explicitly approved resource IDs per release, with per-resource ownership checks, same-ID Drive replacement, MD5 and accepted revision verification, failure reporting and safe edit-branch cleanup.
 - External resources stay agent-created and agent-published; no external `/merge` integration, external checksum automation or GitHub source-creation engine.
 - Manual-only read-only publication inspector, with external content parity explicitly unverified.
 
@@ -806,6 +807,12 @@ Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linke
 **Status:** Proposed, not implemented.
 
 Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
+
+### SYS-004 — Verify teacher access to published Drive resources
+
+**Status:** Low priority, proposed; not implemented.
+
+Add a **read-only** audit for Google Drive resources marked `published`, starting with those linked by current Teacher Guides. Verify the exact official file ID, intended reader permissions (including inherited access where applicable), and, when practical, actual access as a teacher without publisher credentials. Report `accessible`, `access problem`, or `unable to verify` with the affected resource ID; never mistake authenticated owner access or recorded publication status for teacher access. Do not automatically change permissions or publish resources. Run on demand or periodically rather than on every content edit; keep the existing manual publication-access checks until the audit exists.
 
 ### Previously implemented
 

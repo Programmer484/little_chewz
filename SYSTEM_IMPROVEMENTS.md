@@ -6,7 +6,7 @@ This file tracks **active** work; repository instructions and publication author
 
 - Production-based registry: `generated_pdf` vs `external`, source provenance, explicit generated-PDF build mapping, holding vs official URLs and publication evidence.
 - Verified Google Drive review holding root and four category folders; existing Slide PDFs review folder remains separate.
-- Authorized single-resource generated-PDF PR merge Action, same-ID Drive replacement with MD5 and accepted revision, failure reporting and safe edit-branch cleanup.
+- Authorized generated-PDF PR merge Action supporting multiple explicitly approved resource IDs per release, with per-resource ownership checks, same-ID Drive replacement, MD5 and accepted revision verification, failure reporting and safe edit-branch cleanup.
 - External resources stay agent-created and agent-published; no external `/merge` integration, external checksum automation or GitHub source-creation engine.
 - Manual-only read-only publication inspector, with external content parity explicitly unverified.
 
@@ -23,6 +23,12 @@ Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linke
 **Status:** Proposed, not implemented.
 
 Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
+
+## SYS-004 — Verify teacher access to published Drive resources
+
+**Status:** Low priority, proposed; not implemented.
+
+Add a **read-only** audit for Google Drive resources marked `published`, starting with those linked by current Teacher Guides. Verify the exact official file ID, intended reader permissions (including inherited access where applicable), and, when practical, actual access as a teacher without publisher credentials. Report `accessible`, `access problem`, or `unable to verify` with the affected resource ID; never mistake authenticated owner access or recorded publication status for teacher access. Do not automatically change permissions or publish resources. Run on demand or periodically rather than on every content edit; keep the existing manual publication-access checks until the audit exists.
 
 ## Previously implemented
 

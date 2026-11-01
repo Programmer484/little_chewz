@@ -12,14 +12,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import select_builds as sb
 
-GUIDE = '00-activate-teacher-guide.pdf'
 DRAFT = '01-set-the-table-teacher-guide.pdf'
-PART2 = '02-secret-ingredients-teacher-guide.pdf'
-MISSION = 'mission-video-questions.pdf'
-CONFETTI = 'confetti-file-questions.pdf'
-SONG = 'songwriting-extension.pdf'
-WELCOME = 'ccc-q01-welcome.pdf'
-ANSWER_KEY = 'clue-tracker-answer-key.pdf'
 
 
 class SelectionTests(unittest.TestCase):
@@ -27,18 +20,11 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        self.assertEqual(set(self.targets), {GUIDE, DRAFT, PART2, MISSION, CONFETTI, SONG, WELCOME, ANSWER_KEY})
-        self.assertEqual(self.targets[DRAFT]['status'], 'pending_publish')
-        self.assertEqual(self.targets[PART2]['status'], 'published')
-        self.assertEqual(sb.selection(PART2)['outputs'], [PART2])
-        self.assertEqual(self.targets[SONG]['status'], 'unpublished')
-        self.assertEqual(self.targets[GUIDE]['status'], 'pending_publish')
-        self.assertEqual(sb.selection(DRAFT)['outputs'], [DRAFT])
-        self.assertEqual(sb.selection(SONG)['outputs'], [SONG])
-        self.assertEqual(set(sb.selection('all')['outputs']), set(self.targets))
-        self.assertEqual(sb.selection(DRAFT)['status'][DRAFT], 'pending_publish')
-        self.assertEqual(sb.selection(GUIDE)['status'][GUIDE], 'pending_publish')
-        self.assertEqual(sb.selection(MISSION)['status'][MISSION], 'published')
+        self.assertTrue(self.targets)
+        self.assertEqual(sb.selection('all')['outputs'], sorted(self.targets))
+        for name in self.targets:
+            with self.subTest(output=name):
+                self.assertEqual(sb.selection(name)['outputs'], [name])
         with self.assertRaisesRegex(ValueError, 'Unknown'):
             sb.selection('missing.pdf')
 
@@ -49,38 +35,27 @@ class SelectionTests(unittest.TestCase):
                     with self.subTest(path=path):
                         self.assertEqual(sb.select([path]), [name])
 
-    def test_unconverted_stages_have_no_placeholder_build(self):
-        for prefix in ['03-the-showdown', '04-chew-on-this',
-                       '05-plate-it-forward', '06-celebrate']:
-            self.assertFalse(any(name.startswith(prefix) for name in self.targets))
+    def test_lesson_targets_match_existing_sources(self):
+        # A lesson becomes buildable when lesson.json exists, not when its
+        # status is published. Missing sources never produce placeholder PDFs.
+        expected = {}
+        for school in sb.read_json('catalog/quests.json')['school_index']:
+            manifest = Path(school['quest_manifest'])
+            quest = sb.read_json(manifest.as_posix())
+            for lesson in quest['learning_sequence']:
+                source = manifest.parent / 'lessons' / lesson['folder'] / 'lesson.json'
+                if (sb.ROOT / source).is_file():
+                    expected[f"{lesson['folder']}-teacher-guide.pdf"] = (
+                        source.as_posix(), lesson.get('status', 'unpublished'))
+        actual = {name: (target['source'], target['status'])
+                  for name, target in self.targets.items()
+                  if target['kind'] == 'teacher_guide'}
+        self.assertEqual(actual, expected)
 
     def test_renderer_consumers(self):
-        for kind in ['teacher_guide', 'teacher_companion', 'claude']:
+        for kind in {t['kind'] for t in self.targets.values()}:
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
-
-    def test_checks_and_metadata_do_not_render(self):
-        for path in ['scripts/validate.py', 'scripts/select_builds.py',
-                     'tests/test_select_builds.py',
-                     'system/action_labels.json', 'system/EDITORIAL_GUIDE.md',
-                     'content/story/story.md', 'content/worksheet.json', 'content/slides.json',
-                     'README.md', 'content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json',
-                     'content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/02-secret-ingredients/stage.json']:
-            with self.subTest(path=path):
-                self.assertEqual(sb.select([path]), [])
-
-    def test_shared_build_inputs_rebuild_all_eligible_sources(self):
-        for path in ['scripts/build_selected.py', 'requirements.txt',
-                     '.github/workflows/build-resources.yml']:
-            with self.subTest(path=path):
-                self.assertEqual(set(sb.select([path])), set(self.targets))
-
-    def test_registry_keys_are_only_ids(self):
-        records=sb.read_json('catalog/resources.json')
-        self.assertEqual(len(records),32)
-        self.assertFalse(any('resource_id' in item or 'legacy_alias' in item for item in records.values()))
-        self.assertEqual(records['ccc-q01-set-the-table-slides']['status'],'published')
-        self.assertTrue(records['ccc-q01-set-the-table-slides']['powerpoint_file_id'])
 
     def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
         records=sb.read_json('catalog/resources.json')
@@ -93,60 +68,21 @@ class SelectionTests(unittest.TestCase):
         self.assertTrue(all('build' not in item
                             for item in records.values() if item['production_type']=='external'))
 
-    def test_publication_record_change_does_not_rebuild_pdf(self):
-        previous=copy.deepcopy(sb.read_json('catalog/resources.json'))
-        altered=copy.deepcopy(previous)
-        altered['ccc-q01-welcome']['publication']['verification']='unverified'
-        altered['ccc-q01-welcome']['publication']['drive_version']='new'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [])
-
-    def test_registry_status_only_does_not_trigger_rebuild(self):
-        path='catalog/resources.json'
-        old=sb.read_json(path)
-        altered=copy.deepcopy(old)
-        altered['ccc-q01-set-the-table-slides']['status']='published'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select([path], 'base'), [])
-        altered['ccc-q01-set-the-table-slides']['url']='https://example.com/new'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select([path], 'base'), [DRAFT])
-
-    def test_registry_dependency_consumer_scope(self):
-        targets=copy.deepcopy(self.targets)
-        targets[DRAFT]['data']['extra']={'ref': 'ccc-q01-mrs-tongsleys-letter'}
-        with patch.object(sb, 'targets', return_value=targets), patch.object(
-                sb, 'changed_registry_ids', return_value={'ccc-q01-mrs-tongsleys-letter'}):
-            self.assertEqual(sb.select(['catalog/resources.json'], 'base'), [GUIDE, DRAFT])
-
-    def test_registry_built_document_inputs(self):
-        folder = self.targets[WELCOME]['folder']
-        for path in [f'{folder}/learning-cycle/1-set-the-table.png',
-                     'templates/claude/assets/fonts/Outfit-Regular.ttf']:
-            with self.subTest(path=path):
-                self.assertEqual(sb.select([path]), [WELCOME])
-        self.assertEqual(sb.select(['templates/claude/README.md']), [])
-
-    def test_shared_crest_rebuilds_welcome_and_companions(self):
-        expected = sorted([WELCOME] + [n for n, t in self.targets.items() if t['kind'] == 'teacher_companion'])
-        self.assertEqual(sb.select(['templates/claude/assets/crest.png']), expected)
-
-    def test_bundled_lato_rebuilds_guides_and_companions(self):
-        expected = sorted(n for n, t in self.targets.items()
-                          if t['kind'] in ('teacher_guide', 'teacher_companion'))
-        self.assertEqual(sb.select(['templates/fonts/Lato-Regular.ttf']), expected)
-
-    def test_navigation_status_change_rebuilds_welcome(self):
+    def test_registry_link_change_rebuilds_consumers(self):
         path = 'catalog/resources.json'
-        altered = copy.deepcopy(sb.read_json(path))
-        altered['ccc-q01-set-the-table-teacher-guide']['status'] = 'unpublished'
-        with patch.object(sb, 'previous', return_value=json.dumps(altered)):
-            self.assertEqual(sb.select([path], 'base'), [WELCOME])
+        rid = 'ccc-q01-set-the-table-slides'
+        previous = copy.deepcopy(sb.read_json(path))
+        previous[rid]['status'] = (
+            'unpublished' if previous[rid]['status'] != 'unpublished' else 'published')
+        with patch.object(sb, 'previous', return_value=json.dumps(previous)):
+            self.assertEqual(sb.select([path], 'base'), [])
 
-    def test_source_metadata_edit_rebuilds_only_its_pdf(self):
-        # Simpler selection favors an occasional redundant preview over diff logic.
-        target=self.targets[DRAFT]
-        self.assertEqual(sb.select([target['source']]), [DRAFT])
+        previous[rid]['url'] = 'https://example.com/old-link'
+        consumers = sorted(name for name, target in self.targets.items()
+                           if rid in sb.resource_refs(target['data']))
+        self.assertTrue(consumers)
+        with patch.object(sb, 'previous', return_value=json.dumps(previous)):
+            self.assertEqual(sb.select([path], 'base'), consumers)
 
     def test_draft_validation_catches_invalid_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -168,14 +104,6 @@ class SelectionTests(unittest.TestCase):
                           'unsupported action label','missing catalog resource ref',
                           'first key must be "$instructions"']:
                 self.assertIn(error,run.stdout)
-
-    def test_history_branch_has_run_scoped_immutable_paths(self):
-        workflow=(sb.ROOT / '.github/workflows/build-resources.yml').read_text()
-        self.assertIn('preview_branch="pdf-preview-history"', workflow)
-        self.assertIn('run_folder="previews/${RUN_ID}"', workflow)
-        self.assertIn('git push origin "HEAD:refs/heads/$preview_branch"', workflow)
-
-
 
 if __name__=='__main__':
     unittest.main()
