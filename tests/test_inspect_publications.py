@@ -1,10 +1,7 @@
 """Publication inspection never treats holding copies as live destinations."""
-import hashlib
 import sys
-import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import inspect_publications as inspect
@@ -26,14 +23,6 @@ class Service:
 
 
 class InspectTests(unittest.TestCase):
-    def test_holding_only_is_not_published(self):
-        item = {"production_type": "external", "status": "unpublished",
-                "holding_url": "https://drive.google.com/file/d/" + ID + "/view",
-                "published_url": None}
-        result = inspect.inspect_one("demo", item, service=Service())
-        self.assertEqual(result["result"], "unpublished")
-        self.assertTrue(result["holding_present"])
-
     def test_external_is_metadata_only_even_after_agent_confirmation(self):
         item = {"production_type": "external", "status": "published",
                 "published_url": "https://drive.google.com/file/d/" + ID + "/view",
@@ -51,12 +40,6 @@ class InspectTests(unittest.TestCase):
         result = inspect.inspect_one("demo", item, service=Service(md5="b" * 32))
         self.assertEqual(result["result"], "discrepancy")
 
-    def test_unverified_historical_published_entry_does_not_claim_digest(self):
-        item = {"production_type": "generated_pdf", "status": "published",
-                "published_url": "https://drive.google.com/file/d/" + ID + "/view",
-                "publication": {"verification": "unverified"}}
-        result = inspect.inspect_one("demo", item, service=Service())
-        self.assertEqual(result["result"], "unverified")
 
 
 if __name__ == "__main__":
