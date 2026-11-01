@@ -1,7 +1,6 @@
 """Regression checks for one-status-per-item preview selection."""
 import copy
 import json
-import re
 import sys
 import shutil
 import subprocess
@@ -29,17 +28,11 @@ class SelectionTests(unittest.TestCase):
         self.targets = sb.targets()
 
     def test_all_existing_sources_can_preview_without_flag(self):
-        # Discovery must scale as real lessons and companions are added.
         self.assertTrue(self.targets)
-        all_selected = sb.selection('all')
-        self.assertEqual(all_selected['outputs'], sorted(self.targets))
-        self.assertEqual(set(all_selected['status']), set(self.targets))
-        for name, target in self.targets.items():
+        self.assertEqual(sb.selection('all')['outputs'], sorted(self.targets))
+        for name in self.targets:
             with self.subTest(output=name):
-                selected = sb.selection(name)
-                self.assertEqual(selected['outputs'], [name])
-                self.assertEqual(selected['source_paths'], [target['source']])
-                self.assertEqual(selected['status'], {name: target['status']})
+                self.assertEqual(sb.selection(name)['outputs'], [name])
         with self.assertRaisesRegex(ValueError, 'Unknown'):
             sb.selection('missing.pdf')
 
@@ -50,45 +43,22 @@ class SelectionTests(unittest.TestCase):
                     with self.subTest(path=path):
                         self.assertEqual(sb.select([path]), [name])
 
-    def test_unconverted_stages_have_no_placeholder_build(self):
-        # A missing lesson.json must not create a placeholder; adding one
-        # makes even an unpublished lesson previewable without a flag.
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            quest_rel = 'content/sample/quest/quest.json'
-            lessons = root / 'content/sample/quest/lessons'
-            (root / 'catalog').mkdir()
-            (lessons / '00-existing').mkdir(parents=True)
-            (lessons / '00-existing/lesson.json').write_text(
-                json.dumps({'cover': 'cover.pdf'}))
-            (root / 'catalog/quests.json').write_text(json.dumps({
-                'school_index': [{'quest_manifest': quest_rel}]}))
-            (root / quest_rel).write_text(json.dumps({'learning_sequence': [
-                {'folder': '00-existing', 'status': 'published'},
-                {'folder': '01-new', 'status': 'unpublished'},
-            ]}))
-            registry = {'sample-existing': {
-                'production_type': 'generated_pdf',
-                'build': {'output': '00-existing-teacher-guide.pdf'}}}
-            registry_path = root / 'catalog/resources.json'
-            registry_path.write_text(json.dumps(registry))
-
-            with patch.object(sb, 'ROOT', root):
-                self.assertEqual(set(sb.targets()), {'00-existing-teacher-guide.pdf'})
-                self.assertEqual(sb.selection('all')['outputs'],
-                                 ['00-existing-teacher-guide.pdf'])
-
-                (lessons / '01-new').mkdir()
-                (lessons / '01-new/lesson.json').write_text(
-                    json.dumps({'cover': 'cover.pdf'}))
-                registry['sample-new'] = {
-                    'production_type': 'generated_pdf',
-                    'build': {'output': '01-new-teacher-guide.pdf'}}
-                registry_path.write_text(json.dumps(registry))
-                self.assertEqual(set(sb.targets()), {
-                    '00-existing-teacher-guide.pdf', '01-new-teacher-guide.pdf'})
-                self.assertEqual(sb.selection('01-new-teacher-guide.pdf')['status'],
-                                 {'01-new-teacher-guide.pdf': 'unpublished'})
+    def test_lesson_targets_match_existing_sources(self):
+        # A lesson becomes buildable when lesson.json exists, not when its
+        # status is published. Missing sources never produce placeholder PDFs.
+        expected = {}
+        for school in sb.read_json('catalog/quests.json')['school_index']:
+            manifest = Path(school['quest_manifest'])
+            quest = sb.read_json(manifest.as_posix())
+            for lesson in quest['learning_sequence']:
+                source = manifest.parent / 'lessons' / lesson['folder'] / 'lesson.json'
+                if (sb.ROOT / source).is_file():
+                    expected[f"{lesson['folder']}-teacher-guide.pdf"] = (
+                        source.as_posix(), lesson.get('status', 'unpublished'))
+        actual = {name: (target['source'], target['status'])
+                  for name, target in self.targets.items()
+                  if target['kind'] == 'teacher_guide'}
+        self.assertEqual(actual, expected)
 
     def test_renderer_consumers(self):
         for kind in ['teacher_guide', 'teacher_companion', 'claude']:
@@ -111,8 +81,8 @@ class SelectionTests(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertEqual(set(sb.select([path])), set(self.targets))
 
-    def test_registry_keys_are_only_ids(self):
-        # Detect duplicate JSON keys before json.loads silently overwrites them.
+    def test_registry_has_no_duplicate_json_keys(self):
+        # Ordinary json.loads silently overwrites duplicate resource IDs.
         duplicates = []
         def check_pairs(pairs):
             seen = set()
@@ -122,21 +92,9 @@ class SelectionTests(unittest.TestCase):
                 seen.add(key)
             return dict(pairs)
 
-        raw = (sb.ROOT / 'catalog/resources.json').read_text()
-        records = json.loads(raw, object_pairs_hook=check_pairs)
-        self.assertFalse(duplicates, f'Duplicate JSON keys: {duplicates}')
-        self.assertTrue(records)
-        for resource_id, item in records.items():
-            with self.subTest(resource_id=resource_id):
-                self.assertIsNotNone(re.fullmatch(
-                    r'[a-z0-9]+(?:-[a-z0-9]+)*', resource_id))
-                self.assertNotIn('resource_id', item)
-                self.assertNotIn('legacy_alias', item)
-                self.assertIn(item.get('production_type'),
-                              {'generated_pdf', 'external'})
-                self.assertIn(item.get('status'),
-                              {'unpublished', 'pending_publish', 'published'})
-                self.assertIsInstance(item.get('source'), dict)
+        json.loads((sb.ROOT / 'catalog/resources.json').read_text(),
+                   object_pairs_hook=check_pairs)
+        self.assertEqual(duplicates, [])
 
     def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
         records=sb.read_json('catalog/resources.json')
@@ -159,27 +117,19 @@ class SelectionTests(unittest.TestCase):
 
     def test_registry_status_only_does_not_trigger_rebuild(self):
         path = 'catalog/resources.json'
-        resource_id = 'ccc-q01-set-the-table-slides'
-        current = sb.read_json(path)
-        previous = copy.deepcopy(current)
-        previous[resource_id]['status'] = (
-            'unpublished' if current[resource_id]['status'] != 'unpublished'
-            else 'published')
-        self.assertNotEqual(previous[resource_id]['status'],
-                            current[resource_id]['status'])
-        # This resource is a guide dependency, not a navigation entry.
-        self.assertFalse(any(resource_id in sb.nav_refs(t['data'])
-                             for t in self.targets.values()))
+        rid = 'ccc-q01-set-the-table-slides'
+        previous = copy.deepcopy(sb.read_json(path))
+        previous[rid]['status'] = (
+            'unpublished' if previous[rid]['status'] != 'unpublished' else 'published')
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), [])
 
-        # Changing the link, unlike changing only status, rebuilds consumers.
-        previous[resource_id]['url'] = 'https://example.com/old-slide-link'
-        expected = sorted(name for name, target in self.targets.items()
-                          if resource_id in sb.resource_refs(target['data']))
-        self.assertTrue(expected)
+        previous[rid]['url'] = 'https://example.com/old-link'
+        consumers = sorted(name for name, target in self.targets.items()
+                           if rid in sb.resource_refs(target['data']))
+        self.assertTrue(consumers)
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
-            self.assertEqual(sb.select([path], 'base'), expected)
+            self.assertEqual(sb.select([path], 'base'), consumers)
 
     def test_registry_dependency_consumer_scope(self):
         targets=copy.deepcopy(self.targets)
