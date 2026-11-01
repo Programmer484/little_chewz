@@ -89,8 +89,7 @@
           "rows": [
             {
               "kind": "DO",
-              "ref": "ccc-q01-showdown-design-guide",
-              "description": "Paper-based, no food or kitchen. Combine individual sketches into one shared cupcake design."
+              "text": "Paper-based, no food or kitchen. Combine individual sketches into one shared cupcake design."
             },
             {
               "kind": "GIVE",
@@ -104,6 +103,11 @@
                   "description": "One shared design per team"
                 }
               ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-design-guide",
+              "description": "Teacher guide"
             }
           ]
         },
@@ -113,8 +117,7 @@
           "rows": [
             {
               "kind": "DO",
-              "ref": "ccc-q01-showdown-decorate-guide",
-              "description": "Decorate premade cupcakes or use a craft alternative; include everyone's idea in one shared plan."
+              "text": "Decorate premade cupcakes or use a craft alternative; include everyone's idea in one shared plan."
             },
             {
               "kind": "GIVE",
@@ -124,6 +127,11 @@
                   "description": "One per team"
                 }
               ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-decorate-guide",
+              "description": "Teacher guide"
             }
           ]
         },
@@ -133,8 +141,7 @@
           "rows": [
             {
               "kind": "DO",
-              "ref": "ccc-q01-showdown-bake-mystery-guide",
-              "description": "Bake using a supervised oven; agree on team roles and allow extra time for cooling."
+              "text": "Bake using a supervised oven; agree on team roles and allow extra time for cooling."
             },
             {
               "kind": "GIVE",
@@ -148,6 +155,11 @@
                   "description": "Recipe per baking team"
                 }
               ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-bake-mystery-guide",
+              "description": "Teacher guide"
             }
           ]
         },
@@ -157,8 +169,7 @@
           "rows": [
             {
               "kind": "DO",
-              "ref": "ccc-q01-showdown-bake-mystery-guide",
-              "description": "Bake with one teacher-prepared safe twist; agree how to adapt without unapproved ingredients."
+              "text": "Bake with one teacher-prepared safe twist; agree how to adapt without unapproved ingredients."
             },
             {
               "kind": "GIVE",
@@ -172,6 +183,11 @@
                   "description": "Recipe per baking team"
                 }
               ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-bake-mystery-guide",
+              "description": "Teacher guide"
             }
           ]
         }
