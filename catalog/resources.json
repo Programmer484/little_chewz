@@ -806,5 +806,157 @@
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
     "url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view"
+  },
+  "ccc-q01-showdown-slides": {
+    "title": "Showdown Slides",
+    "url": "https://drive.google.com/",
+    "type": "slide_deck",
+    "audience": "teacher",
+    "tags": [
+      "showdown",
+      "slides"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+  },
+  "ccc-q01-showdown-design-guide": {
+    "title": "Design Teacher Guide",
+    "url": "https://drive.google.com/",
+    "type": "teacher_reference",
+    "audience": "teacher",
+    "tags": [
+      "showdown",
+      "design"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+  },
+  "ccc-q01-showdown-decorate-guide": {
+    "title": "Decorate Teacher Guide",
+    "url": "https://drive.google.com/",
+    "type": "teacher_reference",
+    "audience": "teacher",
+    "tags": [
+      "showdown",
+      "decorate"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+  },
+  "ccc-q01-showdown-bake-mystery-guide": {
+    "title": "Bake & Mystery Guide",
+    "url": "https://drive.google.com/",
+    "type": "teacher_reference",
+    "audience": "teacher",
+    "tags": [
+      "showdown",
+      "bake",
+      "mystery"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+  },
+  "ccc-q01-showdown-design-sheet": {
+    "title": "Design Your Cupcake",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "design"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+  },
+  "ccc-q01-showdown-taste-reflection": {
+    "title": "TASTE Reflection",
+    "url": "https://drive.google.com/",
+    "type": "student_worksheet",
+    "audience": "student",
+    "tags": [
+      "showdown",
+      "reflection"
+    ],
+    "status": "unpublished",
+    "production_type": "external",
+    "source": {
+      "kind": "unknown"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+  },
+  "ccc-q01-showdown-teacher-guide": {
+    "title": "The Showdown Teacher Guide",
+    "url": "https://drive.google.com/",
+    "type": "published_export",
+    "audience": "teacher",
+    "tags": [
+      "showdown",
+      "guide"
+    ],
+    "status": "unpublished",
+    "production_type": "generated_pdf",
+    "source": {
+      "kind": "github",
+      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/03-the-showdown/lesson.json"
+    },
+    "build": {
+      "output": "03-the-showdown-teacher-guide.pdf"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null,
+    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists."
   }
 }
