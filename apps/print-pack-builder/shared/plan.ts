@@ -1,165 +1,117 @@
 import { LIMITS } from "./limits.ts";
-import type { Plan, PlanLine, PrintOptions, Quantities, ResolvedLesson, ResolvedMaterial, Selection } from "./types.ts";
+import type { Plan, PlanLine, PrintSequence, Quantities, ResolvedLesson, ResolvedMaterial, Selection } from "./types.ts";
 
-export function groupCount(studentCount: number, groupSize: number): number {
-  return Math.ceil(studentCount / groupSize);
-}
-
+export const coreKey = (sectionId: string, resourceId: string) => `${sectionId}:${resourceId}`;
+export const groupCount = (students: number, size: number) => Math.ceil(students / size);
 const whole = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n);
 
-/** Problems with the class numbers, in plain language. */
 export function quantityProblems(q: Quantities): string[] {
-  const p: string[] = [];
+  const errors: string[] = [];
   if (!whole(q.studentCount) || q.studentCount < LIMITS.minStudents || q.studentCount > LIMITS.maxStudents)
-    p.push(`Enter a student count from ${LIMITS.minStudents} to ${LIMITS.maxStudents}.`);
-  if (!whole(q.groupSize) || q.groupSize < LIMITS.minGroupSize || q.groupSize > LIMITS.maxGroupSize)
-    p.push(`Enter a group size from ${LIMITS.minGroupSize} to ${LIMITS.maxGroupSize}.`);
-  for (const n of Object.values(q.copies ?? {}))
-    if (n !== undefined && (!whole(n) || n < 0 || n > LIMITS.maxCopies)) {
-      p.push(`Copies must be a whole number from 0 to ${LIMITS.maxCopies}.`);
-      break;
-    }
-  return p;
+    errors.push(`Enter a student count from ${LIMITS.minStudents} to ${LIMITS.maxStudents}.`);
+  if ([q.groupSize, ...Object.values(q.groupSizes ?? {})].some((n) =>
+    !whole(n) || n < LIMITS.minGroupSize || n > LIMITS.maxGroupSize))
+    errors.push(`Enter a group size from ${LIMITS.minGroupSize} to ${LIMITS.maxGroupSize}.`);
+  if (Object.values(q.copies ?? {}).some((n) => n !== undefined && (!whole(n) || n < 0 || n > LIMITS.maxCopies)))
+    errors.push(`Copies must be a whole number from 0 to ${LIMITS.maxCopies}.`);
+  return errors;
 }
 
-/** Copies (or cards) the default rule asks for. */
-export function neededFor(m: Pick<ResolvedMaterial, "rule">, q: Quantities, groups: number): number {
-  switch (m.rule) {
-    case "per_student":
-      return q.studentCount;
-    case "per_group":
-      return groups;
-    case "per_class":
-      return 1;
-  }
+/** A multi-card sheet supplies several cutouts from one printed copy. */
+export const copiesFor = (needed: number, cardsPerSheet?: number) =>
+  cardsPerSheet ? Math.ceil(needed / cardsPerSheet) : needed;
+
+export interface Pick {
+  material: ResolvedMaterial;
+  source: string;
+  activityId: string;
 }
 
-/** File copies to print for a need, honouring cards printed several to a sheet. */
-export function copiesFor(needed: number, cardsPerSheet?: number): number {
-  return cardsPerSheet ? Math.ceil(needed / cardsPerSheet) : needed;
-}
-
-/** Selected materials, in manifest order, each tagged with where it came from. */
-export function selectedMaterials(
-  lesson: ResolvedLesson,
-  sel: Selection,
-): { problems: string[]; picks: { material: ResolvedMaterial; source: string }[] } {
-  const problems: string[] = [];
-  const picks: { material: ResolvedMaterial; source: string }[] = [];
+/** All selected activities, in lesson order. Choice groups may be left unanswered. */
+export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { problems: string[]; picks: Pick[] } {
+  const picks: Pick[] = [];
   for (const s of lesson.sections) {
-    if (s.kind === "core") for (const m of s.materials) picks.push({ material: m, source: s.title });
+    if (s.kind === "core") for (const m of s.materials)
+      if (sel.core?.[coreKey(s.id, m.resourceId)] !== false)
+        picks.push({ material: m, source: s.title, activityId: s.id });
     if (s.kind === "choice") {
       const chosen = s.options.find((o) => o.id === sel.choices[s.id]);
-      if (!chosen) {
-        problems.push(`Choose one option for “${s.title}”.`);
-        continue;
-      }
+      if (!chosen) continue;
       const label = `${chosen.label} · ${chosen.title}`;
-      for (const m of chosen.materials) picks.push({ material: m, source: label });
+      for (const m of chosen.materials) picks.push({ material: m, source: label, activityId: chosen.id });
       for (const e of chosen.extensions)
-        if (sel.extensions[e.id]) for (const m of e.materials) picks.push({ material: m, source: `${label} · optional` });
+        if (sel.extensions[e.id]) for (const m of e.materials)
+          picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id });
     }
     if (s.kind === "optional")
       for (const item of s.items)
-        if (sel.extensions[item.id]) for (const m of item.materials) picks.push({ material: m, source: s.title });
+        if (sel.extensions[item.id]) for (const m of item.materials)
+          picks.push({ material: m, source: item.title, activityId: item.id });
   }
-  return { problems, picks };
+  return { problems: [], picks };
 }
 
-/**
- * The print plan: one line per distinct worksheet, in first-use order.
- * Defaults come from each worksheet's rule; a number the teacher typed
- * replaces the default. A worksheet used by several selected activities is
- * printed once, at the largest default.
- */
+/** Keep per-group uses separate, even when they point to the same resource ID. */
 export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantities): Plan {
   const problems = quantityProblems(q);
-  const groups = problems.length ? 0 : groupCount(q.studentCount, q.groupSize);
-  const { problems: choiceProblems, picks } = selectedMaterials(lesson, sel);
-  problems.push(...choiceProblems);
+  const { picks } = selectedMaterials(lesson, sel);
   if (lesson.status !== "ready") problems.push("This lesson has no downloadable student materials yet.");
 
   const lines = new Map<string, PlanLine>();
   const unavailable = new Map<string, Plan["unavailable"][number]>();
-  for (const { material: m, source } of picks) {
+  for (const { material: m, source, activityId } of picks) {
     if (!m.resource.available) {
-      const u = unavailable.get(m.resourceId);
-      if (u) u.sources.push(source);
-      else
-        unavailable.set(m.resourceId, {
-          resourceId: m.resourceId,
-          title: m.resource.title,
-          reason: m.resource.reason ?? "Not available yet.",
-          sources: [source],
-        });
+      const item = unavailable.get(m.resourceId);
+      if (item) { if (!item.sources.includes(source)) item.sources.push(source); }
+      else unavailable.set(m.resourceId, {
+        resourceId: m.resourceId, title: m.resource.title,
+        reason: m.resource.reason ?? "Not available yet.", sources: [source],
+      });
       continue;
     }
-    const needed = groups ? neededFor(m, q, groups) : 0;
-    const line = lines.get(m.resourceId);
-    if (line) {
-      if (needed > line.needed) Object.assign(line, { needed, rule: m.rule, note: m.note });
-      if (!line.sources.includes(source)) line.sources.push(source);
-    } else
-      lines.set(m.resourceId, {
-        resourceId: m.resourceId,
-        title: m.resource.title,
-        rule: m.rule,
-        needed,
-        cardsPerSheet: m.cardsPerSheet,
-        defaultCopies: 0,
-        copies: 0,
-        edited: false,
-        sources: [source],
-        note: m.note,
-      });
-  }
-  for (const line of lines.values()) {
-    line.defaultCopies = copiesFor(line.needed, line.cardsPerSheet);
-    const typed = q.copies?.[line.resourceId];
-    line.edited = typed !== undefined && typed !== line.defaultCopies;
-    line.copies = typed ?? line.defaultCopies;
+    const size = m.rule === "per_group" ? (q.groupSizes?.[activityId] ?? q.groupSize) : undefined;
+    const needed = problems.length ? 0 : m.rule === "per_student" ? q.studentCount : groupCount(q.studentCount, size!);
+    const id = `${m.resourceId}:${m.rule}${m.rule === "per_group" ? `:${activityId}` : ""}`;
+    const previous = lines.get(id);
+    if (previous) {
+      if (!previous.sources.includes(source)) previous.sources.push(source);
+      continue;
+    }
+    const defaultCopies = copiesFor(needed, m.cardsPerSheet);
+    const override = q.copies?.[id];
+    lines.set(id, {
+      id, activityId, resourceId: m.resourceId, title: m.resource.title, rule: m.rule,
+      ...(size !== undefined ? { groupSize: size } : {}),
+      needed, cardsPerSheet: m.cardsPerSheet, defaultCopies,
+      copies: override ?? defaultCopies, edited: override !== undefined && override !== defaultCopies,
+      sources: [source], note: m.note,
+    });
   }
   const all = [...lines.values()];
   if (!problems.length && all.every((l) => l.copies === 0))
-    problems.push(
-      unavailable.size
-        ? "None of the worksheets for these choices can be downloaded yet."
-        : all.length
-          ? "Every worksheet is set to 0 copies."
-          : "These choices need no student printing.",
-    );
-  return { groupCount: groups, lines: all, unavailable: [...unavailable.values()], problems };
+    problems.push(unavailable.size
+      ? "None of the selected worksheets can be downloaded yet."
+      : all.length ? "Every worksheet is set to 0 copies." : "Select at least one worksheet.");
+  return { lines: all, unavailable: [...unavailable.values()], problems };
 }
 
-export function describeLine(line: PlanLine, q: Pick<Quantities, "studentCount">, groups: number): string {
-  if (line.cardsPerSheet)
-    return `${line.needed} card${line.needed === 1 ? "" : "s"} (one per ${line.rule === "per_group" ? "group" : line.rule === "per_class" ? "class" : "student"}), ${line.cardsPerSheet} per sheet`;
-  switch (line.rule) {
-    case "per_student":
-      return `One per student (${q.studentCount})`;
-    case "per_group":
-      return `One per group (${groups} groups)`;
-    case "per_class":
-      return "One for the class";
-  }
+export function describeLine(line: PlanLine, q: Pick<Quantities, "studentCount">): string {
+  const units = line.cardsPerSheet
+    ? `${line.needed} cutouts, ${line.cardsPerSheet} per sheet`
+    : line.rule === "per_student"
+      ? `One per student (${q.studentCount})`
+      : `One per group (${groupCount(q.studentCount, line.groupSize!)} groups)`;
+  return units;
 }
 
-/**
- * The order copies appear in the PDF, as a list of resource IDs (one entry per
- * copy of the whole file).
- *
- * - "worksheet": every copy of the first worksheet, then the next.
- * - "student": one packet per student, holding one copy of each per-student
- *   worksheet; worksheets for groups or the class follow, by worksheet.
- */
-export function printSequence(lines: PlanLine[], order: PrintOptions["order"]): string[] {
-  const printed = lines.filter((l) => l.copies > 0);
-  const byWorksheet = (ls: PlanLine[]) => ls.flatMap((l) => Array<string>(l.copies).fill(l.resourceId));
-  if (order === "worksheet") return byWorksheet(printed);
-  const packet = printed.filter((l) => l.rule === "per_student" && !l.cardsPerSheet);
-  const rest = printed.filter((l) => !packet.includes(l));
-  const packets = Math.max(0, ...packet.map((l) => l.copies));
-  const out: string[] = [];
-  for (let i = 0; i < packets; i++) for (const l of packet) if (i < l.copies) out.push(l.resourceId);
-  return [...out, ...byWorksheet(rest)];
+/** Student packets first, in lesson order; shared resources grouped by copy. */
+export function printSequence(lines: PlanLine[]): PrintSequence {
+  const printed = lines.filter((line) => line.copies > 0);
+  const student = printed.filter((line) => line.rule === "per_student" && !line.cardsPerSheet);
+  const shared = printed.filter((line) => !student.includes(line));
+  const count = Math.max(0, ...student.map((line) => line.copies));
+  const packets: string[][] = [];
+  for (let i = 0; i < count; i++)
+    packets.push(student.filter((line) => i < line.copies).map((line) => line.resourceId));
+  return { packets, shared: shared.flatMap((line) => Array<string>(line.copies).fill(line.resourceId)) };
 }

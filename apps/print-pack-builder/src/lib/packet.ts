@@ -30,7 +30,7 @@ export async function buildPacket(
     files.set(line.resourceId, { title: line.title, bytes });
   }
   if (signal?.aborted) throw new PacketError("Download cancelled.");
-  return assemblePacket(files, printSequence(lines, options.order), {
+  return assemblePacket(files, printSequence(lines), {
     duplex: options.duplex,
     onProgress: (done, total, title) => onProgress({ stage: "assembling", done, total, title }),
   });

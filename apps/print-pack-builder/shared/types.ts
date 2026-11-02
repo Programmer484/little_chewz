@@ -7,10 +7,7 @@
  */
 
 /** Default copies for a material. Teachers can change any line's copies. */
-export type QuantityRule =
-  | "per_student" // one per student
-  | "per_group" // one per group: ceil(students / groupSize)
-  | "per_class"; // one for the class
+export type QuantityRule = "per_student" | "per_group";
 
 export interface MaterialSpec {
   resourceId: string;
@@ -128,16 +125,23 @@ export interface Selection {
   choices: Record<string, string | undefined>;
   /** extension id -> checked */
   extensions: Record<string, boolean | undefined>;
+  /** core worksheet id -> checked; absent means selected by default */
+  core?: Record<string, boolean | undefined>;
 }
 
 export interface Quantities {
   studentCount: number;
   groupSize: number;
-  /** resourceId -> copies the teacher typed, replacing the default. */
+  /** activity id -> teacher-adjusted group size; otherwise the saved default */
+  groupSizes?: Record<string, number | undefined>;
+  /** plan line id -> copies the teacher typed, replacing the default. */
   copies?: Record<string, number | undefined>;
 }
 
 export interface PlanLine {
+  id: string;
+  activityId: string;
+  groupSize?: number;
   resourceId: string;
   title: string;
   rule: QuantityRule;
@@ -156,18 +160,20 @@ export interface PlanLine {
 }
 
 export interface Plan {
-  groupCount: number;
   lines: PlanLine[];
   /** Selected materials that cannot be downloaded yet. */
   unavailable: { resourceId: string; title: string; reason: string; sources: string[] }[];
-  /** Blocking problems, e.g. an unanswered choice. */
+  /** Blocking problems, e.g. invalid quantities. */
   problems: string[];
 }
 
-/** How the downloaded PDF is arranged. */
+/** One PDF, always arranged as consecutive student packets then shared materials. */
 export interface PrintOptions {
-  /** "worksheet": all copies of one worksheet, then the next. "student": one packet per student. */
-  order: "worksheet" | "student";
-  /** Add blank backs so every worksheet copy starts on a new sheet when printing both sides. */
   duplex: boolean;
+}
+
+/** Boundaries are explicit: duplex padding belongs to packets, not worksheets. */
+export interface PrintSequence {
+  packets: string[][];
+  shared: string[];
 }

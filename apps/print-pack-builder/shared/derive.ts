@@ -15,11 +15,7 @@
  * | Preparation `core`, not used in any step      | included automatically                 |
  * | `optional_prep` / `bonuses`, not used in a step | checkbox under "Extras"              |
  *
- * Default copies come from the guide's description ("group" -> one per group,
- * "class" -> one for the class, otherwise one per student); teachers can
- * change every number. Cards printed several to a page come from the
- * catalogue's print.cards_per_sheet.
- */
+ * Copy rules come only from each worksheet link's explicit quantity.\n * Multi-card sheets are defined in catalog/resources.json.\n */
 import type { ExtensionSpec, LessonManifest, MaterialSpec, OptionSpec, QuantityRule, SectionSpec } from "./types.ts";
 
 export interface RegistryEntry {
@@ -33,6 +29,7 @@ export type RegistryLike = Record<string, RegistryEntry>;
 interface LinkRef {
   ref?: string;
   description?: string;
+  quantity?: QuantityRule;
 }
 interface Row extends LinkRef {
   kind?: string;
@@ -54,18 +51,11 @@ export interface LessonSource {
 
 export const PRINTABLE_TYPE = "student_worksheet";
 
-/** Default copy rule from the guide's own wording. */
-export function ruleFromText(text: string): QuantityRule {
-  if (/\bgroups?\b|\bteams?\b/i.test(text) && !/\bper student\b/i.test(text)) return "per_group";
-  if (/\b(per|for the|one per) class\b|\bclassroom display\b|\bteacher copy\b/i.test(text)) return "per_class";
-  return "per_student";
-}
-
 const clean = (text?: string) => text?.replace(/^\s*[—–-]\s*/, "").trim() || undefined;
 
 function links(row: Row): LinkRef[] {
   const out: LinkRef[] = [];
-  if (row.ref) out.push({ ref: row.ref, description: row.description });
+  if (row.ref) out.push({ ref: row.ref, description: row.description, quantity: row.quantity });
   for (const link of row.links ?? []) if (link.ref) out.push(link);
   return out;
 }
@@ -112,15 +102,16 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
   const prepText = new Map<string, string>();
   for (const item of [...(lesson.core ?? []), ...(lesson.optional_prep ?? []), ...(lesson.bonuses ?? [])])
     if (item.ref && item.description && !prepText.has(item.ref)) prepText.set(item.ref, clean(item.description)!);
-  const coreRefs = new Set((lesson.core ?? []).map((c) => c.ref).filter(isStudent));
 
   const material = (link: LinkRef): MaterialSpec => {
     const ref = link.ref!;
     const note = prepText.get(ref) ?? clean(link.description);
     const cards = registry[ref].print?.cards_per_sheet;
+    if (link.quantity !== "per_student" && link.quantity !== "per_group")
+      throw new Error(`Worksheet ${ref} requires quantity: per_student or per_group in lesson.json`);
     return {
       resourceId: ref,
-      rule: ruleFromText([prepText.get(ref), clean(link.description)].filter(Boolean).join(" ")),
+      rule: link.quantity,
       ...(cards ? { cardsPerSheet: cards } : {}),
       ...(note ? { note } : {}),
     };
@@ -133,7 +124,6 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
   });
 
   const sections: SectionSpec[] = [];
-  const placed = new Set<string>(); // refs already included automatically
   const mentioned = new Set<string>(); // refs used anywhere in the Teaching Flow
 
   for (const step of lesson.steps ?? []) {
@@ -144,12 +134,8 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
     for (const row of step.rows ?? [])
       for (const link of links(row).filter((l) => isStudent(l.ref))) {
         mentioned.add(link.ref!);
-        const always = row.kind === "GIVE" || coreRefs.has(link.ref!);
-        if (always && !placed.has(link.ref!)) {
-          core.push(material(link));
-          placed.add(link.ref!);
-        } else if (row.kind === "MORE" && !placed.has(link.ref!))
-          optional.push(extension(`${stepId}-more-${link.ref}`, link));
+        if (row.kind === "GIVE") core.push(material(link));
+        else if (row.kind === "MORE") optional.push(extension(`${stepId}-more-${link.ref}`, link));
       }
     if (core.length) sections.push({ kind: "core", id: stepId, title: stepTitle, materials: core });
     if (optional.length) sections.push({ kind: "optional", id: `${stepId}-more`, title: `${stepTitle} · Optional`, items: optional });
@@ -180,13 +166,11 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
   }
 
   // Preparation "core" worksheets the Teaching Flow never links still print for everyone.
-  const prepOnly = (lesson.core ?? []).filter((c) => isStudent(c.ref) && !mentioned.has(c.ref!) && !placed.has(c.ref!));
-  if (prepOnly.length) {
-    prepOnly.forEach((c) => placed.add(c.ref!));
+  const prepOnly = (lesson.core ?? []).filter((c) => isStudent(c.ref) && !mentioned.has(c.ref!));
+  if (prepOnly.length)
     sections.unshift({ kind: "core", id: "preparation", title: "Preparation", materials: prepOnly.map(material) });
-  }
   // Optional preparation and bonus worksheets not used in the flow become extras.
-  const seen = new Set([...mentioned, ...placed]);
+  const seen = new Set([...mentioned, ...prepOnly.map((c) => c.ref!)]);
   const extras: ExtensionSpec[] = [];
   for (const item of [...(lesson.optional_prep ?? []), ...(lesson.bonuses ?? [])])
     if (isStudent(item.ref) && !seen.has(item.ref)) {
