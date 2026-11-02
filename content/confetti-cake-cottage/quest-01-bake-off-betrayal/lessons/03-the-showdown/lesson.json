@@ -1,0 +1,234 @@
+{
+  "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.",
+  "key": "p3",
+  "title": "PART 3 / THE SHOWDOWN",
+  "grade": "4–6",
+  "duration": "40–80+ min by challenge",
+  "print_note": "PRINT ONLY YOUR CHOICE",
+  "goal": "Put learning into action through a shared challenge that develops communication, collaboration, and creative problem-solving.",
+  "outcomes": [
+    "Contribute ideas and agree on a shared team plan.",
+    "Communicate and adapt while completing a creative challenge.",
+    "Explain one team decision and what they would try next."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-showdown-slides",
+      "description": "Draft slides"
+    }
+  ],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-showdown-design-guide",
+      "description": "A · paper"
+    },
+    {
+      "ref": "ccc-q01-showdown-decorate-guide",
+      "description": "B · premade"
+    },
+    {
+      "ref": "ccc-q01-showdown-bake-mystery-guide",
+      "description": "C/D · food"
+    },
+    {
+      "ref": "ccc-q01-showdown-taste-reflection",
+      "description": "Optional writing"
+    }
+  ],
+  "prep_heading": "PREPARE YOUR CHOICE",
+  "prep_note": "Before food activities, check school requirements, dietary needs, facilities, supervision, and cleanup.",
+  "focus": "Notice how students share ideas and make one meaningful decision together.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Art / Foods"
+  ],
+  "cover": "cover.pdf",
+  "output": "03-the-showdown-teacher-guide.pdf",
+  "flow_style": "compact",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Introduce the Showdown · Tune-In",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Introduce the chosen challenge and its shared team goal."
+        },
+        {
+          "kind": "ASK",
+          "text": "What will help everyone contribute to your team today?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Plan as a Team",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Invite ideas, agree on an approach, and assign roles where helpful."
+        },
+        {
+          "kind": "DO",
+          "text": "For food activities, check that the chosen materials and supervision are ready."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Choose One Showdown Challenge",
+      "mins": "20–60+",
+      "rows": [],
+      "options": [
+        {
+          "label": "A",
+          "title": "Design · 40–50 min total",
+          "rows": [
+            {
+              "kind": "DO",
+              "text": "Paper-based, no food or kitchen. Combine individual sketches into one shared cupcake design."
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-design-card",
+                  "description": "One per team"
+                },
+                {
+                  "ref": "ccc-q01-showdown-design-sheet",
+                  "description": "One shared design per team"
+                }
+              ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-design-guide",
+              "description": "Teacher guide"
+            }
+          ]
+        },
+        {
+          "label": "B",
+          "title": "Decorate · 50–65 min total",
+          "rows": [
+            {
+              "kind": "DO",
+              "text": "Decorate premade cupcakes or use a craft alternative; include everyone's idea in one shared plan."
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-decorate-card",
+                  "description": "One per team"
+                }
+              ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-decorate-guide",
+              "description": "Teacher guide"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "title": "Bake · 65–80+ min total",
+          "rows": [
+            {
+              "kind": "DO",
+              "text": "Bake using a supervised oven; agree on team roles and allow extra time for cooling."
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-bake-card",
+                  "description": "One per team"
+                },
+                {
+                  "ref": "ccc-q01-showdown-recipe",
+                  "description": "Recipe per baking team"
+                }
+              ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-bake-mystery-guide",
+              "description": "Teacher guide"
+            }
+          ]
+        },
+        {
+          "label": "D",
+          "title": "Mystery · 65–80+ min + twist",
+          "rows": [
+            {
+              "kind": "DO",
+              "text": "Bake with one teacher-prepared safe twist; agree how to adapt without unapproved ingredients."
+            },
+            {
+              "kind": "GIVE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-mystery-card",
+                  "description": "One per team"
+                },
+                {
+                  "ref": "ccc-q01-showdown-recipe",
+                  "description": "Recipe per baking team"
+                }
+              ]
+            },
+            {
+              "kind": "MORE",
+              "ref": "ccc-q01-showdown-bake-mystery-guide",
+              "description": "Teacher guide"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Clean Up",
+      "mins": "5+",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Leave enough time to clean materials and stations safely; extend for baking."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "TASTE Quick Debrief",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Tune-In came before the challenge; Act happened during it. Now Share, Think Back, and Extend."
+        },
+        {
+          "kind": "ASK",
+          "text": "What decision helped your team, and what would you try next?"
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-showdown-taste-reflection",
+          "description": "Optional full written cycle; add about 10–15 min"
+        }
+      ]
+    }
+  ],
+  "bonuses": [],
+  "migration_review": {
+    "basis": "05_The_Showdown.pdf (7 pages), Full Guide Revised.pdf pp. 14–17, Full Guide.pdf v0 pp. 46–62",
+    "not_yet_verified": "All linked option guides, handouts, recipe, slides, and TASTE sheet are draft-only placeholders pointing to the Drive homepage; replace with verified resources before publication.",
+    "timing": "Option totals are planning estimates; Bake/Mystery may need a longer session for oven and cooling."
+  }
+}

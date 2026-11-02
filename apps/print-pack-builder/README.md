@@ -205,4 +205,4 @@ One Worker with static assets. Static asset requests are free; the Worker runs o
 - Annotations (links, form fields) are kept on the first copy of a page and dropped from repeat copies, so shared annotation objects never point at the wrong page. Printed appearance is unchanged.
 - Protected (encrypted) PDFs are rejected with a clear message.
 - Direct lesson links: `/lesson/<lessonId>`, e.g. `/lesson/ccc-q01-secret-ingredients`, ready for Teacher Guides to link to.
-- A worksheet with separate colour and printer-friendly files is not supported yet; see SYS-004 in `SYSTEM_IMPROVEMENTS.md`.
+- A worksheet with separate colour and printer-friendly files is not supported yet; see SYS-005 in `SYSTEM_IMPROVEMENTS.md`.

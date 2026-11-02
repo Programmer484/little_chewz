@@ -62,12 +62,13 @@ Assessment: Omitted — Teaching focus is sufficient for Activate.
 - Each lesson has **its own slide set/deck**. Link only that lesson's approved slideshow in Preparation. In Teaching Flow, `SHOW`/`KEEP` slide numbers are local to the lesson and must be verified against its current approved slides. Historical quest-wide slide numbers are not current lesson numbers.
 - A command such as `SHOW Slides 1–3 — Introduce the school.` is slide navigation, **not** a separately linked resource entry. `KEEP Slide 3 — Display during the welcome letter.` is likewise slide navigation.
 
-**Preparation should be a resource list, not an instruction paragraph.** Its purpose is to show what the teacher needs ready before class.
+**Preparation is a short pre-class action list, not a second resource index.** Include links only when teachers must review, choose, test, or print something **before** students arrive. **Do not repeat resources already linked at their point of use in Teaching Flow by default.** Exceptions are high-stakes pre-class decisions (such as selecting a food-based challenge), the lesson slideshow that needs advance review, and essential printables when no selected print-pack tool is available. Put safety-critical choices first and identify the decision explicitly.
 
-- Under **CORE RESOURCES**, list the lesson slideshow and materials used by every student or class, with one linked resource title per line.
-- When activities offer alternatives, use **PREPARE YOUR CHOICES** for choice-dependent materials. Reserve **OPTIONAL PREPARATION** for extras that are not tied to an activity choice.
-- Give each resource a short `—` description only when useful, such as which choice uses it or how many copies to prepare (`One per student`, `One per group of 3–4`). Keep activity directions in Teaching Flow.
-- Omit activities that require no separate resources or printing and routine classroom supplies. Do not compress resource lists into an italic `prep_note` paragraph or repeat listed materials in prose; use a note only for essential setup information that cannot fit on a resource line.
+- Under **CORE RESOURCES**, list the lesson slideshow and genuinely necessary classwide pre-class materials, rather than every resource students use later.
+- When activities offer alternatives, use **PREPARE YOUR CHOICES** for decisions and resources requiring advance preparation, not a duplicate list of all A/B/C/D handouts. Reserve **OPTIONAL PREPARATION** for extras the teacher may need to arrange beforehand.
+- If a selected print-pack tool is available, link it here once rather than listing all the individual printable worksheets; keep the worksheet links at the relevant `GIVE` steps in Teaching Flow.
+- Give each preparation link a short, action-oriented `—` description, such as `Choose before class`, `Preview the video`, or `Print one per team`. Keep classroom activity instructions in Teaching Flow.
+- Omit routine supplies and resources that teachers can simply open during the lesson. Do not compress preparation links into an italic `prep_note` paragraph; use a note only for essential setup information that cannot fit on a resource line.
 
 ## 4. Approved Teaching Flow action labels
 

@@ -19,7 +19,7 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 - `system/EDITORIAL_GUIDE.md`
 - `system/action_labels.json`
 - `system/RESOURCE_GUIDELINES.md`
-- `templates/claude/README.md`
+- `templates/welcome/README.md`
 - `system/SLIDE_CONVERSION.md`
 - `system/CHAT_FILE_CREATION.md`
 - `SYSTEM_IMPROVEMENTS.md`
@@ -125,7 +125,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
 | [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
-| `templates/` | Templates for supported lesson, companion, and raw-story sources, plus the `claude` page style (clean pages and quest navigation) |
+| `templates/` | Templates for supported lesson and companion sources, plus the `welcome` page style (clean pages and quest navigation) |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
@@ -264,7 +264,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ### Authorized release PR for an established generated PDF
 
-1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` with only the explicitly authorized resource ID. Other lesson resources on the branch do not automatically publish.
+1. The agent confirms the exact reviewed PDF and human approval, reconciles the **shared `lesson/<quest-id>-<stage>` branch** (legacy `edit/<resource-id>` accepted) with latest `main`, and adds `.github/resource-releases/<PR-number>.json` listing only the explicitly authorized resource IDs. Each listed resource must belong to that branch and independently pass publication checks; other lesson resources on the branch do not automatically publish.
 2. The agent merges that resource PR into `main`; **only** the merged generated-PDF resource PR with its explicit marker triggers `.github/workflows/release-on-merge.yml`. Ordinary pushes and other PRs never publish.
 3. The workflow checks the accepted source and resource mapping, runs shared validation/tests and builds using `scripts/build_selected.py`. If a newer `main` update superseded the accepted PDF, publishing is blocked.
 4. An already-established official `published_url` must identify an editable Drive PDF. The publisher replaces the **same file ID** in place, preserves its name, folder and sharing, then reads back the file's ID and MD5.
@@ -277,7 +277,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_EXTRA_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url`, `published_url`, and compatibility `url` must remain distinct. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
 
-The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"claude","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
+The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
 ### On-demand inspection
 
@@ -317,7 +317,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
 | Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, build records, and linked-resource delivery status | `catalog/resources.json` |
-| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/story/`, and `templates/claude/` (clean page style and quest navigation) |
+| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/welcome/` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -492,12 +492,13 @@ Assessment: Omitted — Teaching focus is sufficient for Activate.
 - Each lesson has **its own slide set/deck**. Link only that lesson's approved slideshow in Preparation. In Teaching Flow, `SHOW`/`KEEP` slide numbers are local to the lesson and must be verified against its current approved slides. Historical quest-wide slide numbers are not current lesson numbers.
 - A command such as `SHOW Slides 1–3 — Introduce the school.` is slide navigation, **not** a separately linked resource entry. `KEEP Slide 3 — Display during the welcome letter.` is likewise slide navigation.
 
-**Preparation should be a resource list, not an instruction paragraph.** Its purpose is to show what the teacher needs ready before class.
+**Preparation is a short pre-class action list, not a second resource index.** Include links only when teachers must review, choose, test, or print something **before** students arrive. **Do not repeat resources already linked at their point of use in Teaching Flow by default.** Exceptions are high-stakes pre-class decisions (such as selecting a food-based challenge), the lesson slideshow that needs advance review, and essential printables when no selected print-pack tool is available. Put safety-critical choices first and identify the decision explicitly.
 
-- Under **CORE RESOURCES**, list the lesson slideshow and materials used by every student or class, with one linked resource title per line.
-- When activities offer alternatives, use **PREPARE YOUR CHOICES** for choice-dependent materials. Reserve **OPTIONAL PREPARATION** for extras that are not tied to an activity choice.
-- Give each resource a short `—` description only when useful, such as which choice uses it or how many copies to prepare (`One per student`, `One per group of 3–4`). Keep activity directions in Teaching Flow.
-- Omit activities that require no separate resources or printing and routine classroom supplies. Do not compress resource lists into an italic `prep_note` paragraph or repeat listed materials in prose; use a note only for essential setup information that cannot fit on a resource line.
+- Under **CORE RESOURCES**, list the lesson slideshow and genuinely necessary classwide pre-class materials, rather than every resource students use later.
+- When activities offer alternatives, use **PREPARE YOUR CHOICES** for decisions and resources requiring advance preparation, not a duplicate list of all A/B/C/D handouts. Reserve **OPTIONAL PREPARATION** for extras the teacher may need to arrange beforehand.
+- If a selected print-pack tool is available, link it here once rather than listing all the individual printable worksheets; keep the worksheet links at the relevant `GIVE` steps in Teaching Flow.
+- Give each preparation link a short, action-oriented `—` description, such as `Choose before class`, `Preview the video`, or `Print one per team`. Keep classroom activity instructions in Teaching Flow.
+- Omit routine supplies and resources that teachers can simply open during the lesson. Do not compress preparation links into an italic `prep_note` paragraph; use a note only for essential setup information that cannot fit on a resource line.
 
 ### 4. Approved Teaching Flow action labels
 
@@ -662,18 +663,18 @@ Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](system/CONTEN
 
 ---
 
-# File: `templates/claude/README.md`
+# File: `templates/welcome/README.md`
 
-## `claude` template: clean page style and quest navigation
+## `welcome` template: clean page style and quest navigation
 
 A left-aligned A4 page style for Little Chewz documents, matching the Confetti Cake Cottage School look: cream page, crest or Little Chewz logo, brush headline, coral numbers and labels, hairline dividers. It includes a quest navigation page that links each stage to its Teacher Guide.
 
 - `TEMPLATE.json`: skeleton document showing every block type (`lede`, `paragraphs`, `list`, `callout`, `nav`).
-- Renderer: [`scripts/renderers/claude.py`](scripts/renderers/claude.py), with ReportLab and pypdf. Each page's spacing stretches to fill the page; a page that overflows fails loudly.
+- Renderer: [`scripts/renderers/welcome.py`](scripts/renderers/welcome.py), with ReportLab and pypdf. Each page's spacing stretches to fill the page; a page that overflows fails loudly.
 - `assets/`: school crest and Little Chewz logo (extracted from the Welcome PDF) and open-licensed fonts. New artwork goes here as separate files, never as a pre-rendered full page ([asset rule](system/CONTENT_CONTRACT.md#resources-slides-and-assets)).
 
 ```bash
-python scripts/renderers/claude.py \
+python scripts/renderers/welcome.py \
   content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json \
   --output exports/01-welcome.pdf
 ```
@@ -688,7 +689,7 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ### Status and builds
 
-A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "claude", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)). Rendering does not publish anything.
+A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "welcome", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)). Rendering does not publish anything.
 
 Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
 
@@ -793,7 +794,7 @@ This file tracks **active** work; repository instructions and publication author
 
 - Production-based registry: `generated_pdf` vs `external`, source provenance, explicit generated-PDF build mapping, holding vs official URLs and publication evidence.
 - Verified Google Drive review holding root and four category folders; existing Slide PDFs review folder remains separate.
-- Authorized single-resource generated-PDF PR merge Action, same-ID Drive replacement with MD5 and accepted revision, failure reporting and safe edit-branch cleanup.
+- Authorized generated-PDF PR merge Action supporting multiple explicitly approved resource IDs per release, with per-resource ownership checks, same-ID Drive replacement, MD5 and accepted revision verification, failure reporting and safe edit-branch cleanup.
 - External resources stay agent-created and agent-published; no external `/merge` integration, external checksum automation or GitHub source-creation engine.
 - Manual-only read-only publication inspector, with external content parity explicitly unverified.
 
@@ -811,7 +812,13 @@ Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linke
 
 Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
 
-### SYS-004 — Colour and printer-friendly worksheet versions in the Print Pack Builder
+### SYS-004 — Verify teacher access to published Drive resources
+
+**Status:** Low priority, proposed; not implemented.
+
+Add a **read-only** audit for Google Drive resources marked `published`, starting with those linked by current Teacher Guides. Verify the exact official file ID, intended reader permissions (including inherited access where applicable), and, when practical, actual access as a teacher without publisher credentials. Report `accessible`, `access problem`, or `unable to verify` with the affected resource ID; never mistake authenticated owner access or recorded publication status for teacher access. Do not automatically change permissions or publish resources. Run on demand or periodically rather than on every content edit; keep the existing manual publication-access checks until the audit exists.
+
+### SYS-005 — Colour and printer-friendly worksheet versions in the Print Pack Builder
 
 **Status:** Proposed, not implemented.
 
@@ -838,7 +845,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
 | `story/*.md` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md); approved text only, wording preserved |
-| `welcome/` (registry-built documents) | [templates/claude/README.md](templates/claude/README.md) |
+| `welcome/` (registry-built documents) | [templates/welcome/README.md](templates/welcome/README.md) |
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 
@@ -869,10 +876,10 @@ Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.m
 
 ## Editing templates
 
-Templates are starting structures for supported source types: `teacher_guide/` (lesson.json), `teacher_companion/`, `story/`, and the `claude/` page style with its assets. `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
+Templates are starting structures for supported source types: `teacher_guide/` (lesson.json), `teacher_companion/`, and the `welcome/` page style with its assets. `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
 
 - **Build templates from individual assets.** Logos, crests, icons, and illustrations go in the template's `assets/` folder as separate image files that the renderer places around live text. Never generate or rasterize a whole page as one image. Full rule: [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets).
-- Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need (the story template has an `instructions:` line), so copies inherit it. `scripts/validate.py` checks this.
+- Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need, so copies inherit it. `scripts/validate.py` checks this.
 - Renderers live in `scripts/renderers/`, not here ([scripts/AGENTS.md](scripts/AGENTS.md)).
 
 ---
@@ -885,7 +892,7 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | --- | --- | --- |
 | `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) |
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md#presentation) |
-| `renderers/claude.py` | Welcome/claude page style | [templates/claude/README.md](templates/claude/README.md) |
+| `renderers/welcome.py` | Welcome page style | [templates/welcome/README.md](templates/welcome/README.md) |
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |

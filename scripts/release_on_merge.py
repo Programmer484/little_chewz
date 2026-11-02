@@ -35,7 +35,7 @@ def release_request(pr: int, changed: set[str]) -> list[str]:
             or document.get("pr_number") != pr):
         raise ReleaseError(f"{marker}: invalid /merge release authorization")
     ids = document.get("resource_ids")
-    if (not isinstance(ids, list) or len(ids) != 1
+    if (not isinstance(ids, list) or not ids
             or any(not isinstance(i, str) or not ID_RE.fullmatch(i) for i in ids)
             or len(ids) != len(set(ids))):
         raise ReleaseError(f"{marker}: resource IDs must be unique stable IDs")
@@ -50,21 +50,26 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
                 "external": [], "blocked": []}
     registry = load_registry()
     registered = targets()
-    if head_branch is not None and head_branch != f"edit/{ids[0]}":
-        expected = None
-        for target in registered.values():
-            if target.get("kind") != "teacher_guide":
+    if head_branch is not None:
+        # A multi-resource release is allowed, but every resource must belong
+        # to the accepted lesson branch (or the single-resource edit branch).
+        for rid in ids:
+            if head_branch == f"edit/{rid}":
                 continue
-            guide_id = target.get("resource_id", "")
-            prefix = guide_id.removesuffix("-teacher-guide")
-            if ids[0] != guide_id and not ids[0].startswith(prefix + "-"):
-                continue
-            source = Path(target.get("source", ""))
-            if "lessons" in source.parts:
-                expected = f"lesson/{'-'.join(guide_id.split('-')[:2])}-{source.parent.name}"
-                break
-        if not expected or head_branch != expected:
-            raise ReleaseError("Release branch does not own this resource or lesson")
+            expected = None
+            for target in registered.values():
+                if target.get("kind") != "teacher_guide":
+                    continue
+                guide_id = target.get("resource_id", "")
+                prefix = guide_id.removesuffix("-teacher-guide")
+                if rid != guide_id and not rid.startswith(prefix + "-"):
+                    continue
+                source = Path(target.get("source", ""))
+                if "lessons" in source.parts:
+                    expected = f"lesson/{'-'.join(guide_id.split('-')[:2])}-{source.parent.name}"
+                    break
+            if not expected or head_branch != expected:
+                raise ReleaseError(f"Release branch does not own resource: {rid}")
     affected = set(select(changed, base_ref=base_sha))
     head = git("rev-parse", "HEAD")
     if subprocess.run(["git", "merge-base", "--is-ancestor", merge_sha, head],

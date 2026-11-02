@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](../system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) |
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](../system/RESOURCE_GUIDELINES.md#presentation) |
-| `renderers/claude.py` | Welcome/claude page style | [templates/claude/README.md](../templates/claude/README.md) |
+| `renderers/welcome.py` | Welcome page style | [templates/welcome/README.md](../templates/welcome/README.md) |
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](../system/WORKFLOW.md#previews-and-cleanup) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](../system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
