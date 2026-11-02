@@ -58,8 +58,8 @@ describe("worker API", () => {
     expect((await handleRequest(get("/api/resources/%E0%A4%A"), e)).status).toBe(400);
     expect((await handleRequest(get("/api/resources/Not_Valid"), e)).status).toBe(400);
     expect((await handleRequest(get("/api/resources/no-such-thing"), e)).status).toBe(404);
-    // A student worksheet in a guide, but not published yet.
-    expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-kwls-starter"), e)).status).toBe(404);
+    // Another student worksheet in a guide that is still marked unpublished.
+    expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-school-song-activity"), e)).status).toBe(404);
     // A teacher-only resource that is published but not a student printable.
     expect((await handleRequest(get("/api/resources/ccc-q01-secret-ingredients-teacher-guide"), e)).status).toBe(404);
     // Object prototype keys are not resources.
@@ -118,7 +118,7 @@ describe("worker API", () => {
       const health = await (await handleRequest(get("/api/health"), e)).json();
       expect(health).toMatchObject({ accessRequired: false });
       // Unpublished worksheets and non-worksheets are still refused.
-      expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-kwls-starter"), e, undefined, fetcher)).status).toBe(404);
+      expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-school-song-activity"), e, undefined, fetcher)).status).toBe(404);
       expect((await handleRequest(get("/api/resources/ccc-q01-secret-ingredients-teacher-guide"), e, undefined, fetcher)).status).toBe(404);
     });
 
