@@ -226,8 +226,8 @@
       "activate",
       "guide"
     ],
-    "status": "pending_publish",
-    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification.",
+    "status": "published",
+    "status_note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -362,8 +362,8 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "unpublished",
-    "link_note": "Student-only one-page School Song Activity PDF (teacher page removed). Drive link present; source editorial/link approval remains pending.",
+    "status": "published",
+    "link_note": "Standalone student-only School Song Activity PDF, existing Drive file confirmed accessible.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -373,7 +373,7 @@
       "drive_file_id": "1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1"
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view"
   },
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Mission Vocabulary",
@@ -384,8 +384,8 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "unpublished",
-    "link_note": "Student-only one-page Mission_Vocabulary.pdf (teacher page removed); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending.",
+    "status": "published",
+    "link_note": "Standalone student-only Mission Vocabulary PDF with the 15-word reference, existing Drive file confirmed accessible.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -395,7 +395,7 @@
       "drive_file_id": "1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-"
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view"
   },
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
@@ -406,7 +406,7 @@
       "set-the-table",
       "teacher-guide"
     ],
-    "status": "pending_publish",
+    "status": "published",
     "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft.",
     "production_type": "generated_pdf",
     "source": {
@@ -422,7 +422,7 @@
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
-    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
+    "status_note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
@@ -484,7 +484,7 @@
       "audio",
       "preview"
     ],
-    "status": "unpublished",
+    "status": "published",
     "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified.",
     "production_type": "external",
     "source": {
@@ -495,7 +495,7 @@
       "drive_file_id": "1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk"
     },
     "holding_url": null,
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
     "human_review": {
       "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view": "pending"
     }
@@ -620,7 +620,7 @@
       "optional",
       "extension"
     ],
-    "status": "unpublished",
+    "status": "published",
     "link_note": "Legacy Day Two guide, pages 6–7, not yet split into core and extension; use pages selectively, not the entire teacher PDF.",
     "production_type": "external",
     "source": {
@@ -631,7 +631,7 @@
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
   },
   "ccc-q01-secret-ingredients-clue-tracker-core": {
     "title": "Clue Tracker — Core",
