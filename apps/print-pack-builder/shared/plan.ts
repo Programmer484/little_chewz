@@ -31,28 +31,36 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
   const picks: SelectedPick[] = [];
   for (const s of lesson.sections) {
     if (s.kind === "core") for (const m of s.materials)
-      picks.push({ material: m, source: s.title, activityId: s.id });
+      if (!sel.customize || sel.core?.[`${s.id}:${m.resourceId}`] !== false)
+        picks.push({ material: m, source: s.title, activityId: s.id });
     if (s.kind === "choice") {
-      const chosen = s.options.find((o) => o.id === sel.choices[s.id]);
-      if (!chosen) continue;
-      const label = `${chosen.label} · ${chosen.title}`;
-      for (const m of chosen.materials) picks.push({ material: m, source: label, activityId: chosen.id });
-      for (const e of chosen.extensions)
-        if (sel.extensions[e.id]) for (const m of e.materials)
-          picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id });
+      const options = s.options.filter((o) => sel.customize
+        ? (sel.customChoices?.[o.id] ?? (sel.choices[s.id] === o.id))
+        : sel.choices[s.id] === o.id);
+      for (const chosen of options) {
+        const label = `${chosen.label} · ${chosen.title}`;
+        for (const m of chosen.materials) picks.push({ material: m, source: label, activityId: chosen.id });
+        for (const e of chosen.extensions)
+          if (sel.extensions[e.id]) for (const m of e.materials)
+            picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id });
+      }
     }
     if (s.kind === "optional")
       for (const item of s.items)
         if (sel.extensions[item.id]) for (const m of item.materials)
           picks.push({ material: m, source: item.title, activityId: item.id });
   }
-  return { problems: [], picks };
+  const problems = sel.customize ? [] : lesson.sections
+    .filter((s) => s.kind === "choice" && !s.options.some((o) => o.id === sel.choices[s.id]))
+    .map((s) => `Choose one option for “${s.title}”.`);
+  return { problems, picks };
 }
 
 /** Keep per-group uses separate, even when they point to the same resource ID. */
 export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantities): Plan {
   const problems = quantityProblems(q);
-  const { picks } = selectedMaterials(lesson, sel);
+  const { picks, problems: choiceProblems } = selectedMaterials(lesson, sel);
+  problems.push(...choiceProblems);
   if (lesson.status !== "ready") problems.push("This lesson has no downloadable student materials yet.");
 
   const lines = new Map<string, PlanLine>();
@@ -107,10 +115,13 @@ export function printSequence(lines: PlanLine[]): PrintSequence {
   const printed = lines.filter((line) => line.copies > 0);
   const student = printed.filter((line) => line.rule === "per_student" && !line.cardsPerSheet);
   const shared = printed.filter((line) => !student.includes(line));
+  // Keep one resource's shared copies together, even across distinct activities.
+  const sharedGroups = new Map<string, PlanLine[]>();
+  for (const line of shared) sharedGroups.set(line.resourceId, [...(sharedGroups.get(line.resourceId) ?? []), line]);
   const count = Math.max(0, ...student.map((line) => line.copies));
   const packets: string[][] = [];
   for (let i = 0; i < count; i++)
     packets.push(student.filter((line) => i < line.copies).map((line) => line.resourceId));
-  return { packets, shared: shared.flatMap((line) =>
-    Array.from({ length: line.copies }, () => ({ resourceId: line.resourceId, frontOnly: (line.cardsPerSheet ?? 0) > 1 }))) };
+  return { packets, shared: [...sharedGroups.values()].flatMap((group) => group.flatMap((line) =>
+    Array.from({ length: line.copies }, () => ({ resourceId: line.resourceId, frontOnly: (line.cardsPerSheet ?? 0) > 1 })))) };
 }

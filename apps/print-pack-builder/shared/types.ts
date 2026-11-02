@@ -121,8 +121,14 @@ export type ResourceMode = "disabled" | "demo" | "drive";
 /* ---------------- Selections, plan and print options ---------------- */
 
 export interface Selection {
-  /** sectionId -> chosen optionId */
+  /** Guided: sectionId -> chosen optionId */
   choices: Record<string, string | undefined>;
+  /** When true, core requirements unlock and alternatives become independent checkboxes. */
+  customize?: boolean;
+  /** Custom: option ID -> checked; absent inherits the current guided choice. */
+  customChoices?: Record<string, boolean | undefined>;
+  /** Custom: core section and resource -> checked; absent defaults to selected. */
+  core?: Record<string, boolean | undefined>;
   /** extension id -> checked */
   extensions: Record<string, boolean | undefined>;
 }
