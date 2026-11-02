@@ -87,9 +87,22 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(audit.audit({"x": external})["result"], audit.REVIEW)
 
     def test_external_drive_skips_permission_check(self):
-        result = audit.audit({"story": item(human_review={U: "pending"})})
-        self.assertEqual(result["result"], audit.REVIEW)
-        self.assertEqual(audit.audit({"story": item(human_review={U: "reviewed"})})["result"], audit.PASS)
+        story = item(review_mode="human", human_review={U: "pending"})
+        self.assertEqual(audit.audit({"story": story})["result"], audit.REVIEW)
+        story["human_review"][U] = "reviewed"
+        self.assertEqual(audit.audit({"story": story})["result"], audit.PASS)
+
+    def test_human_review_does_not_hide_private_regular_drive_file(self):
+        drive = Drive(public=False)
+        record = item(human_review={U: "reviewed"})
+        self.assertEqual(audit.audit({"worksheet": record}, service=drive)["result"], audit.FAIL)
+        self.assertEqual(drive.requests, [A])
+
+    def test_both_reviewed_slide_links_still_check_drive_sharing(self):
+        drive = Drive()
+        slide = item(type="slide_deck", pdf_url=V, human_review={U: "reviewed", V: "reviewed"})
+        self.assertEqual(audit.audit({"slide": slide}, service=drive)["result"], audit.PASS)
+        self.assertEqual(drive.requests, [A, B])
 
     def test_paired_slides_stop_on_first_failure_but_continue_other_resources(self):
         slide = item("http://invalid", type="slide_deck", pdf_url=V)
