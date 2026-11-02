@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   inspect:
-    name: Exists / Accessible / Correct
+    name: Drive sharing / Human review
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -29,7 +29,7 @@ jobs:
         with:
           extra-packages: "google-api-python-client>=2.100,<3 google-auth>=2.20,<3"
 
-      - name: Audit published resources and Teacher Guide hyperlinks
+      - name: Inspect Drive sharing and human-review links
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           RESOURCE_ID: ${{ inputs.resource_id }}
