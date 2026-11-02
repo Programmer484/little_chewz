@@ -1,35 +1,15 @@
-# Publication audit — Exists / Accessible / Correct
+# Publication inspection — Drive sharing + human link review
 
-**Scope:** Published catalogue resources only. Drafts and pending publications are skipped. A published Teacher Guide must not link to an unpublished resource.
+**Scope:** Published resources only. Inspection does not publish, modify Drive, or alter catalogue statuses.
 
-Inspection runs **automatically after authorized generated-PDF publication** and after an **Internal Drive replacement** (non-dry-run). The optional **Actions → Inspect published resources** workflow remains available for a full audit or targeted recheck. Only published resources are audited; the inspector is read-only.
+- **Google Drive links** without a human-review marker: confirm the exact file is accessible to the service account, is not in Trash, and has `anyone` viewing permission. No folder placement, PDF bytes, checksums, or content correctness checks.
+- **Non-Google-Drive links:** human review only. No automated website probing.
+- **Externally owned Drive files:** mark the exact URL as `human_review: { "<url>": "pending" }` to skip service-account checks and put the link in the human-review table.
+- **After review:** change only that URL's value from `pending` to `reviewed`. A changed URL does not inherit approval. Slide decks inspect both the primary and PDF URLs.
+- **Missing/invalid URLs, trashed Drive files, and confirmed nonpublic Drive sharing**: FAIL.
+- **Service-account access/permission uncertainty**: NEEDS REVIEW, not a claim that the file is missing.
+- **Fail fast within a resource** but continue through the catalogue to collect every other issue and review link.
 
-## EXISTS
-- The exact registered Drive file exists and is not in Trash.
-- It is in its pre-approved official folder, saved in catalog/drive_folders.json → published.by_resource_id. Never guess the approved folder from the current location.
-- Slide decks require checking **both** the PowerPoint and the companion PDF (pdf_url).
+The GitHub Actions summary is one table with failures and URLs awaiting human review; successful resources are omitted. A run fails only for a confirmed FAIL. Outstanding human reviews remain visible but do not falsely fail the workflow.
 
-## ACCESSIBLE
-- Google Drive has **anyone-with-link viewing** enabled.
-- Website links open without a sign-in redirect.
-- If sharing information is unavailable, report NEEDS REVIEW. Drive permission metadata cannot prove real incognito browser behaviour.
-
-## CORRECT
-- The current checksum equals the checksum saved upon approval.
-- The generated-PDF publisher already records publication.artifact_md5 and the audit also compares the current GitHub-generated PDF to it.
-- Approved external files require publication.approved_md5, and slide PDF companions require publication.pdf_md5. These must be recorded at approval, NOT inferred from the current file during inspection.
-- Published Teacher Guide PDFs are downloaded and their **actual hyperlinks** are inspected. Published resources must link to their current `published_url` file ID, not an old holding file ID. References to unpublished resources or missing official links fail; unregistered links require review.
-- **Only published `student_worksheet` PDFs:** download the actual Drive file and confirm **every page is US Letter (8.5 × 11 inches)**, portrait or landscape. A4 or mixed page sizes fail. Other PDF types keep their original page sizes.
-- Dynamic websites and folders have no stable downloadable checksum: treat content as NEEDS REVIEW until an appropriate approved verification method exists.
-
-## Three results
-- **PASS** — verified.
-- **FAIL** — provably wrong (missing, trashed, wrong folder, nonpublic, checksum mismatch, or broken published Guide references).
-- **NEEDS REVIEW** — cannot establish the fact from evidence (including missing baseline).
-
-Every resource reports Exists / Accessible / Correct independently. Any FAIL makes the overall audit FAIL; otherwise any NEEDS REVIEW keeps the overall result NEEDS REVIEW. GitHub Actions turns green only if all published resources pass and always saves the report.
-
-## Existing publications
-Older published resources do not yet all have approved folder and checksum baselines. They will need review until explicitly approved and recorded. Do not automatically trust today's Drive file as the approved file. Existing publication authorization and safeguards remain unchanged.
-
-This is an inspection, not a publisher: it never changes Drive or catalogue data.
+Generated-PDF publication itself still performs its existing source checksum and Drive read-back checks in `publish_to_drive.py`. Those publishing safeguards are distinct from link inspection.
