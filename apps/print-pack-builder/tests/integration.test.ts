@@ -42,9 +42,14 @@ describe("print pack integration", () => {
     const doc = await PDFDocument.load(packet.bytes);
     expect(doc.getPageCount()).toBe(62);
     const s = sizes(doc);
-    expect(s.slice(0, 50).every((x) => x === "612x792")).toBe(true);
-    expect(s.slice(50, 57).every((x) => x === "792x612")).toBe(true); // landscape JPEG
-    expect(s.slice(59)).toEqual(["595x842", "595x842", "595x842"]); // A4 exit ticket keeps its size
+    expect(s.slice(0, 9)).toEqual([
+      "612x792", "612x792", "595x842",
+      "612x792", "612x792", "595x842",
+      "612x792", "612x792", "595x842",
+    ]); // Each student's A4 exit ticket follows their letter worksheets.
+    expect(s.slice(9, 53).every((x) => x === "612x792")).toBe(true);
+    expect(s.slice(53, 60).every((x) => x === "792x612")).toBe(true); // shared JPEGs
+    expect(s.slice(60)).toEqual(["612x792", "612x792"]); // shared cutout sheets
   });
 
   it("builds student packets, double-sided", async () => {
