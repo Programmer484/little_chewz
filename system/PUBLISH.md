@@ -44,9 +44,9 @@ For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_G
 
 The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
-## On-demand inspection
+## Automatic publication inspection
 
-**Actions → Inspect published resources** is manual, read-only, and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
+The **authorized release** and **Internal Drive replacement** workflows automatically inspect each newly published resource after saving its verified publication record; a FAIL or NEEDS REVIEW makes that publication workflow red. **Actions → Inspect published resources** remains an optional manual full/targeted check. The inspector is read-only and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
 
 ## One-time setup
 
