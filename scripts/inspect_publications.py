@@ -41,12 +41,11 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
     if parsed.scheme != "https" or not parsed.hostname:
         return FAIL, "Invalid HTTPS URL"
 
-    # Approval belongs to the exact URL; a changed link cannot inherit approval.
+    # Human approval is URL-bound; ordinary Drive links still require public sharing.
     review = (resource.get("human_review") or {}).get(url)
-    if review == "reviewed":
-        return PASS, "Human reviewed this URL"
-    if review == "pending" or parsed.hostname not in DRIVE_HOSTS:
-        return REVIEW, "Human review required"
+    if resource.get("review_mode") == "human" or parsed.hostname not in DRIVE_HOSTS:
+        return (PASS, "Human reviewed this URL") if review == "reviewed" else (
+            REVIEW, "Human review required")
 
     file_id = drive_id(url)
     if not file_id:
@@ -95,8 +94,7 @@ def audit(registry: dict, folders=None, service=None, builder=None,
         result = PASS
         issues = []
         for url in links(resource):
-            if url and drive_id(url) and \
-                    (resource.get("human_review") or {}).get(url) not in {"pending", "reviewed"}:
+            if url and drive_id(url) and resource.get("review_mode") != "human":
                 if not credentials_checked:
                     credentials_checked = True
                     try:
