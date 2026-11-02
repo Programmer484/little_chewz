@@ -188,8 +188,9 @@ class AuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as path:
             output = Path(path) / "built.pdf"
             output.write_bytes(b"changed GitHub source")
-            record = item(GUIDE, other={"production_type": "generated_pdf",
-                                        "build": {"renderer": "welcome", "source": "x"}})
+            record = item(GUIDE, typ="published_export",
+                          other={"production_type": "generated_pdf",
+                                 "build": {"renderer": "welcome", "source": "x"}})
             result = audit.audit(
                 {"overview": record},
                 {"published": {"by_resource_id": {"overview": "official"}}},
@@ -206,8 +207,9 @@ class AuditTests(unittest.TestCase):
                           "from": fitz.Rect(10, 10, 100, 25), "uri": url(KWLS)})
         data = doc.tobytes()
         doc.close()
-        guide = item(GUIDE, other={"production_type": "generated_pdf",
-                                   "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
+        guide = item(GUIDE, typ="published_export",
+                     other={"production_type": "generated_pdf",
+                            "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
         draft = item(KWLS, status="unpublished", other={"url": url(KWLS)})
         t = {"02-secret-ingredients-teacher-guide.pdf": {
             "resource_id": "guide", "kind": "teacher_guide",
@@ -227,8 +229,9 @@ class AuditTests(unittest.TestCase):
             "uri": "https://example.org/not-registered"})
         data = doc.tobytes()
         doc.close()
-        guide = item(GUIDE, checksum=None, other={"production_type": "generated_pdf",
-                                   "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
+        guide = item(GUIDE, typ="published_export", checksum=None,
+                     other={"production_type": "generated_pdf",
+                            "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
         t = {"02-secret-ingredients-teacher-guide.pdf": {
             "resource_id": "guide", "kind": "teacher_guide", "data": {}}}
         result, _ = run({"guide": guide}, {GUIDE: meta(GUIDE)},
