@@ -105,7 +105,7 @@ jobs:
               ], check=False)
               failed |= result.returncode != 0
           if failed:
-              sys.exit("Published-resource inspection failed or needs review")
+              sys.exit("Published-resource inspection confirmed a failure")
           PY
 
       - name: Retain publication inspections
