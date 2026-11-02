@@ -71,9 +71,7 @@ describe("semantic Print Pack CI impact", () => {
   });
 
   it("detects worksheet display-name and print setting changes", () => {
-    expect(changed((input) => { input.registry.sheet.title = "New worksheet title"; })).toBe(false);
-    // Non-optional GIVE worksheets don't use registry title in UI;
-    // MORE does, and print metadata always affects quantity calculation.
+    expect(changed((input) => { input.registry.sheet.title = "New worksheet title"; })).toBe(true);
     expect(changed((input) => { input.registry.sheet.print = { cards_per_sheet: 3 }; })).toBe(true);
     expect(changed((input) => {
       lesson(input).steps[0].rows[0].kind = "MORE";
