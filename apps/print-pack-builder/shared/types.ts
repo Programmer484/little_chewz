@@ -127,8 +127,8 @@ export interface Selection {
   customize?: boolean;
   /** Custom: option ID -> checked; absent inherits the current guided choice. */
   customChoices?: Record<string, boolean | undefined>;
-  /** Custom: core section and resource -> checked; absent defaults to selected. */
-  core?: Record<string, boolean | undefined>;
+  /** Custom: activity and worksheet -> checked; absent defaults to selected. */
+  materials?: Record<string, boolean | undefined>;
   /** extension id -> checked */
   extensions: Record<string, boolean | undefined>;
 }

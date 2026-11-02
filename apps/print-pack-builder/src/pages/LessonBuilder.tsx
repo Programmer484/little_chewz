@@ -145,9 +145,9 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
                           <label className="option option-label" key={key}>
                             <input
                               type="checkbox"
-                              checked={selection.core?.[key] !== false}
+                              checked={selection.materials?.[key] !== false}
                               onChange={(e) => setSelection((previous) => ({
-                                ...previous, core: { ...previous.core, [key]: e.target.checked },
+                                ...previous, materials: { ...previous.materials, [key]: e.target.checked },
                               }))}
                             />
                             <span>
@@ -200,7 +200,32 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
                             {checked && <span className="selected-tag">Selected</span>}
                           </label>
                           {option.summary && <p className="option-summary">{option.summary}</p>}
-                          <MaterialList materials={option.materials} />
+                          {selection.customize && checked ? (
+                            <div className="options">
+                              {option.materials.map((material) => {
+                                const key = `${option.id}:${material.resourceId}`;
+                                return (
+                                  <label className="option option-label" key={key}>
+                                    <input
+                                      type="checkbox"
+                                      checked={selection.materials?.[key] !== false}
+                                      onChange={(e) => setSelection((previous) => ({
+                                        ...previous,
+                                        materials: { ...previous.materials, [key]: e.target.checked },
+                                      }))}
+                                    />
+                                    <span>
+                                      <span className="option-title">{material.resource.title}</span>
+                                      {material.note && <span className="option-summary block">{material.note}</span>}
+                                      {!material.resource.available && (
+                                        <span className="option-summary block">{material.resource.reason ?? "Not available yet."}</span>
+                                      )}
+                                    </span>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          ) : <MaterialList materials={option.materials} />}
                           {checked && option.extensions.length > 0 && (
                             <div className="extensions">
                               {option.extensions.map((ext) => (

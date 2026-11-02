@@ -31,7 +31,7 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
   const picks: SelectedPick[] = [];
   for (const s of lesson.sections) {
     if (s.kind === "core") for (const m of s.materials)
-      if (!sel.customize || sel.core?.[`${s.id}:${m.resourceId}`] !== false)
+      if (!sel.customize || sel.materials?.[`${s.id}:${m.resourceId}`] !== false)
         picks.push({ material: m, source: s.title, activityId: s.id });
     if (s.kind === "choice") {
       const options = s.options.filter((o) => sel.customize
@@ -39,7 +39,9 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
         : sel.choices[s.id] === o.id);
       for (const chosen of options) {
         const label = `${chosen.label} · ${chosen.title}`;
-        for (const m of chosen.materials) picks.push({ material: m, source: label, activityId: chosen.id });
+        for (const m of chosen.materials)
+          if (!sel.customize || sel.materials?.[`${chosen.id}:${m.resourceId}`] !== false)
+            picks.push({ material: m, source: label, activityId: chosen.id });
         for (const e of chosen.extensions)
           if (sel.extensions[e.id]) for (const m of e.materials)
             picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id });
