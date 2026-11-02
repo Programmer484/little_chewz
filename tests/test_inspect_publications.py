@@ -98,19 +98,21 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(audit.audit({"worksheet": record}, service=drive)["result"], audit.FAIL)
         self.assertEqual(drive.requests, [A])
 
-    def test_both_reviewed_slide_links_still_check_drive_sharing(self):
-        drive = Drive()
-        slide = item(type="slide_deck", pdf_url=V, human_review={U: "reviewed", V: "reviewed"})
-        self.assertEqual(audit.audit({"slide": slide}, service=drive)["result"], audit.PASS)
-        self.assertEqual(drive.requests, [A, B])
+    def test_slide_holding_pdfs_are_never_inspected(self):
+        drive = Drive(public=False)
+        slide = item(type="slide_deck", pdf_url=V, holding_url=V,
+                     human_review={U: "reviewed", V: "reviewed"})
+        report = audit.audit({"slide": slide}, service=drive)
+        self.assertEqual(report["resources"], [])
+        self.assertEqual(drive.requests, [])
 
-    def test_paired_slides_stop_on_first_failure_but_continue_other_resources(self):
+    def test_slide_exemption_does_not_skip_other_resources(self):
         slide = item("http://invalid", type="slide_deck", pdf_url=V)
         drive = Drive()
         report = audit.audit({"slide": slide, "second": item()}, service=drive)
-        self.assertEqual(report["result"], audit.FAIL)
+        self.assertEqual(report["result"], audit.PASS)
         self.assertEqual(drive.requests, [A])
-        self.assertEqual(len(report["resources"]), 2)
+        self.assertEqual(len(report["resources"]), 1)
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())
