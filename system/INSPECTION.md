@@ -2,7 +2,7 @@
 
 **Scope:** Published catalogue resources only. Drafts and pending publications are skipped. A published Teacher Guide must not link to an unpublished resource.
 
-Run **Actions → Inspect published resources** without an ID for everything, or with a resource ID for one published item. Read-only; the manual workflow audits current main.
+Inspection runs **automatically after authorized generated-PDF publication** and after an **Internal Drive replacement** (non-dry-run). The optional **Actions → Inspect published resources** workflow remains available for a full audit or targeted recheck. Only published resources are audited; the inspector is read-only.
 
 ## EXISTS
 - The exact registered Drive file exists and is not in Trash.
