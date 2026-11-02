@@ -311,6 +311,10 @@ def audit(registry: dict, folders: dict, service=None, builder=build_pdf,
                                 "details": {part: p[category]["reason"] for part, p in parts.items()}}
         report[rid] = {"resource_id": rid, "checks": checks}
 
+    # Compute linked resource results before checking hyperlink targets.
+    for value in report.values():
+        value["result"] = worst(*(x["result"] for x in value["checks"].values()))
+
     # A published teacher guide must have every real hyperlink checked too.
     if source_targets is None:
         source_targets = targets()
