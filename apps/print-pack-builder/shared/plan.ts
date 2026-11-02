@@ -1,5 +1,5 @@
 import { LIMITS } from "./limits.ts";
-import type { Plan, PlanLine, PrintSequence, Quantities, ResolvedLesson, ResolvedMaterial, Selection } from "./types.ts";
+import type { Plan, PlanLine, PrintSequence, Quantities, ResolvedExtension, ResolvedLesson, ResolvedMaterial, Selection } from "./types.ts";
 
 export const groupCount = (students: number, size: number) => Math.ceil(students / size);
 const whole = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n);
@@ -8,9 +8,8 @@ export function quantityProblems(q: Quantities): string[] {
   const errors: string[] = [];
   if (!whole(q.studentCount) || q.studentCount < LIMITS.minStudents || q.studentCount > LIMITS.maxStudents)
     errors.push(`Enter a student count from ${LIMITS.minStudents} to ${LIMITS.maxStudents}.`);
-  if ([q.groupSize, ...Object.values(q.groupSizes ?? {})].some((n) =>
-    !whole(n) || n < LIMITS.minGroupSize || n > LIMITS.maxGroupSize))
-    errors.push(`Enter a group size from ${LIMITS.minGroupSize} to ${LIMITS.maxGroupSize}.`);
+  if (Object.values(q.groups ?? {}).some((n) => n !== undefined && (!whole(n) || n < 1 || n > LIMITS.maxGroups)))
+    errors.push(`Enter a number of groups from 1 to ${LIMITS.maxGroups}.`);
   if (Object.values(q.copies ?? {}).some((n) => n !== undefined && (!whole(n) || n < 0 || n > LIMITS.maxCopies)))
     errors.push(`Copies must be a whole number from 0 to ${LIMITS.maxCopies}.`);
   return errors;
@@ -24,54 +23,40 @@ export interface SelectedPick {
   material: ResolvedMaterial;
   source: string;
   activityId: string;
-  required: boolean;
 }
 
-/** All selected activities, in lesson order. Choice groups may be left unanswered. */
-export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { problems: string[]; picks: SelectedPick[] } {
+/** Ticked worksheets, in lesson order. */
+export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): SelectedPick[] {
   const picks: SelectedPick[] = [];
+  const extras = (items: ResolvedExtension[], prefix = "") => {
+    for (const e of items) if (sel.extensions[e.id]) for (const m of e.materials)
+      picks.push({ material: m, source: prefix + e.title, activityId: e.id });
+  };
   for (const s of lesson.sections) {
     if (s.kind === "core") for (const m of s.materials)
-      if (!sel.customize || sel.materials?.[`${s.id}:${m.resourceId}`] !== false)
-        picks.push({ material: m, source: s.title, activityId: s.id, required: !sel.customize });
-    if (s.kind === "choice") {
-      const options = s.options.filter((o) => sel.customize
-        ? (sel.customChoices?.[o.id] ?? (sel.choices[s.id] === o.id))
-        : sel.choices[s.id] === o.id);
-      for (const chosen of options) {
-        const label = `${chosen.label} · ${chosen.title}`;
-        for (const m of chosen.materials)
-          if (!sel.customize || sel.materials?.[`${chosen.id}:${m.resourceId}`] !== false)
-            picks.push({ material: m, source: label, activityId: chosen.id, required: !sel.customize });
-        for (const e of chosen.extensions)
-          if (sel.extensions[e.id]) for (const m of e.materials)
-            picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id, required: false });
-      }
+      if (sel.core?.[`${s.id}:${m.resourceId}`] !== false) picks.push({ material: m, source: s.title, activityId: s.id });
+    if (s.kind === "choice") for (const option of s.options) {
+      if (!sel.options[option.id]) continue;
+      const label = `${option.label} · ${option.title}`;
+      for (const m of option.materials) picks.push({ material: m, source: label, activityId: option.id });
+      extras(option.extensions, `${label} · `);
     }
-    if (s.kind === "optional")
-      for (const item of s.items)
-        if (sel.extensions[item.id]) for (const m of item.materials)
-          picks.push({ material: m, source: item.title, activityId: item.id, required: false });
+    if (s.kind === "optional") extras(s.items);
   }
-  const problems = sel.customize ? [] : lesson.sections
-    .filter((s) => s.kind === "choice" && !s.options.some((o) => o.id === sel.choices[s.id]))
-    .map((s) => `Choose one option for “${s.title}”.`);
-  return { problems, picks };
+  return picks;
 }
 
 /** Per-group uses of one resource stay separate by activity, unless every student already gets that resource. */
 export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantities): Plan {
   const numberProblems = quantityProblems(q);
   const problems = [...numberProblems];
-  const { picks, problems: choiceProblems } = selectedMaterials(lesson, sel);
-  problems.push(...choiceProblems);
   if (lesson.status !== "ready") problems.push("This lesson has no downloadable student materials yet.");
+  const defaultGroups = groupCount(q.studentCount, lesson.defaults.groupSize);
 
   const lines = new Map<string, PlanLine>();
   const unavailable = new Map<string, Plan["unavailable"][number]>();
-  for (const { material: m, source, activityId, required } of picks) {
+  for (const { material: m, source, activityId } of selectedMaterials(lesson, sel)) {
     if (!m.resource.available) {
-      if (required) problems.push(`Required worksheet “${m.resource.title}” is not available yet.`);
       const item = unavailable.get(m.resourceId);
       if (item) { if (!item.sources.includes(source)) item.sources.push(source); }
       else unavailable.set(m.resourceId, {
@@ -80,20 +65,19 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
       });
       continue;
     }
-    const size = m.rule === "per_group" ? (q.groupSizes?.[activityId] ?? q.groupSize) : undefined;
-    const needed = numberProblems.length ? 0 : m.rule === "per_student" ? q.studentCount : groupCount(q.studentCount, size!);
+    const groups = m.rule === "per_group" ? (q.groups?.[activityId] ?? defaultGroups) : undefined;
+    const needed = numberProblems.length ? 0 : m.rule === "per_student" ? q.studentCount : groups!;
     const id = `${m.resourceId}:${m.rule}${m.rule === "per_group" ? `:${activityId}` : ""}`;
     const previous = lines.get(id);
     if (previous) {
-      previous.required ||= required;
       if (!previous.sources.includes(source)) previous.sources.push(source);
       continue;
     }
     const defaultCopies = copiesFor(needed, m.cardsPerSheet);
     const override = q.copies?.[id];
     lines.set(id, {
-      id, activityId, resourceId: m.resourceId, title: m.resource.title, rule: m.rule, required,
-      ...(size !== undefined ? { groupSize: size } : {}),
+      id, activityId, resourceId: m.resourceId, title: m.resource.title, rule: m.rule,
+      ...(groups !== undefined ? { groups } : {}),
       needed, cardsPerSheet: m.cardsPerSheet, defaultCopies,
       copies: override ?? defaultCopies, edited: override !== undefined && override !== defaultCopies,
       sources: [source], note: m.note,
@@ -104,27 +88,24 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
   for (const group of [...lines.values()].filter((l) => l.rule === "per_group")) {
     const student = lines.get(`${group.resourceId}:per_student`);
     if (!student || student.copies === 0) continue;
-    student.required ||= group.required;
     for (const source of group.sources) if (!student.sources.includes(source)) student.sources.push(source);
     lines.delete(group.id);
   }
   const all = [...lines.values()];
-  if (all.some((line) => line.required && line.copies === 0))
-    problems.push("Guided Printing requires at least one copy of each mandatory worksheet.");
   if (!problems.length && all.every((l) => l.copies === 0))
     problems.push(unavailable.size
       ? "None of the selected worksheets can be downloaded yet."
       : all.length ? "Every worksheet is set to 0 copies." : "Select at least one worksheet.");
-  return { lines: all, unavailable: [...unavailable.values()], problems };
+  const warnings = lesson.sections
+    .filter((s) => s.kind === "choice" && !s.options.some((o) => sel.options[o.id]))
+    .map((s) => `Nothing picked for “${s.title}”.`);
+  return { lines: all, unavailable: [...unavailable.values()], problems, warnings };
 }
 
-export function describeLine(line: PlanLine, q: Pick<Quantities, "studentCount">): string {
-  const units = line.cardsPerSheet
-    ? `${line.needed} cutouts, ${line.cardsPerSheet} per sheet`
-    : line.rule === "per_student"
-      ? `One per student (${q.studentCount})`
-      : `One per group (${groupCount(q.studentCount, line.groupSize!)} groups)`;
-  return units;
+/** Short copy rule shown beside each copies box. */
+export function describeLine(line: PlanLine): string {
+  const each = line.rule === "per_student" ? "1 per student" : "1 per group";
+  return line.cardsPerSheet ? `${each}, ${line.cardsPerSheet} per sheet` : each;
 }
 
 /** Student packets first, in lesson order; shared resources grouped by copy. */

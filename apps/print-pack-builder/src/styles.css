@@ -40,7 +40,7 @@ main { flex: 1; }
 .quest { margin-top: 1.5rem; }
 .lesson-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
 .lesson-card { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1.1rem; background: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); text-decoration: none; color: var(--ink); min-height: 96px; }
-.lesson-card:hover { border-color: var(--coral); }
+a.lesson-card:hover { border-color: var(--coral); }
 .lesson-title { font-weight: 700; font-size: 1.15rem; }
 .lesson-state, .status-line { font-size: 0.92rem; }
 .tone-ready .lesson-state { color: var(--coral-dark); font-weight: 600; }
@@ -51,24 +51,19 @@ main { flex: 1; }
 .back { display: inline-block; margin-bottom: 0.75rem; text-decoration: none; font-weight: 600; }
 .eyebrow { margin: 0; color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
 
-.steps { list-style: none; display: flex; gap: 0.5rem; padding: 0; margin: 1rem 0 0; flex-wrap: wrap; }
-.steps li { padding: 0.3rem 0.8rem; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; }
-.steps li.current { border: 2px solid var(--coral); color: var(--ink); font-weight: 700; }
-.steps li.done { color: var(--mint); }
-.step-num { font-weight: 700; }
-
 .section { border: 0; margin: 1.25rem 0 0; padding: 0; }
+.section.continued { margin-top: 0.6rem; }
 .section legend, .section h3 { font-weight: 700; font-size: 1.05rem; padding: 0; margin-bottom: 0.5rem; }
-.section.has-error .options { outline: 2px solid var(--coral); outline-offset: 4px; border-radius: var(--radius); }
-.included { margin: 0 0 0.25rem; color: var(--mint); font-weight: 600; }
 .options { display: grid; gap: 0.6rem; }
 .option, .extension { border: 2px solid var(--line); border-radius: var(--radius); padding: 0.7rem 0.9rem; background: var(--paper); }
 .option.selected, .extension.selected { border-color: var(--coral); border-width: 3px; padding: calc(0.7rem - 1px) calc(0.9rem - 1px); background: #fff4f1; }
 .extensions { margin: 0.6rem 0 0 1.75rem; display: grid; gap: 0.5rem; }
 .option-label { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: 600; flex-wrap: wrap; }
+.option-text { flex: 1 1 0; min-width: 0; }
+.option-label:has(.option-text) { align-items: flex-start; flex-wrap: nowrap; }
+.option-label:has(.option-text) input { margin-top: 0.2rem; }
 .option-label input { width: 1.25rem; height: 1.25rem; accent-color: var(--coral); margin: 0; }
 .option-letter { display: inline-grid; place-items: center; min-width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--coral); color: white; font-weight: 800; }
-.selected-tag { margin-left: auto; font-size: 0.8rem; font-weight: 700; color: var(--coral-dark); border: 1px solid currentColor; border-radius: 999px; padding: 0 0.5rem; }
 .option-summary { margin: 0.25rem 0 0 1.85rem; font-size: 0.92rem; }
 .materials { margin: 0.35rem 0 0 1.85rem; padding: 0; list-style: none; font-size: 0.92rem; }
 .materials li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); margin-right: 0.5rem; vertical-align: 0.15em; }
@@ -83,8 +78,6 @@ main { flex: 1; }
 .field input { font: inherit; font-size: 1.1rem; padding: 0.5rem 0.7rem; border: 2px solid var(--line); border-radius: 10px; max-width: 10rem; }
 .field input[aria-invalid="true"] { border-color: var(--coral); }
 .field-error { color: var(--coral-dark); font-weight: 600; font-size: 0.9rem; }
-.spares { margin-top: 1.25rem; }
-.spares summary { cursor: pointer; font-weight: 600; }
 
 .review { width: 100%; border-collapse: collapse; margin-top: 0.75rem; }
 .review th, .review td { text-align: left; padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -113,15 +106,11 @@ p.alert { padding-left: 1rem; }
   .actions .button { flex: 1; }
 }
 
-/* Copies & download screen */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .block { display: block; margin: 0.15rem 0 0; font-weight: 400; }
 .copies-cell { white-space: normal; }
 .copies-cell input { font: inherit; font-size: 1.05rem; width: 5.5rem; padding: 0.35rem 0.5rem; border: 2px solid var(--line); border-radius: 10px; text-align: right; }
 .copies-cell input[aria-invalid="true"] { border-color: var(--coral); }
-.unit { display: block; font-size: 0.8rem; color: var(--muted); }
 .link-button { background: none; border: 0; padding: 0; font: inherit; font-size: 0.85rem; color: var(--coral-dark); text-decoration: underline; cursor: pointer; }
-.print-options .option-label { align-items: flex-start; font-weight: 600; }
-.print-options .option-label input { margin-top: 0.2rem; }
 .success p { margin: 0.25rem 0; }
 .tip { color: var(--ink); font-weight: 400; }

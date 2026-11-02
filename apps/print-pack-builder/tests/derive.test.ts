@@ -153,7 +153,7 @@ describe("the real Teacher Guides", () => {
     const si = byId.get("ccc-q01-secret-ingredients")!;
     expect(si.sections.map((s) => s.title)).toEqual([
       "Step 1 · Clue Hunt + Quick Inference",
-      "Step 1 · Clue Hunt + Quick Inference · Optional",
+      "Step 1 · Clue Hunt + Quick Inference",
       "Step 2 · Chapter Prediction",
       "Step 4 · Choose One Small Bite",
     ]);

@@ -138,7 +138,7 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
         else if (row.kind === "MORE") optional.push(extension(`${stepId}-more-${link.ref}`, link));
       }
     if (core.length) sections.push({ kind: "core", id: stepId, title: stepTitle, materials: core });
-    if (optional.length) sections.push({ kind: "optional", id: `${stepId}-more`, title: `${stepTitle} · Optional`, items: optional });
+    if (optional.length) sections.push({ kind: "optional", id: `${stepId}-more`, title: stepTitle, items: optional });
 
     if (step.options?.length) {
       const options: OptionSpec[] = step.options.map((option) => {

@@ -24,8 +24,8 @@ async function lesson(id: string) {
 const sizes = (doc: PDFDocument) => doc.getPages().map((p) => `${Math.round(p.getWidth())}x${Math.round(p.getHeight())}`);
 
 describe("print pack integration", () => {
-  const demoSelection = { choices: { station: "photo" }, extensions: { "photo-cards": true, "exit-ticket": true } };
-  const demoNumbers = { studentCount: 25, groupSize: 4, copies: { "demo-exit-ticket:per_student": 3 } };
+  const demoSelection = { options: { photo: true }, extensions: { "photo-cards": true, "exit-ticket": true } };
+  const demoNumbers = { studentCount: 25, copies: { "demo-exit-ticket:per_student": 3 } };
 
   it("builds a real, openable demo packet with the expected pages", async () => {
     const plan = computePlan(await lesson("demo-sample-lesson"), demoSelection, demoNumbers);
@@ -68,8 +68,8 @@ describe("print pack integration", () => {
     expect(si.printable).toBe(true);
     const plan = computePlan(
       si,
-      { choices: { "step-4-choice": "step-4-b" }, extensions: { "step-4-b-more-ccc-q01-secret-ingredients-character-profile": true } },
-      { studentCount: 24, groupSize: 4 },
+      { options: { "step-4-b": true }, extensions: { "step-4-b-more-ccc-q01-secret-ingredients-character-profile": true } },
+      { studentCount: 24 },
     );
     expect(plan.lines.map((l) => l.resourceId)).toEqual([
       "ccc-q01-secret-ingredients-clue-tracker-core",
@@ -82,7 +82,7 @@ describe("print pack integration", () => {
   });
 
   it("never returns a partial packet when one worksheet fails", async () => {
-    const plan = computePlan(await lesson("demo-sample-lesson"), { choices: { station: "poster" }, extensions: {} }, { studentCount: 5, groupSize: 4 });
+    const plan = computePlan(await lesson("demo-sample-lesson"), { options: { poster: true }, extensions: {} }, { studentCount: 5 });
     let calls = 0;
     const flaky = (async (input: RequestInfo | URL) => {
       calls++;
@@ -102,7 +102,7 @@ describe("print pack integration", () => {
   });
 
   it("refuses to build while the plan has problems", async () => {
-    const plan = computePlan(await lesson("demo-sample-lesson"), { choices: {}, extensions: {} }, { studentCount: 25, groupSize: 4 });
-    await expect(buildPacket(plan, PRINT, () => {}, viaWorker)).rejects.toThrow(/Choose one option/);
+    const plan = computePlan(await lesson("demo-sample-lesson"), { options: {}, extensions: {} }, { studentCount: 0 });
+    await expect(buildPacket(plan, PRINT, () => {}, viaWorker)).rejects.toThrow(/student count/);
   });
 });

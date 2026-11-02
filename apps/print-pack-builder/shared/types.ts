@@ -120,24 +120,20 @@ export type ResourceMode = "disabled" | "demo" | "drive";
 
 /* ---------------- Selections, plan and print options ---------------- */
 
+/** Everything is a checkbox: core worksheets start ticked, options and extras start unticked. */
 export interface Selection {
-  /** Guided: sectionId -> chosen optionId */
-  choices: Record<string, string | undefined>;
-  /** When true, core requirements unlock and alternatives become independent checkboxes. */
-  customize?: boolean;
-  /** Custom: option ID -> checked; absent inherits the current guided choice. */
-  customChoices?: Record<string, boolean | undefined>;
-  /** Custom: activity and worksheet -> checked; absent defaults to selected. */
-  materials?: Record<string, boolean | undefined>;
+  /** option id -> picked. A choice may have one, several or no options picked. */
+  options: Record<string, boolean | undefined>;
   /** extension id -> checked */
   extensions: Record<string, boolean | undefined>;
+  /** `${sectionId}:${resourceId}` -> false when the teacher unticks a core worksheet. */
+  core?: Record<string, boolean | undefined>;
 }
 
 export interface Quantities {
   studentCount: number;
-  groupSize: number;
-  /** activity id -> teacher-adjusted group size; otherwise the saved default */
-  groupSizes?: Record<string, number | undefined>;
+  /** activity id -> number of groups; otherwise students ÷ the lesson's group size, rounded up. */
+  groups?: Record<string, number | undefined>;
   /** plan line id -> copies the teacher typed, replacing the default. */
   copies?: Record<string, number | undefined>;
 }
@@ -145,12 +141,11 @@ export interface Quantities {
 export interface PlanLine {
   id: string;
   activityId: string;
-  groupSize?: number;
+  /** Number of groups, for per_group lines. */
+  groups?: number;
   resourceId: string;
   title: string;
   rule: QuantityRule;
-  /** Guided core or selected A/B worksheet: cannot be omitted or set to zero. */
-  required: boolean;
   /** Copies (or cards, when cardsPerSheet is set) the default rule asks for. */
   needed: number;
   cardsPerSheet?: number;
@@ -171,6 +166,8 @@ export interface Plan {
   unavailable: { resourceId: string; title: string; reason: string; sources: string[] }[];
   /** Blocking problems, e.g. invalid quantities. */
   problems: string[];
+  /** Non-blocking reminders, e.g. a choice with nothing picked. */
+  warnings: string[];
 }
 
 /** One PDF, always arranged as consecutive student packets then shared materials. */

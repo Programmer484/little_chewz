@@ -2,7 +2,7 @@
 
 A small web app for Grade 4–6 teachers: choose a lesson, pick the activities you will run, check the copies, and download **one combined PDF** of every student worksheet.
 
-**Open → Choose activities → Copies & download**
+**Open → tick activities → check copies → download**, all on one page.
 
 **There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#where-lessons-come-from)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline.
 
@@ -47,16 +47,16 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 ## How it works
 
 1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only published `student_worksheet` resources with trusted Drive file URLs can be fetched in drive mode.
-2. **Guided Printing (default)** includes all `GIVE` and unreferenced preparation `core` worksheets and requires exactly one selection in every A/B choice. Optional `MORE` and bonus worksheets are unchecked.
-3. Turning on **Customize print requirements** unlocks core worksheet checkboxes and converts A/B radios into independent checkboxes. Teachers may select both alternatives, neither, or individually deselect worksheets within an activity. An empty pack cannot be downloaded.
-4. The teacher enters class size and a saved default group size. Each selected group activity has its own adjustable size, initially matching that default. Set it to the student count for **one whole-class copy**. The suggested group copies are `Math.ceil(studentCount / groupSize)`. Teachers may override each print line's copies independently. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
-5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size, default group size and duplex preference are saved only in the browser.
+2. **Everything is a checkbox, with the guide's defaults pre-ticked.** `GIVE` and unreferenced preparation `core` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
+3. Steps whose worksheets and optional extras would otherwise appear twice share one heading.
+4. The teacher enters the class size. Each selected group activity has a **Groups** field, prefilled with `Math.ceil(studentCount / 4)` (the lesson's default group size) and showing how many students that puts in each group. Enter 1 for **one whole-class copy**. Teachers may override each print line's copies independently, down to 0. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
+5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size and the double-sided preference are saved only in the browser.
 
 ### Print order and duplex
 
 - **Always:** student packets first, one complete packet per student in lesson order; then all `per_group` resources and multi-card cutouts, grouped by resource.
 - Each student packet contains the worksheets in sequence, preserving every multi-page worksheet. Two different one-page worksheets may share opposite sides of the same physical sheet.
-- With **Automatic double-sided student packets** on, a blank is added *only at an odd student-packet boundary* and when a shared material needs an empty reverse. Cards with `print.cards_per_sheet > 1` are always front-only, even if their PDF has multiple pages.
+- With **Print double-sided** on, a blank is added *only at an odd student-packet boundary* and when a shared material needs an empty reverse. Cards with `print.cards_per_sheet > 1` are always front-only, even if their PDF has multiple pages.
 - With duplex off, no blank pages are inserted. For duplex output, select **Print on both sides / flip on long edge** in the printer dialog. No manual duplex or print-order selector.
 - PDF pages are copied without rasterization; PNG/JPEG images are embedded proportionally, and repeated copies reuse image and PDF streams. The PDF contains intentional blank backs where required.
 
@@ -66,9 +66,9 @@ The print builder reads only `lesson.json` worksheet links and `catalog/resource
 
 | Guide reference | Printing behavior |
 | --- | --- |
-| `GIVE` row or unreferenced preparation `core` | Required in Guided; optional in Custom |
+| `GIVE` row or unreferenced preparation `core` | Ticked by default; can be unticked |
 | `MORE` row, optional preparation or bonus | Optional checkbox |
-| `step.options` A/B/C/D | Exactly one in Guided; any combination in Custom |
+| `step.options` A/B/C/D | Unticked; any combination, soft warning when none |
 | `MORE` inside an option | Optional extension when that option is selected |
 | No guide source yet | Materials coming soon |
 | Guide without student worksheets | No student printing |

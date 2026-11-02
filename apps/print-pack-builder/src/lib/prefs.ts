@@ -8,7 +8,6 @@ import type { PrintOptions } from "../../shared/types.ts";
 
 export interface Prefs extends PrintOptions {
   studentCount?: number;
-  groupSize?: number;
 }
 
 const KEY = "little-chewz-print-pack:prefs";
@@ -26,7 +25,6 @@ export function loadPrefs(storage?: Pick<Storage, "getItem"> | null): Prefs {
     return {
       duplex: raw.duplex === true,
       ...(inRange(raw.studentCount, LIMITS.minStudents, LIMITS.maxStudents) ? { studentCount: raw.studentCount } : {}),
-      ...(inRange(raw.groupSize, LIMITS.minGroupSize, LIMITS.maxGroupSize) ? { groupSize: raw.groupSize } : {}),
     };
   } catch {
     return { ...DEFAULT_PRINT };
