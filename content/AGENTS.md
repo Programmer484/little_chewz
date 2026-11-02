@@ -9,7 +9,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](../templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](../system/RESOURCE_GUIDELINES.md) |
 | `story/*.md` | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md); approved text only, wording preserved |
-| `welcome/` (registry-built documents) | [templates/claude/README.md](../templates/claude/README.md) |
+| `welcome/` (registry-built documents) | [templates/welcome/README.md](../templates/welcome/README.md) |
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](../system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 

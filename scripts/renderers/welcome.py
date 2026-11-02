@@ -1,4 +1,4 @@
-"""Render a document in the "claude" page style.
+"""Render a document in the "welcome" page style.
 
 Clean, left-aligned A4 pages styled to match the Confetti Cake Cottage
 School Welcome PDF: cream page, crest or Little Chewz logo in the header,
@@ -16,12 +16,12 @@ pages; each page has a header (mark, eyebrow, title) and blocks:
               resource (catalog/resources.json) when a live Drive version exists (published or
               pending_publish), otherwise shows the pending label
 
-Before editing: read templates/claude/README.md for the block format and
+Before editing: read templates/welcome/README.md for the block format and
 system/CONTENT_CONTRACT.md for the asset rule (artwork comes from separate
-image files in templates/claude/assets/, never a pre-rendered page).
+image files in templates/welcome/assets/, never a pre-rendered page).
 
 Usage (from the repository root):
-    python scripts/renderers/claude.py \
+    python scripts/renderers/welcome.py \
         content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json \
         --output exports/01-welcome.pdf
 """
@@ -40,7 +40,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
 REPO = Path(__file__).resolve().parents[2]
-ASSETS = REPO / "templates" / "claude" / "assets"
+ASSETS = REPO / "templates" / "welcome" / "assets"
 FONTS = ASSETS / "fonts"
 REGISTRY = REPO / "catalog" / "resources.json"
 DOC_DIR = REPO  # set to the document folder by render(); icon paths are relative to it
@@ -405,7 +405,7 @@ def render(doc_path: Path, output: Path) -> Path:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Render a claude-style Little Chewz PDF.")
+    parser = argparse.ArgumentParser(description="Render a welcome-style Little Chewz PDF.")
     parser.add_argument("document", type=Path, help="document JSON (see TEMPLATE.json)")
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()

@@ -93,7 +93,8 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 | Activate | No student printing needed | – |
 | Set the Table | KWLS Starter (Preparation); Small Bite 1 A School Song / B Mission Vocabulary (+ Our Vocabulary checkbox); Small Bite 2 A Which Word Fits? / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards. KWLS Starter, School Song Activity and Our Vocabulary show "Coming soon" until published. |
 | Secret Ingredients | Clue Tracker Core and Chapter Notes (included); Clue Tracker Extension (checkbox); Small Bite A Conflict Report / B Character Profile (+ Advanced checkbox) | All five |
-| The Showdown, Chew On This, Plate It Forward, Celebrate | Materials coming soon (no `lesson.json` on `main` yet) | – |
+| The Showdown | Step 3 choose one: A Design, B Decorate, C Bake, D Mystery (team cards one per group, plus design sheet or recipe); Step 5 TASTE reflection checkbox | None yet: all its worksheets are unpublished placeholders, so it shows "Materials awaiting review" |
+| Chew On This, Plate It Forward, Celebrate | Materials coming soon (no `lesson.json` yet) | – |
 
 ## Modes and security
 
@@ -205,4 +206,4 @@ One Worker with static assets. Static asset requests are free; the Worker runs o
 - Annotations (links, form fields) are kept on the first copy of a page and dropped from repeat copies, so shared annotation objects never point at the wrong page. Printed appearance is unchanged.
 - Protected (encrypted) PDFs are rejected with a clear message.
 - Direct lesson links: `/lesson/<lessonId>`, e.g. `/lesson/ccc-q01-secret-ingredients`, ready for Teacher Guides to link to.
-- A worksheet with separate colour and printer-friendly files is not supported yet; see SYS-004 in `SYSTEM_IMPROVEMENTS.md`.
+- A worksheet with separate colour and printer-friendly files is not supported yet; see SYS-005 in `SYSTEM_IMPROVEMENTS.md`.

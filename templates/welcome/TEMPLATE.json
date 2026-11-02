@@ -1,7 +1,7 @@
 {
-  "$instructions": "Before editing, read templates/claude/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.",
+  "$instructions": "Before editing, read templates/welcome/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.",
   "id": "REPLACE-WITH-STABLE-ID",
-  "template": "claude",
+  "template": "welcome",
   "title": "Untitled Document",
   "footer": "CONFETTI FILE  •  CCC-2025",
   "cover": "cover.pdf",

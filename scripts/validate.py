@@ -4,7 +4,22 @@ from pathlib import Path
 import json,sys,re
 from select_builds import targets, resource_refs, read_json
 R=Path(__file__).resolve().parents[1]
-registry=json.loads((R/'catalog/resources.json').read_text())
+def read_registry():
+    duplicates = []
+    def unique_pairs(pairs):
+        seen = set()
+        for key, _ in pairs:
+            if key in seen:
+                duplicates.append(key)
+            seen.add(key)
+        return dict(pairs)
+    records = json.loads((R/'catalog/resources.json').read_text(),
+                         object_pairs_hook=unique_pairs)
+    if duplicates:
+        raise SystemExit(f"ERROR: duplicate resource JSON keys: {sorted(set(duplicates))}")
+    return records
+
+registry=read_registry()
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
 STATUSES={'unpublished','pending_publish','published'}
@@ -16,7 +31,7 @@ INSTRUCTIONS={
     'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.',
     'quest':'Owns lesson delivery status (unpublished, pending_publish, published); WIP on branches does not alter it. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.',
     'quest_catalog':'Navigation index only. Start at the root AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).',
-    'claude':'Before editing, read templates/claude/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
+    'welcome':'Before editing, read templates/welcome/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
 }
 STORY_INSTRUCTIONS='instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.'
 def check_instructions(path,data,kind):
@@ -219,7 +234,7 @@ for ref,item in registry.items():
             if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')
 for path,kind in [('templates/teacher_guide/TEMPLATE.json','lesson'),
                   ('templates/teacher_companion/TEMPLATE.json','companion'),
-                  ('templates/claude/TEMPLATE.json','claude')]:
+                  ('templates/welcome/TEMPLATE.json','welcome')]:
     if (R/path).is_file(): check_instructions(path,json.loads((R/path).read_text()),kind)
 try:
     registered = targets()

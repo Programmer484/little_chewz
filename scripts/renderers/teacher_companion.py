@@ -5,7 +5,7 @@ Usage from the repository root (replace resource.json with the source path):
     python scripts/renderers/teacher_companion.py resource.json -o exports/resource.pdf --registry catalog/resources.json
 
 Requires: pip install reportlab. Uses the bundled Lato in templates/fonts/ and the
-school crest in templates/claude/assets/crest.png.
+school crest in templates/welcome/assets/crest.png.
 Before editing: read system/RESOURCE_GUIDELINES.md (presentation rules).
 """
 import argparse
@@ -25,7 +25,7 @@ from reportlab.platypus import (BaseDocTemplate, Flowable, Frame, Image, PageTem
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT_DIR = ROOT / "templates" / "fonts"
-CREST = ROOT / "templates" / "claude" / "assets" / "crest.png"
+CREST = ROOT / "templates" / "welcome" / "assets" / "crest.png"
 
 # Page and grid: A4 with the Teacher Guide's 44 / 551 pt margins.
 PAGE_W, PAGE_H = 595.28, 841.89
