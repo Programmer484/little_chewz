@@ -57,7 +57,8 @@
         {
           "kind": "GIVE",
           "ref": "ccc-q01-set-the-table-kwls-starter",
-          "description": "Complete K with prior ideas and W with a question."
+          "description": "Complete K with prior ideas and W with a question.",
+          "quantity": "per_student"
         },
         {
           "kind": "DO",
@@ -86,7 +87,8 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-set-the-table-school-song-activity",
-              "description": "One per student. Collect 10 words or phrases while listening."
+              "description": "One per student. Collect 10 words or phrases while listening.",
+              "quantity": "per_student"
             },
             {
               "kind": "DO",
@@ -130,7 +132,8 @@
             {
               "kind": "MORE",
               "ref": "ccc-q01-set-the-table-our-vocabulary",
-              "description": "Optional student reference"
+              "description": "Optional student reference",
+              "quantity": "per_student"
             }
           ]
         }
@@ -157,7 +160,8 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-set-the-table-our-vocabulary",
-              "description": "One per group of 3–4 for checking and revising choices."
+              "description": "One per group of 3–4 for checking and revising choices.",
+              "quantity": "per_group"
             },
             {
               "kind": "DO",
@@ -172,7 +176,8 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-set-the-table-team-builder",
-              "description": "One per student."
+              "description": "One per student.",
+              "quantity": "per_student"
             },
             {
               "kind": "DO",
@@ -201,7 +206,8 @@
   "bonuses": [
     {
       "ref": "ccc-q01-set-the-table-vocabulary-cards",
-      "description": "— Optional printable words for a card sort or word wall."
+      "description": "— Optional printable words for a card sort or word wall.",
+      "quantity": "per_group"
     }
   ],
   "migration_review": {

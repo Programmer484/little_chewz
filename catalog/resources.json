@@ -1036,7 +1036,10 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "print": {
+      "cards_per_sheet": 4
+    }
   },
   "ccc-q01-showdown-decorate-card": {
     "title": "Decorate Challenge Card",
@@ -1057,7 +1060,10 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "print": {
+      "cards_per_sheet": 4
+    }
   },
   "ccc-q01-showdown-bake-card": {
     "title": "Bake Challenge Card",
@@ -1078,7 +1084,10 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "print": {
+      "cards_per_sheet": 4
+    }
   },
   "ccc-q01-showdown-mystery-card": {
     "title": "Mystery Challenge Card",
@@ -1099,7 +1108,10 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "print": {
+      "cards_per_sheet": 4
+    }
   },
   "ccc-q01-showdown-recipe": {
     "title": "Chocolate Cupcake Recipe",

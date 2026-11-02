@@ -32,7 +32,8 @@
     },
     {
       "ref": "ccc-q01-showdown-taste-reflection",
-      "description": "Optional writing"
+      "description": "Optional writing",
+      "quantity": "per_student"
     },
     {
       "ref": "ccc-q01-showdown-print-pack",
@@ -100,11 +101,13 @@
               "links": [
                 {
                   "ref": "ccc-q01-showdown-design-card",
-                  "description": "One per team"
+                  "description": "One per team",
+                  "quantity": "per_group"
                 },
                 {
                   "ref": "ccc-q01-showdown-design-sheet",
-                  "description": "One shared design per team"
+                  "description": "One shared design per team",
+                  "quantity": "per_group"
                 }
               ]
             },
@@ -128,7 +131,8 @@
               "links": [
                 {
                   "ref": "ccc-q01-showdown-decorate-card",
-                  "description": "One per team"
+                  "description": "One per team",
+                  "quantity": "per_group"
                 }
               ]
             },
@@ -152,11 +156,13 @@
               "links": [
                 {
                   "ref": "ccc-q01-showdown-bake-card",
-                  "description": "One per team"
+                  "description": "One per team",
+                  "quantity": "per_group"
                 },
                 {
                   "ref": "ccc-q01-showdown-recipe",
-                  "description": "Recipe per baking team"
+                  "description": "Recipe per baking team",
+                  "quantity": "per_group"
                 }
               ]
             },
@@ -180,11 +186,13 @@
               "links": [
                 {
                   "ref": "ccc-q01-showdown-mystery-card",
-                  "description": "One per team"
+                  "description": "One per team",
+                  "quantity": "per_group"
                 },
                 {
                   "ref": "ccc-q01-showdown-recipe",
-                  "description": "Recipe per baking team"
+                  "description": "Recipe per baking team",
+                  "quantity": "per_group"
                 }
               ]
             },
@@ -224,7 +232,8 @@
         {
           "kind": "MORE",
           "ref": "ccc-q01-showdown-taste-reflection",
-          "description": "Optional full written cycle; add about 10–15 min"
+          "description": "Optional full written cycle; add about 10–15 min",
+          "quantity": "per_student"
         }
       ]
     }
