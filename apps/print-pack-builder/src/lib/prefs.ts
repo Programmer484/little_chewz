@@ -12,7 +12,7 @@ export interface Prefs extends PrintOptions {
 }
 
 const KEY = "little-chewz-print-pack:prefs";
-export const DEFAULT_PRINT: PrintOptions = { order: "worksheet", duplex: false };
+export const DEFAULT_PRINT: PrintOptions = { duplex: false };
 
 const inRange = (n: unknown, min: number, max: number): n is number => Number.isInteger(n) && (n as number) >= min && (n as number) <= max;
 
@@ -24,7 +24,6 @@ export function loadPrefs(storage?: Pick<Storage, "getItem"> | null): Prefs {
     const store = storage === undefined ? browserStorage() : storage;
     const raw = JSON.parse(store?.getItem(KEY) ?? "{}") as Partial<Prefs>;
     return {
-      order: raw.order === "student" ? "student" : "worksheet",
       duplex: raw.duplex === true,
       ...(inRange(raw.studentCount, LIMITS.minStudents, LIMITS.maxStudents) ? { studentCount: raw.studentCount } : {}),
       ...(inRange(raw.groupSize, LIMITS.minGroupSize, LIMITS.maxGroupSize) ? { groupSize: raw.groupSize } : {}),

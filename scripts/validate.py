@@ -124,8 +124,8 @@ for ref,item in registry.items():
     if 'print' in item:
         printing = item['print'] if isinstance(item['print'], dict) else {}
         cards = printing.get('cards_per_sheet')
-        if set(printing) != {'cards_per_sheet'} or not isinstance(cards, int) or cards < 1:
-            errors.append(f'{ref}: print must be {{"cards_per_sheet": <whole number of identical cards on each page>}}')
+        if set(printing) != {'cards_per_sheet'} or type(cards) is not int or cards < 2:
+            errors.append(f'{ref}: print must be {{"cards_per_sheet": <number of cutouts per sheet, at least 2>}}')
     if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
         errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
@@ -188,12 +188,24 @@ for path in lesson_paths:
         errors.append(f'{path}: obsolete lesson status/preview field')
     for field in ['key','goal','steps','outcomes','cover','output']:
         if field not in d: errors.append(f'{path}: missing {field}')
+    def check_quantity(link):
+        ref = link.get('ref') if isinstance(link, dict) else None
+        if not ref:
+            return
+        quantity = link.get('quantity')
+        if registry.get(ref, {}).get('type') == 'student_worksheet':
+            if quantity not in ('per_student', 'per_group'):
+                errors.append(f'{path}: worksheet {ref} must set quantity to per_student or per_group')
+        elif quantity is not None:
+            errors.append(f'{path}: non-worksheet {ref} must not set quantity')
     for ref in resource_refs(d): check_ref(ref,path)
     cover=path.parent/d.get('cover','')
     if not cover.is_file(): errors.append(f'{path}: missing visual cover {cover.name}')
     ids=[]
     for section in ['core','optional_prep','bonuses']:
-        for item in d.get(section,[]): check_ref(item['ref'],path)
+        for item in d.get(section,[]):
+            check_ref(item['ref'],path)
+            check_quantity(item)
     for st in d.get('steps',[]):
         ids.append(st.get('id'))
         options=st.get('options',[])
@@ -207,6 +219,8 @@ for path in lesson_paths:
                 errors.append(f'{path}: option must have a title and rows')
         rows=st.get('rows',[])+[row for option in options for row in option.get('rows',[])]
         for row in rows:
+            check_quantity(row)
+            for link in row.get('links',[]): check_quantity(link)
             k=row.get('kind','').upper()
             if k not in allowed: errors.append(f'{path}: unsupported action label {k}')
             if row.get('ref'):check_ref(row['ref'],path)

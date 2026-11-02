@@ -24,8 +24,9 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
   const [selection, setSelection] = useState<Selection>({ choices: {}, extensions: {} });
   const [students, setStudents] = useState(String(prefs.studentCount ?? lesson.defaults.studentCount));
   const [groupSize, setGroupSize] = useState(String(prefs.groupSize ?? lesson.defaults.groupSize));
+  const [groupSizes, setGroupSizes] = useState<Record<string, string>>({});
   const [copies, setCopies] = useState<Record<string, string>>({});
-  const [print, setPrint] = useState<PrintOptions>({ order: prefs.order, duplex: prefs.duplex });
+  const [print, setPrint] = useState<PrintOptions>({ duplex: prefs.duplex });
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [showErrors, setShowErrors] = useState(false);
   const abort = useRef<AbortController | null>(null);
@@ -36,11 +37,13 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
 
   const quantities: Quantities = {
     studentCount: toWhole(students),
-    groupSize: usesGroups ? toWhole(groupSize) : lesson.defaults.groupSize,
+    groupSize: toWhole(groupSize),
+    groupSizes: Object.fromEntries(Object.entries(groupSizes).map(([k, v]) => [k, toWhole(v)])),
     copies: Object.fromEntries(Object.entries(copies).filter(([, v]) => v.trim() !== "").map(([k, v]) => [k, toWhole(v)])),
   };
   const plan = computePlan(lesson, selection, quantities);
   const numbersOk = checkQuantities({ ...quantities, copies: {} }).length === 0;
+  const groupActivities = [...new Map(plan.lines.filter((l) => l.rule === "per_group").map((l) => [l.activityId, l])).values()];
 
   // Remember class size and print settings on this device.
   useEffect(() => {
@@ -114,42 +117,115 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
           <h2 tabIndex={-1} ref={heading}>
             Choose your activities
           </h2>
+          <label className="option option-label">
+            <input
+              type="checkbox"
+              checked={Boolean(selection.customize)}
+              onChange={(e) => setSelection((previous) => ({ ...previous, customize: e.target.checked }))}
+            />
+            <span>
+              <span className="option-title">Customize print requirements</span>
+              <span className="option-summary block">
+                {selection.customize
+                  ? "Core worksheets and A/B choices are now optional. Select any combination."
+                  : "Guided printing: core worksheets are included and one choice per activity is required."}
+              </span>
+            </span>
+          </label>
           {lesson.sections.map((section) => {
             if (section.kind === "core")
               return (
                 <div key={section.id} className="section">
                   <h3>{section.title}</h3>
-                  <p className="included">
-                    <span aria-hidden="true">✓</span> Included automatically
-                  </p>
-                  <MaterialList materials={section.materials} />
+                  {selection.customize ? (
+                    <div className="options">
+                      {section.materials.map((material) => {
+                        const key = `${section.id}:${material.resourceId}`;
+                        return (
+                          <label className="option option-label" key={key}>
+                            <input
+                              type="checkbox"
+                              checked={selection.materials?.[key] !== false}
+                              onChange={(e) => setSelection((previous) => ({
+                                ...previous, materials: { ...previous.materials, [key]: e.target.checked },
+                              }))}
+                            />
+                            <span>
+                              <span className="option-title">{material.resource.title}</span>
+                              {material.note && <span className="option-summary block">{material.note}</span>}
+                              {!material.resource.available && (
+                                <span className="option-summary block">{material.resource.reason ?? "Not available yet."}</span>
+                              )}
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <>
+                      <p className="included"><span aria-hidden="true">✓</span> Included automatically</p>
+                      <MaterialList materials={section.materials} />
+                    </>
+                  )}
                 </div>
               );
             if (section.kind === "choice") {
-              const missing = showErrors && !section.options.some((o) => o.id === selection.choices[section.id]);
+              const missing = !selection.customize && showErrors && !section.options.some((o) => o.id === selection.choices[section.id]);
               return (
                 <fieldset key={section.id} className={`section${missing ? " has-error" : ""}`}>
                   <legend>{section.title}</legend>
                   {missing && <p className="field-error">Choose one option.</p>}
+                  <p className="option-summary">
+                    {selection.customize ? "Choose any options, or none." : "Choose one option (required)."}
+                  </p>
                   <div className="options">
                     {section.options.map((option) => {
-                      const checked = selection.choices[section.id] === option.id;
+                      const checked = selection.customize
+                        ? (selection.customChoices?.[option.id] ?? (selection.choices[section.id] === option.id))
+                        : selection.choices[section.id] === option.id;
                       return (
                         <div key={option.id} className={`option${checked ? " selected" : ""}`}>
                           <label className="option-label">
                             <input
-                              type="radio"
+                              type={selection.customize ? "checkbox" : "radio"}
                               name={section.id}
                               value={option.id}
                               checked={checked}
-                              onChange={() => setSelection((s) => ({ ...s, choices: { ...s.choices, [section.id]: option.id } }))}
+                              onChange={(e) => setSelection((s) => s.customize
+                                ? ({ ...s, customChoices: { ...s.customChoices, [option.id]: e.target.checked } })
+                                : ({ ...s, choices: { ...s.choices, [section.id]: option.id } }))}
                             />
                             <span className="option-letter">{option.label}</span>
                             <span className="option-title">{option.title}</span>
                             {checked && <span className="selected-tag">Selected</span>}
                           </label>
                           {option.summary && <p className="option-summary">{option.summary}</p>}
-                          <MaterialList materials={option.materials} />
+                          {selection.customize && checked ? (
+                            <div className="options">
+                              {option.materials.map((material) => {
+                                const key = `${option.id}:${material.resourceId}`;
+                                return (
+                                  <label className="option option-label" key={key}>
+                                    <input
+                                      type="checkbox"
+                                      checked={selection.materials?.[key] !== false}
+                                      onChange={(e) => setSelection((previous) => ({
+                                        ...previous,
+                                        materials: { ...previous.materials, [key]: e.target.checked },
+                                      }))}
+                                    />
+                                    <span>
+                                      <span className="option-title">{material.resource.title}</span>
+                                      {material.note && <span className="option-summary block">{material.note}</span>}
+                                      {!material.resource.available && (
+                                        <span className="option-summary block">{material.resource.reason ?? "Not available yet."}</span>
+                                      )}
+                                    </span>
+                                  </label>
+                                );
+                              })}
+                            </div>
+                          ) : <MaterialList materials={option.materials} />}
                           {checked && option.extensions.length > 0 && (
                             <div className="extensions">
                               {option.extensions.map((ext) => (
@@ -209,20 +285,49 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
             />
             {usesGroups && (
               <NumberField
-                label="Students per group"
-                hint={numbersOk ? `${plan.groupCount} groups` : undefined}
+                label="Default students per group"
+                hint="Saved on this device. Each selected group activity starts with this size."
                 value={groupSize}
                 onChange={setGroupSize}
                 min={LIMITS.minGroupSize}
                 max={LIMITS.maxGroupSize}
-                error={
-                  showErrors && !validWhole(quantities.groupSize, LIMITS.minGroupSize, LIMITS.maxGroupSize)
-                    ? `Enter a whole number from ${LIMITS.minGroupSize} to ${LIMITS.maxGroupSize}.`
-                    : undefined
-                }
+                error={showErrors && !validWhole(quantities.groupSize, LIMITS.minGroupSize, LIMITS.maxGroupSize)
+                  ? `Enter a whole number from ${LIMITS.minGroupSize} to ${LIMITS.maxGroupSize}.`
+                  : undefined}
               />
             )}
           </div>
+
+          {groupActivities.length > 0 && (
+            <fieldset className="section">
+              <legend>Group sizes by activity</legend>
+              <div className="fields">
+                {groupActivities.map((line) => {
+                  const value = groupSizes[line.activityId] ?? groupSize;
+                  const n = toWhole(value);
+                  return (
+                    <div key={line.activityId}>
+                      <NumberField
+                        label={line.sources[0]}
+                        hint={numbersOk && validWhole(n, 1, LIMITS.maxGroupSize)
+                          ? `${Math.ceil(quantities.studentCount / n)} groups` : undefined}
+                        value={value}
+                        onChange={(v) => setGroupSizes((previous) => ({ ...previous, [line.activityId]: v }))}
+                        min={LIMITS.minGroupSize}
+                        max={LIMITS.maxGroupSize}
+                        error={showErrors && !validWhole(n, LIMITS.minGroupSize, LIMITS.maxGroupSize)
+                          ? "Enter a valid group size." : undefined}
+                      />
+                      <button type="button" className="link-button"
+                        onClick={() => setGroupSizes((previous) => ({ ...previous, [line.activityId]: students }))}>
+                        Whole class (one group)
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </fieldset>
+          )}
 
           {plan.lines.length > 0 && (
             <table className="review">
@@ -239,16 +344,16 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
               <tbody>
                 {plan.lines.map((line) => (
                   <CopiesRow
-                    key={line.resourceId}
+                    key={line.id}
                     line={line}
-                    suggested={numbersOk ? describeLine(line, quantities, plan.groupCount) : "Enter your class numbers"}
-                    raw={copies[line.resourceId]}
+                    suggested={numbersOk ? describeLine(line, quantities) : "Enter your class numbers"}
+                    raw={copies[line.id]}
                     showErrors={showErrors}
-                    onChange={(v) => setCopies((c) => ({ ...c, [line.resourceId]: v }))}
+                    onChange={(v) => setCopies((c) => ({ ...c, [line.id]: v }))}
                     onReset={() =>
                       setCopies((c) => {
                         const next = { ...c };
-                        delete next[line.resourceId];
+                        delete next[line.id];
                         return next;
                       })
                     }
@@ -259,44 +364,18 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
           )}
 
           <fieldset className="section print-options">
-            <legend>Arrange the PDF</legend>
-            <div className="options">
-              <label className={`option option-label${print.order === "worksheet" ? " selected" : ""}`}>
-                <input
-                  type="radio"
-                  name="order"
-                  checked={print.order === "worksheet"}
-                  onChange={() => setPrint((p) => ({ ...p, order: "worksheet" }))}
-                />
-                <span>
-                  <span className="option-title">One worksheet at a time</span>
-                  <span className="option-summary block">All copies of each worksheet together.</span>
+            <legend>Printing</legend>
+            <label className="option option-label">
+              <input type="checkbox" checked={print.duplex}
+                onChange={(e) => setPrint({ duplex: e.target.checked })} />
+              <span>
+                <span className="option-title">Automatic double-sided student packets</span>
+                <span className="option-summary block">
+                  Adds blanks only at student packet boundaries and on shared material backs.
+                  Print on both sides, long-edge flip.
                 </span>
-              </label>
-              <label className={`option option-label${print.order === "student" ? " selected" : ""}`}>
-                <input
-                  type="radio"
-                  name="order"
-                  checked={print.order === "student"}
-                  onChange={() => setPrint((p) => ({ ...p, order: "student" }))}
-                />
-                <span>
-                  <span className="option-title">Student packets</span>
-                  <span className="option-summary block">
-                    One of each worksheet per student, in lesson order. Group and class copies come after.
-                  </span>
-                </span>
-              </label>
-              <label className={`option option-label${print.duplex ? " selected" : ""}`}>
-                <input type="checkbox" checked={print.duplex} onChange={(e) => setPrint((p) => ({ ...p, duplex: e.target.checked }))} />
-                <span>
-                  <span className="option-title">I'm printing double-sided</span>
-                  <span className="option-summary block">
-                    Adds blank backs where needed so every worksheet starts on its own sheet.
-                  </span>
-                </span>
-              </label>
-            </div>
+              </span>
+            </label>
           </fieldset>
 
           {plan.unavailable.length > 0 && (
@@ -367,7 +446,8 @@ function CopiesRow(props: {
   const id = useId();
   const { line } = props;
   const value = props.raw ?? String(line.defaultCopies);
-  const invalid = props.showErrors && !validWhole(toWhole(value), 0, LIMITS.maxCopies);
+  const minCopies = line.required ? 1 : 0;
+  const invalid = props.showErrors && !validWhole(toWhole(value), minCopies, LIMITS.maxCopies);
   return (
     <tr>
       <th scope="row">
@@ -383,7 +463,7 @@ function CopiesRow(props: {
           id={id}
           type="number"
           inputMode="numeric"
-          min={0}
+          min={minCopies}
           max={LIMITS.maxCopies}
           step={1}
           value={value}
@@ -398,7 +478,7 @@ function CopiesRow(props: {
         )}
         {invalid && (
           <span className="field-error" role="alert">
-            0 to {LIMITS.maxCopies}
+            {minCopies} to {LIMITS.maxCopies}
           </span>
         )}
       </td>

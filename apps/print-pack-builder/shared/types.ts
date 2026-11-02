@@ -7,10 +7,7 @@
  */
 
 /** Default copies for a material. Teachers can change any line's copies. */
-export type QuantityRule =
-  | "per_student" // one per student
-  | "per_group" // one per group: ceil(students / groupSize)
-  | "per_class"; // one for the class
+export type QuantityRule = "per_student" | "per_group";
 
 export interface MaterialSpec {
   resourceId: string;
@@ -124,8 +121,14 @@ export type ResourceMode = "disabled" | "demo" | "drive";
 /* ---------------- Selections, plan and print options ---------------- */
 
 export interface Selection {
-  /** sectionId -> chosen optionId */
+  /** Guided: sectionId -> chosen optionId */
   choices: Record<string, string | undefined>;
+  /** When true, core requirements unlock and alternatives become independent checkboxes. */
+  customize?: boolean;
+  /** Custom: option ID -> checked; absent inherits the current guided choice. */
+  customChoices?: Record<string, boolean | undefined>;
+  /** Custom: activity and worksheet -> checked; absent defaults to selected. */
+  materials?: Record<string, boolean | undefined>;
   /** extension id -> checked */
   extensions: Record<string, boolean | undefined>;
 }
@@ -133,14 +136,21 @@ export interface Selection {
 export interface Quantities {
   studentCount: number;
   groupSize: number;
-  /** resourceId -> copies the teacher typed, replacing the default. */
+  /** activity id -> teacher-adjusted group size; otherwise the saved default */
+  groupSizes?: Record<string, number | undefined>;
+  /** plan line id -> copies the teacher typed, replacing the default. */
   copies?: Record<string, number | undefined>;
 }
 
 export interface PlanLine {
+  id: string;
+  activityId: string;
+  groupSize?: number;
   resourceId: string;
   title: string;
   rule: QuantityRule;
+  /** Guided core or selected A/B worksheet: cannot be omitted or set to zero. */
+  required: boolean;
   /** Copies (or cards, when cardsPerSheet is set) the default rule asks for. */
   needed: number;
   cardsPerSheet?: number;
@@ -156,18 +166,20 @@ export interface PlanLine {
 }
 
 export interface Plan {
-  groupCount: number;
   lines: PlanLine[];
   /** Selected materials that cannot be downloaded yet. */
   unavailable: { resourceId: string; title: string; reason: string; sources: string[] }[];
-  /** Blocking problems, e.g. an unanswered choice. */
+  /** Blocking problems, e.g. invalid quantities. */
   problems: string[];
 }
 
-/** How the downloaded PDF is arranged. */
+/** One PDF, always arranged as consecutive student packets then shared materials. */
 export interface PrintOptions {
-  /** "worksheet": all copies of one worksheet, then the next. "student": one packet per student. */
-  order: "worksheet" | "student";
-  /** Add blank backs so every worksheet copy starts on a new sheet when printing both sides. */
   duplex: boolean;
+}
+
+/** Boundaries are explicit: duplex padding belongs to packets, not worksheets. */
+export interface PrintSequence {
+  packets: string[][];
+  shared: { resourceId: string; frontOnly: boolean }[];
 }

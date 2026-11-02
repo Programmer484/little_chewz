@@ -1,17 +1,11 @@
 /**
- * Combine worksheet files into one printable PDF with pdf-lib.
- *
- * - PDF pages are copied, never rasterized, so artwork and vector text are untouched.
- * - Each entry in the sequence is one copy of a whole worksheet (all its pages).
- * - Repeat copies share the first copy's content and image streams, so the
- *   packet does not grow by the size of the artwork for every student.
- * - PNG and JPEG worksheets are embedded once and fitted proportionally onto
- *   a printable page.
- * - Double-sided: a blank page follows every copy with an odd page count, so
- *   each copy starts on a new sheet and no two copies share a sheet.
+ * Combine worksheets as consecutive student packets, followed by shared copies.
+ * Duplex padding occurs only at packet boundaries and on shared material backs.
+ * Multi-card cutout sheets print front-only, even when the source has many pages.
  */
 import { EncryptedPDFError, PDFDocument, PDFName, PDFPage, type PDFImage, type PDFPageLeaf } from "pdf-lib";
 import { LIMITS } from "../../shared/limits.ts";
+import type { PrintSequence } from "../../shared/types.ts";
 import { sniffMime } from "../../shared/sniff.ts";
 
 export class PacketError extends Error {}
@@ -92,23 +86,24 @@ async function prepare(out: PDFDocument, file: SourceFile, options: AssembleOpti
 const pageCountOf = (p: Prepared) => (p.kind === "pdf" ? p.pages.length : 1);
 
 /**
- * Build the packet.
- * @param files    each distinct worksheet, by resource ID
- * @param sequence one resource ID per copy, in print order (see printSequence)
+ * Every selected file is prepared once and reused without rasterizing PDF pages.
+ * Student worksheets may share a physical sheet; separate students never do.
  */
 export async function assemblePacket(
   files: ReadonlyMap<string, SourceFile>,
-  sequence: readonly string[],
+  sequence: PrintSequence,
   options: AssembleOptions = {},
 ): Promise<AssembledPacket> {
-  if (sequence.length === 0) throw new PacketError("There is nothing to print for these choices.");
+  const packets = sequence.packets.filter((packet) => packet.length);
+  const ids = [...new Set([...packets.flat(), ...sequence.shared.map((copy) => copy.resourceId)])];
+  if (!ids.length) throw new PacketError("There is nothing to print for these choices.");
+
   const maxPages = options.maxPages ?? LIMITS.maxTotalPages;
   const margin = options.imageMargin ?? 18;
   const out = await PDFDocument.create();
   out.setTitle("Little Chewz Print Pack");
   out.setCreator("Little Chewz Print Pack Builder");
 
-  const ids = [...new Set(sequence)];
   const prepared = new Map<string, Prepared>();
   for (const [i, id] of ids.entries()) {
     const file = files.get(id);
@@ -117,21 +112,32 @@ export async function assemblePacket(
     prepared.set(id, await prepare(out, file, options));
   }
 
-  // Check the size before building anything.
   let expected = 0;
   let blanks = 0;
-  for (const id of sequence) {
-    const n = pageCountOf(prepared.get(id)!);
-    expected += n;
-    if (options.duplex && n % 2 === 1) blanks++;
+  for (const [i, packet] of packets.entries()) {
+    const pages = packet.reduce((sum, id) => sum + pageCountOf(prepared.get(id)!), 0);
+    expected += pages;
+    if (options.duplex && pages % 2 && (i < packets.length - 1 || sequence.shared.length)) blanks++;
+  }
+  for (const copy of sequence.shared) {
+    const pages = pageCountOf(prepared.get(copy.resourceId)!);
+    expected += pages;
+    if (options.duplex) blanks += copy.frontOnly ? pages : pages % 2;
   }
   if (expected + blanks > maxPages)
     throw new PacketError(`The pack would be ${expected + blanks} pages, over the ${maxPages}-page limit. Lower the copies and try again.`);
 
-  for (const id of sequence) {
+  const blankBack = () => {
+    const last = out.getPages().at(-1)!;
+    out.addPage([last.getWidth(), last.getHeight()]);
+  };
+  const addCopy = (id: string, frontOnly: boolean) => {
     const p = prepared.get(id)!;
     if (p.kind === "pdf") {
-      for (const page of p.pages) out.addPage(p.used ? repeatPage(out, page) : page);
+      for (const page of p.pages) {
+        out.addPage(p.used ? repeatPage(out, page) : page);
+        if (options.duplex && frontOnly) blankBack();
+      }
       p.used = true;
     } else {
       const [w, h] = p.size;
@@ -139,11 +145,20 @@ export async function assemblePacket(
       const dw = p.image.width * scale;
       const dh = p.image.height * scale;
       out.addPage([w, h]).drawImage(p.image, { x: (w - dw) / 2, y: (h - dh) / 2, width: dw, height: dh });
+      if (options.duplex && frontOnly) blankBack();
     }
-    if (options.duplex && pageCountOf(p) % 2 === 1) out.addPage(p.size); // blank back, same size as the last page
+  };
+
+  for (const [i, packet] of packets.entries()) {
+    for (const id of packet) addCopy(id, false);
+    const pages = packet.reduce((sum, id) => sum + pageCountOf(prepared.get(id)!), 0);
+    if (options.duplex && pages % 2 && (i < packets.length - 1 || sequence.shared.length)) blankBack();
+  }
+  for (const copy of sequence.shared) {
+    addCopy(copy.resourceId, copy.frontOnly);
+    if (options.duplex && !copy.frontOnly && pageCountOf(prepared.get(copy.resourceId)!) % 2) blankBack();
   }
   options.onProgress?.(ids.length, ids.length, "");
-
   const pageCount = expected + blanks;
   if (out.getPageCount() !== pageCount) throw new PacketError("The pack did not assemble completely. Please try again.");
   const bytes = await out.save();

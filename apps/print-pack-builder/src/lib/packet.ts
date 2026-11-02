@@ -18,7 +18,7 @@ export async function buildPacket(
   signal?: AbortSignal,
 ): Promise<AssembledPacket> {
   if (plan.problems.length) throw new PacketError(plan.problems[0]);
-  const lines = plan.lines.filter((l) => l.copies > 0);
+  const lines = [...new Map(plan.lines.filter((l) => l.copies > 0).map((l) => [l.resourceId, l])).values()];
   const files = new Map<string, SourceFile>();
   let totalBytes = 0;
   for (const [i, line] of lines.entries()) {
@@ -30,7 +30,7 @@ export async function buildPacket(
     files.set(line.resourceId, { title: line.title, bytes });
   }
   if (signal?.aborted) throw new PacketError("Download cancelled.");
-  return assemblePacket(files, printSequence(lines, options.order), {
+  return assemblePacket(files, printSequence(lines), {
     duplex: options.duplex,
     onProgress: (done, total, title) => onProgress({ stage: "assembling", done, total, title }),
   });

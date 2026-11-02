@@ -9,18 +9,18 @@ const memory = () => {
 describe("remembered settings", () => {
   it("round-trips class size and print options", () => {
     const store = memory();
-    savePrefs({ order: "student", duplex: true, studentCount: 27, groupSize: 3 }, store);
-    expect(loadPrefs(store)).toEqual({ order: "student", duplex: true, studentCount: 27, groupSize: 3 });
+    savePrefs({ duplex: true, studentCount: 27, groupSize: 3 }, store);
+    expect(loadPrefs(store)).toEqual({ duplex: true, studentCount: 27, groupSize: 3 });
   });
 
   it("falls back to defaults for missing, bad or blocked storage", () => {
-    expect(loadPrefs(memory())).toEqual({ order: "worksheet", duplex: false });
+    expect(loadPrefs(memory())).toEqual({ duplex: false });
     const bad = memory();
     bad.setItem("little-chewz-print-pack:prefs", '{"studentCount": 9000, "order": "x"}');
-    expect(loadPrefs(bad)).toEqual({ order: "worksheet", duplex: false });
+    expect(loadPrefs(bad)).toEqual({ duplex: false });
     const blocked = { getItem: () => { throw new Error("blocked"); }, setItem: () => { throw new Error("blocked"); } };
-    expect(loadPrefs(blocked)).toEqual({ order: "worksheet", duplex: false });
-    expect(() => savePrefs({ order: "worksheet", duplex: false }, blocked)).not.toThrow();
-    expect(loadPrefs(null)).toEqual({ order: "worksheet", duplex: false });
+    expect(loadPrefs(blocked)).toEqual({ duplex: false });
+    expect(() => savePrefs({ duplex: false }, blocked)).not.toThrow();
+    expect(loadPrefs(null)).toEqual({ duplex: false });
   });
 });

@@ -3,7 +3,7 @@ export const LIMITS = {
   minStudents: 1,
   maxStudents: 200,
   minGroupSize: 1,
-  maxGroupSize: 30,
+  maxGroupSize: 200, // class-wide activity = one group containing every student
   /** Most copies of one worksheet a teacher can ask for. */
   maxCopies: 500,
   /** Largest single worksheet file the Worker or browser will accept. */

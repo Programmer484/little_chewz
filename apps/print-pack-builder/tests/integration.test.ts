@@ -15,7 +15,7 @@ const demoEnv = env({ RESOURCE_MODE: "demo" });
 /** The browser's fetch, routed straight into the Worker handler. */
 const viaWorker = (async (input: RequestInfo | URL) =>
   handleRequest(new Request(new URL(String(input), "http://localhost:5173")), demoEnv)) as typeof fetch;
-const BY_WORKSHEET = { order: "worksheet", duplex: false } as const;
+const PRINT = { duplex: false } as const;
 
 async function lesson(id: string) {
   const data = (await (await viaWorker("/api/lessons")).json()) as LessonsResponse;
@@ -25,7 +25,7 @@ const sizes = (doc: PDFDocument) => doc.getPages().map((p) => `${Math.round(p.ge
 
 describe("print pack integration", () => {
   const demoSelection = { choices: { station: "photo" }, extensions: { "photo-cards": true, "exit-ticket": true } };
-  const demoNumbers = { studentCount: 25, groupSize: 4, copies: { "demo-exit-ticket": 3 } };
+  const demoNumbers = { studentCount: 25, groupSize: 4, copies: { "demo-exit-ticket:per_student": 3 } };
 
   it("builds a real, openable demo packet with the expected pages", async () => {
     const plan = computePlan(await lesson("demo-sample-lesson"), demoSelection, demoNumbers);
@@ -37,20 +37,25 @@ describe("print pack integration", () => {
       ["demo-exit-ticket", 3], // teacher typed 3
     ]);
     const stages = new Set<string>();
-    const packet = await buildPacket(plan, BY_WORKSHEET, (p) => stages.add(p.stage), viaWorker);
+    const packet = await buildPacket(plan, PRINT, (p) => stages.add(p.stage), viaWorker);
     expect(stages).toEqual(new Set(["fetching", "assembling"]));
     const doc = await PDFDocument.load(packet.bytes);
     expect(doc.getPageCount()).toBe(62);
     const s = sizes(doc);
-    expect(s.slice(0, 50).every((x) => x === "612x792")).toBe(true);
-    expect(s.slice(50, 57).every((x) => x === "792x612")).toBe(true); // landscape JPEG
-    expect(s.slice(59)).toEqual(["595x842", "595x842", "595x842"]); // A4 exit ticket keeps its size
+    expect(s.slice(0, 9)).toEqual([
+      "612x792", "612x792", "595x842",
+      "612x792", "612x792", "595x842",
+      "612x792", "612x792", "595x842",
+    ]); // Each student's A4 exit ticket follows their letter worksheets.
+    expect(s.slice(9, 53).every((x) => x === "612x792")).toBe(true);
+    expect(s.slice(53, 60).every((x) => x === "792x612")).toBe(true); // shared JPEGs
+    expect(s.slice(60)).toEqual(["612x792", "612x792"]); // shared cutout sheets
   });
 
   it("builds student packets, double-sided", async () => {
     const plan = computePlan(await lesson("demo-sample-lesson"), demoSelection, demoNumbers);
-    const packet = await buildPacket(plan, { order: "student", duplex: true }, () => {}, viaWorker);
-    // Packets: reading log (2 pages) + exit ticket (1 page + blank) for students 1–3, reading log only for 4–25.
+    const packet = await buildPacket(plan, { duplex: true }, () => {}, viaWorker);
+    // Packets: reading log (2 pages) + exit ticket (1 page + boundary blank) for students 1–3.
     // Then 7 photo prompts and 2 card sheets, each with a blank back.
     expect(packet.pageCount).toBe(3 * 4 + 22 * 2 + 7 * 2 + 2 * 2);
     expect(packet.sheetCount).toBe(packet.pageCount / 2);
@@ -72,7 +77,7 @@ describe("print pack integration", () => {
       "ccc-q01-secret-ingredients-character-profile-core",
       "ccc-q01-secret-ingredients-character-profile",
     ]);
-    const packet = await buildPacket(plan, BY_WORKSHEET, () => {}, viaWorker);
+    const packet = await buildPacket(plan, PRINT, () => {}, viaWorker);
     expect((await PDFDocument.load(packet.bytes)).getPageCount()).toBe(96);
   });
 
@@ -84,20 +89,20 @@ describe("print pack integration", () => {
       if (String(input).includes("demo-station-poster")) return Response.json({ error: "Drive is down." }, { status: 502 });
       return viaWorker(input);
     }) as typeof fetch;
-    await expect(buildPacket(plan, BY_WORKSHEET, () => {}, flaky)).rejects.toThrow("Drive is down.");
+    await expect(buildPacket(plan, PRINT, () => {}, flaky)).rejects.toThrow("Drive is down.");
     expect(calls).toBe(2);
 
     const html = (async () => new Response("<html>login</html>", { headers: { "content-type": "application/pdf" } })) as unknown as typeof fetch;
-    await expect(buildPacket(plan, BY_WORKSHEET, () => {}, html)).rejects.toThrow(PacketError);
+    await expect(buildPacket(plan, PRINT, () => {}, html)).rejects.toThrow(PacketError);
 
     const offline = (async () => {
       throw new TypeError("network");
     }) as unknown as typeof fetch;
-    await expect(buildPacket(plan, BY_WORKSHEET, () => {}, offline)).rejects.toThrow(/Could not reach the server/);
+    await expect(buildPacket(plan, PRINT, () => {}, offline)).rejects.toThrow(/Could not reach the server/);
   });
 
   it("refuses to build while the plan has problems", async () => {
     const plan = computePlan(await lesson("demo-sample-lesson"), { choices: {}, extensions: {} }, { studentCount: 25, groupSize: 4 });
-    await expect(buildPacket(plan, BY_WORKSHEET, () => {}, viaWorker)).rejects.toThrow(/Choose one option/);
+    await expect(buildPacket(plan, PRINT, () => {}, viaWorker)).rejects.toThrow(/Choose one option/);
   });
 });

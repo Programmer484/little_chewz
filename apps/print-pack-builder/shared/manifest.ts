@@ -11,7 +11,7 @@ import type {
   ResolvedSection,
 } from "./types.ts";
 
-const RULES = new Set(["per_student", "per_group", "per_class"]);
+const RULES = new Set(["per_student", "per_group"]);
 const ID = /^[a-z0-9][a-z0-9-]*$/;
 
 /** Every material in a manifest, in manifest order. */

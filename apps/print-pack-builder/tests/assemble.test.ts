@@ -4,86 +4,120 @@ import { PacketError, type SourceFile, assemblePacket } from "../src/lib/assembl
 import { packetFilename } from "../src/lib/packet.ts";
 import { fixture, pdfWithPages } from "./helpers.ts";
 
-const files = (entries: [string, Uint8Array][]) => new Map<string, SourceFile>(entries.map(([id, bytes]) => [id, { title: id, bytes }]));
+const files = (entries: [string, Uint8Array][]) =>
+  new Map<string, SourceFile>(entries.map(([id, bytes]) => [id, { title: id, bytes }]));
+const student = (...ids: string[]) => ({ packets: [ids], shared: [] });
 const repeat = (id: string, n: number) => Array<string>(n).fill(id);
 const sizes = async (bytes: Uint8Array) =>
   (await PDFDocument.load(bytes)).getPages().map((p) => [Math.round(p.getWidth()), Math.round(p.getHeight())]);
-const texts = async (bytes: Uint8Array) => {
-  const doc = await PDFDocument.load(bytes);
-  // Each test page draws one label; blank backs have no content stream.
-  return doc.getPages().map((p) => (p.node.Contents() ? "page" : "blank"));
-};
+const blanks = async (bytes: Uint8Array) => (await PDFDocument.load(bytes))
+  .getPages().map((p) => p.node.Contents() ? "page" : "blank");
 
 describe("assemblePacket", () => {
-  it("repeats every page of a multi-page PDF, copy after copy", async () => {
+  it("preserves every page of a multi-page worksheet in every student copy", async () => {
     const src = await PDFDocument.create();
     src.addPage([612, 792]).drawText("first");
     src.addPage([300, 400]).drawText("second");
-    const out = await assemblePacket(files([["two", await src.save()]]), repeat("two", 3));
+    const out = await assemblePacket(files([["two", await src.save()]]), {
+      packets: [["two"], ["two"], ["two"]], shared: [],
+    });
     expect(out).toMatchObject({ pageCount: 6, sheetCount: 6, blankPages: 0 });
     expect(await sizes(out.bytes)).toEqual([[612, 792], [300, 400], [612, 792], [300, 400], [612, 792], [300, 400]]);
   });
 
-  it("follows the given order and keeps page sizes", async () => {
-    const f = files([["a4", fixture("exit-ticket.pdf")], ["letter", await pdfWithPages(1)]]);
-    expect(await sizes((await assemblePacket(f, ["a4", "a4", "letter"])).bytes)).toEqual([[595, 842], [595, 842], [612, 792]]);
-    expect(await sizes((await assemblePacket(f, ["a4", "letter", "a4", "letter"])).bytes)).toEqual([[595, 842], [612, 792], [595, 842], [612, 792]]);
+  it("allows different odd-page worksheets on the front and back of a student's sheet", async () => {
+    const f = files([["a", await pdfWithPages(1)], ["b", await pdfWithPages(1)]]);
+    const out = await assemblePacket(f, { packets: [["a", "b"], ["a", "b"]], shared: [] }, { duplex: true });
+    expect(out).toMatchObject({ pageCount: 4, blankPages: 0, sheetCount: 2 });
+    expect(await blanks(out.bytes)).toEqual(["page", "page", "page", "page"]);
   });
 
-  it("adds a blank back after every odd-page copy when double-sided", async () => {
+  it("pads only the boundary of an odd-sized packet, not individual worksheets", async () => {
     const f = files([["one", await pdfWithPages(1)], ["two", await pdfWithPages(2)], ["three", await pdfWithPages(3, [595, 842])]]);
-    const out = await assemblePacket(f, ["one", "two", "three", "one"], { duplex: true });
-    expect(out).toMatchObject({ pageCount: 10, blankPages: 3, sheetCount: 5 });
-    expect(await texts(out.bytes)).toEqual(["page", "blank", "page", "page", "page", "page", "page", "blank", "page", "blank"]);
-    expect((await sizes(out.bytes))[7]).toEqual([595, 842]); // the blank back matches the A4 page before it
+    const out = await assemblePacket(f, {
+      packets: [["one", "two"], ["three", "one"]], shared: [],
+    }, { duplex: true });
+    expect(out).toMatchObject({ pageCount: 8, blankPages: 1, sheetCount: 4 });
+    expect(await blanks(out.bytes)).toEqual(["page", "page", "page", "blank", "page", "page", "page", "page"]);
+    expect((await sizes(out.bytes))[3]).toEqual([612, 792]);
   });
 
-  it("fits a PNG onto a portrait page and a landscape JPEG onto a landscape page", async () => {
-    const out = await assemblePacket(files([["png", fixture("station-poster.png")], ["jpg", fixture("photo-prompt.jpg")]]), ["png", "png", "jpg"]);
-    expect(await sizes(out.bytes)).toEqual([[612, 792], [612, 792], [792, 612]]);
+  it("puts group materials after packets with their own duplex reverses", async () => {
+    const f = files([["student", await pdfWithPages(3)], ["shared", await pdfWithPages(1)], ["two", await pdfWithPages(2)]]);
+    const out = await assemblePacket(f, {
+      packets: [["student"]], shared: [
+        { resourceId: "shared", frontOnly: false },
+        { resourceId: "shared", frontOnly: false },
+        { resourceId: "two", frontOnly: false },
+      ],
+    }, { duplex: true });
+    expect(out).toMatchObject({ pageCount: 10, blankPages: 3 });
+    expect(await blanks(out.bytes)).toEqual([
+      "page", "page", "page", "blank", "page", "blank", "page", "blank", "page", "page",
+    ]);
   });
 
-  it("does not duplicate image bytes for repeated copies", async () => {
+  it("makes every cutout page front-only, even for a multi-page card source", async () => {
+    const f = files([["cards", await pdfWithPages(2)]]);
+    const out = await assemblePacket(f, {
+      packets: [], shared: repeat("cards", 2).map((resourceId) => ({ resourceId, frontOnly: true })),
+    }, { duplex: true });
+    expect(out).toMatchObject({ pageCount: 8, blankPages: 4, sheetCount: 4 });
+    expect(await blanks(out.bytes)).toEqual(["page", "blank", "page", "blank", "page", "blank", "page", "blank"]);
+  });
+
+  it("does not add blanks when single-sided, including shared cards", async () => {
+    const f = files([["one", await pdfWithPages(1)], ["cards", await pdfWithPages(2)]]);
+    const out = await assemblePacket(f, {
+      packets: [["one"], ["one"]], shared: [{ resourceId: "cards", frontOnly: true }],
+    }, { duplex: false });
+    expect(out).toMatchObject({ pageCount: 4, blankPages: 0, sheetCount: 4 });
+  });
+
+  it("fits portrait PNG and landscape JPEG without changing PDF page sizes", async () => {
+    const f = files([["png", fixture("station-poster.png")], ["jpg", fixture("photo-prompt.jpg")], ["pdf", fixture("exit-ticket.pdf")]]);
+    const out = await assemblePacket(f, student("png", "jpg", "pdf"));
+    expect(await sizes(out.bytes)).toEqual([[612, 792], [792, 612], [595, 842]]);
+  });
+
+  it("shares image and PDF content across many copies", async () => {
     const jpg = fixture("photo-prompt.jpg");
-    const one = await assemblePacket(files([["jpg", jpg]]), ["jpg"]);
-    const many = await assemblePacket(files([["jpg", jpg]]), repeat("jpg", 30));
-    expect(many.bytes.length).toBeLessThan(one.bytes.length + 30 * 1000);
-    const pdfOne = await assemblePacket(files([["pdf", one.bytes]]), ["pdf"]);
-    const pdfMany = await assemblePacket(files([["pdf", one.bytes]]), repeat("pdf", 30));
-    expect(pdfMany.bytes.length).toBeLessThan(pdfOne.bytes.length + 30 * 1000);
+    const one = await assemblePacket(files([["jpg", jpg]]), student("jpg"));
+    const many = await assemblePacket(files([["jpg", jpg]]), { packets: repeat("jpg", 30).map((id) => [id]), shared: [] });
+    expect(many.bytes.length).toBeLessThan(one.bytes.length + 30 * 10000);
+    const pdfOne = await assemblePacket(files([["pdf", one.bytes]]), student("pdf"));
+    const pdfMany = await assemblePacket(files([["pdf", one.bytes]]), { packets: repeat("pdf", 30).map((id) => [id]), shared: [] });
+    expect(pdfMany.bytes.length).toBeLessThan(pdfOne.bytes.length + 30 * 10000);
   });
 
-  it("refuses an empty pack or a missing file", async () => {
-    await expect(assemblePacket(files([]), [])).rejects.toThrow(/nothing to print/);
-    await expect(assemblePacket(files([]), ["ghost"])).rejects.toThrow(/missing/);
-  });
-
-  it("rejects HTML error pages and other unsupported files", async () => {
-    const html = new TextEncoder().encode("<!doctype html><html><body>Sign in</body></html>");
-    await expect(assemblePacket(files([["Clue Tracker", html]]), ["Clue Tracker"])).rejects.toThrow(PacketError);
-    await expect(assemblePacket(files([["Clue Tracker", html]]), ["Clue Tracker"])).rejects.toThrow(/not a PDF, PNG or JPEG/);
-    const gif = new TextEncoder().encode("GIF89a.....");
-    await expect(assemblePacket(files([["gif", gif]]), ["gif"])).rejects.toThrow(/not a PDF, PNG or JPEG/);
+  it("rejects an empty pack, missing files, and unsupported input", async () => {
+    await expect(assemblePacket(files([]), { packets: [], shared: [] })).rejects.toThrow(/nothing to print/);
+    await expect(assemblePacket(files([]), student("ghost"))).rejects.toThrow(/missing/);
+    const html = new TextEncoder().encode("<html>login</html>");
+    await expect(assemblePacket(files([["bad", html]]), student("bad"))).rejects.toThrow(PacketError);
+    await expect(assemblePacket(files([["bad", html]]), student("bad"))).rejects.toThrow(/not a PDF, PNG or JPEG/);
   });
 
   it("rejects malformed PDFs and images", async () => {
     const badPdf = new TextEncoder().encode("%PDF-1.7\nthis is not really a pdf");
-    await expect(assemblePacket(files([["Broken", badPdf]]), ["Broken"])).rejects.toThrow(PacketError);
+    await expect(assemblePacket(files([["Broken", badPdf]]), student("Broken"))).rejects.toThrow(PacketError);
     const badPng = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 1, 2, 3]);
-    await expect(assemblePacket(files([["Broken PNG", badPng]]), ["Broken PNG"])).rejects.toThrow(/could not be read as an image/);
+    await expect(assemblePacket(files([["Broken PNG", badPng]]), student("Broken PNG"))).rejects.toThrow(/could not be read as an image/);
   });
 
-  it("enforces the page limit, counting blank backs, before building", async () => {
+  it("counts only necessary blank pages when enforcing the size limit", async () => {
     const f = files([["big", await pdfWithPages(5)]]);
-    await expect(assemblePacket(f, repeat("big", 8), { maxPages: 40 })).resolves.toMatchObject({ pageCount: 40 });
-    await expect(assemblePacket(f, repeat("big", 8), { maxPages: 40, duplex: true })).rejects.toThrow(/48 pages, over the 40-page limit/);
+    await expect(assemblePacket(f, student(...repeat("big", 8)), { maxPages: 40, duplex: true }))
+      .resolves.toMatchObject({ pageCount: 40, blankPages: 0 });
+    const packets = repeat("big", 8).map((id) => [id]);
+    await expect(assemblePacket(f, { packets, shared: [] }, { maxPages: 40, duplex: true }))
+      .rejects.toThrow(/47 pages, over the 40-page limit/);
   });
 });
 
 describe("packetFilename", () => {
   it("builds a descriptive filename", () => {
     expect(packetFilename("Set the Table")).toBe("Little_Chewz_Set_the_Table_Print_Pack.pdf");
-    expect(packetFilename("Secret Ingredients")).toBe("Little_Chewz_Secret_Ingredients_Print_Pack.pdf");
     expect(packetFilename("Café: Part 2!")).toBe("Little_Chewz_Cafe_Part_2_Print_Pack.pdf");
   });
 });

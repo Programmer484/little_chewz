@@ -56,7 +56,8 @@
         {
           "kind": "GIVE",
           "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
-          "description": "After the video, students pair up to complete questions 1–5."
+          "description": "After the video, students pair up to complete questions 1–5.",
+          "quantity": "per_student"
         },
         {
           "kind": "MORE",
@@ -67,7 +68,8 @@
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-              "description": "Questions 6–8; optional +10–15 min"
+              "description": "Questions 6–8; optional +10–15 min",
+              "quantity": "per_student"
             },
             {
               "ref": "ccc-q01-secret-ingredients-clue-answer-key",
@@ -85,7 +87,8 @@
         {
           "kind": "GIVE",
           "ref": "ccc-q01-secret-ingredients-chapter-notes",
-          "description": "One per student"
+          "description": "One per student",
+          "quantity": "per_student"
         },
         {
           "kind": "DO",
@@ -149,7 +152,8 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-secret-ingredients-character-profile-core",
-              "description": "One per student choosing Small Bite B"
+              "description": "One per student choosing Small Bite B",
+              "quantity": "per_student"
             },
             {
               "kind": "DO",
@@ -160,7 +164,8 @@
               "links": [
                 {
                   "ref": "ccc-q01-secret-ingredients-character-profile",
-                  "description": "Advanced Character Profile; optional +15–20 min."
+                  "description": "Advanced Character Profile; optional +15–20 min.",
+                  "quantity": "per_student"
                 }
               ]
             }
