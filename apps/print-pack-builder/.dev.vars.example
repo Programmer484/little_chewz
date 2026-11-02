@@ -1,0 +1,8 @@
+# Copy to .dev.vars for local development. .dev.vars is git-ignored.
+# Demo mode: synthetic fixtures, no Google credentials needed.
+RESOURCE_MODE=demo
+
+# Real Drive files locally (optional, needs a read-only service account key):
+# RESOURCE_MODE=drive
+# LOCAL_DRIVE_TESTING=true
+# GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}

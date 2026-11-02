@@ -27,6 +27,7 @@ If you cannot read the repository directly, ask the user to paste the exact curr
 - `catalog/AGENTS.md`
 - `templates/AGENTS.md`
 - `scripts/AGENTS.md`
+- `apps/AGENTS.md`
 - `system/AGENTS.md`
 
 ---
@@ -61,6 +62,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) |
    | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
+   | Teacher web apps (Print Pack Builder) | [apps/AGENTS.md](apps/AGENTS.md) | App README; registry rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
    | The instructions themselves | [system/AGENTS.md](system/AGENTS.md) | [Maintaining instructions](#maintaining-instructions) |
 
 3. For every edit, follow [WORKFLOW.md](system/WORKFLOW.md). For file creation or binary transfers through a connector, read [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md).
@@ -130,6 +132,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | `tests/` | Checks for the tools |
 | `.github/workflows/` | Automated validation and retained PDF previews after PR updates and `main` merges |
 | `exports/` | Generated PDFs; never the editable source |
+| `apps/` | Standalone teacher web apps, such as the [Print Pack Builder](apps/print-pack-builder/README.md); read-only consumers of the catalogue, never publishers |
 | [SYSTEM_IMPROVEMENTS.md](SYSTEM_IMPROVEMENTS.md) | Tooling backlog; each entry records its implementation status |
 
 ### Find a lesson
@@ -359,6 +362,7 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | `published_url` | Verified official destination; may be the **same URL as the former holding URL** if the same file was moved without changing its Drive ID |
 | `url` | Backward-compatible link; review renderers prefer the verified holding URL, while publication renders require the published URL and published status. Never assume a URL proves publication. |
 | `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
+| `print` | Optional, student worksheets only: `{"cards_per_sheet": N}` when each page holds N identical cards, counted from the actual file. Read by the [Print Pack Builder](apps/AGENTS.md) to print sheets instead of one page per card. |
 
 When an externally published resource is converted to `generated_pdf`, keep its status, live URL and `external_agent` publication evidence unchanged; the validator accepts that evidence without a digest until the next verified generated release replaces the file in place. For legacy resources whose Drive history is uncertain, preserve existing links, notes and delivery status; record publication verification as `unverified` or `unknown` rather than inventing a digest or pretending a historic upload was confirmed.
 
@@ -814,6 +818,12 @@ Teachers may eventually receive independent copies of a lesson deck with hidden/
 
 Add a **read-only** audit for Google Drive resources marked `published`, starting with those linked by current Teacher Guides. Verify the exact official file ID, intended reader permissions (including inherited access where applicable), and, when practical, actual access as a teacher without publisher credentials. Report `accessible`, `access problem`, or `unable to verify` with the affected resource ID; never mistake authenticated owner access or recorded publication status for teacher access. Do not automatically change permissions or publish resources. Run on demand or periodically rather than on every content edit; keep the existing manual publication-access checks until the audit exists.
 
+### SYS-005 — Colour and printer-friendly worksheet versions in the Print Pack Builder
+
+**Status:** Proposed, not implemented.
+
+Some worksheets may need a colour version and a separate printer-friendly version (for example, an ink-saving layout without dark backgrounds). The Teacher Guide should keep one link per worksheet rather than separate "colour" and "black and white" links, likely pointing to a Drive folder that holds both versions. The [Print Pack Builder](apps/AGENTS.md) then needs to look one level deeper: offer a Colour / Printer-friendly choice and fetch the matching file. Decide how the two files are recorded in `catalog/resources.json` before implementing. Plain black-and-white printing of a colour PDF needs nothing: teachers choose it in the print window.
+
 ### Previously implemented
 
 - Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).
@@ -839,7 +849,11 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 
-Linked resource names, URLs, and companion status live in [catalog/resources.json](catalog/AGENTS.md), never in these files. After editing, run `python scripts/validate.py` and save through a PR per [WORKFLOW.md](system/WORKFLOW.md).
+Linked resource names, URLs, and companion status live in [catalog/resources.json](catalog/AGENTS.md), never in these files.
+
+**Student worksheets print from the guide.** The [Print Pack Builder](apps/AGENTS.md) reads each `lesson.json`: a `student_worksheet` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per group of 3–4`).
+
+After editing, run `python scripts/validate.py` and save through a PR per [WORKFLOW.md](system/WORKFLOW.md).
 
 ---
 
@@ -890,6 +904,24 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 PDF previews use `renderers/resource_links.py` to select holding URLs; generated-PDF release builds use published URLs and `publication_checks.py` to reject unpublished dependencies. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
 When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
+
+---
+
+# File: `apps/AGENTS.md`
+
+## Editing apps
+
+`apps/` holds standalone teacher-facing web apps. They are separate from the Python Teacher Guide pipeline: they read repository records but never edit lesson sources, change publication status, or publish to Drive.
+
+| App | Purpose | Read first |
+| --- | --- | --- |
+| `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
+
+- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_worksheet` links count. A worksheet becomes downloadable when its catalogue entry is `published`. Never add per-lesson lists, allowlists or Drive IDs to the app.
+- **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF.
+- The site runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because published student worksheets are shared publicly on Drive. Require the login before publishing a worksheet that must stay private.
+- Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).
+- Use a dedicated non-lesson branch for app work. After editing, run `npm run check` in the app folder; CI runs the same in `.github/workflows/print-pack-builder.yml`.
 
 ---
 

@@ -26,6 +26,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); for 
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](../templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md#resources-slides-and-assets) |
    | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](../scripts/AGENTS.md) | [WORKFLOW.md](WORKFLOW.md#previews-and-cleanup) |
+   | Teacher web apps (Print Pack Builder) | [apps/AGENTS.md](../apps/AGENTS.md) | App README; registry rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) |
    | The instructions themselves | [system/AGENTS.md](AGENTS.md) | [Maintaining instructions](#maintaining-instructions) |
 
 3. For every edit, follow [WORKFLOW.md](WORKFLOW.md). For file creation or binary transfers through a connector, read [CHAT_FILE_CREATION.md](CHAT_FILE_CREATION.md).

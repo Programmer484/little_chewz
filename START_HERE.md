@@ -38,6 +38,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | `tests/` | Checks for the tools |
 | `.github/workflows/` | Automated validation and retained PDF previews after PR updates and `main` merges |
 | `exports/` | Generated PDFs; never the editable source |
+| `apps/` | Standalone teacher web apps, such as the [Print Pack Builder](apps/print-pack-builder/README.md); read-only consumers of the catalogue, never publishers |
 | [SYSTEM_IMPROVEMENTS.md](SYSTEM_IMPROVEMENTS.md) | Tooling backlog; each entry records its implementation status |
 
 ## Find a lesson
