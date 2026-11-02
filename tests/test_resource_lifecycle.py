@@ -22,8 +22,14 @@ class ResourceLifecycleTests(unittest.TestCase):
 
         revised = {"status": "published", "holding_url": HOLDING,
                    "published_url": OFFICIAL, "url": OFFICIAL}
-        self.assertEqual(resolve_url(revised), HOLDING)
+        self.assertEqual(resolve_url(revised), OFFICIAL)
         self.assertEqual(resolve_url(revised, release=True), OFFICIAL)
+
+        # An approved published resource may not fall back to its old review link.
+        bad_live = {"status": "published", "holding_url": HOLDING,
+                    "published_url": None, "url": HOLDING}
+        self.assertIsNone(resolve_url(bad_live))
+        self.assertIsNone(resolve_url(bad_live, release=True))
 
     def test_release_requires_published_link_for_every_dependency(self):
         target = {"kind": "teacher_guide", "data": {"core": [
