@@ -197,6 +197,12 @@ The original inventories and superseded slideshow decisions are in [archive/2026
 
 ### New external worksheet, artwork, slide or media
 
+### Student-facing worksheet PDFs — US Letter
+
+- When creating a resource registered as `student_worksheet`, make **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- Before uploading the worksheet to Drive holding, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` and fix any failed pages. Inspect the printed layout; do not stretch A4 content to fit.
+- **Only** student-facing worksheets have this paper-size rule. Do not resize Teacher Guides, companions, references, artwork or classroom slide PDFs.
+
 1. Create the new resource with the original authoring tool (not the repository PDF renderer); register `production_type: external`.
 2. Upload to the matching verified holding category in `catalog/drive_folders.json`, and read back its ID, MIME and URL. Existing legacy Slide PDF originals retain their separate approved review folder until explicitly moved.
 3. Add only catalogue bookkeeping on the lesson branch: `holding_url`, resource identity, source provenance and `status: unpublished`. If no source branch is needed, save the catalogue change through the lesson's ordinary GitHub PR; do not create a resource-specific branch by default.
@@ -223,6 +229,12 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 5. Save source to GitHub, open/update the PR and share the actual Actions run and review copy. A passing build or ordinary merge is not publication.
 
 ### External resources
+
+### Student-facing worksheet PDFs — preserve US Letter
+
+- When updating a resource registered as `student_worksheet`, keep **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- After revising and **before uploading** the replacement review copy, run `python scripts/pdf_page_size.py path/to/worksheet.pdf`. Fix any page-size failures without distorting content.
+- This requirement does **not** apply to Teacher Guides, companions, references, artwork or classroom slide PDFs.
 
 1. Edit using the original creation tool; do not invent a Python renderer or separate per-resource branch.
 2. Replace the same holding Drive file in place where possible; otherwise stage a new review copy in the verified appropriate holding folder.
@@ -259,6 +271,10 @@ Worksheets, posters, external PDFs, media and slides use `production_type: exter
 4. On failure, report the precise blocker. A new file stays `unpublished`; where an older verified release exists but a revision has not been verified, preserve the live record and use `pending_publish` as defined in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Never invent checksums or assert external content parity without evidence. Prefer automated Drive metadata checks; reserve human incognito testing for access behavior tools cannot prove.
 
 ### First-time generated PDF publication — agent-managed
+#### Student worksheet PDF check before external publication
+
+For any `student_worksheet` PDF, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` **before uploading or replacing the official Drive file**. Every page must be US Letter (8.5 × 11 inches), portrait or landscape. This check is for student-facing worksheets **only**; do not change Teacher Guide, companion or slide page sizes. External resources are still published by an agent rather than the generated-PDF publisher.
+
 
 Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID, publication evidence and `published` status. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
 
@@ -279,9 +295,9 @@ For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_G
 
 The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
-### On-demand inspection
+### Automatic publication inspection
 
-**Actions → Inspect published resources** is manual, read-only, and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](system/INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
+The **authorized release** and **Internal Drive replacement** workflows automatically inspect each newly published resource after saving its verified publication record; a FAIL or NEEDS REVIEW makes that publication workflow red. **Actions → Inspect published resources** remains an optional manual full/targeted check. The inspector is read-only and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](system/INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
 
 ### One-time setup
 
