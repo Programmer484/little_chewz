@@ -125,8 +125,17 @@ function main() {
     return;
   }
 
-  const previous = loadInputs(readAt(base));
-  const proposed = loadInputs(readWorkingTree());
+  const readBase = readAt(base);
+  const readHead = readWorkingTree();
+  // The Worker eagerly imports all guide JSON files, even ones not yet linked
+  // from the quest index. Malformed changed files must never be skipped.
+  for (const path of changedPaths.filter((p) =>
+    p.startsWith("catalog/") || /(?:^|\/)(?:quest|lesson)\.json$/.test(p))) {
+    readBase(path);
+    readHead(path);
+  }
+  const previous = loadInputs(readBase);
+  const proposed = loadInputs(readHead);
   const impacted = hasPrintImpact(previous, proposed);
   process.stdout.write("run_full=" + impacted + "\n");
   process.stdout.write("reason=" + (impacted ? "print-output-changed" : "print-output-unchanged") + "\n");
