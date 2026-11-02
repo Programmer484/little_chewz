@@ -1,7 +1,6 @@
 import { LIMITS } from "./limits.ts";
 import type { Plan, PlanLine, PrintSequence, Quantities, ResolvedLesson, ResolvedMaterial, Selection } from "./types.ts";
 
-export const coreKey = (sectionId: string, resourceId: string) => `${sectionId}:${resourceId}`;
 export const groupCount = (students: number, size: number) => Math.ceil(students / size);
 const whole = (n: unknown): n is number => typeof n === "number" && Number.isInteger(n);
 
@@ -21,19 +20,18 @@ export function quantityProblems(q: Quantities): string[] {
 export const copiesFor = (needed: number, cardsPerSheet?: number) =>
   cardsPerSheet ? Math.ceil(needed / cardsPerSheet) : needed;
 
-export interface Pick {
+export interface SelectedPick {
   material: ResolvedMaterial;
   source: string;
   activityId: string;
 }
 
 /** All selected activities, in lesson order. Choice groups may be left unanswered. */
-export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { problems: string[]; picks: Pick[] } {
-  const picks: Pick[] = [];
+export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { problems: string[]; picks: SelectedPick[] } {
+  const picks: SelectedPick[] = [];
   for (const s of lesson.sections) {
     if (s.kind === "core") for (const m of s.materials)
-      if (sel.core?.[coreKey(s.id, m.resourceId)] !== false)
-        picks.push({ material: m, source: s.title, activityId: s.id });
+      picks.push({ material: m, source: s.title, activityId: s.id });
     if (s.kind === "choice") {
       const chosen = s.options.find((o) => o.id === sel.choices[s.id]);
       if (!chosen) continue;
@@ -113,5 +111,6 @@ export function printSequence(lines: PlanLine[]): PrintSequence {
   const packets: string[][] = [];
   for (let i = 0; i < count; i++)
     packets.push(student.filter((line) => i < line.copies).map((line) => line.resourceId));
-  return { packets, shared: shared.flatMap((line) => Array<string>(line.copies).fill(line.resourceId)) };
+  return { packets, shared: shared.flatMap((line) =>
+    Array.from({ length: line.copies }, () => ({ resourceId: line.resourceId, frontOnly: (line.cardsPerSheet ?? 0) > 1 }))) };
 }

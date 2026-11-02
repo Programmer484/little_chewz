@@ -125,8 +125,6 @@ export interface Selection {
   choices: Record<string, string | undefined>;
   /** extension id -> checked */
   extensions: Record<string, boolean | undefined>;
-  /** core worksheet id -> checked; absent means selected by default */
-  core?: Record<string, boolean | undefined>;
 }
 
 export interface Quantities {
@@ -175,5 +173,5 @@ export interface PrintOptions {
 /** Boundaries are explicit: duplex padding belongs to packets, not worksheets. */
 export interface PrintSequence {
   packets: string[][];
-  shared: string[];
+  shared: { resourceId: string; frontOnly: boolean }[];
 }
