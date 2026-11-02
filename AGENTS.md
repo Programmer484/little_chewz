@@ -334,6 +334,7 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 | `slide_deck` | Human-reviewed lesson PDF and derived PPTX | `pdf_to_linked_slides.py`; no editable slide JSON renderer |
 | `story` | Markdown | Story/audio workflow |
 | `media` | Registry and external URL | External provider; no repository renderer |
+| `print_pack` | Registry entry linking one lesson in the Print Pack Builder | Teacher Guide Preparation; the app reads guides and the catalogue itself |
 | `visual_asset` | PNG/SVG/JPG and source metadata | Renderers or direct distribution |
 | `published_export` | Generated PDF/PPTX/etc. | Distribution |
 
@@ -488,13 +489,12 @@ Assessment: Omitted — Teaching focus is sufficient for Activate.
 - Each lesson has **its own slide set/deck**. Link only that lesson's approved slideshow in Preparation. In Teaching Flow, `SHOW`/`KEEP` slide numbers are local to the lesson and must be verified against its current approved slides. Historical quest-wide slide numbers are not current lesson numbers.
 - A command such as `SHOW Slides 1–3 — Introduce the school.` is slide navigation, **not** a separately linked resource entry. `KEEP Slide 3 — Display during the welcome letter.` is likewise slide navigation.
 
-**Preparation is a short pre-class action list, not a second resource index.** Include links only when teachers must review, choose, test, or print something **before** students arrive. **Do not repeat resources already linked at their point of use in Teaching Flow by default.** Exceptions are high-stakes pre-class decisions (such as selecting a food-based challenge), the lesson slideshow that needs advance review, and essential printables when no selected print-pack tool is available. Put safety-critical choices first and identify the decision explicitly.
+**Preparation lists only what the teacher must do before students arrive**, not the lesson's resources. Most of a lesson can be taught by walking through the guide, so Preparation is usually just two lines: the slides and the print pack.
 
-- Under **CORE RESOURCES**, list the lesson slideshow and genuinely necessary classwide pre-class materials, rather than every resource students use later.
-- When activities offer alternatives, use **PREPARE YOUR CHOICES** for decisions and resources requiring advance preparation, not a duplicate list of all A/B/C/D handouts. Reserve **OPTIONAL PREPARATION** for extras the teacher may need to arrange beforehand.
-- If a selected print-pack tool is available, link it here once rather than listing all the individual printable worksheets; keep the worksheet links at the relevant `GIVE` steps in Teaching Flow.
-- Give each preparation link a short, action-oriented `—` description, such as `Choose before class`, `Preview the video`, or `Print one per team`. Keep classroom activity instructions in Teaching Flow.
-- Omit routine supplies and resources that teachers can simply open during the lesson. Do not compress preparation links into an italic `prep_note` paragraph; use a note only for essential setup information that cannot fit on a resource line.
+- Under **CORE RESOURCES**, link the lesson slideshow to review. Add anything else only if a teacher could not handle it on the spot from the guide, such as a food-based challenge to choose and shop for, or a video that needs previewing. Put safety-critical choices first and name the decision.
+- Under **PRINT YOUR CHOICES** (`prep_heading`), link the lesson's print pack once: catalogue entry `<lesson-id>-print-pack`, which opens the Print Pack Builder at that lesson. It replaces lists of printable worksheets. Until the builder is deployed this entry is an unpublished placeholder, which blocks the guide's release, so add it only to guides being prepared for the builder.
+- Link every other resource only at its point of use in Teaching Flow (`GIVE`, `READ`, `LISTEN`, `MORE`). Before removing a resource from Preparation, check that a step links it; otherwise move its link into that step. The Print Pack Builder finds worksheets at their steps.
+- Give each preparation link a short, action-oriented `—` description, such as `Review slides 1–7` or `Choose activities, print once`. Omit routine supplies. Do not compress preparation links into an italic `prep_note` paragraph; use a note only for essential setup that cannot fit on a resource line.
 
 ### 4. Approved Teaching Flow action labels
 

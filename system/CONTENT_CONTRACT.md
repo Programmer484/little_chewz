@@ -37,6 +37,7 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 | `slide_deck` | Human-reviewed lesson PDF and derived PPTX | `pdf_to_linked_slides.py`; no editable slide JSON renderer |
 | `story` | Markdown | Story/audio workflow |
 | `media` | Registry and external URL | External provider; no repository renderer |
+| `print_pack` | Registry entry linking one lesson in the Print Pack Builder | Teacher Guide Preparation; the app reads guides and the catalogue itself |
 | `visual_asset` | PNG/SVG/JPG and source metadata | Renderers or direct distribution |
 | `published_export` | Generated PDF/PPTX/etc. | Distribution |
 

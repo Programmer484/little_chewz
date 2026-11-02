@@ -14,28 +14,16 @@
   "core": [
     {
       "ref": "ccc-q01-set-the-table-slides",
-      "description": "Slides 1–7"
-    },
-    {
-      "ref": "ccc-q01-set-the-table-kwls-starter",
-      "description": "One per student"
+      "description": "Review slides 1–7"
     }
   ],
   "optional_prep": [
     {
-      "ref": "ccc-q01-set-the-table-school-song-activity",
-      "description": "One per student"
-    },
-    {
-      "ref": "ccc-q01-set-the-table-our-vocabulary",
-      "description": "One per group of 3–4"
-    },
-    {
-      "ref": "ccc-q01-set-the-table-team-builder",
-      "description": "One per student"
+      "ref": "ccc-q01-set-the-table-print-pack",
+      "description": "Choose activities, print once"
     }
   ],
-  "prep_heading": "PREPARE YOUR CHOICES",
+  "prep_heading": "PRINT YOUR CHOICES",
   "focus": "Listen for accurate explanations and applications of mission vocabulary to teamwork.",
   "assessment": "Check whether students can explain a selected word and apply it to an example. For Which Word Fits?, listen as partners justify and revise choices.",
   "curriculum": [
@@ -67,8 +55,13 @@
       "mins": "10",
       "rows": [
         {
+          "kind": "GIVE",
+          "ref": "ccc-q01-set-the-table-kwls-starter",
+          "description": "Complete K with prior ideas and W with a question."
+        },
+        {
           "kind": "DO",
-          "text": "Core Workbook KWLS: complete K with prior ideas and W with a question. Save L and S for Part 5."
+          "text": "Save L and S for Part 5."
         },
         {
           "kind": "ASK",
