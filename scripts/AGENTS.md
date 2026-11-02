@@ -10,7 +10,7 @@
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
 | `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](../system/PUBLISH.md) |
 | `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](../system/PUBLISH.md) |
-| `inspect_publications.py` | Read-only Exists/Accessible/Correct audit of published resources and real Teacher Guide links | [PUBLISH.md](../system/PUBLISH.md#on-demand-inspection) |
+| `inspect_publications.py` | Read-only Drive permission / exact-URL human-review audit of published resources | [PUBLISH.md](../system/PUBLISH.md#on-demand-inspection) |
 | `pdf_to_linked_slides.py` | Human-reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md) |
 
 PDF previews use `renderers/resource_links.py` to select holding URLs; generated-PDF release builds use published URLs and `publication_checks.py` to reject unpublished dependencies. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
