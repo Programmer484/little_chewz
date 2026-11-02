@@ -152,7 +152,7 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-secret-ingredients-character-profile-core",
-              "description": "One per student choosing Small Bite B",
+              "description": "One per student",
               "quantity": "per_student"
             },
             {
