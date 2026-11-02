@@ -14,24 +14,10 @@
   "core": [
     {
       "ref": "ccc-q01-activate-slides",
-      "description": "Activate slides 1–7"
-    },
-    {
-      "ref": "ccc-q01-mrs-tongsleys-letter",
-      "description": "Opening read-aloud"
+      "description": "Review slides and videos"
     }
   ],
-  "optional_prep": [
-    {
-      "ref": "ccc-school-pass-instructions",
-      "description": "Instructions + print options"
-    },
-    {
-      "ref": "ccc-callie-cupcake-poster",
-      "description": "Optional display"
-    }
-  ],
-  "prep_note": "Preview the two videos before class.",
+  "optional_prep": [],
   "focus": "Encourage students to seek understanding before making judgments.",
   "curriculum": [
     "English Language Arts",
