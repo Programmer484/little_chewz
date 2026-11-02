@@ -51,12 +51,14 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
     file_id = drive_id(url)
     if not file_id:
         return FAIL, "Invalid Google Drive file URL"
+    if service is None:
+        return REVIEW, "Service account unavailable"
     try:
         metadata = service.files().get(
             fileId=file_id, supportsAllDrives=True, fields="id,trashed").execute()
     except Exception as exc:
         # Drive's 404 can mean either missing or inaccessible to this service account.
-        return REVIEW, "Service account could not access file: " + str(exc)
+        return REVIEW, "Service account cannot access Drive file"
     if metadata.get("id") != file_id or metadata.get("trashed") is True:
         return FAIL, "Wrong Drive file or file in Trash"
 
@@ -78,7 +80,7 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
             if not token:
                 return FAIL, "Anyone-with-the-link permission is missing"
     except Exception as exc:
-        return REVIEW, "Service account could not check sharing: " + str(exc)
+        return REVIEW, "Cannot read Drive sharing permissions"
 
 
 def audit(registry: dict, folders=None, service=None, builder=None,
@@ -86,6 +88,7 @@ def audit(registry: dict, folders=None, service=None, builder=None,
     if only and only not in registry:
         raise ValueError("Unknown resource: " + only)
     report = []
+    credentials_checked = service is not None
     for rid, resource in registry.items():
         if resource.get("status") != "published" or (only and rid != only):
             continue
@@ -94,8 +97,12 @@ def audit(registry: dict, folders=None, service=None, builder=None,
         for url in links(resource):
             if url and drive_id(url) and \
                     (resource.get("human_review") or {}).get(url) not in {"pending", "reviewed"}:
-                if service is None:
-                    service = drive_service()
+                if not credentials_checked:
+                    credentials_checked = True
+                    try:
+                        service = drive_service()
+                    except Exception:
+                        service = None
             state, reason = inspect_link(url, resource, service)
             if state != PASS:
                 issues.append({"status": state, "url": url, "reason": reason})
