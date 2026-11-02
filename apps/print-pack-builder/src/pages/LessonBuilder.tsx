@@ -446,7 +446,8 @@ function CopiesRow(props: {
   const id = useId();
   const { line } = props;
   const value = props.raw ?? String(line.defaultCopies);
-  const invalid = props.showErrors && !validWhole(toWhole(value), 0, LIMITS.maxCopies);
+  const minCopies = line.required ? 1 : 0;
+  const invalid = props.showErrors && !validWhole(toWhole(value), minCopies, LIMITS.maxCopies);
   return (
     <tr>
       <th scope="row">
@@ -462,7 +463,7 @@ function CopiesRow(props: {
           id={id}
           type="number"
           inputMode="numeric"
-          min={0}
+          min={minCopies}
           max={LIMITS.maxCopies}
           step={1}
           value={value}
@@ -477,7 +478,7 @@ function CopiesRow(props: {
         )}
         {invalid && (
           <span className="field-error" role="alert">
-            0 to {LIMITS.maxCopies}
+            {minCopies} to {LIMITS.maxCopies}
           </span>
         )}
       </td>

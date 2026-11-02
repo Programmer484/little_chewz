@@ -149,6 +149,8 @@ export interface PlanLine {
   resourceId: string;
   title: string;
   rule: QuantityRule;
+  /** Guided core or selected A/B worksheet: cannot be omitted or set to zero. */
+  required: boolean;
   /** Copies (or cards, when cardsPerSheet is set) the default rule asks for. */
   needed: number;
   cardsPerSheet?: number;

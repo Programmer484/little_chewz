@@ -40,6 +40,14 @@ describe("Guided Printing (default)", () => {
     expect(plan.lines[0].copies).toBe(25);
   });
 
+  it("rejects zero copies of required materials in Guided, but permits zero in Custom", () => {
+    const guided = computePlan(testLesson(), { choices: { bite: "a" }, extensions: {} },
+      { ...q, copies: { "core-sheet:per_student": 0 } });
+    expect(guided.problems).toContain("Guided Printing requires at least one copy of each mandatory worksheet.");
+    const custom = computePlan(testLesson(), { customize: true, choices: {}, extensions: {}, customChoices: { a: true } }, { ...q, copies: { "core-sheet:per_student": 0 } });
+    expect(custom.problems).toEqual([]);
+  });
+
   it("permits exactly the chosen activity and its checked extension", () => {
     const chosen = computePlan(testLesson(), { choices: { bite: "b" }, extensions: { "b-extra": true } }, q);
     expect(ids(chosen)).toEqual(["core-sheet", "team-cards", "b-extra-sheet"]);

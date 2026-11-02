@@ -24,6 +24,7 @@ export interface SelectedPick {
   material: ResolvedMaterial;
   source: string;
   activityId: string;
+  required: boolean;
 }
 
 /** All selected activities, in lesson order. Choice groups may be left unanswered. */
@@ -32,7 +33,7 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
   for (const s of lesson.sections) {
     if (s.kind === "core") for (const m of s.materials)
       if (!sel.customize || sel.materials?.[`${s.id}:${m.resourceId}`] !== false)
-        picks.push({ material: m, source: s.title, activityId: s.id });
+        picks.push({ material: m, source: s.title, activityId: s.id, required: !sel.customize });
     if (s.kind === "choice") {
       const options = s.options.filter((o) => sel.customize
         ? (sel.customChoices?.[o.id] ?? (sel.choices[s.id] === o.id))
@@ -41,16 +42,16 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
         const label = `${chosen.label} · ${chosen.title}`;
         for (const m of chosen.materials)
           if (!sel.customize || sel.materials?.[`${chosen.id}:${m.resourceId}`] !== false)
-            picks.push({ material: m, source: label, activityId: chosen.id });
+            picks.push({ material: m, source: label, activityId: chosen.id, required: !sel.customize });
         for (const e of chosen.extensions)
           if (sel.extensions[e.id]) for (const m of e.materials)
-            picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id });
+            picks.push({ material: m, source: `${label} · ${e.title}`, activityId: e.id, required: false });
       }
     }
     if (s.kind === "optional")
       for (const item of s.items)
         if (sel.extensions[item.id]) for (const m of item.materials)
-          picks.push({ material: m, source: item.title, activityId: item.id });
+          picks.push({ material: m, source: item.title, activityId: item.id, required: false });
   }
   const problems = sel.customize ? [] : lesson.sections
     .filter((s) => s.kind === "choice" && !s.options.some((o) => o.id === sel.choices[s.id]))
@@ -68,8 +69,9 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
 
   const lines = new Map<string, PlanLine>();
   const unavailable = new Map<string, Plan["unavailable"][number]>();
-  for (const { material: m, source, activityId } of picks) {
+  for (const { material: m, source, activityId, required } of picks) {
     if (!m.resource.available) {
+      if (required) problems.push(`Required worksheet “${m.resource.title}” is not available yet.`);
       const item = unavailable.get(m.resourceId);
       if (item) { if (!item.sources.includes(source)) item.sources.push(source); }
       else unavailable.set(m.resourceId, {
@@ -83,13 +85,14 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
     const id = `${m.resourceId}:${m.rule}${m.rule === "per_group" ? `:${activityId}` : ""}`;
     const previous = lines.get(id);
     if (previous) {
+      previous.required ||= required;
       if (!previous.sources.includes(source)) previous.sources.push(source);
       continue;
     }
     const defaultCopies = copiesFor(needed, m.cardsPerSheet);
     const override = q.copies?.[id];
     lines.set(id, {
-      id, activityId, resourceId: m.resourceId, title: m.resource.title, rule: m.rule,
+      id, activityId, resourceId: m.resourceId, title: m.resource.title, rule: m.rule, required,
       ...(size !== undefined ? { groupSize: size } : {}),
       needed, cardsPerSheet: m.cardsPerSheet, defaultCopies,
       copies: override ?? defaultCopies, edited: override !== undefined && override !== defaultCopies,
@@ -97,6 +100,8 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
     });
   }
   const all = [...lines.values()];
+  if (all.some((line) => line.required && line.copies === 0))
+    problems.push("Guided Printing requires at least one copy of each mandatory worksheet.");
   if (!problems.length && all.every((l) => l.copies === 0))
     problems.push(unavailable.size
       ? "None of the selected worksheets can be downloaded yet."
