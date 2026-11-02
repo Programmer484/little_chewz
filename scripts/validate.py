@@ -106,6 +106,11 @@ for ref,item in registry.items():
         errors.append(f'{ref}: invalid status {item.get("status")}')
     if 'approved_link' in item:
         errors.append(f'{ref}: obsolete approved_link field; use status')
+    if 'print' in item:
+        printing = item['print'] if isinstance(item['print'], dict) else {}
+        cards = printing.get('cards_per_sheet')
+        if set(printing) != {'cards_per_sheet'} or not isinstance(cards, int) or cards < 1:
+            errors.append(f'{ref}: print must be {{"cards_per_sheet": <whole number of identical cards on each page>}}')
     if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
         errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')

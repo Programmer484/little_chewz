@@ -1,9 +1,6 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 import { resetAccessCache } from "../worker/access.ts";
 import { base64UrlEncode } from "../worker/b64.ts";
-import { createCatalog } from "../worker/catalog.ts";
 import { resetTokenCache } from "../worker/google.ts";
 import { handleRequest } from "../worker/index.ts";
 import { env, fixture } from "./helpers.ts";
@@ -61,8 +58,8 @@ describe("worker API", () => {
     expect((await handleRequest(get("/api/resources/%E0%A4%A"), e)).status).toBe(400);
     expect((await handleRequest(get("/api/resources/Not_Valid"), e)).status).toBe(400);
     expect((await handleRequest(get("/api/resources/no-such-thing"), e)).status).toBe(404);
-    // In the registry but not on the pilot allowlist.
-    expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-team-builder"), e)).status).toBe(404);
+    // A student worksheet in a guide, but not published yet.
+    expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-kwls-starter"), e)).status).toBe(404);
     // A teacher-only resource that is published but not a student printable.
     expect((await handleRequest(get("/api/resources/ccc-q01-secret-ingredients-teacher-guide"), e)).status).toBe(404);
     // Object prototype keys are not resources.
@@ -120,27 +117,12 @@ describe("worker API", () => {
       expect(new Uint8Array(await res.arrayBuffer())).toEqual(pdf);
       const health = await (await handleRequest(get("/api/health"), e)).json();
       expect(health).toMatchObject({ accessRequired: false });
-      // The allowlist and every other check still apply.
-      expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-team-builder"), e, undefined, fetcher)).status).toBe(404);
+      // Unpublished worksheets and non-worksheets are still refused.
+      expect((await handleRequest(get("/api/resources/ccc-q01-set-the-table-kwls-starter"), e, undefined, fetcher)).status).toBe(404);
+      expect((await handleRequest(get("/api/resources/ccc-q01-secret-ingredients-teacher-guide"), e, undefined, fetcher)).status).toBe(404);
     });
 
-    it("still refuses holding (review) files without a login", async () => {
-      const registry = JSON.parse(readFileSync(resolve(__dirname, "../../../catalog/resources.json"), "utf8"));
-      registry["test-holding"] = { title: "Review copy", type: "student_worksheet", status: "unpublished", holding_url: "https://drive.google.com/file/d/abcdefghijklmnop/view" };
-      const withHolding = createCatalog({
-        registry,
-        allowlist: { "test-holding": { source: "holding", mimeType: "application/pdf", approval: "Test pilot approval" } },
-        manifests: [],
-        quests: [],
-        demo: { lesson: { lessonId: "d", questId: "demo", order: 0, title: "D", status: "in_progress", sections: [] }, quest: { id: "demo", title: "Demo", order: 0 }, resources: {} },
-      });
-      const e = env({ RESOURCE_MODE: "drive", REQUIRE_ACCESS: "false", GOOGLE_SERVICE_ACCOUNT_JSON: "{}" });
-      const res = await handleRequest(get("/api/resources/test-holding"), e, withHolding);
-      expect(res.status).toBe(403);
-      expect(await res.text()).toMatch(/needs the pilot login/);
-    });
-
-    it("verifies the Access token, then fetches the allowlisted Drive file", async () => {
+    it("verifies the Access token when a login is required, then fetches the Drive file", async () => {
       const access = await rsaKeys("k1");
       const google = await rsaKeys("g1");
       const now = Math.floor(Date.now() / 1000);
@@ -201,9 +183,16 @@ describe("drive retrieval failures", () => {
     expect(await res.text()).toMatch(/not shared with the service account/);
   });
 
-  it("rejects a MIME type that does not match the allowlist", async () => {
+  it("rejects Google Docs and other types that are not PDF, PNG or JPEG", async () => {
     const res = await driveCall(() => Response.json({ mimeType: "application/vnd.google-apps.document", size: "10" }));
     expect(res.status).toBe(502);
+    expect(await res.text()).toMatch(/only PDF, PNG and JPEG/);
+  });
+
+  it("rejects content that does not match the type Drive reports", async () => {
+    const res = await driveCall(() => Response.json({ mimeType: "image/png" }));
+    expect(res.status).toBe(502);
+    expect(await res.text()).toMatch(/not the expected image\/png/);
   });
 
   it("rejects oversized files", async () => {

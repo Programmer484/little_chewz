@@ -1,35 +1,27 @@
 /**
- * Print manifest and plan types shared by the browser app and the Worker.
- * Manifests live in config/lessons/*.json and reference stable IDs from
- * catalog/resources.json. They never contain Drive IDs or URLs.
+ * Shared types for the browser app and the Worker.
+ *
+ * Real lessons are not configured here: shared/derive.ts reads each lesson's
+ * Teacher Guide source (lesson.json) and catalog/resources.json and produces
+ * a LessonManifest. Only the synthetic demo lesson is written by hand.
  */
 
-/** How many copies of a material a class needs. */
+/** Default copies for a material. Teachers can change any line's copies. */
 export type QuantityRule =
   | "per_student" // one per student
   | "per_group" // one per group: ceil(students / groupSize)
-  | "per_class" // a fixed count for the whole class (default 1)
-  | "per_activity" // a fixed count each time its activity is selected (default 1)
-  | "teacher_adjustable"; // a default count the teacher can change
-
-export interface QuantitySpec {
-  rule: QuantityRule;
-  /** Fixed or default count for per_class, per_activity and teacher_adjustable. */
-  count?: number;
-}
+  | "per_class"; // one for the class
 
 export interface MaterialSpec {
   resourceId: string;
-  quantity: QuantitySpec;
+  rule: QuantityRule;
   /**
-   * Verified number of identical cards printed on every page of the file.
-   * When set, the rule counts cards, and the plan prints
+   * Identical cards printed on every page, from the catalogue's
+   * print.cards_per_sheet. The rule then counts cards, and the plan prints
    * ceil(cardsNeeded / cardsPerSheet) copies of the file.
    */
   cardsPerSheet?: number;
-  /** Verified page count of one copy, used for estimates before download. */
-  pages?: number;
-  /** Short teacher-facing note, e.g. "One per group of 3–4". */
+  /** Teacher Guide description, e.g. "One per group of 3–4". */
   note?: string;
 }
 
@@ -41,10 +33,10 @@ export interface ExtensionSpec {
   materials: MaterialSpec[];
 }
 
-/** One alternative in a mutually exclusive choice. */
+/** One alternative in a mutually exclusive choice (A, B, C...). */
 export interface OptionSpec {
   id: string;
-  label: string; // "A", "B", ...
+  label: string;
   title: string;
   summary?: string;
   materials: MaterialSpec[];
@@ -62,8 +54,6 @@ export type LessonStatus = "ready" | "no_student_printing" | "in_progress";
 export interface LessonManifest {
   lessonId: string;
   questId: string;
-  /** Lesson folder in the quest's quest.json learning_sequence (alignment check). */
-  lessonFolder?: string;
   order: number;
   title: string;
   status: LessonStatus;
@@ -76,15 +66,6 @@ export interface QuestInfo {
   id: string;
   title: string;
   order: number;
-}
-
-/** Pilot allowlist: the only resources the Worker will ever serve. */
-export interface PilotAllowEntry {
-  /** Which registry URL is the trusted source. Only "published" is used for the pilot. */
-  source: "published" | "holding";
-  mimeType: AllowedMime;
-  /** Why this resource is allowed; required for "holding" sources. */
-  approval: string;
 }
 
 export type AllowedMime = "application/pdf" | "image/png" | "image/jpeg";
@@ -140,7 +121,7 @@ export interface LessonsResponse {
 
 export type ResourceMode = "disabled" | "demo" | "drive";
 
-/* ---------------- Selections and plan ---------------- */
+/* ---------------- Selections, plan and print options ---------------- */
 
 export interface Selection {
   /** sectionId -> chosen optionId */
@@ -152,26 +133,24 @@ export interface Selection {
 export interface Quantities {
   studentCount: number;
   groupSize: number;
-  /** resourceId -> teacher-set count for teacher_adjustable materials */
-  adjusted?: Record<string, number | undefined>;
-  /** resourceId -> extra spare copies */
-  extra?: Record<string, number | undefined>;
+  /** resourceId -> copies the teacher typed, replacing the default. */
+  copies?: Record<string, number | undefined>;
 }
 
 export interface PlanLine {
   resourceId: string;
   title: string;
   rule: QuantityRule;
-  /** Copies (or cards, when cardsPerSheet is set) the class needs, before extras. */
+  /** Copies (or cards, when cardsPerSheet is set) the default rule asks for. */
   needed: number;
   cardsPerSheet?: number;
-  /** Spare copies of the file added by the teacher. */
-  extra: number;
-  /** Copies of the file to print (what the PDF contains). */
+  /** Copies of the file the default rule prints. */
+  defaultCopies: number;
+  /** Copies of the file to print: the teacher's number, or the default. */
   copies: number;
-  /** Pages in one copy, when verified. */
-  pagesPerCopy?: number;
-  /** Where the material comes from, e.g. "Core", "Small Bite B". */
+  /** True when the teacher changed the copies. */
+  edited: boolean;
+  /** Where the material comes from, e.g. "Step 1 · Clue Hunt", "B · Character Profile". */
   sources: string[];
   note?: string;
 }
@@ -183,6 +162,12 @@ export interface Plan {
   unavailable: { resourceId: string; title: string; reason: string; sources: string[] }[];
   /** Blocking problems, e.g. an unanswered choice. */
   problems: string[];
-  /** Total pages when every line has a verified page count, else null. */
-  totalPages: number | null;
+}
+
+/** How the downloaded PDF is arranged. */
+export interface PrintOptions {
+  /** "worksheet": all copies of one worksheet, then the next. "student": one packet per student. */
+  order: "worksheet" | "student";
+  /** Add blank backs so every worksheet copy starts on a new sheet when printing both sides. */
+  duplex: boolean;
 }

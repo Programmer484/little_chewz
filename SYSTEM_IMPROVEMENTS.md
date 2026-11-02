@@ -24,6 +24,12 @@ Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linke
 
 Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
 
+## SYS-004 — Colour and printer-friendly worksheet versions in the Print Pack Builder
+
+**Status:** Proposed, not implemented.
+
+Some worksheets may need a colour version and a separate printer-friendly version (for example, an ink-saving layout without dark backgrounds). The Teacher Guide should keep one link per worksheet rather than separate "colour" and "black and white" links, likely pointing to a Drive folder that holds both versions. The [Print Pack Builder](apps/AGENTS.md) then needs to look one level deeper: offer a Colour / Printer-friendly choice and fetch the matching file. Decide how the two files are recorded in `catalog/resources.json` before implementing. Plain black-and-white printing of a colour PDF needs nothing: teachers choose it in the print window.
+
 ## Previously implemented
 
 - Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).

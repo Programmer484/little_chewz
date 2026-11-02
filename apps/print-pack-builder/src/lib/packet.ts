@@ -1,23 +1,25 @@
 import { LIMITS } from "../../shared/limits.ts";
-import type { Plan } from "../../shared/types.ts";
-import { type AssembledPacket, PacketError, assemblePacket } from "./assemble.ts";
+import { printSequence } from "../../shared/plan.ts";
+import type { Plan, PrintOptions } from "../../shared/types.ts";
+import { type AssembledPacket, PacketError, type SourceFile, assemblePacket } from "./assemble.ts";
 import { fetchResource } from "./fetchResource.ts";
 
 export type Progress = { stage: "fetching" | "assembling"; done: number; total: number; title: string };
 
 /**
- * Fetch every planned resource, then assemble the packet. Any failure stops
- * the whole build: a partial packet is never returned.
+ * Fetch every planned worksheet, then assemble the packet in the chosen
+ * order. Any failure stops the whole build: a partial packet is never returned.
  */
 export async function buildPacket(
   plan: Plan,
+  options: PrintOptions,
   onProgress: (p: Progress) => void = () => {},
   fetcher: typeof fetch = fetch,
   signal?: AbortSignal,
 ): Promise<AssembledPacket> {
   if (plan.problems.length) throw new PacketError(plan.problems[0]);
   const lines = plan.lines.filter((l) => l.copies > 0);
-  const files: Uint8Array[] = [];
+  const files = new Map<string, SourceFile>();
   let totalBytes = 0;
   for (const [i, line] of lines.entries()) {
     onProgress({ stage: "fetching", done: i, total: lines.length, title: line.title });
@@ -25,13 +27,13 @@ export async function buildPacket(
     totalBytes += bytes.length;
     if (totalBytes > LIMITS.maxTotalSourceBytes)
       throw new PacketError("These worksheets are too large to combine in one pack. Try fewer activities at a time.");
-    files.push(bytes);
+    files.set(line.resourceId, { title: line.title, bytes });
   }
   if (signal?.aborted) throw new PacketError("Download cancelled.");
-  return assemblePacket(
-    lines.map((line, i) => ({ resourceId: line.resourceId, title: line.title, copies: line.copies, bytes: files[i] })),
-    { onProgress: (done, total, title) => onProgress({ stage: "assembling", done, total, title }) },
-  );
+  return assemblePacket(files, printSequence(lines, options.order), {
+    duplex: options.duplex,
+    onProgress: (done, total, title) => onProgress({ stage: "assembling", done, total, title }),
+  });
 }
 
 export function packetFilename(lessonTitle: string): string {

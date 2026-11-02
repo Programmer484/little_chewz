@@ -1,17 +1,17 @@
 # Little Chewz Print Pack Builder
 
-A small web app for Grade 4–6 teachers: choose a lesson, pick the activities you will run, enter your class size, and download **one combined PDF** with the right number of copies of every student worksheet.
+A small web app for Grade 4–6 teachers: choose a lesson, pick the activities you will run, check the copies, and download **one combined PDF** of every student worksheet.
 
-**Open → Choose → Enter quantities → Review → Download**
+**Open → Choose activities → Copies & download**
 
-It is independent of the repository's Python Teacher Guide pipeline. It reads `catalog/resources.json` (read-only) for resource identity and status, never edits lesson sources, and never publishes anything.
+**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#where-lessons-come-from)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline.
 
 | Part | Technology | Where |
 | --- | --- | --- |
 | Teacher app | React + TypeScript + Vite | `src/` |
-| Shared rules (manifests, quantities, file checks) | TypeScript | `shared/` |
+| Guide reader, copy plan, print order, file checks | TypeScript | `shared/` (`derive.ts` reads the guides) |
 | API and secure Drive proxy | Cloudflare Worker (Static Assets + Vite plugin) | `worker/` |
-| Lesson print manifests, quests, pilot allowlist | JSON | `config/` |
+| Demo lesson and its synthetic files | JSON + generated fixtures | `config/demo/`, `worker/demo/` |
 | PDF assembly | `pdf-lib`, in the browser | `src/lib/assemble.ts` |
 | Tests | Vitest | `tests/` |
 
@@ -26,7 +26,7 @@ cp .dev.vars.example .dev.vars   # sets RESOURCE_MODE=demo
 npm run dev                      # http://localhost:5173
 ```
 
-In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and JPEG files, plus the real lessons. Real allowlisted worksheets are replaced by clearly labelled placeholder pages, so the whole flow (choose, quantities, review, download) works end to end without touching Google Drive. The demo uses exactly the same API, planning and PDF-assembly code as production.
+In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and JPEG files, plus the real lessons. Real published worksheets are replaced by clearly labelled placeholder pages, so the whole flow works end to end without touching Google Drive. The demo uses exactly the same API, planning and PDF-assembly code as production.
 
 ## Commands
 
@@ -46,91 +46,54 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 
 ## How it works
 
-1. `GET /api/lessons` returns every lesson manifest, joined with the registry and pilot allowlist, as **sanitized** JSON: titles, activities, quantity rules and an `available` flag per resource. It never contains Drive file IDs or URLs.
-2. The teacher picks options. `shared/plan.ts` turns the selection and class numbers into a print plan.
-3. On **Download Print Pack**, the browser fetches each planned resource from `GET /api/resources/:resourceId`, checks each file, and assembles one PDF with `pdf-lib`. If any file fails, nothing is downloaded and the teacher sees which resource failed.
-4. Generated packets are never uploaded or stored anywhere.
+1. `GET /api/lessons` returns every lesson of every quest, derived from the guides, as **sanitized** JSON: titles, activities, default copy rules and an `available` flag per worksheet. It never contains Drive file IDs or URLs.
+2. The teacher picks activities, then sees one row per worksheet with a suggested number of copies (from class size and group size) that they can change.
+3. On **Download Print Pack**, the browser fetches each worksheet from `GET /api/resources/:resourceId`, checks each file, and assembles one PDF with `pdf-lib`, in the order the teacher chose. If any file fails, nothing is downloaded and the teacher sees which worksheet failed.
+4. Generated packets are never uploaded or stored anywhere. Class size, group size and print settings are remembered in that browser only.
 
 ### PDF assembly
 
 - PDF pages are copied, not rasterized; artwork and text are untouched and page sizes are kept.
 - Multi-page worksheets repeat whole (pages 1, 2, 1, 2, ...).
+- **Order:** "One worksheet at a time" (all copies of each worksheet together) or "Student packets" (one of each per-student worksheet for student 1, then student 2...; group and class copies follow). `printSequence` in `shared/plan.ts`.
+- **Double-sided:** a blank page follows every copy with an odd number of pages, so each copy starts on its own sheet and no two copies share a sheet when printed on both sides. The download message reminds teachers to choose "Print on both sides" (flip on long edge).
 - Repeat copies share the first copy's content and image streams, so 25 copies are barely larger than one. (Real check: 25 copies each of the five Secret Ingredients worksheets, 125 pages, came to 1.65 MB from 1.68 MB of source files.)
 - PNG and JPEG worksheets are embedded once and fitted proportionally, centred with a 0.25 in margin, on a US Letter page (landscape for wide images).
 - Every file is checked by its first bytes, so a Drive HTML error page can never end up in a pack.
 - Limits (`shared/limits.ts`): 25 MB per file, 120 MB of source files per pack, 1,500 pages per pack, 200 students, groups of 1–30.
 
-## Lesson print manifests
+## Where lessons come from
 
-One JSON file per lesson in `config/lessons/`. **Adding a lesson is configuration only:** drop in a new manifest; the Worker picks up every `config/lessons/*.json` at build time. Manifests are separate from `lesson.json` and do not change the Teacher Guide schema.
+`worker/catalog.ts` walks `catalog/quests.json` → each `quest.json` → its `learning_sequence` → `lessons/<folder>/lesson.json`, and `shared/derive.ts` turns each guide into the teacher's choices. A link counts only when the catalogue types it **`student_worksheet`**; slides, videos, stories and teacher pages are ignored.
 
-```jsonc
-{
-  "lessonId": "ccc-q01-secret-ingredients",   // URL: /lesson/ccc-q01-secret-ingredients
-  "questId": "ccc-q01",                        // from config/quests.json
-  "lessonFolder": "02-secret-ingredients",     // must match quest.json learning_sequence
-  "order": 2,
-  "title": "Secret Ingredients",               // must match the quest.json title
-  "status": "ready",                           // ready | no_student_printing | in_progress
-  "statusNote": "Shown when not ready",
-  "defaults": { "studentCount": 25, "groupSize": 4 },
-  "sections": [
-    { "kind": "core", "id": "...", "title": "Step 1 · ...", "materials": [ /* always included */ ] },
-    { "kind": "choice", "id": "...", "title": "Choose One", "options": [
-      { "id": "...", "label": "A", "title": "...", "summary": "...", "materials": [],
-        "extensions": [ /* checkboxes shown only when this option is chosen */ ] }
-    ] },
-    { "kind": "optional", "id": "...", "title": "...", "items": [ /* independent checkboxes */ ] }
-  ]
-}
-```
-
-A material is:
-
-```json
-{ "resourceId": "ccc-q01-…", "quantity": { "rule": "per_group" }, "cardsPerSheet": 4, "pages": 1, "note": "One per group" }
-```
-
-| `quantity.rule` | Copies |
+| In the Teacher Guide (`lesson.json`) | In the Print Pack Builder |
 | --- | --- |
-| `per_student` | student count |
-| `per_group` | `ceil(students / groupSize)` |
-| `per_class` | `count` (default 1) |
-| `per_activity` | `count` (default 1) when its activity is chosen |
-| `teacher_adjustable` | `count` as the default; the teacher can change it |
+| `GIVE` row in a step | Included automatically |
+| `MORE` row in a step | Checkbox |
+| `step.options` (A, B, C, D) | Choose one |
+| `GIVE` row inside an option | Printed when that option is chosen |
+| `MORE` row inside an option | Checkbox shown when that option is chosen |
+| Preparation `core` worksheet not linked in any step | Included automatically, under "Preparation" |
+| `optional_prep` or `bonuses` worksheet not linked in any step | Checkbox under "Extras" |
+| A lesson with no `lesson.json` yet | "Materials coming soon" |
+| A lesson with no student worksheets | "No student printing needed" |
 
-- **Cards several to a page:** set `cardsPerSheet` to the number of identical cards printed on each page, **verified by opening the actual PDF**. The rule then counts cards, and the pack prints `ceil(cards / cardsPerSheet)` copies of the file. Eight groups needing one card each, at four cards per sheet, print two sheets.
-- `pages` is the verified page count of one copy; the review screen shows a total only when every line has one.
-- Teachers can add spare copies (or sheets) to any line.
-- If two selected activities use the same resource, it is printed once at the larger quantity.
-- Rules are tested in `tests/config.test.ts`: every `resourceId` must exist in `catalog/resources.json`, be a `student_worksheet`, and be referenced by that lesson's `lesson.json`; titles and folders must match `quest.json`.
+- **Suggested copies** come from the guide's own description of that worksheet (the Preparation line first, then the Teaching Flow row): wording with "group" or "team" means one per group, "for the class" means one for the class, anything else one per student. Teachers can change every number, so the guide's quantity wording only needs to be roughly right.
+- **Downloadable** when the catalogue entry is `status: published` with a Drive file `published_url` (matching `publication.drive_file_id` when recorded). Otherwise the worksheet shows "Coming soon: not published yet" and is never included. There is no allowlist.
+- **Cards printed several to a page:** add `"print": {"cards_per_sheet": 4}` to the worksheet's catalogue entry, using the number of identical cards on each page **counted from the actual PDF**. The suggestion then counts cards, and the pack prints `ceil(cards / 4)` sheets (8 groups → 2 sheets). `scripts/validate.py` checks the field.
+- **Formats:** PDF (best), PNG or JPEG files on Drive. Google Docs, Slides and Sheets files are refused until an export step is added.
+- Lesson URLs are `/lesson/<quest-id>-<folder without its number>`, e.g. `/lesson/ccc-q01-secret-ingredients`.
+
+**Adding a worksheet to a lesson:** link it from the guide (`GIVE`, `MORE`, or Preparation), register it in the catalogue as a `student_worksheet`, and publish it into the official student-materials folder. Nothing in this app needs editing. Redeploy (or let GitHub builds redeploy) to update the live site. `tests/derive.test.ts` runs against the real guides and catalogue in CI whenever a `lesson.json`, `quest.json` or the catalogue changes.
 
 ### Current lessons
 
-| Lesson | Manifest status | Downloadable now |
+| Lesson | Builder shows | Downloadable now |
 | --- | --- | --- |
-| Activate | `no_student_printing` | Nothing to print (slides, videos, read-aloud) |
-| Set the Table | `ready`, activities mapped from the Teaching Flow | **None yet.** KWLS Starter, School Song Activity and Our Vocabulary are `unpublished`; Team Builder is `published` but its publication is `unverified`. All stay unavailable until reviewed. |
-| Secret Ingredients | `ready` | Clue Tracker Core, Clue Tracker Extension, Chapter Notes, Character Profile Core, Character Profile Advanced (all `published` and `verified`; MIME and page counts checked against Drive on 2026-11-01) |
-| The Showdown | `in_progress` | Nothing. The Teacher Guide is still a draft (PR #77) and its A–D materials are placeholders. |
-
-Mapping decisions to confirm: Secret Ingredients prints Clue Tracker Core **one per student** (the Teaching Flow has students complete it in pairs); the Set the Table Small Bite 1B "Our Vocabulary" reference is **one per group**, the same as Small Bite 2A. Vocabulary Cards and the Songwriting Extension are not included: the cards are outside the current Teaching Flow and their cards-per-sheet is unverified, and the extension is a teacher companion, not a student worksheet.
-
-## Pilot allowlist
-
-`config/pilot-allowlist.json` lists the **only** resources the Worker will serve:
-
-```json
-"ccc-q01-secret-ingredients-chapter-notes": {
-  "source": "published",
-  "mimeType": "application/pdf",
-  "approval": "Why this is allowed, who checked it, when"
-}
-```
-
-- It never contains Drive IDs. The Worker resolves the trusted file ID from the registry's `published_url` at build time, and only when the record is `status: published`, `publication.verification: verified`, a printable type, and the URL's ID matches `publication.drive_file_id`.
-- `"source": "holding"` can authorize a not-yet-published review file for the pilot (its `holding_url`) **without changing canonical publication status**. It requires an explicit `approval` note and is a human decision. No holding files are allowed today.
-- A resource missing from the allowlist, or failing the registry checks, shows as "Awaiting review" or "Not published and verified yet" and is never included in a pack.
+| Activate | No student printing needed | – |
+| Set the Table | KWLS Starter (Preparation); Small Bite 1 A School Song / B Mission Vocabulary (+ Our Vocabulary checkbox); Small Bite 2 A Which Word Fits? / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards. KWLS Starter, School Song Activity and Our Vocabulary show "Coming soon" until published. |
+| Secret Ingredients | Clue Tracker Core and Chapter Notes (included); Clue Tracker Extension (checkbox); Small Bite A Conflict Report / B Character Profile (+ Advanced checkbox) | All five |
+| The Showdown, Chew On This, Plate It Forward, Celebrate | Materials coming soon (no `lesson.json` on `main` yet) | – |
 
 ## Modes and security
 
@@ -138,28 +101,25 @@ Mapping decisions to confirm: Secret Ingredients prints Clue Tracker Core **one 
 
 | Mode | Serves | Use |
 | --- | --- | --- |
-| `drive` (default in `wrangler.jsonc`) | real allowlisted files from Google Drive; 503 until the Google key secret is set | the deployed pilot site |
+| `drive` (default in `wrangler.jsonc`) | real published worksheets from Google Drive; 503 until the Google key secret is set | the deployed pilot site |
 | `demo` (default in `.dev.vars.example`) | synthetic fixtures and labelled placeholders; never contacts Google | local demo |
 | `disabled` | nothing (503) | switching downloads off |
 
 ### Login (`REQUIRE_ACCESS`)
 
-The pilot currently runs **without a login** (`REQUIRE_ACCESS: "false"` in `wrangler.jsonc`). This is safe for the current allowlist because every allowlisted worksheet is a published Drive file already shared as "anyone with the link can view" (checked 2026-11-01). Even without a login:
+The pilot runs **without a login** (`REQUIRE_ACCESS: "false"` in `wrangler.jsonc`). This is acceptable because the only files ever served are published student worksheets linked from a guide, and published worksheets in the official student-materials folder are shared "anyone with the link can view" (checked 2026-11-02). The Worker can never become a proxy for other Drive files: unpublished worksheets, review copies and anything not linked from a guide get 404.
 
-- only allowlisted, published and verified resources are served, so the Worker can never become a proxy for other Drive files;
-- allowlist entries with `"source": "holding"` (review copies, which may be private) are **refused** with 403 unless a login is required.
-
-To require a login later, set `REQUIRE_ACCESS` to `"true"` (or remove it) and follow [Optional: private login](#optional-private-login-cloudflare-access). Do this before allowlisting any file that is not public.
+If a published worksheet ever needs to stay private, set `REQUIRE_ACCESS` to `"true"` and follow [Optional: private login](#optional-private-login-cloudflare-access) first.
 
 In `drive` mode every resource request must pass, in order:
 
-1. Resource ID format check, then the server-side allowlist (unknown and unapproved IDs both get 404).
-2. **Login, when required:** the Cloudflare Access `Cf-Access-Jwt-Assertion` token is verified against your team's public keys (RS256 signature, audience, issuer, expiry). If a login is required but `ACCESS_TEAM_DOMAIN` or `ACCESS_AUD` is not set, real downloads are **switched off** (503); the only exception is local testing with `LOCAL_DRIVE_TESTING=true` on `localhost`. Without a login, only published files pass this step.
+1. Resource ID format check, then: linked from a guide, `student_worksheet`, `published`, Drive file URL (anything else gets 404).
+2. **Login, when required:** the Cloudflare Access `Cf-Access-Jwt-Assertion` token is verified against your team's public keys (RS256 signature, audience, issuer, expiry). If a login is required but `ACCESS_TEAM_DOMAIN` or `ACCESS_AUD` is not set, real downloads are **switched off** (503); the only exception is local testing with `LOCAL_DRIVE_TESTING=true` on `localhost`.
 3. Google credentials present (`GOOGLE_SERVICE_ACCOUNT_JSON` secret), else 503.
-4. Drive metadata check: not trashed, MIME type equals the allowlisted type, size within 25 MB.
-5. Download streamed back with its first bytes checked (a real PDF/PNG/JPEG) and size enforced while streaming.
+4. Drive metadata check: not trashed, a PDF, PNG or JPEG, size within 25 MB.
+5. Download streamed back with its first bytes checked against the type Drive reports, and size enforced while streaming.
 
-Responses are `Cache-Control: private, no-store` and `X-Content-Type-Options: nosniff`. Tokens and keys stay inside the Worker. The app collects no names, emails or student information; only a student count and group size, which never leave the browser.
+Responses are `Cache-Control: private, no-store` and `X-Content-Type-Options: nosniff`. Tokens and keys stay inside the Worker. The app collects no names, emails or student information; only a student count and group size, which stay in the browser.
 
 ## Environment variables and secrets
 
@@ -176,7 +136,7 @@ Set variables in `wrangler.jsonc` (or the dashboard) and the secret with `npx wr
 
 ## Setup steps that need account access
 
-These are not done yet; they need the project owner's Google and Cloudflare accounts.
+Status (2026-11-02): the `viewer@` account exists with no project roles, and `03_STUDENT_MATERIALS` is shared with it as Viewer (checked). Deploying and adding the key are still to do, from the owner's machine.
 
 ### 1. Read-only Google Drive access
 
@@ -185,7 +145,7 @@ The site uses its own read-only service account, `viewer@little-chewz.iam.gservi
 1. Google Cloud Console → `little-chewz` project → **IAM & Admin → Service Accounts → Create**. Give it **no** project roles or principals.
 2. **Keys → Add key → JSON**. Treat the file like a password and never commit it.
 3. The **Google Drive API** is already enabled in that project for the publisher.
-4. In Drive, share the official `Confetti Cake Pilot! / 03_STUDENT_MATERIALS` folder with the account's email as **Viewer**, notifications off. Do not share the holding folder or anything outside the permitted root. The allowlist still limits which files the site serves.
+4. In Drive, share the official `Confetti Cake Pilot! / 03_STUDENT_MATERIALS` folder with the account's email as **Viewer**, notifications off. Do not share the holding folder or anything outside the permitted root. The site still only serves published worksheets that a guide links.
 
 To revoke: remove the account from the folder, or delete its key.
 
@@ -205,11 +165,11 @@ This creates `little-chewz-print-pack-builder.<your-subdomain>.workers.dev` in `
 npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON < /path/to/key.json
 ```
 
-The secret takes effect immediately, with no redeploy. Then delete the key file. With `REQUIRE_ACCESS: "false"`, anyone with the site address can download packs of the allowlisted (already public) worksheets. Check: `https://<site>/api/health` shows `"driveConfigured":true`, then open Secret Ingredients in an incognito window and download a pack.
+The secret takes effect immediately, with no redeploy. Then delete the key file. With `REQUIRE_ACCESS: "false"`, anyone with the site address can download packs of the published (already public) worksheets. Check: `https://<site>/api/health` shows `"driveConfigured":true`, then open Secret Ingredients in an incognito window and download a pack.
 
 ### Optional: private login (Cloudflare Access)
 
-Not needed while every allowlisted file is public. Free for up to 50 users.
+Not needed while every published worksheet is public. Free for up to 50 users.
 
 1. Cloudflare dashboard → **Zero Trust** (pick a team name; the Free plan is enough).
 2. **Access → Applications → Add an application → Self-hosted**. Domain: the `workers.dev` hostname above (or the custom domain later). Alternatively, in **Workers → your Worker → Settings → Domains & Routes**, turn on Cloudflare Access for the `workers.dev` route.
@@ -226,9 +186,9 @@ Cloudflare dashboard → **Workers → your Worker → Settings → Builds → C
 - Root directory: `apps/print-pack-builder`
 - Build command: `npm ci && npm run build`
 - Deploy command: `npx wrangler deploy`
-- Production branch: `main`; build watch paths: `apps/print-pack-builder/*`, `catalog/*`
+- Production branch: `main`; build watch paths: `apps/print-pack-builder/*`, `catalog/*`, `content/*`
 
-The build reads `../../catalog/resources.json`, which is present because Workers Builds clones the whole repository. GitHub Actions only checks the app (`.github/workflows/print-pack-builder.yml`); it does not deploy.
+Recommended: then every merged guide or catalogue change reaches the live site with no manual deploy. The build reads `catalog/` and `content/` from the repository root, which are present because Workers Builds clones the whole repository. GitHub Actions only checks the app (`.github/workflows/print-pack-builder.yml`); it does not deploy.
 
 ### 5. Custom domain later
 
@@ -244,4 +204,5 @@ One Worker with static assets. Static asset requests are free; the Worker runs o
 - Three Secret Ingredients worksheets are A4, and Character Profile Core is a Letter-proportioned 529 × 684 pt page (about 7.3 × 9.5 in). Mixed sizes print fine with "Fit to page".
 - Annotations (links, form fields) are kept on the first copy of a page and dropped from repeat copies, so shared annotation objects never point at the wrong page. Printed appearance is unchanged.
 - Protected (encrypted) PDFs are rejected with a clear message.
-- Direct lesson links: `/lesson/<lessonId>`, e.g. `/lesson/ccc-q01-secret-ingredients`, ready for Teacher Guides to link to later.
+- Direct lesson links: `/lesson/<lessonId>`, e.g. `/lesson/ccc-q01-secret-ingredients`, ready for Teacher Guides to link to.
+- A worksheet with separate colour and printer-friendly files is not supported yet; see SYS-004 in `SYSTEM_IMPROVEMENTS.md`.

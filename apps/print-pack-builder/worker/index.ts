@@ -4,7 +4,7 @@
  *
  *   GET /api/health                 mode and configuration flags (no secrets)
  *   GET /api/lessons                sanitized lessons, no Drive IDs
- *   GET /api/resources/:resourceId  bytes of one allowlisted worksheet
+ *   GET /api/resources/:resourceId  bytes of one published student worksheet
  */
 import { LIMITS } from "../shared/limits.ts";
 import type { LessonsResponse } from "../shared/types.ts";
@@ -33,20 +33,11 @@ const isLocal = (url: URL) => url.hostname === "localhost" || url.hostname === "
 
 export const accessRequired = (env: Env) => env.REQUIRE_ACCESS?.trim().toLowerCase() !== "false";
 
-/** Null when this real Drive file may be served for this request; otherwise the refusal. */
-async function driveGate(
-  request: Request,
-  env: Env,
-  from: "published" | "holding",
-  fetcher: typeof fetch,
-): Promise<Response | null> {
+/** Null when real Drive files may be served for this request; otherwise the refusal. */
+async function driveGate(request: Request, env: Env, fetcher: typeof fetch): Promise<Response | null> {
   const url = new URL(request.url);
-  // Without a login, serve only published files (already shared publicly); review copies stay behind Access.
-  if (!accessRequired(env)) {
-    if (from === "published") return null;
-    if (env.LOCAL_DRIVE_TESTING !== "true" || !isLocal(url))
-      return error(403, "This review file needs the pilot login, which is switched off on this site.");
-  }
+  // No login: only published student worksheets are ever served, and those are public on Drive.
+  if (!accessRequired(env)) return null;
   const teamDomain = env.ACCESS_TEAM_DOMAIN?.trim();
   const aud = env.ACCESS_AUD?.trim();
   if (!teamDomain || !aud) {
@@ -69,26 +60,29 @@ export async function handleResource(
   if (mode === "disabled") return error(503, "Worksheet downloads are not switched on for this site yet.");
   const served = catalog.lookup(id, mode);
   if (!served) return error(404, "This resource is not available for download.");
-  const headers = { ...SECURITY_HEADERS, "content-type": served.mimeType };
-
   if (served.source.kind === "demo-fixture") {
     const fixture = FIXTURES[served.source.fixture];
     if (!fixture) return error(500, "Demo file is missing.");
     const bytes = base64Decode(fixture);
-    return new Response(bytes, { headers: { ...headers, "content-length": String(bytes.length) } });
+    return new Response(bytes, {
+      headers: { ...SECURITY_HEADERS, "content-type": served.source.mimeType, "content-length": String(bytes.length) },
+    });
   }
   if (served.source.kind === "demo-placeholder") {
-    const bytes = await placeholderPdf(served.title, served.source.pages);
-    return new Response(bytes as Uint8Array<ArrayBuffer>, { headers: { ...headers, "content-length": String(bytes.length) } });
+    const bytes = await placeholderPdf(served.title, 1);
+    return new Response(bytes as Uint8Array<ArrayBuffer>, {
+      headers: { ...SECURITY_HEADERS, "content-type": "application/pdf", "content-length": String(bytes.length) },
+    });
   }
 
-  const refusal = await driveGate(request, env, served.source.from, fetcher);
+  const refusal = await driveGate(request, env, fetcher);
   if (refusal) return refusal;
   const sa = parseServiceAccount(env.GOOGLE_SERVICE_ACCOUNT_JSON);
   if (!sa) return error(503, "Google Drive credentials are not configured on the server.");
   try {
-    const file = await fetchDriveFile(sa, served.source.fileId, served.mimeType, fetcher);
-    if (file.size !== null) Object.assign(headers, { "content-length": String(file.size) });
+    const file = await fetchDriveFile(sa, served.source.fileId, fetcher);
+    const headers: Record<string, string> = { ...SECURITY_HEADERS, "content-type": file.mimeType };
+    if (file.size !== null) headers["content-length"] = String(file.size);
     return new Response(file.body, { headers });
   } catch (e) {
     if (e instanceof ResourceError) return error(e.status, `Could not retrieve “${served.title}”: ${e.message}`);

@@ -3,7 +3,7 @@
  * the GOOGLE_SERVICE_ACCOUNT_JSON Worker secret; tokens never leave the Worker.
  */
 import { LIMITS } from "../shared/limits.ts";
-import { SNIFF_BYTES, sniffMime } from "../shared/sniff.ts";
+import { SNIFF_BYTES, isAllowedMime, sniffMime } from "../shared/sniff.ts";
 import type { AllowedMime } from "../shared/types.ts";
 import { base64Decode, base64UrlEncode } from "./b64.ts";
 
@@ -130,15 +130,11 @@ export async function validatedStream(
 export interface DriveFile {
   body: ReadableStream<Uint8Array>;
   size: number | null;
+  mimeType: AllowedMime;
 }
 
-/** Fetch one allowlisted Drive file after checking its metadata. */
-export async function fetchDriveFile(
-  sa: ServiceAccount,
-  fileId: string,
-  expected: AllowedMime,
-  fetcher: typeof fetch = fetch,
-): Promise<DriveFile> {
+/** Fetch one trusted Drive file after checking its metadata. Only PDF, PNG and JPEG files are served. */
+export async function fetchDriveFile(sa: ServiceAccount, fileId: string, fetcher: typeof fetch = fetch): Promise<DriveFile> {
   const token = await accessToken(sa, fetcher);
   const auth = { authorization: `Bearer ${token}` };
   const id = encodeURIComponent(fileId);
@@ -147,11 +143,13 @@ export async function fetchDriveFile(
   if (!meta.ok) throw new ResourceError(`Google Drive refused the file details (${meta.status}).`, 502);
   const info = (await meta.json()) as { mimeType?: string; size?: string; trashed?: boolean };
   if (info.trashed) throw new ResourceError("The file is in the Drive trash.", 502);
-  if (info.mimeType !== expected) throw new ResourceError(`Drive reports ${info.mimeType}, expected ${expected}.`, 502);
+  const mimeType = info.mimeType ?? "";
+  if (!isAllowedMime(mimeType))
+    throw new ResourceError(`Drive reports ${mimeType || "an unknown type"}; only PDF, PNG and JPEG worksheets can be printed.`, 502);
   const size = info.size ? Number(info.size) : null;
   if (size !== null && size > LIMITS.maxResourceBytes) throw new ResourceError("The file is larger than the allowed size.", 502);
 
   const media = await fetcher(`${DRIVE}/${id}?alt=media&supportsAllDrives=true`, { headers: auth });
   if (!media.ok || !media.body) throw new ResourceError(`Google Drive refused the download (${media.status}).`, 502);
-  return { body: await validatedStream(media.body, expected, LIMITS.maxResourceBytes), size };
+  return { body: await validatedStream(media.body, mimeType, LIMITS.maxResourceBytes), size, mimeType };
 }

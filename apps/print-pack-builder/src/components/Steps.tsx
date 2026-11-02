@@ -1,5 +1,5 @@
-export const STEPS = ["Activities", "Quantities", "Review"] as const;
-export type StepIndex = 0 | 1 | 2;
+export const STEPS = ["Activities", "Copies & download"] as const;
+export type StepIndex = 0 | 1;
 
 export function Steps({ current }: { current: StepIndex }) {
   return (

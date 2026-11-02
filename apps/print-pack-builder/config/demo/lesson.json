@@ -4,14 +4,13 @@
   "order": 0,
   "title": "Sample Lesson (demo files)",
   "status": "ready",
-  "defaults": { "groupSize": 4 },
   "sections": [
     {
       "kind": "core",
       "id": "reading",
       "title": "Step 1 · Reading",
       "materials": [
-        { "resourceId": "demo-reading-log", "quantity": { "rule": "per_student" }, "pages": 2, "note": "Two-page PDF, one per student" }
+        { "resourceId": "demo-reading-log", "rule": "per_student", "note": "Two-page PDF, one per student" }
       ]
     },
     {
@@ -24,7 +23,7 @@
           "label": "A",
           "title": "Poster Station",
           "materials": [
-            { "resourceId": "demo-station-poster", "quantity": { "rule": "per_group" }, "pages": 1, "note": "PNG worksheet, one per group" }
+            { "resourceId": "demo-station-poster", "rule": "per_group", "note": "PNG worksheet, one per group" }
           ]
         },
         {
@@ -32,7 +31,7 @@
           "label": "B",
           "title": "Photo Station",
           "materials": [
-            { "resourceId": "demo-photo-prompt", "quantity": { "rule": "per_group" }, "pages": 1, "note": "JPEG worksheet, one per group" }
+            { "resourceId": "demo-photo-prompt", "rule": "per_group", "note": "JPEG worksheet, one per group" }
           ],
           "extensions": [
             {
@@ -40,7 +39,7 @@
               "title": "Team challenge cards",
               "summary": "Four cards print on each sheet",
               "materials": [
-                { "resourceId": "demo-team-cards", "quantity": { "rule": "per_group" }, "cardsPerSheet": 4, "pages": 1, "note": "One card per group" }
+                { "resourceId": "demo-team-cards", "rule": "per_group", "cardsPerSheet": 4, "note": "One card per group" }
               ]
             }
           ]
@@ -56,7 +55,7 @@
           "id": "exit-ticket",
           "title": "Exit ticket",
           "materials": [
-            { "resourceId": "demo-exit-ticket", "quantity": { "rule": "teacher_adjustable", "count": 25 }, "pages": 1, "note": "Adjustable quantity" }
+            { "resourceId": "demo-exit-ticket", "rule": "per_student", "note": "A4 page, one per student" }
           ]
         }
       ]

@@ -7,9 +7,9 @@ import type { Env } from "../worker/env.ts";
 
 export const fixture = (name: string) => base64Decode(FIXTURES[name]);
 
-export async function pdfWithPages(n: number, size: [number, number] = [612, 792]): Promise<Uint8Array> {
+export async function pdfWithPages(n: number, size: [number, number] = [612, 792], label = "Page"): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
-  for (let i = 0; i < n; i++) doc.addPage(size).drawText(`Page ${i + 1}`, { x: 50, y: 50 });
+  for (let i = 0; i < n; i++) doc.addPage(size).drawText(`${label} ${i + 1}`, { x: 50, y: 50 });
   return doc.save();
 }
 
@@ -21,21 +21,19 @@ export const testManifest: LessonManifest = {
   title: "Test Lesson",
   status: "ready",
   sections: [
-    { kind: "core", id: "core", title: "Core", materials: [{ resourceId: "core-sheet", quantity: { rule: "per_student" }, pages: 2 }] },
+    { kind: "core", id: "core", title: "Core", materials: [{ resourceId: "core-sheet", rule: "per_student" }] },
     {
       kind: "choice",
       id: "bite",
       title: "Small Bite",
       options: [
-        { id: "a", label: "A", title: "Song", materials: [{ resourceId: "song-sheet", quantity: { rule: "per_student" }, pages: 1 }] },
+        { id: "a", label: "A", title: "Song", materials: [{ resourceId: "song-sheet", rule: "per_student" }] },
         {
           id: "b",
           label: "B",
           title: "Cards",
-          materials: [{ resourceId: "team-cards", quantity: { rule: "per_group" }, cardsPerSheet: 4, pages: 1 }],
-          extensions: [
-            { id: "b-extra", title: "B extra", materials: [{ resourceId: "b-extra-sheet", quantity: { rule: "per_student" }, pages: 1 }] },
-          ],
+          materials: [{ resourceId: "team-cards", rule: "per_group", cardsPerSheet: 4 }],
+          extensions: [{ id: "b-extra", title: "B extra", materials: [{ resourceId: "b-extra-sheet", rule: "per_student" }] }],
         },
         { id: "c", label: "C", title: "Talk", materials: [] },
       ],
@@ -45,10 +43,10 @@ export const testManifest: LessonManifest = {
       id: "extras",
       title: "Extras",
       items: [
-        { id: "poster", title: "Poster", materials: [{ resourceId: "poster", quantity: { rule: "per_class" }, pages: 1 }] },
-        { id: "exit", title: "Exit", materials: [{ resourceId: "exit-ticket", quantity: { rule: "teacher_adjustable", count: 10 } }] },
-        { id: "locked", title: "Locked", materials: [{ resourceId: "locked-sheet", quantity: { rule: "per_student" }, pages: 1 }] },
-        { id: "reuse", title: "Reuse core", materials: [{ resourceId: "core-sheet", quantity: { rule: "per_group" }, pages: 2 }] },
+        { id: "poster", title: "Poster", materials: [{ resourceId: "poster", rule: "per_class" }] },
+        { id: "group-sheet", title: "Group sheet", materials: [{ resourceId: "group-sheet", rule: "per_group" }] },
+        { id: "locked", title: "Locked", materials: [{ resourceId: "locked-sheet", rule: "per_student" }] },
+        { id: "reuse", title: "Reuse core", materials: [{ resourceId: "core-sheet", rule: "per_group" }] },
       ],
     },
   ],
@@ -57,7 +55,7 @@ export const testManifest: LessonManifest = {
 export function testLesson(): ResolvedLesson {
   return resolveLesson(testManifest, new Map([["q", { id: "q", title: "Quest", order: 1 }]]), (id): ClientResource =>
     id === "locked-sheet"
-      ? { id, title: "Locked Sheet", available: false, reason: "Awaiting review for the pilot." }
+      ? { id, title: "Locked Sheet", available: false, reason: "Coming soon: not published yet." }
       : { id, title: id, available: true },
   );
 }

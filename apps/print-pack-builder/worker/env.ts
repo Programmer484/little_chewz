@@ -4,7 +4,7 @@ export interface Env {
   RESOURCE_MODE?: string;
   /**
    * "false" serves real files without a Cloudflare Access login. Only published
-   * resources are served that way; holding (review) files always need Access.
+   * student worksheets are ever served, and those are public on Drive.
    * Anything else (the default) requires Access.
    */
   REQUIRE_ACCESS?: string;

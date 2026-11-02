@@ -4,7 +4,7 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 const safe = (text: string) => text.replace(/[^\x20-\x7e¡-ÿ–—‘’“”•…]/g, "?");
 
 /**
- * A clearly labelled stand-in page for a real allowlisted worksheet, used in
+ * A clearly labelled stand-in page for a real published worksheet, used in
  * demo mode so the whole flow works without Google credentials.
  */
 export async function placeholderPdf(title: string, pages: number): Promise<Uint8Array> {

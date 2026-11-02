@@ -1,4 +1,4 @@
-import { DEFAULT_GROUP_SIZE, DEFAULT_STUDENT_COUNT, LIMITS } from "./limits.ts";
+import { DEFAULT_GROUP_SIZE, DEFAULT_STUDENT_COUNT } from "./limits.ts";
 import type {
   ClientResource,
   ExtensionSpec,
@@ -11,7 +11,7 @@ import type {
   ResolvedSection,
 } from "./types.ts";
 
-const RULES = new Set(["per_student", "per_group", "per_class", "per_activity", "teacher_adjustable"]);
+const RULES = new Set(["per_student", "per_group", "per_class"]);
 const ID = /^[a-z0-9][a-z0-9-]*$/;
 
 /** Every material in a manifest, in manifest order. */
@@ -63,18 +63,12 @@ export function validateManifest(
   const perResource = new Map<string, MaterialSpec>();
   const checkMaterial = (m: MaterialSpec) => {
     if (!knownResourceIds.has(m.resourceId)) p.push(`${where}: unknown resourceId ${m.resourceId}`);
-    if (!m.quantity || !RULES.has(m.quantity.rule))
-      p.push(`${where}: ${m.resourceId} has an invalid quantity rule`);
-    const c = m.quantity?.count;
-    if (c !== undefined && !(Number.isInteger(c) && c >= 0 && c <= LIMITS.maxAdjustedCopies))
-      p.push(`${where}: ${m.resourceId} count must be a whole number 0–${LIMITS.maxAdjustedCopies}`);
+    if (!RULES.has(m.rule)) p.push(`${where}: ${m.resourceId} has an invalid quantity rule`);
     if (m.cardsPerSheet !== undefined && !(Number.isInteger(m.cardsPerSheet) && m.cardsPerSheet >= 1))
       p.push(`${where}: ${m.resourceId} cardsPerSheet must be a positive whole number`);
-    if (m.pages !== undefined && !(Number.isInteger(m.pages) && m.pages >= 1))
-      p.push(`${where}: ${m.resourceId} pages must be a positive whole number`);
     const prior = perResource.get(m.resourceId);
-    if (prior && (prior.cardsPerSheet !== m.cardsPerSheet || prior.pages !== m.pages))
-      p.push(`${where}: ${m.resourceId} has inconsistent pages/cardsPerSheet between placements`);
+    if (prior && prior.cardsPerSheet !== m.cardsPerSheet)
+      p.push(`${where}: ${m.resourceId} has inconsistent cardsPerSheet between placements`);
     perResource.set(m.resourceId, m);
   };
   const checkExtension = (e: ExtensionSpec) => {

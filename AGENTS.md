@@ -361,6 +361,7 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | `published_url` | Verified official destination; may be the **same URL as the former holding URL** if the same file was moved without changing its Drive ID |
 | `url` | Backward-compatible link; review renderers prefer the verified holding URL, while publication renders require the published URL and published status. Never assume a URL proves publication. |
 | `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
+| `print` | Optional, student worksheets only: `{"cards_per_sheet": N}` when each page holds N identical cards, counted from the actual file. Read by the [Print Pack Builder](apps/AGENTS.md) to print sheets instead of one page per card. |
 
 When an externally published resource is converted to `generated_pdf`, keep its status, live URL and `external_agent` publication evidence unchanged; the validator accepts that evidence without a digest until the next verified generated release replaces the file in place. For legacy resources whose Drive history is uncertain, preserve existing links, notes and delivery status; record publication verification as `unverified` or `unknown` rather than inventing a digest or pretending a historic upload was confirmed.
 
@@ -810,6 +811,12 @@ Current slides remain separate human-reviewed lesson PDFs; `scripts/pdf_to_linke
 
 Teachers may eventually receive independent copies of a lesson deck with hidden/skipped slides, preserving the reviewed master and its clickable links. Confirm the actual PowerPoint/Google Slides presentation behavior, permissions and copy workflow before implementation.
 
+### SYS-004 — Colour and printer-friendly worksheet versions in the Print Pack Builder
+
+**Status:** Proposed, not implemented.
+
+Some worksheets may need a colour version and a separate printer-friendly version (for example, an ink-saving layout without dark backgrounds). The Teacher Guide should keep one link per worksheet rather than separate "colour" and "black and white" links, likely pointing to a Drive folder that holds both versions. The [Print Pack Builder](apps/AGENTS.md) then needs to look one level deeper: offer a Colour / Printer-friendly choice and fetch the matching file. Decide how the two files are recorded in `catalog/resources.json` before implementing. Plain black-and-white printing of a colour PDF needs nothing: teachers choose it in the print window.
+
 ### Previously implemented
 
 - Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).
@@ -835,7 +842,11 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 
-Linked resource names, URLs, and companion status live in [catalog/resources.json](catalog/AGENTS.md), never in these files. After editing, run `python scripts/validate.py` and save through a PR per [WORKFLOW.md](system/WORKFLOW.md).
+Linked resource names, URLs, and companion status live in [catalog/resources.json](catalog/AGENTS.md), never in these files.
+
+**Student worksheets print from the guide.** The [Print Pack Builder](apps/AGENTS.md) reads each `lesson.json`: a `student_worksheet` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per group of 3–4`).
+
+After editing, run `python scripts/validate.py` and save through a PR per [WORKFLOW.md](system/WORKFLOW.md).
 
 ---
 
@@ -899,8 +910,9 @@ When changing renderer inputs or build selection, update `select_builds.py` and 
 | --- | --- | --- |
 | `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
 
-- **Print manifests** (`print-pack-builder/config/lessons/*.json`) reference stable IDs in `catalog/resources.json` and must follow the lesson's Teaching Flow. Never put Drive IDs or URLs in them. Card counts per sheet and page counts must be verified from the actual file.
-- **Pilot allowlist** (`print-pack-builder/config/pilot-allowlist.json`) is the only list of resources the app may serve. Adding an entry is a human pilot decision; it never changes a resource's `status` ([CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states)). The site currently runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because every allowlisted file is already shared publicly on Drive; require the login before allowlisting any file that is not.
+- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_worksheet` links count. A worksheet becomes downloadable when its catalogue entry is `published`. Never add per-lesson lists, allowlists or Drive IDs to the app.
+- **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF.
+- The site runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because published student worksheets are shared publicly on Drive. Require the login before publishing a worksheet that must stay private.
 - Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).
 - Use a dedicated non-lesson branch for app work. After editing, run `npm run check` in the app folder; CI runs the same in `.github/workflows/print-pack-builder.yml`.
 

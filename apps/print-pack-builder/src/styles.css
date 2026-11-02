@@ -111,3 +111,16 @@ p.alert { padding-left: 1rem; }
   .actions { justify-content: stretch; }
   .actions .button { flex: 1; }
 }
+
+/* Copies & download screen */
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.block { display: block; margin: 0.15rem 0 0; font-weight: 400; }
+.copies-cell { white-space: normal; }
+.copies-cell input { font: inherit; font-size: 1.05rem; width: 5.5rem; padding: 0.35rem 0.5rem; border: 2px solid var(--line); border-radius: 10px; text-align: right; }
+.copies-cell input[aria-invalid="true"] { border-color: var(--coral); }
+.unit { display: block; font-size: 0.8rem; color: var(--muted); }
+.link-button { background: none; border: 0; padding: 0; font: inherit; font-size: 0.85rem; color: var(--coral-dark); text-decoration: underline; cursor: pointer; }
+.print-options .option-label { align-items: flex-start; font-weight: 600; }
+.print-options .option-label input { margin-top: 0.2rem; }
+.success p { margin: 0.25rem 0; }
+.tip { color: var(--ink); font-weight: 400; }
