@@ -83,6 +83,40 @@ jobs:
           # here leaves a report and requires reinspection/reconciliation.
           git push origin HEAD:main
 
+      - name: Inspect every newly published resource by default
+        id: audit
+        if: steps.marker.outputs.enabled == 'true' && steps.execute.outcome == 'success' && steps.persist.outcome == 'success'
+        continue-on-error: true
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          import sys
+
+          published = json.load(open("release-report.json")).get("published", [])
+          failed = False
+          for item in published:
+              rid = item["resource_id"]
+              result = subprocess.run([
+                  sys.executable, "scripts/inspect_publications.py",
+                  "--resource-id", rid, "--report", "inspection-" + rid + ".json"
+              ], check=False)
+              failed |= result.returncode != 0
+          if failed:
+              sys.exit("Published-resource inspection failed or needs review")
+          PY
+
+      - name: Retain publication inspections
+        if: always() && steps.marker.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-inspection-${{ github.event.pull_request.number }}
+          path: inspection-*.json
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Clean up merged resource branch safely
         if: steps.execute.outcome == 'success' && steps.persist.outcome == 'success' && steps.marker.outputs.enabled == 'true'
         env:
@@ -138,8 +172,9 @@ jobs:
         env:
           EXEC_RESULT: ${{ steps.execute.outcome }}
           PERSIST_RESULT: ${{ steps.persist.outcome }}
+          AUDIT_RESULT: ${{ steps.audit.outcome }}
         run: |
-          if [[ "$EXEC_RESULT" != 'success' || "$PERSIST_RESULT" != 'success' ]]; then
-            echo '::error::Release has blockers or publication metadata was not saved safely.'
+          if [[ "$EXEC_RESULT" != 'success' || "$PERSIST_RESULT" != 'success' || "$AUDIT_RESULT" != 'success' ]]; then
+            echo '::error::Release has blockers, publication metadata was not saved safely, or the automatic inspection failed.'
             exit 1
           fi
