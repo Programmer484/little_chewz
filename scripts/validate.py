@@ -81,6 +81,20 @@ for ref,item in registry.items():
             errors.append(f'{ref}: {role} must be HTTPS or null')
     if item.get('status') in {'pending_publish','published'} and not item.get('published_url'):
         errors.append(f'{ref}: live or pending resource needs an established published_url')
+    reviews = item.get('human_review')
+    if reviews is not None:
+        if not isinstance(reviews, dict):
+            errors.append(f'{ref}: human_review must map exact URLs to pending/reviewed')
+        else:
+            destinations = {item.get('published_url') or item.get('url'), item.get('pdf_url')}
+            for link, state in reviews.items():
+                if link not in destinations or state not in {'pending', 'reviewed'}:
+                    errors.append(f'{ref}: human_review must refer to a current link with pending/reviewed status')
+    public_url = item.get('published_url') or ''
+    if (item.get('status') == 'published' and public_url.startswith('https://')
+            and not public_url.startswith(('https://drive.google.com/', 'https://docs.google.com/'))
+            and (not isinstance(reviews, dict) or public_url not in reviews)):
+        errors.append(f'{ref}: non-Drive publication requires URL-bound human_review')
     publication=item.get('publication')
     if not isinstance(publication,dict) or publication.get('verification') not in {'unknown','unverified','verified'}:
         errors.append(f'{ref}: publication verification must be explicitly unknown, unverified or verified')

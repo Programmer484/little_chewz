@@ -114,7 +114,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU"
+    "published_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
+    "human_review": {
+      "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU": "pending"
+    }
   },
   "ccc-q01-callie-cupcake-video": {
     "title": "Callie Cupcake Video",
@@ -136,7 +139,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://youtu.be/qXq3cCxg8l8"
+    "published_url": "https://youtu.be/qXq3cCxg8l8",
+    "human_review": {
+      "https://youtu.be/qXq3cCxg8l8": "pending"
+    }
   },
   "ccc-q01-bakery-log-1958": {
     "title": "Bakery Log (1958)",
@@ -342,7 +348,10 @@
       "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table"
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
+    "human_review": {
+      "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table": "pending"
+    }
   },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
@@ -486,7 +495,10 @@
       "drive_file_id": "1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk"
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": null,
+    "human_review": {
+      "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view": "pending"
+    }
   },
   "ccc-q01-welcome": {
     "title": "Quest Overview",
@@ -542,7 +554,10 @@
       "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY"
+    "published_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
+    "human_review": {
+      "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY": "pending"
+    }
   },
   "ccc-q01-secret-ingredients-chapter-one": {
     "title": "Chapter One: The Bake-Off Betrayal",
@@ -565,7 +580,10 @@
       "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view"
+    "published_url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view",
+    "human_review": {
+      "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view": "pending"
+    }
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
     "title": "Chapter One Audio",
@@ -587,7 +605,10 @@
       "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing"
+    "published_url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing",
+    "human_review": {
+      "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing": "pending"
+    }
   },
   "ccc-q01-secret-ingredients-clue-tracker": {
     "title": "Full Zenix Clue Tracker",
@@ -750,7 +771,10 @@
       "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients"
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
+    "human_review": {
+      "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients": "pending"
+    }
   },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Character Profile — Advanced",
@@ -1160,7 +1184,10 @@
       "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate"
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
+    "human_review": {
+      "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate": "pending"
+    }
   },
   "ccc-q01-showdown-print-pack": {
     "title": "Build Print Pack",
@@ -1186,6 +1213,9 @@
       "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
     },
     "holding_url": null,
-    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "human_review": {
+      "https://little-chewz-print-pack-builder.littlechewz.workers.dev/": "pending"
+    }
   }
 }
