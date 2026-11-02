@@ -49,7 +49,7 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only published `student_worksheet` resources with trusted Drive file URLs can be fetched in drive mode.
 2. **Guided Printing (default)** includes all `GIVE` and unreferenced preparation `core` worksheets and requires exactly one selection in every A/B choice. Optional `MORE` and bonus worksheets are unchecked.
 3. Turning on **Customize print requirements** unlocks core worksheet checkboxes and converts A/B radios into independent checkboxes. Teachers may select both alternatives, neither, or individually deselect worksheets within an activity. An empty pack cannot be downloaded.
-4. The teacher enters class size and a saved default group size. Each selected group activity has its own adjustable size, initially matching that default. Set it to the student count for **one whole-class copy**. The suggested group copies are `Math.ceil(studentCount / groupSize)`. Teachers may override each print line's copies independently.
+4. The teacher enters class size and a saved default group size. Each selected group activity has its own adjustable size, initially matching that default. Set it to the student count for **one whole-class copy**. The suggested group copies are `Math.ceil(studentCount / groupSize)`. Teachers may override each print line's copies independently. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
 5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size, default group size and duplex preference are saved only in the browser.
 
 ### Print order and duplex
@@ -84,7 +84,7 @@ Unpublished resources remain visible as unavailable; no Drive ID or URL is sent 
 | Lesson | Builder shows | Downloadable now |
 | --- | --- | --- |
 | Activate | No student printing needed | – |
-| Set the Table | KWLS Starter (Preparation); Small Bite 1 A School Song / B Mission Vocabulary (+ Mission Vocabulary checkbox); Small Bite 2 A Which Word Fits? / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards, KWLS Starter (recorded published for audit testing; access not independently verified). School Song Activity and Mission Vocabulary show "Coming soon" until published. |
+| Set the Table | KWLS Starter (Preparation); Small Bite 1 A School Song / B Mission Vocabulary (+ Our Vocabulary checkbox); Small Bite 2 A Which Word Fits? (Our Vocabulary) / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards, KWLS Starter (recorded published for audit testing; access not independently verified). School Song Activity and Our Vocabulary show "Coming soon" until published. |
 | Secret Ingredients | Clue Tracker Core and Chapter Notes (included); Clue Tracker Extension (checkbox); Small Bite A Conflict Report / B Character Profile (+ Advanced checkbox) | All five |
 | The Showdown | Step 3 choose one: A Design, B Decorate, C Bake, D Mystery (team cards one per group, plus design sheet or recipe); Step 5 TASTE reflection checkbox | None yet: all its worksheets are unpublished placeholders, so it shows "Materials awaiting review" |
 | Chew On This, Plate It Forward, Celebrate | Materials coming soon (no `lesson.json` yet) | – |

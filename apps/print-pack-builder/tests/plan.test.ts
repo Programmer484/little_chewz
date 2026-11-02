@@ -115,12 +115,13 @@ describe("per-activity quantities", () => {
     expect(pick(plan, "poster")).toMatchObject({ needed: 1, copies: 1 });
   });
 
-  it("keeps the same resource separate when selected with different quantity rules", () => {
-    const plan = computePlan(testLesson(),
-      { choices: { bite: "c" }, extensions: { reuse: true } }, q);
-    expect(ids(plan)).toEqual(["core-sheet", "core-sheet"]);
-    expect(pick(plan, "core-sheet", "per_student")).toMatchObject({ copies: 25 });
-    expect(pick(plan, "core-sheet", "per_group")).toMatchObject({ copies: 7 });
+  it("skips group copies of a sheet every student already gets, unless student copies are 0", () => {
+    const sel = { choices: { bite: "c" }, extensions: { reuse: true } };
+    const plan = computePlan(testLesson(), sel, q);
+    expect(ids(plan)).toEqual(["core-sheet"]);
+    expect(pick(plan, "core-sheet")).toMatchObject({ rule: "per_student", copies: 25, sources: ["Core", "Reuse core"] });
+    const none = computePlan(testLesson(), sel, { ...q, copies: { "core-sheet:per_student": 0 } });
+    expect(pick(none, "core-sheet", "per_group")).toMatchObject({ copies: 7 });
   });
 
   it("keeps teacher copy overrides without changing defaults", () => {

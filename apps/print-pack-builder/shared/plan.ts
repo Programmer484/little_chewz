@@ -59,7 +59,7 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
   return { problems, picks };
 }
 
-/** Keep per-group uses separate, even when they point to the same resource ID. */
+/** Per-group uses of one resource stay separate by activity, unless every student already gets that resource. */
 export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantities): Plan {
   const numberProblems = quantityProblems(q);
   const problems = [...numberProblems];
@@ -98,6 +98,15 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
       copies: override ?? defaultCopies, edited: override !== undefined && override !== defaultCopies,
       sources: [source], note: m.note,
     });
+  }
+  // A sheet already in every student's packet needs no extra group copies.
+  // Setting the student copies to 0 brings the group copies back.
+  for (const group of [...lines.values()].filter((l) => l.rule === "per_group")) {
+    const student = lines.get(`${group.resourceId}:per_student`);
+    if (!student || student.copies === 0) continue;
+    student.required ||= group.required;
+    for (const source of group.sources) if (!student.sources.includes(source)) student.sources.push(source);
+    lines.delete(group.id);
   }
   const all = [...lines.values()];
   if (all.some((line) => line.required && line.copies === 0))
