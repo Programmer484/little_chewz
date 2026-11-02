@@ -221,6 +221,30 @@ class AuditTests(unittest.TestCase):
                          audit.FAIL)
         self.assertIn("unpublished", result["resources"][0]["checks"]["correct"]["details"]["guide_links"])
 
+    def test_published_guide_stale_holding_link_fails(self):
+        import fitz
+        stale = url("1Ml-sPRMKDFq_Pup6m1NHTbr13bZHzc9Q")
+        doc = fitz.open()
+        doc.new_page(width=612, height=792).insert_link({
+            "kind": fitz.LINK_URI,
+            "from": fitz.Rect(10, 10, 100, 25), "uri": stale})
+        old_guide = doc.tobytes()
+        doc.close()
+        guide = item(GUIDE, typ="published_export", checksum=None,
+                     other={"production_type": "generated_pdf",
+                            "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
+        official = item(KWLS)
+        expected = {"02-secret-ingredients-teacher-guide.pdf": {
+            "resource_id": "guide", "kind": "teacher_guide",
+            "data": {"core": [{"ref": "worksheet"}]}}}
+        result, _ = run({"guide": guide, "worksheet": official},
+                        {GUIDE: meta(GUIDE), KWLS: meta(KWLS)},
+                        {"guide": "official", "worksheet": "official"},
+                        source_targets=expected, pdf=old_guide)
+        links = result["resources"][0]["checks"]["correct"]["details"]["guide_links"]
+        self.assertEqual(result["resources"][0]["checks"]["correct"]["result"], audit.FAIL)
+        self.assertIn("missing expected link", links)
+
     def test_published_guide_unregistered_link_requires_review(self):
         import fitz
         doc = fitz.open()
