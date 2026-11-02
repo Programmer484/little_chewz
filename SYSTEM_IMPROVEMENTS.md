@@ -36,6 +36,14 @@ Add a **read-only** audit for Google Drive resources marked `published`, startin
 
 Some worksheets may need a colour version and a separate printer-friendly version (for example, an ink-saving layout without dark backgrounds). The Teacher Guide should keep one link per worksheet rather than separate "colour" and "black and white" links, likely pointing to a Drive folder that holds both versions. The [Print Pack Builder](apps/AGENTS.md) then needs to look one level deeper: offer a Colour / Printer-friendly choice and fetch the matching file. Decide how the two files are recorded in `catalog/resources.json` before implementing. Plain black-and-white printing of a colour PDF needs nothing: teachers choose it in the print window.
 
+## SYS-006 — Google Form–triggered teacher resource sharing
+
+**Status:** Proposed, not implemented.
+
+Explore a teacher registration/request workflow using **Google Forms + Google Apps Script + Google Drive**. On form submission, capture the teacher's email and requested resource(s), check eligibility or approval where needed, grant access only to the specific approved Drive files/folders, and email the appropriate links. A Google Sheet may track submissions, access decisions, and sharing actions.
+
+Before implementation, decide whether access is immediate or manually approved, how purchases/teacher eligibility are verified (form submission alone is not verification), what access scope and expiration/revocation rules apply, and how to avoid exposing paid or unpublished materials. Respect the existing holding-versus-official publication boundary; **never let a form submission publish resources or bypass review**. Confirm Apps Script trigger ownership, Google Workspace sharing restrictions, duplicate submissions, failures, and the audit trail before enabling automated permission changes.
+
 ## Previously implemented
 
 - Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).
