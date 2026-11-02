@@ -7,5 +7,5 @@
     "jsx": "react-jsx",
     "types": ["node", "vite/client", "@cloudflare/workers-types"]
   },
-  "include": ["tests", "src", "shared", "worker", "config/**/*.json"]
+  "include": ["tests", "src", "shared", "worker", "config/**/*.json", "scripts/**/*.ts"]
 }
