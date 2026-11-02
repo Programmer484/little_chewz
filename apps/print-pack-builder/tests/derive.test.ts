@@ -100,6 +100,16 @@ describe("deriveManifest", () => {
     expect(deriveManifest({ questId: "q", folder: "03-b", title: "B", order: 0, source: null }, reg).status).toBe("in_progress");
   });
 
+  it("keeps Preparation core mandatory even when it also appears as optional in the flow", () => {
+    const source: LessonSource = {
+      core: [{ ref: "sheet", quantity: "per_student", description: "One per student" }],
+      steps: [{ id: 1, title: "Optional reuse", rows: [{ kind: "MORE", ref: "sheet", quantity: "per_group" }] }],
+    };
+    const m = deriveManifest({ questId: "q", folder: "00-test", title: "Test", order: 0, source }, reg);
+    expect(m.sections.map((x) => x.kind)).toEqual(["core", "optional"]);
+    expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_student", "per_group"]);
+  });
+
   it("uses explicit quantities and rejects missing metadata", () => {
     expect(lessonIdFor("ccc-q01", "02-secret-ingredients")).toBe("ccc-q01-secret-ingredients");
     const missing: LessonSource = { steps: [{ id: 1, title: "Test", rows: [{ kind: "GIVE", ref: "sheet" }] }] };
