@@ -9,7 +9,7 @@ export function MaterialList({ materials }: { materials: ResolvedMaterial[] }) {
         <li key={m.resourceId} className={m.resource.available ? "" : "unavailable"}>
           <span className="material-title">{m.resource.title}</span>
           {m.note && <span className="material-note"> · {m.note}</span>}
-          {!m.resource.available && <span className="material-flag"> · Not available yet: {m.resource.reason}</span>}
+          {!m.resource.available && <span className="material-flag"> · {m.resource.reason ?? "Not available yet."}</span>}
         </li>
       ))}
     </ul>
