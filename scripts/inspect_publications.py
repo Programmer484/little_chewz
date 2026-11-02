@@ -179,9 +179,9 @@ def audit_drive(resource_id: str, resource: dict, part: str, url: str,
             else:
                 correctness = check(PASS, "Checksum matches approved version")
 
-    # Printable PDFs have a separate physical paper-size requirement.
-    # Slide PDFs retain their approved widescreen presentation proportions.
-    if meta.get("mimeType") == "application/pdf" and resource.get("type") != "slide_deck":
+    # Only student-facing worksheets require US Letter dimensions.
+    # Catalogue type, not audience, identifies them: teachers receive and print the worksheets.
+    if resource.get("type") == "student_worksheet" and meta.get("mimeType") == "application/pdf":
         try:
             pdf_bytes = service.files().get_media(
                 fileId=file_id, supportsAllDrives=True).execute()
