@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import io
 import json
 import os
 import re
@@ -233,8 +232,10 @@ def guide_links(service, resource_id: str, resource: dict, registry: dict,
     for rid, item in registry.items():
         for url in published_parts(item).values():
             by_link.setdefault(url_key(url), set()).add(rid)
-        if item.get("url") and item.get("status") == "published":
-            by_link.setdefault(url_key(item["url"]), set()).add(rid)
+        # Recognize draft/holding links so a published Guide cannot silently use them.
+        for key in ("url", "holding_url"):
+            if item.get(key):
+                by_link.setdefault(url_key(item[key]), set()).add(rid)
 
     issues = []
     review = []
