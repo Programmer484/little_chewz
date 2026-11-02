@@ -376,7 +376,7 @@
     "published_url": null
   },
   "ccc-q01-set-the-table-our-vocabulary": {
-    "title": "Mission Vocabulary",
+    "title": "Our Vocabulary",
     "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
     "type": "student_worksheet",
     "audience": "teacher",
@@ -385,7 +385,7 @@
       "preparation"
     ],
     "status": "unpublished",
-    "link_note": "Student-only one-page Mission_Vocabulary.pdf (teacher page removed); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending.",
+    "link_note": "Student-only one-page Our_Vocabulary.pdf (teacher page removed; renamed from Mission_Vocabulary.pdf on 2026-11-02, same file ID); contains the 15-word Our Vocabulary reference. Source editorial/link approval remains pending.",
     "production_type": "external",
     "source": {
       "kind": "unknown"
