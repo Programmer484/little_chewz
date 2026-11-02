@@ -24,7 +24,11 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
+    "published_url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
+    "human_review": {
+      "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
+      "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view": "reviewed"
+    }
   },
   "ccc-q01-mrs-tongsleys-letter": {
     "title": "Mrs. Tongsley's Letter",
@@ -47,7 +51,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view"
+    "published_url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view": "reviewed"
+    }
   },
   "ccc-school-pass-instructions": {
     "title": "Chewlandia Passport",
@@ -70,7 +77,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view"
+    "published_url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
+    "human_review": {
+      "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view": "reviewed"
+    }
   },
   "ccc-callie-cupcake-poster": {
     "title": "Callie Cupcake Poster",
@@ -92,7 +102,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view"
+    "published_url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view": "reviewed"
+    }
   },
   "ccc-q01-mrs-tongsley-video": {
     "title": "Mrs. Tongsley's Video",
@@ -116,7 +129,7 @@
     "holding_url": null,
     "published_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
     "human_review": {
-      "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU": "pending"
+      "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU": "reviewed"
     }
   },
   "ccc-q01-callie-cupcake-video": {
@@ -141,7 +154,7 @@
     "holding_url": null,
     "published_url": "https://youtu.be/qXq3cCxg8l8",
     "human_review": {
-      "https://youtu.be/qXq3cCxg8l8": "pending"
+      "https://youtu.be/qXq3cCxg8l8": "reviewed"
     }
   },
   "ccc-q01-bakery-log-1958": {
@@ -165,7 +178,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view"
+    "published_url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view": "reviewed"
+    }
   },
   "ccc-q01-activate-video-questions": {
     "title": "Mission Video Questions",
@@ -190,7 +206,10 @@
       "drive_file_id": "1qKFGb14wUd_QZZtljKrjZF07EWJBevMj"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view"
+    "published_url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view": "reviewed"
+    }
   },
   "ccc-q01-activate-confetti-questions": {
     "title": "Confetti File Questions",
@@ -215,7 +234,10 @@
       "drive_file_id": "18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view"
+    "published_url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
+    "human_review": {
+      "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view": "reviewed"
+    }
   },
   "ccc-q01-activate-teacher-guide": {
     "title": "Activate Teacher Guide",
@@ -241,7 +263,10 @@
       "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view"
+    "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
@@ -268,7 +293,11 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
+    "published_url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
+    "human_review": {
+      "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
+      "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-songwriting-extension": {
     "title": "Songwriting Extension",
@@ -299,7 +328,10 @@
       "note": "Official PDF ID and parent folder, PDF MIME, and anyone-reader sharing confirmed by Google Drive. Current Drive revision 0B-RH5zxR-RN3V2lXSlAxRmxCQjlZRXArOE5rTkYxMld5UVlZPQ (modified 2026-10-31T17:19:05.665Z); readable text matches current source. Existing manual publication verified; PDF byte checksum not independently matched."
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view"
+    "published_url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-kwls-starter": {
     "title": "KWLS Starter",
@@ -322,7 +354,10 @@
       "note": "Owner marked this resource published for inspection testing on 2026-11-02. Drive permission inspection previously found owner-only access; public access and approved content remain unverified."
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view"
+    "published_url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-print-pack": {
     "title": "Build Print Pack",
@@ -350,7 +385,7 @@
     "holding_url": null,
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
     "human_review": {
-      "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table": "pending"
+      "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table": "reviewed"
     }
   },
   "ccc-q01-set-the-table-school-song-activity": {
@@ -373,7 +408,10 @@
       "drive_file_id": "1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view"
+    "published_url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Mission Vocabulary",
@@ -395,7 +433,10 @@
       "drive_file_id": "1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view"
+    "published_url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
@@ -422,7 +463,10 @@
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
-    "status_note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
+    "status_note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified.",
+    "human_review": {
+      "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
@@ -446,7 +490,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view"
+    "published_url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-team-builder": {
     "title": "Team Builder",
@@ -471,7 +518,10 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view"
+    "published_url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view": "reviewed"
+    }
   },
   "ccc-q01-set-the-table-triple-c-audio": {
     "title": "Triple C School Song — Audio Preview",
@@ -497,8 +547,9 @@
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
     "human_review": {
-      "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view": "pending"
-    }
+      "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view": "reviewed"
+    },
+    "review_mode": "human"
   },
   "ccc-q01-welcome": {
     "title": "Quest Overview",
@@ -531,7 +582,10 @@
       "confirmed_at": "2026-10-27T03:32:39+00:00"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view"
+    "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-clue-video": {
     "title": "Zenix Clue Tracker Video",
@@ -556,7 +610,7 @@
     "holding_url": null,
     "published_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
     "human_review": {
-      "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY": "pending"
+      "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY": "reviewed"
     }
   },
   "ccc-q01-secret-ingredients-chapter-one": {
@@ -582,8 +636,9 @@
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view",
     "human_review": {
-      "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view": "pending"
-    }
+      "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view": "reviewed"
+    },
+    "review_mode": "human"
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
     "title": "Chapter One Audio",
@@ -607,8 +662,9 @@
     "holding_url": null,
     "published_url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing",
     "human_review": {
-      "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing": "pending"
-    }
+      "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing": "reviewed"
+    },
+    "review_mode": "human"
   },
   "ccc-q01-secret-ingredients-clue-tracker": {
     "title": "Full Zenix Clue Tracker",
@@ -631,7 +687,10 @@
       "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
+    "published_url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-clue-tracker-core": {
     "title": "Clue Tracker — Core",
@@ -659,7 +718,10 @@
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
-    "url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view"
+    "url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-clue-tracker-extension": {
     "title": "Clue Tracker — Extension",
@@ -688,7 +750,10 @@
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
-    "url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view"
+    "url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
@@ -718,6 +783,9 @@
     "published_url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
     "build": {
       "output": "clue-tracker-answer-key.pdf"
+    },
+    "human_review": {
+      "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view": "reviewed"
     }
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
@@ -745,7 +813,10 @@
       "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view"
+    "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view",
+    "human_review": {
+      "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-print-pack": {
     "title": "Build Print Pack",
@@ -773,7 +844,7 @@
     "holding_url": null,
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
     "human_review": {
-      "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients": "pending"
+      "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients": "reviewed"
     }
   },
   "ccc-q01-secret-ingredients-character-profile": {
@@ -802,7 +873,10 @@
       "confirmed_at": "2026-11-02T18:41:48Z"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view"
+    "published_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-character-profile-core": {
     "title": "Character Profile — Core",
@@ -829,7 +903,10 @@
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
-    "url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view"
+    "url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
+    "human_review": {
+      "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-slides": {
     "title": "Secret Ingredients Classroom Slides",
@@ -856,7 +933,11 @@
       "content_parity": "unverified"
     },
     "holding_url": null,
-    "published_url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
+    "published_url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
+    "human_review": {
+      "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
+      "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view": "reviewed"
+    }
   },
   "ccc-q01-secret-ingredients-teacher-guide": {
     "title": "Secret Ingredients Teacher Guide",
@@ -887,7 +968,10 @@
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
-    "url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view"
+    "url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
+    "human_review": {
+      "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view": "reviewed"
+    }
   },
   "ccc-q01-showdown-slides": {
     "title": "Showdown Slides",
@@ -1186,7 +1270,7 @@
     "holding_url": null,
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
     "human_review": {
-      "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate": "pending"
+      "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate": "reviewed"
     }
   },
   "ccc-q01-showdown-print-pack": {
