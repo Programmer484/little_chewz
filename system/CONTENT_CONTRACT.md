@@ -58,9 +58,9 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |
 | `build` | Required only for generated PDFs, resolved against `scripts/select_builds.py.targets()` |
-| `holding_url` | Verified review file URL; permitted in preview PDFs even when the resource is unpublished. Not proof of publication. |
+| `holding_url` | Optional temporary review file URL for unpublished/draft content. Clear it when a non-slide resource is published; retain only an actual separate slide-review asset when needed. Not proof of publication. |
 | `published_url` | Verified official destination; may be the **same URL as the former holding URL** if the same file was moved without changing its Drive ID |
-| `url` | Backward-compatible link; review renderers prefer the verified holding URL, while publication renders require the published URL and published status. Never assume a URL proves publication. |
+| `url` | Backward-compatible link. **Any resource marked `published` always renders `published_url`**, even in review PDFs; draft previews may use `holding_url` or `url`. Published resources without `published_url` must not silently fall back to other links. |
 | `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
 | `print` | Optional, student worksheets only: `{"cards_per_sheet": N}` when each page holds N identical cards, counted from the actual file. Read by the [Print Pack Builder](../apps/AGENTS.md) to print sheets instead of one page per card. |
 

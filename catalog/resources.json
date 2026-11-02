@@ -304,7 +304,7 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "unpublished",
+    "status": "published",
     "link_note": "Standalone two-page KWLS Starter extracted unchanged from pages 7–8 of Quest 1 Student Booklet and uploaded to Set the Table Drive folder. Editorial/access approval not independently verified.",
     "production_type": "external",
     "source": {
@@ -312,10 +312,11 @@
     },
     "publication": {
       "verification": "unknown",
-      "drive_file_id": "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK"
+      "drive_file_id": "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK",
+      "note": "Owner marked this resource published for inspection testing on 2026-11-02. Drive permission inspection previously found owner-only access; public access and approved content remain unverified."
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view"
   },
   "ccc-q01-set-the-table-print-pack": {
     "title": "Build Print Pack",
@@ -635,7 +636,7 @@
       "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
       "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
-    "holding_url": "https://drive.google.com/file/d/1Ml-sPRMKDFq_Pup6m1NHTbr13bZHzc9Q/view",
+    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
     "url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view"
   },
@@ -664,7 +665,7 @@
       "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
       "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
-    "holding_url": "https://drive.google.com/file/d/1GpytMiNCwLrpkde5hERXiku0xk-r-M54/view",
+    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
     "url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view"
   },
@@ -722,7 +723,7 @@
       "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
       "confirmed_at": "2026-10-31T15:42:00+00:00"
     },
-    "holding_url": "https://drive.google.com/file/d/1nFkHSZceWwkSUjFGdYP6m9UtxWoTEprT/view",
+    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view"
   },
   "ccc-q01-secret-ingredients-print-pack": {
@@ -802,7 +803,7 @@
       "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
       "confirmed_at": "2026-10-31T16:12:24+00:00"
     },
-    "holding_url": "https://drive.google.com/file/d/1DxcJ6dDE8QCyqnzoXLee7d9RP5d1F-5G/view",
+    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
     "url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view"
   },
