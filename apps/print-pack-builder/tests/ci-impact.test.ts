@@ -28,7 +28,7 @@ function fixture(): Inputs {
       },
       [LESSON]: {
         steps: [{ id: 1, title: "Activity", rows: [
-          { kind: "GIVE", ref: "sheet", description: "One per student" },
+          { kind: "GIVE", ref: "sheet", quantity: "per_student", description: "One per student" },
           { kind: "DO", text: "Explain the activity." },
         ] }],
       },
@@ -44,7 +44,7 @@ function changed(edit: (input: Inputs) => void): boolean {
 }
 
 function lesson(input: Inputs): {
-  steps: { title: string; rows: { kind: string; ref?: string; description?: string; text?: string }[] }[];
+  steps: { title: string; rows: { kind: string; ref?: string; quantity?: string; description?: string; text?: string }[] }[];
 } {
   return input.files[LESSON] as ReturnType<typeof lesson>;
 }
@@ -62,8 +62,9 @@ describe("semantic Print Pack CI impact", () => {
     expect(changed((input) => { lesson(input).steps[0].rows[0].kind = "MORE"; })).toBe(true);
   });
 
-  it("detects quantity and notes inferred from descriptions", () => {
-    expect(changed((input) => { lesson(input).steps[0].rows[0].description = "One per group"; })).toBe(true);
+  it("detects explicit quantity and visible notes independently", () => {
+    expect(changed((input) => { lesson(input).steps[0].rows[0].quantity = "per_group"; })).toBe(true);
+    expect(changed((input) => { lesson(input).steps[0].rows[0].description = "For a small team"; })).toBe(true);
   });
 
   it("detects visible step title changes", () => {

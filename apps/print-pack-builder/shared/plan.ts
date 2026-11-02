@@ -60,7 +60,8 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): { pro
 
 /** Keep per-group uses separate, even when they point to the same resource ID. */
 export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantities): Plan {
-  const problems = quantityProblems(q);
+  const numberProblems = quantityProblems(q);
+  const problems = [...numberProblems];
   const { picks, problems: choiceProblems } = selectedMaterials(lesson, sel);
   problems.push(...choiceProblems);
   if (lesson.status !== "ready") problems.push("This lesson has no downloadable student materials yet.");
@@ -78,7 +79,7 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
       continue;
     }
     const size = m.rule === "per_group" ? (q.groupSizes?.[activityId] ?? q.groupSize) : undefined;
-    const needed = problems.length ? 0 : m.rule === "per_student" ? q.studentCount : groupCount(q.studentCount, size!);
+    const needed = numberProblems.length ? 0 : m.rule === "per_student" ? q.studentCount : groupCount(q.studentCount, size!);
     const id = `${m.resourceId}:${m.rule}${m.rule === "per_group" ? `:${activityId}` : ""}`;
     const previous = lines.get(id);
     if (previous) {
