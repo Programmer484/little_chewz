@@ -31,7 +31,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  impact:
+    name: Check whether print output changed
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      run_full: ${{ steps.decide.outputs.run_full }}
+      reason: ${{ steps.decide.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Both proposed and baseline repository data are required.
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Compare derived print outputs; fall back to full checks on failure
+        id: decide
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            printf 'run_full=true\nreason=manual-run\n' >> "$GITHUB_OUTPUT"
+          elif node --experimental-strip-types \
+              apps/print-pack-builder/scripts/ci-impact.ts "$BASE_SHA" > /tmp/print-impact; then
+            cat /tmp/print-impact >> "$GITHUB_OUTPUT"
+          else
+            echo "Impact comparison unavailable. Running full Print Pack checks."
+            printf 'run_full=true\nreason=comparison-failed-open\n' >> "$GITHUB_OUTPUT"
+          fi
+          echo "Print Pack CI impact decision:" >> "$GITHUB_STEP_SUMMARY"
+          cat "$GITHUB_OUTPUT" >> "$GITHUB_STEP_SUMMARY"
+
   check:
+    needs: impact
+    if: needs.impact.outputs.run_full == 'true'
     name: Typecheck, lint, test and build
     runs-on: ubuntu-24.04
     timeout-minutes: 10

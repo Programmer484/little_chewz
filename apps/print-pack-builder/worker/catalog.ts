@@ -77,6 +77,10 @@ export function parseMode(value: string | undefined): ResourceMode {
 
 const dirname = (path: string) => path.slice(0, path.lastIndexOf("/"));
 
+/** Shared path resolution for both production and CI's revision comparison. */
+export const lessonSourcePath = (questManifestPath: string, lessonFolder: string) =>
+  `${dirname(questManifestPath)}/lessons/${lessonFolder}/lesson.json`;
+
 /** Every lesson in every quest, derived from its Teacher Guide source. */
 export function deriveLessons(input: Pick<CatalogInput, "registry" | "questIndex" | "files">) {
   const quests: QuestInfo[] = [];
@@ -86,7 +90,7 @@ export function deriveLessons(input: Pick<CatalogInput, "registry" | "questIndex
     if (!quest) throw new Error(`Missing quest file ${entry.quest_manifest}`);
     quests.push({ id: quest.id, title: `Quest ${quest.quest_number ?? questOrder + 1}: ${quest.title}`, order: questOrder });
     quest.learning_sequence.forEach((lesson, order) => {
-      const path = `${dirname(entry.quest_manifest)}/lessons/${lesson.folder}/lesson.json`;
+      const path = lessonSourcePath(entry.quest_manifest, lesson.folder);
       const source = (input.files[path] as LessonSource | undefined) ?? null;
       manifests.push(deriveManifest({ questId: quest.id, folder: lesson.folder, title: lesson.title, order, source }, input.registry));
     });

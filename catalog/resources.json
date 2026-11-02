@@ -221,7 +221,7 @@
       "guide"
     ],
     "status": "pending_publish",
-    "status_note": "The editable Activate lesson was previously marked approved but not confirmed live; the existing Drive guide needs source-to-output verification before treating it as synchronized.",
+    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -319,7 +319,7 @@
   },
   "ccc-q01-set-the-table-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://github.com/Programmer484/little_chewz/pull/81",
+    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
     "type": "print_pack",
     "audience": "teacher",
     "tags": [
@@ -327,18 +327,21 @@
       "preparation",
       "print-pack"
     ],
-    "status": "unpublished",
-    "link_note": "PLACEHOLDER until the Print Pack Builder (PR #81) is deployed: links to that PR. Replace url with the deployed lesson link, https://<site>/lesson/ccc-q01-set-the-table, then publish. While unpublished, it blocks release of the Set the Table Teacher Guide.",
+    "status": "published",
+    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
     "production_type": "external",
     "source": {
       "kind": "external_original",
-      "url": "https://github.com/Programmer484/little_chewz/pull/81"
+      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
     },
     "publication": {
-      "verification": "unknown"
+      "verification": "unverified",
+      "method": "external_agent",
+      "confirmed_at": "2026-11-02T20:13:30.909464+00:00",
+      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
     },
     "holding_url": null,
-    "published_url": null
+    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
   },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
@@ -408,7 +411,8 @@
       "drive_file_id": "1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4"
     },
     "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view"
+    "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
+    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
@@ -721,6 +725,32 @@
     "holding_url": "https://drive.google.com/file/d/1nFkHSZceWwkSUjFGdYP6m9UtxWoTEprT/view",
     "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view"
   },
+  "ccc-q01-secret-ingredients-print-pack": {
+    "title": "Build Print Pack",
+    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "type": "print_pack",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "preparation",
+      "print-pack"
+    ],
+    "status": "published",
+    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    },
+    "publication": {
+      "verification": "unverified",
+      "method": "external_agent",
+      "confirmed_at": "2026-11-02T20:13:30.909606+00:00",
+      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
+    },
+    "holding_url": null,
+    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+  },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Character Profile — Advanced",
     "url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
@@ -812,7 +842,7 @@
       "teacher-guide"
     ],
     "status": "published",
-    "status_note": "Editable guide exists and is previewable; no verified teacher-facing Drive publication recorded.",
+    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -984,7 +1014,8 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists."
+    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists.",
+    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
   },
   "ccc-q01-showdown-design-card": {
     "title": "Design Challenge Card",
@@ -1091,5 +1122,57 @@
     "holding_url": null,
     "published_url": null,
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+  },
+  "ccc-q01-activate-print-pack": {
+    "title": "Build Print Pack",
+    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "type": "print_pack",
+    "audience": "teacher",
+    "tags": [
+      "activate",
+      "preparation",
+      "print-pack"
+    ],
+    "status": "published",
+    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    },
+    "publication": {
+      "verification": "unverified",
+      "method": "external_agent",
+      "confirmed_at": "2026-11-02T20:13:30.908742+00:00",
+      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
+    },
+    "holding_url": null,
+    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+  },
+  "ccc-q01-showdown-print-pack": {
+    "title": "Build Print Pack",
+    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "type": "print_pack",
+    "audience": "teacher",
+    "tags": [
+      "showdown",
+      "preparation",
+      "print-pack"
+    ],
+    "status": "published",
+    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    },
+    "publication": {
+      "verification": "unverified",
+      "method": "external_agent",
+      "confirmed_at": "2026-11-02T20:13:30.910085+00:00",
+      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
+    },
+    "holding_url": null,
+    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
   }
 }

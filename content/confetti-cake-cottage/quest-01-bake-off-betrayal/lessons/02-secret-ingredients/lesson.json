@@ -14,44 +14,21 @@
   "core": [
     {
       "ref": "ccc-q01-secret-ingredients-slides",
-      "description": "Slides 1–5"
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-clue-video",
-      "description": "3-min scene"
+      "description": "Review slides; test a video",
+      "title": "Classroom Slideshow"
     },
     {
       "ref": "ccc-q01-secret-ingredients-chapter-one",
-      "description": "Full chapter"
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-chapter-notes",
-      "description": "One per student"
+      "description": "Read ahead"
     }
   ],
   "optional_prep": [
     {
-      "ref": "ccc-q01-secret-ingredients-chapter-audio",
-      "description": "Listening option"
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-clue-tracker-core",
-      "description": ""
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
-      "description": ""
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-character-profile-core",
-      "description": ""
-    },
-    {
-      "ref": "ccc-q01-secret-ingredients-character-profile",
-      "description": ""
+      "ref": "ccc-q01-secret-ingredients-print-pack",
+      "description": "Choose activities, print once"
     }
   ],
-  "prep_heading": "PREPARE YOUR CHOICES",
+  "prep_heading": "PRINT YOUR CHOICES",
   "focus": "Look for observations and character inferences supported by evidence, rather than guesses alone.",
   "assessment": "Clue Hunt: identifies a visible detail and supports an inference. Small Bite: supports a character interpretation with story evidence.",
   "curriculum": [
@@ -84,6 +61,10 @@
         {
           "kind": "MORE",
           "links": [
+            {
+              "ref": "ccc-q01-secret-ingredients-clue-video",
+              "description": "Direct video preview"
+            },
             {
               "ref": "ccc-q01-secret-ingredients-clue-tracker-extension",
               "description": "Questions 6–8; optional +10–15 min"

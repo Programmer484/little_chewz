@@ -33,6 +33,10 @@
     {
       "ref": "ccc-q01-showdown-taste-reflection",
       "description": "Optional writing"
+    },
+    {
+      "ref": "ccc-q01-showdown-print-pack",
+      "description": "Choose activities, print once"
     }
   ],
   "prep_heading": "PREPARE YOUR CHOICE",
