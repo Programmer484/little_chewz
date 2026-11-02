@@ -1,0 +1,64 @@
+{
+  "lessonId": "demo-sample-lesson",
+  "questId": "demo",
+  "order": 0,
+  "title": "Sample Lesson (demo files)",
+  "status": "ready",
+  "sections": [
+    {
+      "kind": "core",
+      "id": "reading",
+      "title": "Step 1 · Reading",
+      "materials": [
+        { "resourceId": "demo-reading-log", "rule": "per_student", "note": "Two-page PDF, one per student" }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "station",
+      "title": "Step 2 · Choose One Station",
+      "options": [
+        {
+          "id": "poster",
+          "label": "A",
+          "title": "Poster Station",
+          "materials": [
+            { "resourceId": "demo-station-poster", "rule": "per_group", "note": "PNG worksheet, one per group" }
+          ]
+        },
+        {
+          "id": "photo",
+          "label": "B",
+          "title": "Photo Station",
+          "materials": [
+            { "resourceId": "demo-photo-prompt", "rule": "per_group", "note": "JPEG worksheet, one per group" }
+          ],
+          "extensions": [
+            {
+              "id": "photo-cards",
+              "title": "Team challenge cards",
+              "summary": "Four cards print on each sheet",
+              "materials": [
+                { "resourceId": "demo-team-cards", "rule": "per_group", "cardsPerSheet": 4, "note": "One card per group" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "optional",
+      "id": "wrap-up",
+      "title": "Step 3 · Optional",
+      "items": [
+        {
+          "id": "exit-ticket",
+          "title": "Exit ticket",
+          "materials": [
+            { "resourceId": "demo-exit-ticket", "rule": "per_student", "note": "A4 page, one per student" }
+          ]
+        }
+      ]
+    }
+  ]
+}
