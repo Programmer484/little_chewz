@@ -721,6 +721,29 @@
     "holding_url": "https://drive.google.com/file/d/1nFkHSZceWwkSUjFGdYP6m9UtxWoTEprT/view",
     "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view"
   },
+  "ccc-q01-secret-ingredients-print-pack": {
+    "title": "Build Print Pack",
+    "url": "https://github.com/Programmer484/little_chewz/pull/81",
+    "type": "print_pack",
+    "audience": "teacher",
+    "tags": [
+      "secret-ingredients",
+      "preparation",
+      "print-pack"
+    ],
+    "status": "unpublished",
+    "link_note": "PLACEHOLDER until the Print Pack Builder (PR #81) is deployed: links to that PR. Replace url with the deployed lesson link, https://<site>/lesson/ccc-q01-secret-ingredients, then publish. While unpublished, it blocks release of the Secret Ingredients Teacher Guide.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://github.com/Programmer484/little_chewz/pull/81"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null
+  },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Character Profile — Advanced",
     "url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
