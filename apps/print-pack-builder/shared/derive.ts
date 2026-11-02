@@ -167,8 +167,8 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
 
   // Preparation core stays mandatory unless already covered by an unconditional GIVE.
   const unconditional = new Set((lesson.steps ?? []).flatMap((step) => (step.rows ?? [])
-    .filter((row) => row.kind === "GIVE").flatMap(links).map((link) => link.ref)));
-  const prepOnly = (lesson.core ?? []).filter((c) => isStudent(c.ref) && !unconditional.has(c.ref!));
+    .filter((row) => row.kind === "GIVE").flatMap(links).map((link) => `${link.ref}:${link.quantity}`)));
+  const prepOnly = (lesson.core ?? []).filter((c) => isStudent(c.ref) && !unconditional.has(`${c.ref}:${c.quantity}`));
   if (prepOnly.length)
     sections.unshift({ kind: "core", id: "preparation", title: "Preparation", materials: prepOnly.map(material) });
   // Optional preparation and bonus worksheets not used in the flow become extras.

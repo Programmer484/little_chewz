@@ -110,6 +110,15 @@ describe("deriveManifest", () => {
     expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_student", "per_group"]);
   });
 
+  it("retains separate core quantities for the same resource in different placements", () => {
+    const source: LessonSource = {
+      core: [{ ref: "sheet", quantity: "per_student" }],
+      steps: [{ id: 1, title: "Group reuse", rows: [{ kind: "GIVE", ref: "sheet", quantity: "per_group" }] }],
+    };
+    const m = deriveManifest({ questId: "q", folder: "00-test", title: "Test", order: 0, source }, reg);
+    expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_student", "per_group"]);
+  });
+
   it("uses explicit quantities and rejects missing metadata", () => {
     expect(lessonIdFor("ccc-q01", "02-secret-ingredients")).toBe("ccc-q01-secret-ingredients");
     const missing: LessonSource = { steps: [{ id: 1, title: "Test", rows: [{ kind: "GIVE", ref: "sheet" }] }] };
