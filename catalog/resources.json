@@ -320,7 +320,7 @@
   },
   "ccc-q01-set-the-table-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
     "type": "print_pack",
     "audience": "teacher",
     "tags": [
@@ -329,20 +329,20 @@
       "print-pack"
     ],
     "status": "published",
-    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
+    "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
       "kind": "external_original",
-      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+      "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table"
     },
     "publication": {
       "verification": "unverified",
       "method": "external_agent",
-      "confirmed_at": "2026-11-02T20:13:30.909464+00:00",
-      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
+      "confirmed_at": null,
+      "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table"
   },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
@@ -728,7 +728,7 @@
   },
   "ccc-q01-secret-ingredients-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
     "type": "print_pack",
     "audience": "teacher",
     "tags": [
@@ -737,20 +737,20 @@
       "print-pack"
     ],
     "status": "published",
-    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
+    "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
       "kind": "external_original",
-      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+      "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients"
     },
     "publication": {
       "verification": "unverified",
       "method": "external_agent",
-      "confirmed_at": "2026-11-02T20:13:30.909606+00:00",
-      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
+      "confirmed_at": null,
+      "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients"
   },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Character Profile — Advanced",
@@ -1138,7 +1138,7 @@
   },
   "ccc-q01-activate-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
     "type": "print_pack",
     "audience": "teacher",
     "tags": [
@@ -1147,20 +1147,20 @@
       "print-pack"
     ],
     "status": "published",
-    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
+    "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
       "kind": "external_original",
-      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+      "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate"
     },
     "publication": {
       "verification": "unverified",
       "method": "external_agent",
-      "confirmed_at": "2026-11-02T20:13:30.908742+00:00",
-      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
+      "confirmed_at": null,
+      "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
     },
     "holding_url": null,
-    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate"
   },
   "ccc-q01-showdown-print-pack": {
     "title": "Build Print Pack",
