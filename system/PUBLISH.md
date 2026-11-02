@@ -20,6 +20,10 @@ Worksheets, posters, external PDFs, media and slides use `production_type: exter
 4. On failure, report the precise blocker. A new file stays `unpublished`; where an older verified release exists but a revision has not been verified, preserve the live record and use `pending_publish` as defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Never invent checksums or assert external content parity without evidence. Prefer automated Drive metadata checks; reserve human incognito testing for access behavior tools cannot prove.
 
 ## First-time generated PDF publication — agent-managed
+### Student worksheet PDF check before external publication
+
+For any `student_worksheet` PDF, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` **before uploading or replacing the official Drive file**. Every page must be US Letter (8.5 × 11 inches), portrait or landscape. This check is for student-facing worksheets **only**; do not change Teacher Guide, companion or slide page sizes. External resources are still published by an agent rather than the generated-PDF publisher.
+
 
 Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID, publication evidence and `published` status. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
 
