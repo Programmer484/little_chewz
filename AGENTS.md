@@ -259,7 +259,7 @@ Report the review copy, GitHub PR/record, checks and blockers. **Do not replace 
 2. Prefer **moving the same holding file** to its official folder to preserve Drive file ID and URL. Verify that the ID remains unchanged; if copying creates a new ID, register the verified new ID and update references. Do not confuse a valid link with publication; **the file's folder placement and successful verification control status**. Never guess IDs or folders.
 3. **Automated release gate:** Before publishing a generated Teacher Guide (or companion), check every referenced registry ID: require `status: published` and a `published_url`; otherwise block. This is enforced in the guarded merge publisher **and** the direct Drive replacement command. For external resources, an agent must perform the equivalent registry check before delivery; no external-resource release automation exists. A resource's original Drive URL may stay identical when moved from holding to official—the gate checks status, not URL inequality.
 4. Verify official file identity, MIME, parent folder and sharing/access as far as the tools allow. User testing in incognito is useful but not a substitute for accurate agent records; do not claim incognito testing the agent cannot perform.
-5. **Only after successful official Drive verification**, update `published_url`, compatibility `url`, publication evidence and `status: published` in `catalog/resources.json`. When moving the same file, the permanent URL is unchanged. The old `holding_url` may be cleared after moving; never manufacture a different link. Neither a URL nor metadata access alone proves anonymous access.
+5. **Only after successful official Drive verification**, update `published_url`, compatibility `url`, publication evidence and `status: published` in `catalog/resources.json`. When moving the same file, the permanent URL is unchanged. Clear `holding_url` for a published non-slide resource; only slides with an actual separate review asset may retain one. Published resources always link through `published_url`, including in preview PDFs. Never manufacture a different link. Neither a URL nor metadata access alone proves anonymous access.
 
 ### External resources — agent-managed publication
 
@@ -374,9 +374,9 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |
 | `build` | Required only for generated PDFs, resolved against `scripts/select_builds.py.targets()` |
-| `holding_url` | Verified review file URL; permitted in preview PDFs even when the resource is unpublished. Not proof of publication. |
+| `holding_url` | Optional temporary review file URL for unpublished/draft content. Clear it when a non-slide resource is published; retain only an actual separate slide-review asset when needed. Not proof of publication. |
 | `published_url` | Verified official destination; may be the **same URL as the former holding URL** if the same file was moved without changing its Drive ID |
-| `url` | Backward-compatible link; review renderers prefer the verified holding URL, while publication renders require the published URL and published status. Never assume a URL proves publication. |
+| `url` | Backward-compatible link. **Any resource marked `published` always renders `published_url`**, even in review PDFs; draft previews may use `holding_url` or `url`. Published resources without `published_url` must not silently fall back to other links. |
 | `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
 | `print` | Optional, student worksheets only: `{"cards_per_sheet": N}` when each page holds N identical cards, counted from the actual file. Read by the [Print Pack Builder](apps/AGENTS.md) to print sheets instead of one page per card. |
 
@@ -890,7 +890,7 @@ After editing, run `python scripts/validate.py` and save through a PR per [WORKF
 - Use `generated_pdf` only for existing Python-rendered PDF outputs with GitHub editable sources and explicit `build`. Externally authored PDFs remain `external`, as do slides and image-based resources.
 - `drive_folders.json` owns four holding category folder IDs mirroring the official Drive layout; existing nested subfolders retain their IDs. Legacy Slide PDF originals remain separate. Never invent file or folder IDs. A holding file is not published **even when its permanent URL will be unchanged**.
 - [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) owns status definitions; **[PUBLISH.md](system/PUBLISH.md) alone owns the actions and verification that permit recording `published`**. Legacy records can remain explicitly unverified.
-- Review Teacher Guides may link to verified holding files; release builds use only `published_url` and require each referenced resource to have `status: published`. Automated publisher checks enforce this for generated PDFs.
+- Published resources always render their `published_url`, in both review and release PDFs. Draft previews may use a genuine holding link; non-slide published resources must have `holding_url: null`. Release builds require every referenced resource to have `status: published` and an official URL.
 - `quests.json` indexes quest manifests; each quest's `quest.json` owns lesson-source delivery status, separate from linked resource status.
 
 Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.md) for revisions, and [PUBLISH.md](system/PUBLISH.md) for release; [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) owns slide-specific conversion. Run `python scripts/validate.py` after changes.
