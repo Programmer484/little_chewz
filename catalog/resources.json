@@ -317,6 +317,29 @@
     "holding_url": null,
     "published_url": null
   },
+  "ccc-q01-set-the-table-print-pack": {
+    "title": "Build Print Pack",
+    "url": "https://github.com/Programmer484/little_chewz/pull/81",
+    "type": "print_pack",
+    "audience": "teacher",
+    "tags": [
+      "set-the-table",
+      "preparation",
+      "print-pack"
+    ],
+    "status": "unpublished",
+    "link_note": "PLACEHOLDER until the Print Pack Builder (PR #81) is deployed: links to that PR. Replace url with the deployed lesson link, https://<site>/lesson/ccc-q01-set-the-table, then publish. While unpublished, it blocks release of the Set the Table Teacher Guide.",
+    "production_type": "external",
+    "source": {
+      "kind": "external_original",
+      "url": "https://github.com/Programmer484/little_chewz/pull/81"
+    },
+    "publication": {
+      "verification": "unknown"
+    },
+    "holding_url": null,
+    "published_url": null
+  },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
     "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
