@@ -9,7 +9,7 @@ A small web app for Grade 4–6 teachers: choose a lesson, pick the activities y
 | Part | Technology | Where |
 | --- | --- | --- |
 | Teacher app | React + TypeScript + Vite | `src/` |
-| Guide reader, copy plan, print order, file checks | TypeScript | `shared/` (`derive.ts` reads the guides) |
+| Guide reader, copy plan, packet boundaries, file checks | TypeScript | `shared/` (`derive.ts` reads the guides) |
 | API and secure Drive proxy | Cloudflare Worker (Static Assets + Vite plugin) | `worker/` |
 | Demo lesson and its synthetic files | JSON + generated fixtures | `config/demo/`, `worker/demo/` |
 | PDF assembly | `pdf-lib`, in the browser | `src/lib/assemble.ts` |
@@ -46,55 +46,38 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 
 ## How it works
 
-1. `GET /api/lessons` returns every lesson of every quest, derived from the guides, as **sanitized** JSON: titles, activities, default copy rules and an `available` flag per worksheet. It never contains Drive file IDs or URLs.
-2. The teacher picks activities, then sees one row per worksheet with a suggested number of copies (from class size and group size) that they can change.
-3. On **Download Print Pack**, the browser fetches each worksheet from `GET /api/resources/:resourceId`, checks each file, and assembles one PDF with `pdf-lib`, in the order the teacher chose. If any file fails, nothing is downloaded and the teacher sees which worksheet failed.
-4. Generated packets are never uploaded or stored anywhere. Class size, group size and print settings are remembered in that browser only.
+1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only published `student_worksheet` resources with trusted Drive file URLs can be fetched in drive mode.
+2. **Guided Printing (default)** includes all `GIVE` and unreferenced preparation `core` worksheets and requires exactly one selection in every A/B choice. Optional `MORE` and bonus worksheets are unchecked.
+3. Turning on **Customize print requirements** unlocks core worksheet checkboxes and converts A/B radios into independent checkboxes. Teachers may select both alternatives, neither, or individually deselect worksheets within an activity. An empty pack cannot be downloaded.
+4. The teacher enters class size and a saved default group size. Each selected group activity has its own adjustable size, initially matching that default. Set it to the student count for **one whole-class copy**. The suggested group copies are `Math.ceil(studentCount / groupSize)`. Teachers may override each print line's copies independently.
+5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size, default group size and duplex preference are saved only in the browser.
 
-### PDF assembly
+### Print order and duplex
 
-- PDF pages are copied, not rasterized; artwork and text are untouched and page sizes are kept.
-- Multi-page worksheets repeat whole (pages 1, 2, 1, 2, ...).
-- **Order:** "One worksheet at a time" (all copies of each worksheet together) or "Student packets" (one of each per-student worksheet for student 1, then student 2...; group and class copies follow). `printSequence` in `shared/plan.ts`.
-- **Double-sided:** a blank page follows every copy with an odd number of pages, so each copy starts on its own sheet and no two copies share a sheet when printed on both sides. The download message reminds teachers to choose "Print on both sides" (flip on long edge).
-- Repeat copies share the first copy's content and image streams, so 25 copies are barely larger than one. (Real check: 25 copies each of the five Secret Ingredients worksheets, 125 pages, came to 1.65 MB from 1.68 MB of source files.)
-- PNG and JPEG worksheets are embedded once and fitted proportionally, centred with a 0.25 in margin, on a US Letter page (landscape for wide images).
-- Every file is checked by its first bytes, so a Drive HTML error page can never end up in a pack.
-- Limits (`shared/limits.ts`): 25 MB per file, 120 MB of source files per pack, 1,500 pages per pack, 200 students, groups of 1–30.
+- **Always:** student packets first, one complete packet per student in lesson order; then all `per_group` resources and multi-card cutouts, grouped by resource.
+- Each student packet contains the worksheets in sequence, preserving every multi-page worksheet. Two different one-page worksheets may share opposite sides of the same physical sheet.
+- With **Automatic double-sided student packets** on, a blank is added *only at an odd student-packet boundary* and when a shared material needs an empty reverse. Cards with `print.cards_per_sheet > 1` are always front-only, even if their PDF has multiple pages.
+- With duplex off, no blank pages are inserted. For duplex output, select **Print on both sides / flip on long edge** in the printer dialog. No manual duplex or print-order selector.
+- PDF pages are copied without rasterization; PNG/JPEG images are embedded proportionally, and repeated copies reuse image and PDF streams. The PDF contains intentional blank backs where required.
 
-## Where lessons come from
+### Metadata: no separate print configuration
 
-`worker/catalog.ts` walks `catalog/quests.json` → each `quest.json` → its `learning_sequence` → `lessons/<folder>/lesson.json`, and `shared/derive.ts` turns each guide into the teacher's choices. A link counts only when the catalogue types it **`student_worksheet`**; slides, videos, stories and teacher pages are ignored.
+The print builder reads only `lesson.json` worksheet links and `catalog/resources.json`:
 
-| In the Teacher Guide (`lesson.json`) | In the Print Pack Builder |
+| Guide reference | Printing behavior |
 | --- | --- |
-| `GIVE` row in a step | Included automatically |
-| `MORE` row in a step | Checkbox |
-| `step.options` (A, B, C, D) | Choose one |
-| `GIVE` row inside an option | Printed when that option is chosen |
-| `MORE` row inside an option | Checkbox shown when that option is chosen |
-| Preparation `core` worksheet not linked in any step | Included automatically, under "Preparation" |
-| `optional_prep` or `bonuses` worksheet not linked in any step | Checkbox under "Extras" |
-| A lesson with no `lesson.json` yet | "Materials coming soon" |
-| A lesson with no student worksheets | "No student printing needed" |
+| `GIVE` row or unreferenced preparation `core` | Required in Guided; optional in Custom |
+| `MORE` row, optional preparation or bonus | Optional checkbox |
+| `step.options` A/B/C/D | Exactly one in Guided; any combination in Custom |
+| `MORE` inside an option | Optional extension when that option is selected |
+| No guide source yet | Materials coming soon |
+| Guide without student worksheets | No student printing |
 
-- **Suggested copies** come from the guide's own description of that worksheet (the Preparation line first, then the Teaching Flow row): wording with "group" or "team" means one per group, "for the class" means one for the class, anything else one per student. Teachers can change every number, so the guide's quantity wording only needs to be roughly right.
-- **Downloadable** when the catalogue entry is `status: published` with a Drive file `published_url` (matching `publication.drive_file_id` when recorded). Otherwise the worksheet shows "Coming soon: not published yet" and is never included. There is no allowlist.
-- **Cards printed several to a page:** add `"print": {"cards_per_sheet": 4}` to the worksheet's catalogue entry, using the number of identical cards on each page **counted from the actual PDF**. The suggestion then counts cards, and the pack prints `ceil(cards / 4)` sheets (8 groups → 2 sheets). `scripts/validate.py` checks the field.
-- **Formats:** PDF (best), PNG or JPEG files on Drive. Google Docs, Slides and Sheets files are refused until an export step is added.
-- Lesson URLs are `/lesson/<quest-id>-<folder without its number>`, e.g. `/lesson/ccc-q01-secret-ingredients`.
+Every link to a `student_worksheet`, including `row.links` entries, must have explicit `"quantity": "per_student"` or `"quantity": "per_group"`. A whole class is one group, **not** a third quantity type. Descriptions do not determine copy counts. Missing/invalid quantities fail `python scripts/validate.py`; the builder also fails closed if malformed metadata reaches it.
 
-**Adding a worksheet to a lesson:** link it from the guide (`GIVE`, `MORE`, or Preparation), register it in the catalogue as a `student_worksheet`, and publish it into the official student-materials folder. Nothing in this app needs editing. Redeploy (or let GitHub builds redeploy) to update the live site. `tests/derive.test.ts` runs against the real guides and catalogue in CI whenever a `lesson.json`, `quest.json` or the catalogue changes.
+For a resource with several cards or cutouts per physical sheet, use the existing `"print": {"cards_per_sheet": 4}` in `catalog/resources.json`, counted from the actual PDF. Ordinary worksheets omit the `print` property. For one card per group, five groups with four cards on a sheet need two file copies. Multi-card sheets are placed with shared materials and get empty backs in duplex mode.
 
-### Current lessons
-
-| Lesson | Builder shows | Downloadable now |
-| --- | --- | --- |
-| Activate | No student printing needed | – |
-| Set the Table | KWLS Starter (Preparation); Small Bite 1 A School Song / B Mission Vocabulary (+ Our Vocabulary checkbox); Small Bite 2 A Which Word Fits? / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards. KWLS Starter, School Song Activity and Our Vocabulary show "Coming soon" until published. |
-| Secret Ingredients | Clue Tracker Core and Chapter Notes (included); Clue Tracker Extension (checkbox); Small Bite A Conflict Report / B Character Profile (+ Advanced checkbox) | All five |
-| The Showdown | Step 3 choose one: A Design, B Decorate, C Bake, D Mystery (team cards one per group, plus design sheet or recipe); Step 5 TASTE reflection checkbox | None yet: all its worksheets are unpublished placeholders, so it shows "Materials awaiting review" |
-| Chew On This, Plate It Forward, Celebrate | Materials coming soon (no `lesson.json` yet) | – |
+Unpublished resources remain visible as unavailable; no Drive ID or URL is sent to the browser. No extra lesson lists, inferred rules, or new dependencies are needed.
 
 ## Modes and security
 
