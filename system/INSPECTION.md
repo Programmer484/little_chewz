@@ -18,7 +18,7 @@ Inspection runs **automatically after authorized generated-PDF publication** and
 - The current checksum equals the checksum saved upon approval.
 - The generated-PDF publisher already records publication.artifact_md5 and the audit also compares the current GitHub-generated PDF to it.
 - Approved external files require publication.approved_md5, and slide PDF companions require publication.pdf_md5. These must be recorded at approval, NOT inferred from the current file during inspection.
-- Published Teacher Guide PDFs are downloaded and their **actual hyperlinks** are inspected. References to unpublished resources or absent expected links fail; unregistered links require review.
+- Published Teacher Guide PDFs are downloaded and their **actual hyperlinks** are inspected. Published resources must link to their current `published_url` file ID, not an old holding file ID. References to unpublished resources or missing official links fail; unregistered links require review.
 - **Only published `student_worksheet` PDFs:** download the actual Drive file and confirm **every page is US Letter (8.5 × 11 inches)**, portrait or landscape. A4 or mixed page sizes fail. Other PDF types keep their original page sizes.
 - Dynamic websites and folders have no stable downloadable checksum: treat content as NEEDS REVIEW until an appropriate approved verification method exists.
 
