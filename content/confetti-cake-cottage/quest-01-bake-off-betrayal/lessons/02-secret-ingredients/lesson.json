@@ -14,7 +14,8 @@
   "core": [
     {
       "ref": "ccc-q01-secret-ingredients-slides",
-      "description": "Review slides; test videos"
+      "description": "Review slides; test a video",
+      "title": "Classroom Slideshow"
     },
     {
       "ref": "ccc-q01-secret-ingredients-chapter-one",
