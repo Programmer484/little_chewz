@@ -46,7 +46,18 @@ jobs:
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as out:
               out.write("### Read-only publication inspection\n\n")
               out.write(" | ".join(f"{name}: {count}" for name,count in sorted(counts.items())) + "\n\n")
-              out.write("External content parity is unverified unless independently established. No statuses or Drive files were changed.\n")
+              trashed = [r["resource_id"] for r in report["resources"] if r.get("trash_status") == "trashed"]
+              restricted = [r["resource_id"] for r in report["resources"] if r.get("sharing_status") == "restricted"]
+              unverified = [r["resource_id"] for r in report["resources"]
+                            if "unverified" in (r.get("trash_status"), r.get("sharing_status"))]
+              out.write(f"- In Trash: {len(trashed)}\n")
+              out.write(f"- No anyone-with-link reader permission: {len(restricted)}\n")
+              out.write(f"- Trash/sharing verification incomplete: {len(unverified)}\n\n")
+              for title, ids in (("Trashed", trashed), ("Restricted sharing", restricted),
+                                 ("Verification incomplete", unverified)):
+                  if ids:
+                      out.write(f"**{title}:** " + ", ".join(f"`{rid}`" for rid in ids) + "\n\n")
+              out.write("Sharing checks inspect Drive permission metadata (including inherited permissions), not anonymous-browser access. External content parity remains unverified. No Drive files or catalogue entries were changed.\n")
           PY
 
       - name: Retain inspection report
