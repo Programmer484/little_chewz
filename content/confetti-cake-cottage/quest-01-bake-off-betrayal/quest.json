@@ -18,7 +18,7 @@
     {
       "folder": "00-activate",
       "title": "Activate",
-      "status": "pending_publish",
+      "status": "published",
       "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf.",
       "cover": {
         "source": "Full_Guide_v1.pdf page 1",
@@ -31,7 +31,7 @@
     {
       "folder": "01-set-the-table",
       "title": "Set the Table",
-      "status": "pending_publish",
+      "status": "published",
       "source_note": "Revised Guide pages 5–8; slideshow pages 8–13 in older continuous deck."
     },
     {
