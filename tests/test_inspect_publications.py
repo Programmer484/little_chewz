@@ -165,6 +165,7 @@ class AuditTests(unittest.TestCase):
                         source_targets=t, pdf=data)
         self.assertEqual(result["resources"][0]["checks"]["correct"]["result"],
                          audit.FAIL)
+        self.assertIn("unpublished", result["resources"][0]["checks"]["correct"]["details"]["guide_links"])
 
     def test_published_guide_unregistered_link_requires_review(self):
         import fitz
@@ -174,7 +175,7 @@ class AuditTests(unittest.TestCase):
             "uri": "https://example.org/not-registered"})
         data = doc.tobytes()
         doc.close()
-        guide = item(GUIDE, other={"production_type": "generated_pdf",
+        guide = item(GUIDE, checksum=None, other={"production_type": "generated_pdf",
                                    "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
         t = {"02-secret-ingredients-teacher-guide.pdf": {
             "resource_id": "guide", "kind": "teacher_guide", "data": {}}}
