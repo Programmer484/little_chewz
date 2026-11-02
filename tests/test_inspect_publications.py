@@ -142,6 +142,18 @@ class AuditTests(unittest.TestCase):
                 self.assertEqual(report["resources"][0]["checks"]["correct"]["result"],
                                  expected)
 
+    def test_teacher_guide_and_companion_are_exempt_from_letter_size(self):
+        doc = fitz.open()
+        doc.new_page(width=595.28, height=841.89)
+        a4 = doc.tobytes()
+        doc.close()
+        for resource_type in ("published_export", "teacher_companion", "teacher_reference"):
+            with self.subTest(resource_type=resource_type):
+                result, _ = run({"example": item(KWLS, typ=resource_type)},
+                                {KWLS: meta(KWLS)}, {"example": "official"}, pdf=a4)
+                self.assertEqual(result["resources"][0]["checks"]["correct"]["result"],
+                                 audit.PASS)
+
     def test_slide_pdf_is_not_forced_to_letter(self):
         deck = item(PPTX, typ="slide_deck", other={
             "pdf_url": url(PDF),
