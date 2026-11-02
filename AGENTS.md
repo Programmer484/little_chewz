@@ -281,7 +281,7 @@ The publisher resolves only recorded official targets. Registry build examples: 
 
 ### On-demand inspection
 
-**Actions → Inspect publication** is manual and read-only. It can compare a generated PDF's recorded checksum and Drive metadata or report evidence for an external file, but cannot prove external content parity. It does not publish files or change status.
+**Actions → Inspect published resources** is manual, read-only, and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](system/INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
 
 ### One-time setup
 
@@ -378,7 +378,7 @@ Human approval is a decision, **not another status**. Editing a draft branch nev
 
 **One status owner:** lesson-source status lives in `quest.json.learning_sequence[].status`; linked-resource status and publication records live in `catalog/resources.json[<stable-id>]`. A lesson and a separately published Teacher Guide can legitimately have different status. Stable file URLs do not determine status; verified official placement does. No duplicate status in `lesson.json`, `stage.json` or companion JSON. Preserve established file IDs and slideshow pairing.
 
-Publication procedures, release checks, and the timing of status updates belong exclusively to [PUBLISH.md](system/PUBLISH.md). For generated guides and companions, the publisher automatically blocks release while **any referenced catalogue item** is not `published` with an official URL. This contract defines identity and status, not a release authorization. On-demand inspection is read-only; there is no scripted `/create` engine, scheduled inspector, external checksum system or configured publishing slash command.
+Publication procedures, release checks, and the timing of status updates belong exclusively to [PUBLISH.md](system/PUBLISH.md). For generated guides and companions, the publisher automatically blocks release while **any referenced catalogue item** is not `published` with an official URL. This contract defines identity and status, not a release authorization. On-demand inspection is read-only and checks only published resources using the three-category contract in [INSPECTION.md](system/INSPECTION.md). Externally approved file checksums and official folders must be recorded manually at release; there is no external auto-publisher, scripted `/create` engine, scheduled inspector or configured publishing slash command.
 
 ### Source authority
 
@@ -899,7 +899,7 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
 | `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](system/PUBLISH.md) |
 | `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](system/PUBLISH.md) |
-| `inspect_publications.py` | Manual read-only publication evidence inspection | [PUBLISH.md](system/PUBLISH.md#on-demand-inspection) |
+| `inspect_publications.py` | Read-only Exists/Accessible/Correct audit of published resources and real Teacher Guide links | [PUBLISH.md](system/PUBLISH.md#on-demand-inspection) |
 | `pdf_to_linked_slides.py` | Human-reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 
 PDF previews use `renderers/resource_links.py` to select holding URLs; generated-PDF release builds use published URLs and `publication_checks.py` to reject unpublished dependencies. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
