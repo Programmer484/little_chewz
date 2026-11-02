@@ -138,9 +138,9 @@ Mapping decisions to confirm: Secret Ingredients prints Clue Tracker Core **one 
 
 | Mode | Serves | Use |
 | --- | --- | --- |
-| `disabled` (default in `wrangler.jsonc`) | nothing (503) | safe default for any deployment |
-| `demo` | synthetic fixtures and labelled placeholders; never contacts Google | local demo, public preview |
-| `drive` | real files from Google Drive | pilot |
+| `drive` (default in `wrangler.jsonc`) | real allowlisted files from Google Drive; 503 until the Google key secret is set | the deployed pilot site |
+| `demo` (default in `.dev.vars.example`) | synthetic fixtures and labelled placeholders; never contacts Google | local demo |
+| `disabled` | nothing (503) | switching downloads off |
 
 ### Login (`REQUIRE_ACCESS`)
 
@@ -180,17 +180,16 @@ These are not done yet; they need the project owner's Google and Cloudflare acco
 
 ### 1. Read-only Google Drive access
 
-You can reuse the existing `drive-publisher` service account's project, but create a **separate read-only account** so the pilot site can never write:
+The site uses its own read-only service account, `viewer@little-chewz.iam.gserviceaccount.com`, separate from the `drive-publisher` account GitHub Actions uses, so a leaked site key could never edit files.
 
-1. Google Cloud Console → the existing project (or a new one) → **IAM & Admin → Service Accounts → Create**, e.g. `print-pack-reader`. Skip optional roles.
-2. **Keys → Add key → JSON**. Treat the file like a password.
-3. Make sure the **Google Drive API** is enabled for the project.
-4. In Drive, share **only the student-materials folders** that hold allowlisted worksheets (for Secret Ingredients: `03_STUDENT_MATERIALS / 02_Secret_Ingredients` inside the official pilot folder) with the service account's email as **Viewer**, notifications off. Do not share the holding folder or anything outside the permitted root. This changes Drive sharing, so it needs the owner's explicit go-ahead.
-5. `npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON` and paste the whole key file, then delete the downloaded file.
+1. Google Cloud Console → `little-chewz` project → **IAM & Admin → Service Accounts → Create**. Give it **no** project roles or principals.
+2. **Keys → Add key → JSON**. Treat the file like a password and never commit it.
+3. The **Google Drive API** is already enabled in that project for the publisher.
+4. In Drive, share the official `Confetti Cake Pilot! / 03_STUDENT_MATERIALS` folder with the account's email as **Viewer**, notifications off. Do not share the holding folder or anything outside the permitted root. The allowlist still limits which files the site serves.
 
 To revoke: remove the account from the folder, or delete its key.
 
-### 2. First deploy (workers.dev preview)
+### 2. Deploy (workers.dev)
 
 ```bash
 cd apps/print-pack-builder
@@ -198,11 +197,15 @@ npx wrangler login
 npm run deploy
 ```
 
-This creates `little-chewz-print-pack-builder.<your-subdomain>.workers.dev` with `RESOURCE_MODE=disabled`. For a demo-only preview, set `RESOURCE_MODE` to `demo` (it serves only synthetic files and placeholders).
+This creates `little-chewz-print-pack-builder.<your-subdomain>.workers.dev` in `drive` mode. Until step 3, worksheet downloads answer "Google Drive credentials are not configured".
 
-### 3. Switch on real worksheets
+### 3. Add the Google key
 
-After step 1's secret is set, change `RESOURCE_MODE` to `"drive"` in `wrangler.jsonc` and run `npm run deploy` again. With `REQUIRE_ACCESS: "false"`, anyone with the site address can download packs of the allowlisted (already public) worksheets. Check: open Secret Ingredients in an incognito window and download a pack.
+```bash
+npx wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON < /path/to/key.json
+```
+
+The secret takes effect immediately, with no redeploy. Then delete the key file. With `REQUIRE_ACCESS: "false"`, anyone with the site address can download packs of the allowlisted (already public) worksheets. Check: `https://<site>/api/health` shows `"driveConfigured":true`, then open Secret Ingredients in an incognito window and download a pack.
 
 ### Optional: private login (Cloudflare Access)
 

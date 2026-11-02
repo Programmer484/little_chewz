@@ -17,10 +17,12 @@
   "workers_dev": true,
   "preview_urls": false,
   "vars": {
-    // "disabled" (default, safe): no worksheet bytes are served.
+    // "drive": real allowlisted worksheets from Google Drive. Returns "credentials not
+    //   configured" until the GOOGLE_SERVICE_ACCOUNT_JSON secret is set.
     // "demo": synthetic fixtures and placeholder pages only; no Google access.
-    // "drive": real worksheets from Google Drive; requires Cloudflare Access settings below.
-    "RESOURCE_MODE": "disabled",
+    // "disabled": no worksheet bytes are served.
+    // Local `npm run dev` uses .dev.vars (demo) instead of this value.
+    "RESOURCE_MODE": "drive",
     // "false": no login. Allowed because every allowlisted file is a published Drive file
     // already shared "anyone with the link". Review (holding) files are still refused.
     // Set to "true" and fill in the Access settings below to require a pilot login.
