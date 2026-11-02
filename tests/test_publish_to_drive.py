@@ -125,14 +125,13 @@ class PublishTests(unittest.TestCase):
         self.assertEqual(publication["drive_version"], "8")
         self.assertEqual(report["publication"], publication)
 
-    def test_a4_pdf_is_blocked_before_upload(self):
-        self.pdf.write_bytes(make_pdf(595, 842))
+    def test_a4_generated_teacher_guide_is_allowed(self):
+        self.pdf.write_bytes(make_pdf(595.28, 841.89))
         service = FakeService()
         with patch.object(pub, "current_revision", return_value="a" * 40):
-            with self.assertRaisesRegex(pub.PublishError, "US Letter"):
-                self.run_publish(service)
-        self.assertEqual(service._files.updates, [])
-        self.assertEqual(self.status(), "pending_publish")
+            result = self.run_publish(service)
+        self.assertEqual(result["result"], "replaced in place")
+        self.assertEqual(service._files.updates, [FILE_ID])
 
     def test_dry_run_changes_nothing(self):
         service = FakeService()
