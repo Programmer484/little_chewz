@@ -85,3 +85,19 @@ jobs:
           git add catalog/resources.json
           git commit -m "Mark ${RESOURCE_ID} published after verified Drive replacement"
           git push origin HEAD:main
+
+      - name: Inspect the published resource by default
+        if: ${{ !inputs.dry_run }}
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          RESOURCE_ID: ${{ inputs.resource_id }}
+        run: python scripts/inspect_publications.py --resource-id "$RESOURCE_ID" --report inspection-report.json
+
+      - name: Retain publication inspection
+        if: ${{ always() && !inputs.dry_run }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ inputs.resource_id }}-inspection
+          path: inspection-report.json
+          if-no-files-found: ignore
+          retention-days: 30

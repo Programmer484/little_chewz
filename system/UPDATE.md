@@ -12,6 +12,12 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 
 ## External resources
 
+## Student-facing worksheet PDFs — preserve US Letter
+
+- When updating a resource registered as `student_worksheet`, keep **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- After revising and **before uploading** the replacement review copy, run `python scripts/pdf_page_size.py path/to/worksheet.pdf`. Fix any page-size failures without distorting content.
+- This requirement does **not** apply to Teacher Guides, companions, references, artwork or classroom slide PDFs.
+
 1. Edit using the original creation tool; do not invent a Python renderer or separate per-resource branch.
 2. Replace the same holding Drive file in place where possible; otherwise stage a new review copy in the verified appropriate holding folder.
 3. Verify ID, MIME, size, URL, visuals, text and links. Slide-specific PDF/PPTX review checks are in [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md).

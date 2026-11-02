@@ -15,6 +15,7 @@ from urllib.parse import urlsplit
 
 from publish_to_drive import ROOT, build_pdf, drive_service, load_registry, output_name
 from select_builds import resource_refs, targets
+from pdf_page_size import check_letter
 
 PASS = "PASS"
 FAIL = "FAIL"
@@ -177,6 +178,21 @@ def audit_drive(resource_id: str, resource: dict, part: str, url: str,
                     correctness = check(REVIEW, "Cannot rebuild source PDF: " + str(exc))
             else:
                 correctness = check(PASS, "Checksum matches approved version")
+
+    # Only student-facing worksheets require US Letter dimensions.
+    # Catalogue type, not audience, identifies them: teachers receive and print the worksheets.
+    if resource.get("type") == "student_worksheet" and meta.get("mimeType") == "application/pdf":
+        try:
+            pdf_bytes = service.files().get_media(
+                fileId=file_id, supportsAllDrives=True).execute()
+            if not isinstance(pdf_bytes, bytes):
+                raise RuntimeError("Drive did not return PDF bytes")
+            check_letter(pdf_bytes)
+        except ValueError as exc:
+            correctness = check(FAIL, correctness["reason"] + "; " + str(exc))
+        except Exception as exc:
+            correctness = check(worst(correctness["result"], REVIEW),
+                                correctness["reason"] + "; cannot check page size: " + str(exc))
     return {"exists": existence, "accessible": accessible, "correct": correctness}
 
 
