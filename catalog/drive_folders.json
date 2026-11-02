@@ -49,7 +49,22 @@
   },
   "published": {
     "default_folder_id": null,
-    "by_resource_id": {},
-    "note": "Use the established teacher-facing lesson/quest Drive destination; never infer a target from the holding folder."
+    "by_resource_id": {
+      "ccc-q01-activate-slides": {
+        "main": "12bWX-1riNzgNFd3mQ_PYiKP6USU_35aO",
+        "pdf": "12bWX-1riNzgNFd3mQ_PYiKP6USU_35aO"
+      },
+      "ccc-q01-set-the-table-slides": {
+        "main": "12bWX-1riNzgNFd3mQ_PYiKP6USU_35aO",
+        "pdf": "12bWX-1riNzgNFd3mQ_PYiKP6USU_35aO"
+      },
+      "ccc-q01-secret-ingredients-slides": {
+        "main": "12bWX-1riNzgNFd3mQ_PYiKP6USU_35aO",
+        "pdf": "12bWX-1riNzgNFd3mQ_PYiKP6USU_35aO"
+      },
+      "ccc-q01-secret-ingredients-teacher-guide": "1loTttZ1bqmmGgZtP035p0nuVh7sPaNsY",
+      "ccc-q01-welcome": "1S5i7Lc8XLVwlijJXeX4o-k1FWLTLjFRw"
+    },
+    "note": "Approved official folder IDs, recorded separately from the file's current location; missing baseline means NEEDS REVIEW. Slide decks require both main and PDF entries. Never auto-approve the folder from inspection results."
   }
 }

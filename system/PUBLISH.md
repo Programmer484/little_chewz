@@ -42,7 +42,7 @@ The publisher resolves only recorded official targets. Registry build examples: 
 
 ## On-demand inspection
 
-**Actions → Inspect publication** is manual and read-only. It can compare a generated PDF's recorded checksum and Drive metadata or report evidence for an external file, but cannot prove external content parity. It does not publish files or change status.
+**Actions → Inspect published resources** is manual, read-only, and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
 
 ## One-time setup
 

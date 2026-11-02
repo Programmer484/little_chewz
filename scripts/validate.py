@@ -148,11 +148,18 @@ else:
             value=section.get(key)
             if value is not None and not re.fullmatch(r'[A-Za-z0-9_-]{15,}',str(value)):
                 errors.append(f'catalog/drive_folders.json: invalid {key} {value!r}')
-    for resource_id,folder_id in ((folders.get('published') or {}).get('by_resource_id') or {}).items():
+    for resource_id,folder in ((folders.get('published') or {}).get('by_resource_id') or {}).items():
         if resource_id not in registry:
             errors.append(f'Unknown published folder resource ID: {resource_id}')
-        if not re.fullmatch(r'[A-Za-z0-9_-]{15,}',str(folder_id)):
-            errors.append(f'Invalid published destination folder ID for {resource_id}')
+        if isinstance(folder, dict):
+            if not folder or set(folder) - {'main', 'pdf'} or 'main' not in folder:
+                errors.append(f'Invalid paired published folder mapping for {resource_id}')
+            folder_ids = folder.values()
+        else:
+            folder_ids = (folder,)
+        for folder_id in folder_ids:
+            if not isinstance(folder_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{15,}', folder_id):
+                errors.append(f'Invalid published destination folder ID for {resource_id}')
 
 for path in R.glob('content/**/lessons/**/lesson.draft.json'):
     errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
