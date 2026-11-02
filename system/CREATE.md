@@ -18,6 +18,12 @@
 
 ## New external worksheet, artwork, slide or media
 
+## Student-facing worksheet PDFs — US Letter
+
+- When creating a resource registered as `student_worksheet`, make **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- Before uploading the worksheet to Drive holding, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` and fix any failed pages. Inspect the printed layout; do not stretch A4 content to fit.
+- **Only** student-facing worksheets have this paper-size rule. Do not resize Teacher Guides, companions, references, artwork or classroom slide PDFs.
+
 1. Create the new resource with the original authoring tool (not the repository PDF renderer); register `production_type: external`.
 2. Upload to the matching verified holding category in `catalog/drive_folders.json`, and read back its ID, MIME and URL. Existing legacy Slide PDF originals retain their separate approved review folder until explicitly moved.
 3. Add only catalogue bookkeeping on the lesson branch: `holding_url`, resource identity, source provenance and `status: unpublished`. If no source branch is needed, save the catalogue change through the lesson's ordinary GitHub PR; do not create a resource-specific branch by default.

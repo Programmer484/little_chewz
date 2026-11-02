@@ -20,6 +20,10 @@ Worksheets, posters, external PDFs, media and slides use `production_type: exter
 4. On failure, report the precise blocker. A new file stays `unpublished`; where an older verified release exists but a revision has not been verified, preserve the live record and use `pending_publish` as defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Never invent checksums or assert external content parity without evidence. Prefer automated Drive metadata checks; reserve human incognito testing for access behavior tools cannot prove.
 
 ## First-time generated PDF publication — agent-managed
+### Student worksheet PDF check before external publication
+
+For any `student_worksheet` PDF, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` **before uploading or replacing the official Drive file**. Every page must be US Letter (8.5 × 11 inches), portrait or landscape. This check is for student-facing worksheets **only**; do not change Teacher Guide, companion or slide page sizes. External resources are still published by an agent rather than the generated-PDF publisher.
+
 
 Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID, publication evidence and `published` status. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
 
@@ -40,9 +44,9 @@ For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_G
 
 The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
-## On-demand inspection
+## Automatic publication inspection
 
-**Actions → Inspect published resources** is manual, read-only, and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
+The **authorized release** and **Internal Drive replacement** workflows automatically inspect each newly published resource after saving its verified publication record; a FAIL or NEEDS REVIEW makes that publication workflow red. **Actions → Inspect published resources** remains an optional manual full/targeted check. The inspector is read-only and audits only published resources under three categories: **Exists, Accessible, Correct**. It checks slide PDF/PPTX pairs, public viewing, approved checksums and actual links in published Teacher Guide PDFs. A FAIL or NEEDS REVIEW makes the job red; inspection never changes Drive or catalogue status. See [INSPECTION.md](INSPECTION.md) for the single audit rule set. External approvals must separately record an approved MD5 for each downloadable file and its approved folder (plus the slide PDF MD5); an inspection must never create its own baseline.
 
 ## One-time setup
 

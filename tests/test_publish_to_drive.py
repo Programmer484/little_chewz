@@ -1,5 +1,6 @@
 """Checks for in-place Drive publishing, using a fake Drive service."""
 import hashlib
+import fitz
 import json
 import shutil
 import sys
@@ -12,7 +13,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import publish_to_drive as pub
 
 FILE_ID = "1w-es-VamWXMfCrr34pRbq59a3ASngEbL"
-PDF = b"%PDF-1.4 test document"
+def make_pdf(width=612, height=792):
+    pdf = fitz.open()
+    pdf.new_page(width=width, height=height)
+    data = pdf.tobytes()
+    pdf.close()
+    return data
+
+
+PDF = make_pdf()
 
 
 class FakeRequest:
@@ -115,6 +124,14 @@ class PublishTests(unittest.TestCase):
         self.assertEqual(publication["artifact_md5"], hashlib.md5(PDF).hexdigest())
         self.assertEqual(publication["drive_version"], "8")
         self.assertEqual(report["publication"], publication)
+
+    def test_a4_generated_teacher_guide_is_allowed(self):
+        self.pdf.write_bytes(make_pdf(595.28, 841.89))
+        service = FakeService()
+        with patch.object(pub, "current_revision", return_value="a" * 40):
+            result = self.run_publish(service)
+        self.assertEqual(result["result"], "replaced in place")
+        self.assertEqual(service._files.updates, [FILE_ID])
 
     def test_dry_run_changes_nothing(self):
         service = FakeService()

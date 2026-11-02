@@ -2,7 +2,7 @@
 
 **Scope:** Published catalogue resources only. Drafts and pending publications are skipped. A published Teacher Guide must not link to an unpublished resource.
 
-Run **Actions → Inspect published resources** without an ID for everything, or with a resource ID for one published item. Read-only; the manual workflow audits current main.
+Inspection runs **automatically after authorized generated-PDF publication** and after an **Internal Drive replacement** (non-dry-run). The optional **Actions → Inspect published resources** workflow remains available for a full audit or targeted recheck. Only published resources are audited; the inspector is read-only.
 
 ## EXISTS
 - The exact registered Drive file exists and is not in Trash.
@@ -19,6 +19,7 @@ Run **Actions → Inspect published resources** without an ID for everything, or
 - The generated-PDF publisher already records publication.artifact_md5 and the audit also compares the current GitHub-generated PDF to it.
 - Approved external files require publication.approved_md5, and slide PDF companions require publication.pdf_md5. These must be recorded at approval, NOT inferred from the current file during inspection.
 - Published Teacher Guide PDFs are downloaded and their **actual hyperlinks** are inspected. References to unpublished resources or absent expected links fail; unregistered links require review.
+- **Only published `student_worksheet` PDFs:** download the actual Drive file and confirm **every page is US Letter (8.5 × 11 inches)**, portrait or landscape. A4 or mixed page sizes fail. Other PDF types keep their original page sizes.
 - Dynamic websites and folders have no stable downloadable checksum: treat content as NEEDS REVIEW until an appropriate approved verification method exists.
 
 ## Three results

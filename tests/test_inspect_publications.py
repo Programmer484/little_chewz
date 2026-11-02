@@ -1,5 +1,6 @@
 """One test suite for publication audit: Exists, Accessible, Correct."""
 import hashlib
+import fitz
 import sys
 import tempfile
 import unittest
@@ -13,6 +14,16 @@ PDF = "1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt"
 KWLS = "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK"
 GUIDE = "17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5"
 DIGEST = hashlib.md5(b"original version").hexdigest()
+
+
+def letter_pdf():
+    document = fitz.open()
+    document.new_page(width=612, height=792)
+    data = document.tobytes()
+    document.close()
+    return data
+
+LETTER_PDF = letter_pdf()
 
 
 def url(fid):
@@ -60,7 +71,7 @@ class Drive:
         return Request(self.metadata[fileId])
 
     def get_media(self, fileId, **kwargs):
-        return Request(self.pdf if self.pdf is not None else b"")
+        return Request(self.pdf if self.pdf is not None else LETTER_PDF)
 
     def permissions(self):
         return self
@@ -118,6 +129,47 @@ class AuditTests(unittest.TestCase):
                 self.assertEqual(result["resources"][0]["checks"]["accessible"]["result"],
                                  expected)
 
+    def test_printable_pdf_paper_size(self):
+        doc = fitz.open()
+        doc.new_page(width=595, height=842)
+        a4 = doc.tobytes()
+        doc.close()
+        for payload, expected in [(LETTER_PDF, audit.PASS), (a4, audit.FAIL)]:
+            with self.subTest(expected=expected):
+                report, _ = run({"sheet": item(KWLS)},
+                                {KWLS: meta(KWLS)}, {"sheet": "official"},
+                                pdf=payload)
+                self.assertEqual(report["resources"][0]["checks"]["correct"]["result"],
+                                 expected)
+
+    def test_teacher_guide_and_companion_are_exempt_from_letter_size(self):
+        doc = fitz.open()
+        doc.new_page(width=595.28, height=841.89)
+        a4 = doc.tobytes()
+        doc.close()
+        for resource_type in ("published_export", "teacher_companion", "teacher_reference"):
+            with self.subTest(resource_type=resource_type):
+                result, _ = run({"example": item(KWLS, typ=resource_type)},
+                                {KWLS: meta(KWLS)}, {"example": "official"}, pdf=a4)
+                self.assertEqual(result["resources"][0]["checks"]["correct"]["result"],
+                                 audit.PASS)
+
+    def test_slide_pdf_is_not_forced_to_letter(self):
+        deck = item(PPTX, typ="slide_deck", other={
+            "pdf_url": url(PDF),
+            "publication": {"drive_file_id": PPTX, "approved_md5": DIGEST,
+                            "pdf_md5": DIGEST}})
+        doc = fitz.open()
+        doc.new_page(width=960, height=540)
+        widescreen = doc.tobytes()
+        doc.close()
+        files = {PPTX: meta(PPTX, mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"),
+                 PDF: meta(PDF)}
+        report, _ = run({"slides": deck}, files,
+                        {"slides": {"main": "official", "pdf": "official"}},
+                        pdf=widescreen)
+        self.assertEqual(report["result"], audit.PASS)
+
     def test_checksum_matching(self):
         for digest, expected in [(DIGEST, audit.PASS), ("b" * 32, audit.FAIL)]:
             with self.subTest(digest=digest):
@@ -136,8 +188,9 @@ class AuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as path:
             output = Path(path) / "built.pdf"
             output.write_bytes(b"changed GitHub source")
-            record = item(GUIDE, other={"production_type": "generated_pdf",
-                                        "build": {"renderer": "welcome", "source": "x"}})
+            record = item(GUIDE, typ="published_export",
+                          other={"production_type": "generated_pdf",
+                                 "build": {"renderer": "welcome", "source": "x"}})
             result = audit.audit(
                 {"overview": record},
                 {"published": {"by_resource_id": {"overview": "official"}}},
@@ -149,13 +202,14 @@ class AuditTests(unittest.TestCase):
     def test_published_guide_cannot_link_to_draft(self):
         import fitz
         doc = fitz.open()
-        page = doc.new_page()
+        page = doc.new_page(width=612, height=792)
         page.insert_link({"kind": fitz.LINK_URI,
                           "from": fitz.Rect(10, 10, 100, 25), "uri": url(KWLS)})
         data = doc.tobytes()
         doc.close()
-        guide = item(GUIDE, other={"production_type": "generated_pdf",
-                                   "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
+        guide = item(GUIDE, typ="published_export",
+                     other={"production_type": "generated_pdf",
+                            "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
         draft = item(KWLS, status="unpublished", other={"url": url(KWLS)})
         t = {"02-secret-ingredients-teacher-guide.pdf": {
             "resource_id": "guide", "kind": "teacher_guide",
@@ -175,8 +229,9 @@ class AuditTests(unittest.TestCase):
             "uri": "https://example.org/not-registered"})
         data = doc.tobytes()
         doc.close()
-        guide = item(GUIDE, checksum=None, other={"production_type": "generated_pdf",
-                                   "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
+        guide = item(GUIDE, typ="published_export", checksum=None,
+                     other={"production_type": "generated_pdf",
+                            "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}})
         t = {"02-secret-ingredients-teacher-guide.pdf": {
             "resource_id": "guide", "kind": "teacher_guide", "data": {}}}
         result, _ = run({"guide": guide}, {GUIDE: meta(GUIDE)},
