@@ -179,11 +179,6 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
         if blocked:
             raise PublishError(f"{resource_id}: unpublished linked resources: {', '.join(blocked)}")
     pdf = builder(resource_id, build)
-    from pdf_page_size import check_letter
-    try:
-        check_letter(pdf)
-    except ValueError as exc:
-        raise PublishError(f"{resource_id}: printable PDF must be US Letter: {exc}") from exc
     assert_revision(revision)
     local_md5 = md5(pdf)
     service = service or drive_service()
