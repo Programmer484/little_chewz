@@ -87,17 +87,32 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(audit.audit({"x": external})["result"], audit.REVIEW)
 
     def test_external_drive_skips_permission_check(self):
-        result = audit.audit({"story": item(human_review={U: "pending"})})
-        self.assertEqual(result["result"], audit.REVIEW)
-        self.assertEqual(audit.audit({"story": item(human_review={U: "reviewed"})})["result"], audit.PASS)
+        story = item(review_mode="human", human_review={U: "pending"})
+        self.assertEqual(audit.audit({"story": story})["result"], audit.REVIEW)
+        story["human_review"][U] = "reviewed"
+        self.assertEqual(audit.audit({"story": story})["result"], audit.PASS)
 
-    def test_paired_slides_stop_on_first_failure_but_continue_other_resources(self):
+    def test_human_review_does_not_hide_private_regular_drive_file(self):
+        drive = Drive(public=False)
+        record = item(human_review={U: "reviewed"})
+        self.assertEqual(audit.audit({"worksheet": record}, service=drive)["result"], audit.FAIL)
+        self.assertEqual(drive.requests, [A])
+
+    def test_slide_holding_pdfs_are_never_inspected(self):
+        drive = Drive(public=False)
+        slide = item(type="slide_deck", pdf_url=V, holding_url=V,
+                     human_review={U: "reviewed", V: "reviewed"})
+        report = audit.audit({"slide": slide}, service=drive)
+        self.assertEqual(report["resources"], [])
+        self.assertEqual(drive.requests, [])
+
+    def test_slide_exemption_does_not_skip_other_resources(self):
         slide = item("http://invalid", type="slide_deck", pdf_url=V)
         drive = Drive()
         report = audit.audit({"slide": slide, "second": item()}, service=drive)
-        self.assertEqual(report["result"], audit.FAIL)
+        self.assertEqual(report["result"], audit.PASS)
         self.assertEqual(drive.requests, [A])
-        self.assertEqual(len(report["resources"]), 2)
+        self.assertEqual(len(report["resources"]), 1)
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())

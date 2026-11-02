@@ -28,10 +28,7 @@ def drive_id(url: str) -> str | None:
 
 
 def links(resource: dict) -> list[str]:
-    urls = [resource.get("published_url")]
-    if resource.get("type") == "slide_deck" and resource.get("pdf_url"):
-        urls.append(resource["pdf_url"])
-    return urls
+    return [resource.get("published_url")]
 
 
 def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
@@ -41,12 +38,11 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
     if parsed.scheme != "https" or not parsed.hostname:
         return FAIL, "Invalid HTTPS URL"
 
-    # Approval belongs to the exact URL; a changed link cannot inherit approval.
+    # Human approval is URL-bound; ordinary Drive links still require public sharing.
     review = (resource.get("human_review") or {}).get(url)
-    if review == "reviewed":
-        return PASS, "Human reviewed this URL"
-    if review == "pending" or parsed.hostname not in DRIVE_HOSTS:
-        return REVIEW, "Human review required"
+    if resource.get("review_mode") == "human" or parsed.hostname not in DRIVE_HOSTS:
+        return (PASS, "Human reviewed this URL") if review == "reviewed" else (
+            REVIEW, "Human review required")
 
     file_id = drive_id(url)
     if not file_id:
@@ -92,11 +88,13 @@ def audit(registry: dict, folders=None, service=None, builder=None,
     for rid, resource in registry.items():
         if resource.get("status") != "published" or (only and rid != only):
             continue
+        # Classroom slide PPTX files are human approved; linked PDFs remain holding copies.
+        if resource.get("type") == "slide_deck":
+            continue
         result = PASS
         issues = []
         for url in links(resource):
-            if url and drive_id(url) and \
-                    (resource.get("human_review") or {}).get(url) not in {"pending", "reviewed"}:
+            if url and drive_id(url) and resource.get("review_mode") != "human":
                 if not credentials_checked:
                     credentials_checked = True
                     try:

@@ -81,6 +81,8 @@ for ref,item in registry.items():
             errors.append(f'{ref}: {role} must be HTTPS or null')
     if item.get('status') in {'pending_publish','published'} and not item.get('published_url'):
         errors.append(f'{ref}: live or pending resource needs an established published_url')
+    if item.get('review_mode') not in (None, 'human'):
+        errors.append(f'{ref}: review_mode must be human when set')
     reviews = item.get('human_review')
     if reviews is not None:
         if not isinstance(reviews, dict):
