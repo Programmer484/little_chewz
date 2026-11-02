@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import demoLesson from "../config/demo/lesson.json";
 import demoResources from "../config/demo/resources.json";
-import { deriveManifest, lessonIdFor, ruleFromText, type LessonSource, type RegistryLike } from "../shared/derive.ts";
+import { deriveManifest, lessonIdFor, type LessonSource, type RegistryLike } from "../shared/derive.ts";
 import { allMaterials, validateManifest } from "../shared/manifest.ts";
 import type { LessonManifest } from "../shared/types.ts";
 import { type Registry, trustedDriveFile } from "../worker/catalog.ts";
@@ -30,18 +30,18 @@ const reg: RegistryLike = {
 const guide: LessonSource = {
   core: [
     { ref: "slides", description: "Slides 1–5" },
-    { ref: "prep", description: "One per student" },
+    { ref: "prep", quantity: "per_student", description: "One per student" },
   ],
-  optional_prep: [{ ref: "group", description: "One per group of 3–4" }],
-  bonuses: [{ ref: "bonus", description: "— Word wall" }],
+  optional_prep: [{ ref: "group", quantity: "per_group", description: "One per group of 3–4" }],
+  bonuses: [{ ref: "bonus", quantity: "per_group", description: "— Word wall" }],
   steps: [
     {
       id: 1,
       title: "Hook",
       rows: [
         { kind: "SHOW", text: "Slide 1" } as never,
-        { kind: "GIVE", ref: "sheet", description: "One per student" },
-        { kind: "MORE", links: [{ ref: "ext", description: "+10 min" }, { ref: "key", description: "Teacher reference" }] },
+        { kind: "GIVE", ref: "sheet", quantity: "per_student", description: "One per student" },
+        { kind: "MORE", links: [{ ref: "ext", quantity: "per_student", description: "+10 min" }, { ref: "key", description: "Teacher reference" }] },
       ],
     },
     {
@@ -49,7 +49,7 @@ const guide: LessonSource = {
       title: "Choose One",
       rows: [],
       options: [
-        { label: "A", title: "Cards", rows: [{ kind: "GIVE", links: [{ ref: "group", description: "One per team" }] }] },
+        { label: "A", title: "Cards", rows: [{ kind: "GIVE", links: [{ ref: "group", quantity: "per_group", description: "One per team" }] }] },
         { label: "B", title: "Talk", rows: [{ kind: "DO", text: "Discuss." } as never] },
       ],
     },
@@ -100,15 +100,14 @@ describe("deriveManifest", () => {
     expect(deriveManifest({ questId: "q", folder: "03-b", title: "B", order: 0, source: null }, reg).status).toBe("in_progress");
   });
 
-  it("reads default copies from the guide's wording", () => {
-    expect(ruleFromText("One per student")).toBe("per_student");
-    expect(ruleFromText("One per group of 3–4 for checking")).toBe("per_group");
-    expect(ruleFromText("One per team")).toBe("per_group");
-    expect(ruleFromText("After the video, students pair up to complete questions 1–5.")).toBe("per_student");
-    expect(ruleFromText("One per student choosing Small Bite B")).toBe("per_student");
-    expect(ruleFromText("Display for the class")).toBe("per_class");
-    expect(ruleFromText("")).toBe("per_student");
+  it("uses explicit quantities and rejects missing metadata", () => {
     expect(lessonIdFor("ccc-q01", "02-secret-ingredients")).toBe("ccc-q01-secret-ingredients");
+    const missing: LessonSource = { steps: [{ id: 1, title: "Test", rows: [{ kind: "GIVE", ref: "sheet" }] }] };
+    expect(() => deriveManifest({ questId: "q", folder: "00-test", title: "Test", order: 0, source: missing }, reg))
+      .toThrow(/requires quantity/);
+    const invalid: LessonSource = { steps: [{ id: 1, title: "Test", rows: [{ kind: "GIVE", ref: "sheet", quantity: "per_class" as never }] }] };
+    expect(() => deriveManifest({ questId: "q", folder: "00-test", title: "Test", order: 0, source: invalid }, reg))
+      .toThrow(/requires quantity/);
   });
 });
 

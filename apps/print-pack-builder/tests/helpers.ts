@@ -43,7 +43,7 @@ export const testManifest: LessonManifest = {
       id: "extras",
       title: "Extras",
       items: [
-        { id: "poster", title: "Poster", materials: [{ resourceId: "poster", rule: "per_class" }] },
+        { id: "poster", title: "Poster", materials: [{ resourceId: "poster", rule: "per_group" }] },
         { id: "group-sheet", title: "Group sheet", materials: [{ resourceId: "group-sheet", rule: "per_group" }] },
         { id: "locked", title: "Locked", materials: [{ resourceId: "locked-sheet", rule: "per_student" }] },
         { id: "reuse", title: "Reuse core", materials: [{ resourceId: "core-sheet", rule: "per_group" }] },
