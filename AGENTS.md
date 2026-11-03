@@ -191,7 +191,7 @@ The original inventories and superseded slideshow decisions are in [archive/2026
 
 1. Confirm school, lesson, resource type, **unused stable ID**, source path, and supported build renderer/output.
 2. Author editable JSON and required separate versioned assets on the lesson branch; use the repository renderer, validate, test, and inspect pages and working hyperlinks.
-3. Upload a new **Teacher Guide** PDF under `01_TEACHER_GUIDES/PDF-generated resources`; a generated **companion** belongs under `04_EXTRA_RESOURCES/Other resources`. Use the configured existing holding folder ID, then read back the Drive ID and URL. The special Welcome material retains its established folder routing.
+3. Upload a new **Teacher Guide** PDF under `01_TEACHER_GUIDES/PDF-generated resources`; a generated **companion** belongs under `04_TEACHER_RESOURCES/Other resources`. Use the configured existing holding folder ID, then read back the Drive ID and URL. The special Welcome material retains its established folder routing.
 4. Register `production_type: generated_pdf`, source/build mapping, `holding_url`, and `published_url: null` in `catalog/resources.json`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
 5. Push the lesson branch, open/update its review PR and share the Actions review and holding link. **Stop without publication.**
 
@@ -199,7 +199,7 @@ The original inventories and superseded slideshow decisions are in [archive/2026
 
 ### Student-facing worksheet PDFs — US Letter
 
-- When creating a resource registered as `student_worksheet`, make **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- When creating a resource registered as `student_material`, make **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
 - Before uploading the worksheet to Drive holding, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` and fix any failed pages. Inspect the printed layout; do not stretch A4 content to fit.
 - **Only** student-facing worksheets have this paper-size rule. Do not resize Teacher Guides, companions, references, artwork or classroom slide PDFs.
 
@@ -225,14 +225,14 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 1. Use the existing shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch; only create it from `main` if absent. Reconcile its latest head with `main`. Do not create a separate task branch unless explicitly requested; preserve concurrent edits and never force-push.
 2. Edit authorized JSON/text source and separate required assets; keep the current official file ID, live URL and publication evidence unchanged.
 3. Validate, test, render through the existing repository PDF renderer and inspect the pages and clickable links.
-4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_EXTRA_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
+4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_TEACHER_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
 5. Save source to GitHub, open/update the PR and share the actual Actions run and review copy. A passing build or ordinary merge is not publication.
 
 ### External resources
 
 ### Student-facing worksheet PDFs — preserve US Letter
 
-- When updating a resource registered as `student_worksheet`, keep **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- When updating a resource registered as `student_material`, keep **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
 - After revising and **before uploading** the replacement review copy, run `python scripts/pdf_page_size.py path/to/worksheet.pdf`. Fix any page-size failures without distorting content.
 - This requirement does **not** apply to Teacher Guides, companions, references, artwork or classroom slide PDFs.
 
@@ -344,23 +344,22 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 
 ### Catalogue resource categories
 
-Catalogue `type` describes the **four teacher-facing delivery categories**, not a story genre or file format. It aligns with the published Drive organization:
+Catalogue `type` mirrors the **five published Drive folders**. It represents the delivery destination, not genre, format, or audience.
 
-| `type` | Delivery folder | Included |
+| `type` | Published folder | Included |
 | --- | --- | --- |
-| `teacher_guide` | `01_TEACHER_GUIDES` | Published lesson Teacher Guides |
-| `teacher_resource` | `04_EXTRA_RESOURCES` (or the established Welcome area) | Teacher companions, reference PDFs, lesson stories and letters, media, posters, print-pack links, and Quest Overview |
-| `student_worksheet` | `03_STUDENT_MATERIALS` | Printable student-facing worksheets and activity cards |
-| `slides` | `02_CLASSROOM_SLIDES` | Published lesson PPTX files |
+| `welcome` | `00_WELCOME` | Quest Overview and welcome materials |
+| `teacher_guide` | `01_TEACHER_GUIDES` | Lesson Teacher Guides |
+| `classroom_slides` | `02_CLASSROOM_SLIDES` | Lesson presentation decks |
+| `student_material` | `03_STUDENT_MATERIALS` | Student-facing worksheets and activity cards |
+| `teacher_resource` | `04_TEACHER_RESOURCES` | Teacher companions, answer keys, references, letters, media, posters, and print-pack links |
 
-`type` is **not** a PDF renderer selector. The source remains `production_type` (`generated_pdf` or `external`), with `build` describing the generated output when applicable.
+No `audience` or free-form `tags` fields are stored: the intended usage is clear from the folder category. Only separate technical production metadata remains:
+- `production_type`: `generated_pdf` or `external`.
+- `pdf_template`: `teacher_guide`, `teacher_companion`, or `welcome` for Python-rendered PDFs; `null` for external files and links.
+- `build`: the explicit renderer or output mapping for generated PDFs.
 
-Keep metadata structured rather than adding arbitrary keyword tags:
-- `audience`: `teacher` or `student`, describing the intended reader. Worksheets are `student` even when teachers distribute them.
-- `pdf_template`: `teacher_guide`, `teacher_companion`, or `welcome` for Python-rendered PDFs; `null` for externally authored files, links, media and slides.
-- No free-form `tags` field. Lesson identity comes from the stable resource ID, references and source path, not an extra genre label.
-
-Companion files retain their own `kind` (`questions`, `extension`, `answer_key`, etc.) inside their editable JSON to control the printed masthead; this is independent of catalogue classification. Similarly, `story/*.md` may remain a source directory for raw prose but is not a catalogue resource type.
+Companion source JSON can retain its own `kind` (`questions`, `extension`, `answer_key`) to control the *printed document*, independent of the catalogue category. A `story/*.md` source directory is not a catalogue resource type.
 
 ### Production workflows and delivery states
 
@@ -374,8 +373,7 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | Field | Meaning |
 | --- | --- |
 | Stable object key | Resource identity, independent of filename, Drive ID or title |
-| `type` | Four delivery categories: `teacher_guide`, `teacher_resource`, `student_worksheet`, `slides` |
-| `audience` | Intended reader: `teacher` or `student` |
+| `type` | Five published-folder categories: `welcome`, `teacher_guide`, `classroom_slides`, `student_material`, `teacher_resource` |
 | `pdf_template` | PDF generator template (`teacher_guide`, `teacher_companion`, `welcome`) or `null` for non-generated resources |
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |
