@@ -26,22 +26,25 @@ Each resource has one content owner. Teacher Guides reference resources by stabl
 
 Use lowercase kebab-case for new content filenames and folders, retaining established paths. Lesson order is `00-activate`, `01-set-the-table`, `02-secret-ingredients`, `03-the-showdown`, `04-chew-on-this`, `05-plate-it-forward`, `06-celebrate`. Stable content IDs follow `ccc-q01-<stage>-<slug>`; never use a filename, extension, location, or changing display title as identity. Preserve existing IDs and published Drive file IDs.
 
-## Content types
+## Catalogue resource categories
 
-| Type | Source | Consumer |
+Catalogue `type` describes the **four teacher-facing delivery categories**, not a story genre or file format. It aligns with the published Drive organization:
+
+| `type` | Delivery folder | Included |
 | --- | --- | --- |
-| `lesson` | JSON | Teacher Guide renderer |
-| `teacher_companion` | JSON blocks (question banks, extensions, answer keys) | Companion renderer with the shared resource masthead |
-| `student_worksheet` | Linked or externally authored files | No repository worksheet renderer |
-| `teacher_reference` | Linked or externally authored files | No repository reference renderer |
-| `slide_deck` | Human-reviewed lesson PDF and derived PPTX | `pdf_to_linked_slides.py`; no editable slide JSON renderer |
-| `story` | Markdown | Story/audio workflow |
-| `media` | Registry and external URL | External provider; no repository renderer |
-| `print_pack` | Registry entry linking one lesson in the Print Pack Builder | Teacher Guide Preparation; the app reads guides and the catalogue itself |
-| `visual_asset` | PNG/SVG/JPG and source metadata | Renderers or direct distribution |
-| `published_export` | Generated PDF/PPTX/etc. | Distribution |
+| `teacher_guide` | `01_TEACHER_GUIDES` | Published lesson Teacher Guides |
+| `teacher_resource` | `04_EXTRA_RESOURCES` (or the established Welcome area) | Teacher companions, reference PDFs, lesson stories and letters, media, posters, print-pack links, and Quest Overview |
+| `student_worksheet` | `03_STUDENT_MATERIALS` | Printable student-facing worksheets and activity cards |
+| `slides` | `02_CLASSROOM_SLIDES` | Published lesson PPTX files |
 
-Only maintain templates for resource types with working source-authoring workflows. Linked-only and future types need no placeholder template or renderer. Add checks and a renderer when real sources need them; `scripts/validate.py` owns implemented automatic checks.
+`type` is **not** a PDF renderer selector. The source remains `production_type` (`generated_pdf` or `external`), with `build` describing the generated output when applicable.
+
+Keep metadata structured rather than adding arbitrary keyword tags:
+- `audience`: `teacher` or `student`, describing the intended reader. Worksheets are `student` even when teachers distribute them.
+- `pdf_template`: `teacher_guide`, `teacher_companion`, or `welcome` for Python-rendered PDFs; `null` for externally authored files, links, media and slides.
+- No free-form `tags` field. Lesson identity comes from the stable resource ID, references and source path, not an extra genre label.
+
+Companion files retain their own `kind` (`questions`, `extension`, `answer_key`, etc.) inside their editable JSON to control the printed masthead; this is independent of catalogue classification. Similarly, `story/*.md` may remain a source directory for raw prose but is not a catalogue resource type.
 
 ## Production workflows and delivery states
 
@@ -55,6 +58,9 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | Field | Meaning |
 | --- | --- |
 | Stable object key | Resource identity, independent of filename, Drive ID or title |
+| `type` | Four delivery categories: `teacher_guide`, `teacher_resource`, `student_worksheet`, `slides` |
+| `audience` | Intended reader: `teacher` or `student` |
+| `pdf_template` | PDF generator template (`teacher_guide`, `teacher_companion`, `welcome`) or `null` for non-generated resources |
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |
 | `build` | Required only for generated PDFs, resolved against `scripts/select_builds.py.targets()` |
