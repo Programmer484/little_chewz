@@ -57,7 +57,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
 
    | Changing | Folder guide | Main rules |
    | --- | --- | --- |
-   | Lessons, companions, stories, quest status, Welcome | [content/AGENTS.md](content/AGENTS.md) | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md), [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
+   | Lessons, companions, stories, quest sequence, Welcome | [content/AGENTS.md](content/AGENTS.md) | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md), [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
    | Resource names, links, status, publishing | [catalog/AGENTS.md](catalog/AGENTS.md) | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) (data), [PUBLISH.md](system/PUBLISH.md) (actions) |
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) |
@@ -70,7 +70,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
 ### Non-negotiable boundaries
 
 - Use verified facts, canon, names, dialogue, activities, and resource links. Flag missing or conflicting evidence; never invent a substitute.
-- **Derive** resource states `unpublished`, `pending_publish` and `published` using [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md), never store a resource `status` field. For external resources, a distinct staged holding URL signals pending; for generated PDFs, approved/current MD5 differs. Publishing still needs explicit approval and verification. Lesson editorial status in `quest.json` is separate.
+- **Derive** resource states `unpublished`, `pending_publish` and `published` using [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md), never store a resource `status` field. For external resources, a distinct staged holding URL signals pending; for generated PDFs, approved/current MD5 differs. Publishing still needs explicit approval and verification. Each lesson's publication state derives from its Teacher Guide using the same rules; never store it in `quest.json`.
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
 - Work on the **shared lesson branch** by default (`lesson/<quest-id>-<two-digit-stage>-<stage-slug>`), across all lesson resources and chats. Create separate task branches only on explicit user instruction. Reconcile with the remote head and `main`, never force-push, and preserve unrelated work. External files use their original creation tool and lesson catalogue bookkeeping.
@@ -78,7 +78,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
 
 ### Maintaining instructions
 
-- Treat “from now on” and equivalent requests as lasting rules; keep one-time requests within the task. Record lesson-specific decisions in that lesson's existing source/status metadata.
+- Treat “from now on” and equivalent requests as lasting rules; keep one-time requests within the task. Record lesson-specific editorial decisions in that lesson's existing source notes; publication state remains derived.
 - Find the rule's owner in `START_HERE.md`. Update it there; replace superseded wording and link from other documents instead of copying the rule.
 - State the scope, required behavior, and any necessary exception. Use direct instructions and keep examples only when they clarify a decision.
 - Search for conflicts and stale references. Update affected templates or behavior within the authorized scope; record remaining work explicitly.
@@ -111,7 +111,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [AI_RULES.md](system/AI_RULES.md) | AI routing, non-negotiable boundaries, and how instructions are maintained |
 | [AGENTS.md](AGENTS.md) | **Generated** from every instruction file (`scripts/build_agents_md.py`); auto-loaded by agents and pasteable into chats. Never edit directly. |
 | Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
-| `content/` | Lesson wording, companions, stories, artwork, and lesson delivery status |
+| `content/` | Lesson order, source notes, wording, companions, stories and artwork (no stored lesson publication status) |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Stable IDs, production classification, holding/published URLs, builds and publication records |
 | `catalog/drive_folders.json` | Verified holding folders (including separate Slide PDFs) and official folder configuration |
@@ -137,7 +137,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 
 ### Find a lesson
 
-Follow `catalog/quests.json` → the quest's `quest.json` (lesson status and folder) → `lessons/<stage>/lesson.json` when it exists. An optional short `stage.json` is historical provenance only, not a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
+Follow `catalog/quests.json` → the quest's `quest.json` (lesson order and folder) → `lessons/<stage>/lesson.json` when it exists. Derive each lesson's publication state from its registered Teacher Guide in `catalog/resources.json`, using `python scripts/publication_state.py --lessons`. An optional short `stage.json` is historical provenance only, never a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
 
 Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Derive lifecycle status from official URL / holding URL or generated checksum before publishing: a folder or URL does not prove its latest source is live.
 
@@ -326,7 +326,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 
 | Material | Owning source |
 | --- | --- |
-| Quest facts, lesson sequence, and each lesson's **only lifecycle status** | `content/<school>/<quest>/quest.json` |
+| Quest facts and ordered lesson list (no publication status) | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
 | Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
 | Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
@@ -394,7 +394,7 @@ Compare holding and published **Drive file IDs**, not incidental sharing URL par
 
 **Human approval remains mandatory.** Staging or a checksum change never publishes a resource. The publisher retains the established official file ID, checks Drive read-back, then saves the new approved MD5. External publication records an official link only after verification; clear the holding link after release. For legacy uncertain records, retain explicit verification uncertainty, never invent approval.
 
-**Separate lesson status:** `quest.json.learning_sequence[].status` is the editorial lesson lifecycle and remains stored. Resource publication state is calculated by `scripts/publication_state.py` from `catalog/resources.json`, not stored. A lesson and its Teacher Guide may have different states.
+**Lesson publication is derived from its Teacher Guide.** `quest.json.learning_sequence[]` owns only lesson order, title and provenance—no status or URLs. For each lesson folder, resolve the existing registered generated-PDF `build.output` named `<folder>-teacher-guide.pdf` in `catalog/resources.json` and apply the same `publication_state.py` URL/checksum rules. No Guide or no official Guide URL means `unpublished`; a current Guide checksum differing from the approved MD5 means `pending_publish`. A missing checksum remains a verification uncertainty, not proof of parity. Run `python scripts/publication_state.py --lessons` for the source-built lesson report. Linked worksheets, slides and companions retain their independent derived publication states.
 
 Publishing and initial official-link authorization belong to [PUBLISH.md](system/PUBLISH.md). Generated guides/companions require every linked resource to have an official URL, even if its next version is pending. Inspection checks the existing published destination independently of whether a newer version is staged. There is no external auto-publisher or scheduled inspector.
 
@@ -873,7 +873,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 
 | Editing | Read first |
 | --- | --- |
-| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states). It owns lesson delivery status; branch-only edits do not change it. |
+| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states). It owns lesson sequence and provenance, not publication status. Derive each lesson's state from its registered Teacher Guide resource. |
 | `lessons/<stage>/lesson.json` | [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md), then [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
 | `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) |
@@ -882,7 +882,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 
-Linked resource names, URLs and companion publication evidence live in [catalog/resources.json](catalog/AGENTS.md); resource status is derived rather than stored.
+Linked resource names, URLs, and publication evidence (including each lesson's Teacher Guide) live in [catalog/resources.json](catalog/AGENTS.md); all publication states are derived, never stored.
 
 **Student worksheets print from the guide.** The [Print Pack Builder](apps/AGENTS.md) reads each `lesson.json`: a `student_worksheet` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per group of 3–4`).
 
@@ -899,7 +899,7 @@ After editing, run `python scripts/validate.py` and save through a PR per [WORKF
 - `drive_folders.json` owns four holding category folder IDs mirroring the official Drive layout; existing nested subfolders retain their IDs. Legacy Slide PDF originals remain separate. Never invent file or folder IDs. A holding file is not published **even when its permanent URL will be unchanged**.
 - [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) owns status definitions; **[PUBLISH.md](system/PUBLISH.md) alone owns the actions and verification that permit recording an official `published_url`**. Legacy records can remain explicitly unverified. Add `human_review: {"<exact URL>": "pending"}` for reviewable links; set to `reviewed` only after a human checks that URL. For externally owned Drive files, add `review_mode: "human"`; ordinary Drive links always retain automatic public-permission checks.
 - Published resources always render their `published_url`, in both review and release PDFs. Any external resource (including slides) may have a **distinct newly staged** holding link indicating `pending_publish`; a link to the same Drive file ID is not pending. Existing slide PDF source/reference files stay in `pdf_url`, **not** `holding_url`. The link inspector skips slide decks. Draft previews may use holding links; release builds require every referenced resource to have an official URL. Generated PDFs use approved/current MD5 parity, not holding links.
-- `quests.json` indexes quest manifests; each quest's `quest.json` owns lesson-source delivery status, separate from linked resource status.
+- `quests.json` indexes quest manifests; each quest's `quest.json` owns only lesson order and provenance. Lesson publication state is the derived state of its registered Teacher Guide PDF, not another field.
 
 Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.md) for revisions, and [PUBLISH.md](system/PUBLISH.md) for release; [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) owns slide-specific conversion. Run `python scripts/validate.py` after changes.
 
@@ -929,7 +929,7 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
-| `publication_state.py` | One derived publication-state rule and read-only status report (`python scripts/publication_state.py`) | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
+| `publication_state.py` | One derived publication-state rule and read-only resource/lesson reports (`python scripts/publication_state.py --lessons`) | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
 | `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](system/PUBLISH.md) |
 | `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](system/PUBLISH.md) |
 | `inspect_publications.py` | Read-only Drive permission / exact-URL human-review audit of published resources | [PUBLISH.md](system/PUBLISH.md#on-demand-inspection) |
