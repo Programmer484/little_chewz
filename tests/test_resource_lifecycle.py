@@ -8,7 +8,7 @@ from pathlib import Path
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(SCRIPTS / "renderers"))
-from publication_state import identity, publication_status, status_report
+from publication_state import identity, publication_status, status_report, lesson_status_report
 from resource_links import resolve_url
 from publication_checks import unpublished_references
 
@@ -67,6 +67,42 @@ class ResourceLifecycleTests(unittest.TestCase):
             unchecked = status_report({"guide": record}, builder=build)[0]
             self.assertEqual(unchecked["status"], "published")
             self.assertIn("NEEDS REVIEW", unchecked["checksum_evidence"])
+
+    def test_lessons_use_their_registered_guide_not_quest_flags(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pdf = Path(folder) / "guide.pdf"
+            pdf.write_bytes(b"approved guide")
+            approved = hashlib.md5(pdf.read_bytes()).hexdigest()
+            registry = {
+                "q-activate-teacher-guide": {
+                    "production_type": "generated_pdf",
+                    "build": {"output": "00-activate-teacher-guide.pdf"},
+                    "published_url": OFFICIAL,
+                    "publication": {"artifact_md5": approved},
+                },
+                "q-table-teacher-guide": {
+                    "production_type": "generated_pdf",
+                    "build": {"output": "01-set-the-table-teacher-guide.pdf"},
+                    "published_url": None,
+                },
+            }
+            quest = {"id": "q", "learning_sequence": [
+                {"folder": "00-activate", "title": "Activate", "status": "unpublished"},
+                {"folder": "01-set-the-table", "title": "Set the Table", "status": "published"},
+                {"folder": "02-next", "title": "Next", "status": "published"},
+            ]}
+            index = {"school_index": [{"quest_manifest": "q/quest.json"}]}
+            report = lambda: lesson_status_report(
+                registry, index, lambda _: quest, builder=lambda *_: pdf)
+            rows = report()
+            self.assertEqual([row["status"] for row in rows],
+                             ["published", "unpublished", "unpublished"])
+            self.assertEqual(rows[0]["guide_resource_id"], "q-activate-teacher-guide")
+            self.assertIsNone(rows[2]["guide_resource_id"])
+            pdf.write_bytes(b"changed guide")
+            self.assertEqual(report()[0]["status"], "pending_publish")
+            registry["q-activate-teacher-guide"]["publication"].clear()
+            self.assertIn("NEEDS REVIEW", report()[0]["checksum_evidence"])
 
     def test_release_dependencies_need_official_url_not_a_current_checksum(self):
         target = {"kind": "teacher_guide", "data": {"core": [

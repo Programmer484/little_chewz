@@ -80,12 +80,60 @@ def status_report(registry: dict, *, only: str | None = None, builder=None) -> l
     return result
 
 
+
+def lesson_status_report(registry: dict, quest_index: dict, read_quest, builder=None) -> list[dict]:
+    """Derive each lesson's state from its registered Teacher Guide resource.
+
+    A lesson needs no publication fields in quest.json. Guide build.output is the
+    existing explicit mapping; checksum comparison uses status_report unchanged.
+    """
+    guides = {}
+    for rid, resource in registry.items():
+        build = resource.get("build") or {}
+        output = build.get("output") if resource.get("production_type") == "generated_pdf" else None
+        if output:
+            if output in guides:
+                raise ValueError(f"Duplicate generated PDF output: {output}")
+            guides[output] = rid
+
+    result = []
+    for school in quest_index["school_index"]:
+        quest = read_quest(school["quest_manifest"])
+        for lesson in quest["learning_sequence"]:
+            output = f"{lesson['folder']}-teacher-guide.pdf"
+            rid = guides.get(output)
+            state = status_report(registry, only=rid, builder=builder)[0] if rid else {
+                "status": "unpublished"}
+            result.append({
+                "quest_id": quest["id"],
+                "lesson_folder": lesson["folder"],
+                "lesson_title": lesson["title"],
+                "guide_resource_id": rid,
+                "status": state["status"],
+                **({"checksum_evidence": state["checksum_evidence"]}
+                   if "checksum_evidence" in state else {}),
+            })
+    return result
+
+
 if __name__ == "__main__":
     import argparse
     import json
     from publish_to_drive import load_registry
 
     parser = argparse.ArgumentParser(description="Derived publication status; read-only")
-    parser.add_argument("--resource-id")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--resource-id")
+    group.add_argument("--lessons", action="store_true",
+                       help="Report each lesson's state from its Teacher Guide resource")
     args = parser.parse_args()
-    print(json.dumps(status_report(load_registry(), only=args.resource_id), indent=2))
+    registry = load_registry()
+    if args.lessons:
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        quest_index = json.loads((root / "catalog/quests.json").read_text())
+        read_quest = lambda name: json.loads((root / name).read_text())
+        report = lesson_status_report(registry, quest_index, read_quest)
+    else:
+        report = status_report(registry, only=args.resource_id)
+    print(json.dumps(report, indent=2))

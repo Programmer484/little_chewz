@@ -10,7 +10,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 
 | Material | Owning source |
 | --- | --- |
-| Quest facts, lesson sequence, and each lesson's **only lifecycle status** | `content/<school>/<quest>/quest.json` |
+| Quest facts and ordered lesson list (no publication status) | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
 | Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
 | Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
@@ -78,7 +78,7 @@ Compare holding and published **Drive file IDs**, not incidental sharing URL par
 
 **Human approval remains mandatory.** Staging or a checksum change never publishes a resource. The publisher retains the established official file ID, checks Drive read-back, then saves the new approved MD5. External publication records an official link only after verification; clear the holding link after release. For legacy uncertain records, retain explicit verification uncertainty, never invent approval.
 
-**Separate lesson status:** `quest.json.learning_sequence[].status` is the editorial lesson lifecycle and remains stored. Resource publication state is calculated by `scripts/publication_state.py` from `catalog/resources.json`, not stored. A lesson and its Teacher Guide may have different states.
+**Lesson publication is derived from its Teacher Guide.** `quest.json.learning_sequence[]` owns only lesson order, title and provenance—no status or URLs. For each lesson folder, resolve the existing registered generated-PDF `build.output` named `<folder>-teacher-guide.pdf` in `catalog/resources.json` and apply the same `publication_state.py` URL/checksum rules. No Guide or no official Guide URL means `unpublished`; a current Guide checksum differing from the approved MD5 means `pending_publish`. A missing checksum remains a verification uncertainty, not proof of parity. Run `python scripts/publication_state.py --lessons` for the source-built lesson report. Linked worksheets, slides and companions retain their independent derived publication states.
 
 Publishing and initial official-link authorization belong to [PUBLISH.md](PUBLISH.md). Generated guides/companions require every linked resource to have an official URL, even if its next version is pending. Inspection checks the existing published destination independently of whether a newer version is staged. There is no external auto-publisher or scheduled inspector.
 
