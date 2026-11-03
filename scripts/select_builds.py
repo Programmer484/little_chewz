@@ -37,10 +37,10 @@ def generated_outputs(registry):
     """Explicit stable resource ID mapping for every Python-rendered PDF."""
     result = {}
     for rid, entry in registry.items():
-        if entry.get('production_type') != 'generated_pdf':
+        if not entry.get('pdf'):
             continue
-        build = entry.get('build') or {}
-        name = f'{rid}.pdf' if build.get('renderer') else build.get('output')
+        build = entry.get('pdf') or {}
+        name = build.get('output') or f'{rid}.pdf'
         if not name or not name.endswith('.pdf') or '/' in name:
             raise ValueError(f'{rid}: generated PDF has no valid output mapping')
         if name in result:
@@ -83,11 +83,11 @@ def targets():
                 source=source.relative_to(ROOT).as_posix(), kind='teacher_companion',
                 data=data
             )
-    # Registry entries with `build.renderer` are standalone documents (e.g. the Welcome PDF),
+    # Registry entries with a standalone pdf.source (e.g. Welcome) render independently,
     # output as <resource-id>.pdf. Their whole source folder (icons, cover) is their input.
     for resource_id, record in registry.items():
-        build = record.get('build') or {}
-        if not build.get('renderer'):
+        build = record.get('pdf') or {}
+        if not build.get('source'):
             continue
         source = Path(build['source'])
         data = read_json(source.as_posix())
@@ -95,7 +95,7 @@ def targets():
         if name in result:
             raise ValueError(f'Duplicate output: {name}')
         result[name] = dict(
-            source=source.as_posix(), kind=build['renderer'],
+            source=source.as_posix(), kind=build['template'],
             data=data,
             cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
             folder=source.parent.as_posix()
@@ -128,7 +128,7 @@ def select(changed, base_ref=None):
     refs = changed_registry_ids(base_ref) if registry_changed else set()
     # Navigation resolves current official links, not a second stored status.
     nav_changed = changed_registry_ids(base_ref, ('title', 'published_url')) if registry_changed else set()
-    builds_changed = changed_registry_ids(base_ref, ('build', 'production_type', 'source')) if registry_changed else set()
+    builds_changed = changed_registry_ids(base_ref, ('pdf',)) if registry_changed else set()
     # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
     # This may create extra previews, but cannot miss a new rendering dependency.
     shared = bool(changed & {
