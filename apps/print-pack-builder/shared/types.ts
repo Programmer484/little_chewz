@@ -132,7 +132,9 @@ export interface Selection {
 
 export interface Quantities {
   studentCount: number;
-  /** activity id -> number of groups; otherwise students ÷ the lesson's group size, rounded up. */
+  /** activity id -> students per group; overrides the lesson default. */
+  groupSizes?: Record<string, number | undefined>;
+  /** Legacy direct group-count override, retained for existing callers. */
   groups?: Record<string, number | undefined>;
   /** plan line id -> copies the teacher typed, replacing the default. */
   copies?: Record<string, number | undefined>;
