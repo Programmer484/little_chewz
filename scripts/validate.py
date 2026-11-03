@@ -3,7 +3,7 @@
 from pathlib import Path
 import json,sys,re
 from select_builds import targets, resource_refs, read_json
-from publication_state import publication_status, has_official_version
+from publication_state import has_official_version
 R=Path(__file__).resolve().parents[1]
 def read_registry():
     duplicates = []
