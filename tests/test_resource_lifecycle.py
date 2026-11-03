@@ -10,7 +10,7 @@ sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(SCRIPTS / "renderers"))
 from publication_state import identity, publication_status, status_report, lesson_status_report
 from resource_links import resolve_url
-from publication_checks import unpublished_references
+from publication_checks import referenced_resources, unpublished_references
 
 HOLDING = "https://drive.google.com/file/d/123456789012345678901234/view"
 OFFICIAL = "https://drive.google.com/file/d/abcdefghijklmnopqrstuvwx/view"
@@ -98,6 +98,15 @@ class ResourceLifecycleTests(unittest.TestCase):
             self.assertEqual(report()[0]["status"], "pending_publish")
             registry["q-activate-teacher-guide"]["pdf"].pop("approved_md5")
             self.assertIn("NEEDS REVIEW", report()[0]["checksum_evidence"])
+
+    def test_welcome_navigation_is_a_publication_dependency(self):
+        target = {"kind": "welcome", "data": {"nav": [
+            {"resource": "published"}, {"resource": "not-published"}]}}
+        registry = {"published": {"published_url": OFFICIAL},
+                    "not-published": {"holding_url": HOLDING}}
+        self.assertEqual(referenced_resources(target), {"published", "not-published"})
+        self.assertEqual(unpublished_references(target, registry),
+                         ["not-published (unpublished)"])
 
     def test_release_dependencies_need_official_url_not_a_current_checksum(self):
         target = {"kind": "teacher_guide", "data": {"core": [
