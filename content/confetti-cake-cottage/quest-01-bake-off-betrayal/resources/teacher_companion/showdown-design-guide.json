@@ -16,7 +16,9 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Blank paper for each student; pencils, markers and coloured pencils for each team of 3–4"
+        "Blank paper for each student’s solo sketch; the worksheet is one per team",
+        "One set of pencils, markers and coloured pencils per team, so no team waits to share",
+        "A timer everyone can see; the steps are short"
       ]
     },
     {
@@ -30,36 +32,19 @@
           "title": "Sketch alone",
           "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Each student sketches one idea without talking, or tells you it instead of drawing."
+          "text": "Each student sketches one idea in silence, or tells you it. Say it’s a quick idea, not a finished drawing, and give a one-minute warning."
         },
         {
           "title": "Share ideas",
           "tag": "Guide step 3 · A",
           "mins": "5–8 min",
-          "text": "Each student shows one idea; teammates name one idea to keep."
+          "text": "About a minute each: show the sketch, then teammates name one idea to keep. Time each turn, or the first speaker uses up the slot."
         },
         {
           "title": "Agree and design",
           "tag": "Guide step 3 · A",
           "mins": "15–22 min",
-          "text": "The team draws ONE cupcake on its worksheet, showing at least three teamwork qualities."
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "Tricky parts"
-    },
-    {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "One voice dominates",
-          "text": "Ask who hasn’t added an idea yet; each person names one thing that must stay."
-        },
-        {
-          "term": "Designs sit side by side",
-          "text": "Ask what they can keep from both ideas: one cupcake, not a collage."
+          "text": "The team draws ONE cupcake on its worksheet and labels three teamwork qualities. Keep the solo sketches on the table, and pass the worksheet so each student adds a part. At the halfway point every team should be drawing, not still debating."
         }
       ]
     },
@@ -76,7 +61,7 @@
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, student-resource links and option totals stay there). Covers guide step 2 (5 min) and step 3 · A (20–30 min). Sources: Day 3 The Showdown (v0) Level 1 page (p. 6: purpose, teamwork-quality examples, materials, success criteria); the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, verbal or drawn responses). 'Level 1' renamed Design. A teacher summary with light notes on the trickiest moments. Teams of 3–4 and the tricky-part notes are newly written.",
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, student-resource links and option totals stay there). Covers guide step 2 (5 min) and step 3 · A (20–30 min). Sources: Day 3 The Showdown (v0) Level 1 page (p. 6: purpose, teamwork-quality examples, materials, success criteria); the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, verbal or drawn responses). 'Level 1' renamed Design. A teacher summary with light notes on the trickiest moments. Teams of 3–4 and the timing and logistics notes are newly written.",
   "resource_id": "ccc-q01-showdown-design-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
