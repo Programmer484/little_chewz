@@ -190,8 +190,8 @@ describe("the real Teacher Guides", () => {
     expect(trustedDriveFile(registry["ccc-q01-set-the-table-kwls-starter"])).toMatchObject({ fileId: "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK" });
     expect(trustedDriveFile(registry["ccc-q01-secret-ingredients-teacher-guide"])).toHaveProperty("problem");
     expect(trustedDriveFile(undefined)).toHaveProperty("problem");
-    const mismatched = { ...registry["ccc-q01-secret-ingredients-chapter-notes"], publication: { drive_file_id: "someOtherFileId123" } };
-    expect(trustedDriveFile(mismatched)).toEqual({ problem: "published_url does not match publication.drive_file_id" });
+    const invalidLink = { ...registry["ccc-q01-secret-ingredients-chapter-notes"], published_url: "https://example.com/not-drive" };
+    expect(trustedDriveFile(invalidLink)).toEqual({ problem: "published_url is not a Drive file URL" });
     expect(catalog.lookup("ccc-q01-secret-ingredients-teacher-guide", "drive")).toBeNull();
   });
 });
