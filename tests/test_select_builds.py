@@ -72,7 +72,7 @@ class SelectionTests(unittest.TestCase):
         path = 'catalog/resources.json'
         rid = 'ccc-q01-set-the-table-slides'
         previous = copy.deepcopy(sb.read_json(path))
-        previous[rid]['holding_url'] = "https://example.com/staged"
+        previous['ccc-q01-secret-ingredients-teacher-guide']['pdf']['approved_md5'] = "f" * 32
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), [])
 
