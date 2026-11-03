@@ -120,6 +120,19 @@ def changed_registry_ids(base_ref, fields=('title', 'holding_url', 'published_ur
 
 
 
+def changed_pdf_config_ids(base_ref):
+    """Only generator inputs select new previews; approved checksums are not source edits."""
+    current = read_json('catalog/resources.json')
+    if not base_ref:
+        return set(current)
+    old = json.loads(previous('catalog/resources.json', base_ref))
+    def config(resource):
+        pdf = (resource or {}).get('pdf') or {}
+        return {key: pdf.get(key) for key in ('template','output','source')}
+    return {rid for rid in old.keys() | current.keys()
+            if config(old.get(rid)) != config(current.get(rid))}
+
+
 def select(changed, base_ref=None):
     changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
     registered = targets()
@@ -128,7 +141,7 @@ def select(changed, base_ref=None):
     refs = changed_registry_ids(base_ref) if registry_changed else set()
     # Navigation resolves current official links, not a second stored status.
     nav_changed = changed_registry_ids(base_ref, ('title', 'published_url')) if registry_changed else set()
-    builds_changed = changed_registry_ids(base_ref, ('pdf',)) if registry_changed else set()
+    builds_changed = changed_pdf_config_ids(base_ref) if registry_changed else set()
     # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
     # This may create extra previews, but cannot miss a new rendering dependency.
     shared = bool(changed & {
