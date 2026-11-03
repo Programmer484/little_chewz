@@ -50,11 +50,9 @@ class ReleaseTests(unittest.TestCase):
         ids = [guide, companion]
         marker = self.marker(ids=ids)
         entries = {
-            guide: {"production_type": "generated_pdf", "status": "pending_publish",
-                    "url": "https://drive.google.com/file/d/example/view",
+            guide: {"production_type": "generated_pdf", "published_url": "https://drive.google.com/file/d/example/view",
                     "build": {"output": "02-secret-ingredients-teacher-guide.pdf"}},
-            companion: {"production_type": "generated_pdf", "status": "pending_publish",
-                        "url": "https://drive.google.com/file/d/example/view",
+            companion: {"production_type": "generated_pdf", "published_url": "https://drive.google.com/file/d/example/view",
                         "build": {"output": "questions.pdf"}},
         }
         selected = ["02-secret-ingredients-teacher-guide.pdf", "questions.pdf"]
@@ -85,7 +83,7 @@ class ReleaseTests(unittest.TestCase):
     def test_external_resources_never_enter_auto_publisher(self):
         marker = self.marker(ids=["ccc-q01-slides"])
         with (patch.object(rel, "load_registry", return_value={
-                    "ccc-q01-slides": {"production_type": "external", "status": "published"}}),
+                    "ccc-q01-slides": {"production_type": "external", "published_url": "https://example.org/live"}}),
               patch.object(rel, "targets", return_value={}),
               patch.object(rel, "select", return_value=[]),
               patch.object(rel, "git", return_value="a" * 40),
@@ -95,15 +93,19 @@ class ReleaseTests(unittest.TestCase):
         self.assertFalse(result["generated"])
         self.assertIn("External resources", result["blocked"][0]["reason"])
 
-    def test_failed_release_does_not_mark_resource_published(self):
-        registry = {"ccc-q01-welcome": {"status": "published"}}
-        plan = {"generated": [], "pending": ["ccc-q01-welcome"],
+    def test_failed_release_leaves_registry_evidence_untouched(self):
+        registry = {"ccc-q01-welcome": {
+            "published_url": "https://drive.google.com/file/d/existing/view",
+            "publication": {"artifact_md5": "a" * 32},
+        }}
+        plan = {"generated": [],
                 "blocked": [{"resource_id": "ccc-q01-welcome", "reason": "superseded"}]}
         with (patch.object(rel, "load_registry", return_value=registry),
-              patch.object(rel, "save_registry") as save):
-            rel.run_release(plan)
-        self.assertEqual(registry["ccc-q01-welcome"]["status"], "pending_publish")
-        save.assert_called_once()
+              patch.object(rel, "publish") as publish):
+            result = rel.run_release(plan)
+        self.assertEqual(result, plan)
+        self.assertEqual(registry["ccc-q01-welcome"]["publication"]["artifact_md5"], "a" * 32)
+        publish.assert_not_called()
 
 
 if __name__ == "__main__":
