@@ -20,8 +20,8 @@ def identity(url: str | None) -> str | None:
                 i = parts.index(marker) + 1
                 if i < len(parts) and parts[i]:
                     return "drive:" + parts[i]
-    # Query parameters (share tracking, etc.) are not new drafts.
-    return (p.scheme.lower(), p.netloc.lower(), p.path.rstrip("/"))
+    # For external sites a changed query can actually identify a new media file.
+    return (p.scheme.lower(), p.netloc.lower(), p.path.rstrip("/"), p.query)
 
 
 def has_official_version(resource: dict | None) -> bool:
