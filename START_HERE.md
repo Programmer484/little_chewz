@@ -17,7 +17,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [AI_RULES.md](system/AI_RULES.md) | AI routing, non-negotiable boundaries, and how instructions are maintained |
 | [AGENTS.md](AGENTS.md) | **Generated** from every instruction file (`scripts/build_agents_md.py`); auto-loaded by agents and pasteable into chats. Never edit directly. |
 | Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
-| `content/` | Lesson wording, companions, stories, artwork, and lesson delivery status |
+| `content/` | Lesson order, source notes, wording, companions, stories and artwork (no stored lesson publication status) |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Stable IDs, production classification, holding/published URLs, builds and publication records |
 | `catalog/drive_folders.json` | Verified holding folders (including separate Slide PDFs) and official folder configuration |
@@ -43,7 +43,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 
 ## Find a lesson
 
-Follow `catalog/quests.json` → the quest's `quest.json` (lesson status and folder) → `lessons/<stage>/lesson.json` when it exists. An optional short `stage.json` is historical provenance only, not a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
+Follow `catalog/quests.json` → the quest's `quest.json` (lesson order and folder) → `lessons/<stage>/lesson.json` when it exists. Derive each lesson's publication state from its registered Teacher Guide in `catalog/resources.json`, using `python scripts/publication_state.py --lessons`. An optional short `stage.json` is historical provenance only, never a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
 
 Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Derive lifecycle status from official URL / holding URL or generated checksum before publishing: a folder or URL does not prove its latest source is live.
 
