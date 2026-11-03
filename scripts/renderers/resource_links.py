@@ -1,9 +1,6 @@
 """Select official URLs for any released resource; draft links are preview-only."""
-from publication_state import has_official_version
-
-
 def resolve_url(record: dict, release: bool = False) -> str | None:
-    if has_official_version(record):
+    if record.get("published_url"):
         return record["published_url"]
     if release:
         return None
