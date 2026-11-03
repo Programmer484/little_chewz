@@ -4,7 +4,7 @@
  *   catalog/quests.json -> each quest.json -> learning_sequence -> lessons/<folder>/lesson.json
  *
  * and resolves which worksheets may be downloaded. A worksheet is downloadable
- * when a lesson.json links it, the catalogue types it `student_worksheet`, its
+ * when a lesson.json links it, the catalogue types it `student_material`, its
  * published_url names a valid official Drive file. A staged draft does not
  * hide the existing official version. There is no
  * separate allowlist. Drive file IDs stay here; the browser only receives
@@ -55,7 +55,7 @@ export function driveFileId(url: string | null | undefined): string | null {
 /** Trusted Drive file ID for a printable resource, or the reason it cannot be downloaded. */
 export function trustedDriveFile(record: RegistryRecord | undefined): { fileId: string } | { problem: string } {
   if (!record) return { problem: "not in catalog/resources.json" };
-  if (record.type !== PRINTABLE_TYPE) return { problem: `type ${record.type} is not a student worksheet` };
+  if (record.type !== PRINTABLE_TYPE) return { problem: `type ${record.type} is not a student material` };
   // A live official worksheet stays downloadable even when a new draft is pending.
   // Publication state is derived, never read from a stored status field.
   const id = driveFileId(record.published_url);
