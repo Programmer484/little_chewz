@@ -43,6 +43,18 @@ class TeacherCompanionRendererTest(unittest.TestCase):
                           {'type': 'heading', 'text': 'Tip'}, {'type': 'paragraph', 'text': 'One line.'}]
         self.assertTrue(self.render(data).startswith(b'%PDF'))
 
+    def test_pairs_details_render(self):
+        data = self.template()
+        data['blocks'] = [{'type': 'heading', 'text': 'Choose one'},
+                          {'type': 'pairs', 'items': [{'term': 'A · Design', 'details': [
+                              ['Time', '20–30 min'], ['Prepare', 'A longer line of preparation that wraps ' * 3]]}]}]
+        self.assertTrue(self.render(data).startswith(b'%PDF'))
+
+    def test_option_overview_template_renders(self):
+        data = json.loads((ROOT / 'templates/option_overview/TEMPLATE.json').read_text())
+        data['_base'] = str(QUEST / 'resources/teacher_companion')
+        self.assertTrue(self.render(data).startswith(b'%PDF'))
+
     def test_option_adds_section_suffix(self):
         data = self.template()
         data['option'] = 'b'

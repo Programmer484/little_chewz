@@ -10,6 +10,7 @@
     "Every option meets the same learning outcomes"
   ],
   "stage": "00-activate",
+  "intro": "Optional: one or two sentences on the option we encourage, and why.",
   "blocks": [
     {
       "type": "heading",
@@ -19,8 +20,33 @@
       "type": "pairs",
       "items": [
         {
-          "term": "A · Name · time",
-          "text": "Its key restriction, then its main prep."
+          "term": "A · Name",
+          "details": [
+            [
+              "Time",
+              "Challenge time; whole lesson time"
+            ],
+            [
+              "Food",
+              "What food, if any"
+            ],
+            [
+              "Needs",
+              "Space, equipment and adult help"
+            ],
+            [
+              "Prepare",
+              "What to buy or set up, and when"
+            ],
+            [
+              "Result",
+              "What students end up with"
+            ],
+            [
+              "Clean-up",
+              "How much"
+            ]
+          ]
         }
       ]
     },
@@ -28,14 +54,6 @@
       "type": "callout",
       "title": "Safety first",
       "text": "Only when an option involves food, ovens or hot equipment: the checks to make before choosing it. Delete otherwise."
-    },
-    {
-      "type": "heading",
-      "text": "Why try …"
-    },
-    {
-      "type": "paragraph",
-      "text": "Optional: one or two sentences on the option we encourage, and why."
     }
   ],
   "source_note": "Option overview skeleton: one page that helps a teacher choose between a lesson's lettered options. Holds only restrictions, prep and choosing notes; how each option runs lives in its activity guide. See the Option overviews section of system/RESOURCE_GUIDELINES.md."

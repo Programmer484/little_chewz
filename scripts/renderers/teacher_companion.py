@@ -67,6 +67,9 @@ CHECK_GAP = 9.0                               # whitespace between checklist row
 MARK_W = 12.0                                 # marker column: checklist text aligns with 2-digit numbers
 TERM_W = 128.0                                # `pairs` term column; text starts TERM_GAP after it
 TERM_GAP = 14.0
+DETAIL_LABEL_W = 78.0                         # `pairs` details: label column inside the text column
+DETAIL_GAP = 3.0                              # extra space between detail lines
+DETAIL_TERM_W = 92.0                          # `pairs` term column when rows carry details (short option names)
 TAG_SIZE = 6.8                                # grey tracked-caps tag after a step title
 PROMPT_RULE = 1.6                             # accent rule beside teacher prompts
 PROMPT_INSET = 11.0                           # prompt text inset from its rule
@@ -220,20 +223,34 @@ class NumberedRow(Flowable):
 
 
 class PairRow(Flowable):
-    """Bold term in a fixed left column, explanation beside it; hairline between rows."""
+    """Bold term in a fixed left column, explanation beside it; hairline between rows.
 
-    def __init__(self, term, text, separator=None):
+    Instead of `text`, an item may give `details`: [label, text] lines, each starting on
+    its own line with the labels in an aligned grey column (e.g. Time, Food, Prepare).
+    """
+
+    def __init__(self, term, text, separator=None, details=None):
         super().__init__()
         self.term, self.text, self.separator = term, text, separator
+        self.details = [tuple(d) for d in (details or [])]
 
     def wrap(self, avail_w, avail_h):
         self.width_avail = avail_w
         at_top = getattr(getattr(self, "_frame", None), "_atTop", False)
         self.lead_in = 0 if (at_top or not self.separator) else 2 * RULE_GAP
-        self.term_lines = simpleSplit(self.term, "LC-Bold", SIZE, TERM_W)
-        self.lines = simpleSplit(self.text, "LC-Regular", SIZE, avail_w - TERM_W - TERM_GAP)
-        rows = max(len(self.term_lines), len(self.lines))
-        self.body = CAP + (rows - 1) * LEAD + DESC
+        self.term_w = DETAIL_TERM_W if self.details else TERM_W
+        self.term_lines = simpleSplit(self.term, "LC-Bold", SIZE, self.term_w)
+        col_w = avail_w - self.term_w - TERM_GAP
+        if self.details:
+            self.detail_lines = [(label, simpleSplit(text, "LC-Regular", SIZE, col_w - DETAIL_LABEL_W))
+                                 for label, text in self.details]
+            count = sum(len(lines) for _, lines in self.detail_lines)
+            gaps = DETAIL_GAP * (len(self.detail_lines) - 1)
+        else:
+            self.lines = simpleSplit(self.text, "LC-Regular", SIZE, col_w)
+            count, gaps = len(self.lines), 0
+        rows = max(len(self.term_lines), count)
+        self.body = CAP + (rows - 1) * LEAD + DESC + (gaps if count >= len(self.term_lines) else 0)
         self.height = self.lead_in + self.body
         return avail_w, self.height
 
@@ -242,13 +259,27 @@ class PairRow(Flowable):
         if self.lead_in:
             c.setStrokeColor(HAIR); c.setLineWidth(0.6)
             c.line(0, self.body + RULE_GAP, self.width_avail, self.body + RULE_GAP)
-        for x, font, lines in ((0, "LC-Bold", self.term_lines),
-                               (TERM_W + TERM_GAP, "LC-Regular", self.lines)):
-            base = self.body - CAP
-            c.setFont(font, SIZE); c.setFillColor(INK)
-            for line in lines:
+        base = self.body - CAP
+        c.setFont("LC-Bold", SIZE); c.setFillColor(INK)
+        for line in self.term_lines:
+            c.drawString(0, base, line)
+            base -= LEAD
+        x = self.term_w + TERM_GAP
+        base = self.body - CAP
+        if not self.details:
+            c.setFont("LC-Regular", SIZE)
+            for line in self.lines:
                 c.drawString(x, base, line)
                 base -= LEAD
+            return
+        for label, lines in self.detail_lines:
+            c.setFont("LC-Bold", SIZE); c.setFillColor(MID)
+            c.drawString(x, base, label)
+            c.setFont("LC-Regular", SIZE); c.setFillColor(INK)
+            for line in lines:
+                c.drawString(x + DETAIL_LABEL_W, base, line)
+                base -= LEAD
+            base -= DETAIL_GAP
 
 
 class Callout(Flowable):
@@ -417,7 +448,8 @@ def generator(data, output, registry=None):
                                          separator=None if i == 0 else "tight"))
             story.append(Gap(1, 26))
         elif typ == "pairs":
-            rows = [PairRow(item["term"], item["text"], separator=None if i == 0 else "rule")
+            rows = [PairRow(item["term"], item.get("text", ""), separator=None if i == 0 else "rule",
+                            details=item.get("details"))
                     for i, item in enumerate(block.get("items", []))]
             heading = [story.pop()] if story and isinstance(story[-1], GroupLabel) else []
             # A short table moves to the next page whole, with its heading, rather than splitting.
