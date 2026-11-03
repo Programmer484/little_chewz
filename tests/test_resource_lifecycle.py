@@ -1,12 +1,14 @@
 """Single derived resource lifecycle, independent of inspector health."""
 import sys
+import hashlib
+import tempfile
 import unittest
 from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(SCRIPTS / "renderers"))
-from publication_state import identity, publication_status
+from publication_state import identity, publication_status, status_report
 from resource_links import resolve_url
 from publication_checks import unpublished_references
 
@@ -45,6 +47,26 @@ class ResourceLifecycleTests(unittest.TestCase):
                          "published")  # Missing baseline is inspection's NEEDS REVIEW.
         self.assertEqual(publication_status({**record, "published_url": None}, "b" * 32),
                          "unpublished")
+
+    def test_generated_status_report_compares_real_current_pdf_bytes(self):
+        with tempfile.TemporaryDirectory() as folder:
+            pdf = Path(folder) / "current.pdf"
+            pdf.write_bytes(b"first build")
+            approved = hashlib.md5(b"first build").hexdigest()
+            record = {"production_type": "generated_pdf", "published_url": OFFICIAL,
+                      "build": {"output": "guide.pdf"},
+                      "publication": {"artifact_md5": approved}}
+            build = lambda *_: pdf
+            self.assertEqual(status_report({"guide": record}, builder=build)[0]["status"],
+                             "published")
+            pdf.write_bytes(b"revised build")
+            updated = status_report({"guide": record}, builder=build)[0]
+            self.assertEqual(updated["status"], "pending_publish")
+            self.assertEqual(updated["checksum_evidence"], "changed")
+            record["publication"] = {}
+            unchecked = status_report({"guide": record}, builder=build)[0]
+            self.assertEqual(unchecked["status"], "published")
+            self.assertIn("NEEDS REVIEW", unchecked["checksum_evidence"])
 
     def test_release_dependencies_need_official_url_not_a_current_checksum(self):
         target = {"kind": "teacher_guide", "data": {"core": [
