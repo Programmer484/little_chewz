@@ -44,8 +44,16 @@ def check_ref(ref,source):
 for ref,item in registry.items():
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ref):
         errors.append(f'{ref}: resource ID must be stable lowercase kebab-case')
-    if not isinstance(item.get('type'),str) or not item['type']:
-        errors.append(f'{ref}: missing established resource type')
+    category = item.get('type')
+    if category not in {'teacher_guide', 'teacher_resource', 'student_worksheet', 'slides'}:
+        errors.append(f'{ref}: type must match one of the four delivery folders')
+    audience = item.get('audience')
+    if audience not in {'teacher', 'student'}:
+        errors.append(f'{ref}: audience must be teacher or student')
+    elif audience != ('student' if category == 'student_worksheet' else 'teacher'):
+        errors.append(f'{ref}: audience does not match intended delivery category')
+    if 'tags' in item:
+        errors.append(f'{ref}: obsolete free-form tags; use type, audience and pdf_template')
     production = item.get('production_type')
     if production not in {'generated_pdf','external'}:
         errors.append(f'{ref}: explicit production_type must be generated_pdf or external')
@@ -62,6 +70,16 @@ for ref,item in registry.items():
     elif source['kind']=='external_original' and source.get('url') and not source['url'].startswith('https://'):
         errors.append(f'{ref}: external original URL must use HTTPS')
     build = item.get('build')
+    template = item.get('pdf_template', '__missing__')
+    if template not in (None, 'teacher_guide', 'teacher_companion', 'welcome'):
+        errors.append(f'{ref}: unsupported pdf_template')
+    if production == 'external' and template is not None:
+        errors.append(f'{ref}: external resources cannot claim a generated PDF template')
+    if production == 'generated_pdf':
+        expected_template = (build.get('renderer') if isinstance(build,dict) and build.get('renderer')
+                             else 'teacher_guide' if category == 'teacher_guide' else 'teacher_companion')
+        if template != expected_template:
+            errors.append(f'{ref}: pdf_template must match generated renderer {expected_template!r}')
     if production=='generated_pdf':
         if not isinstance(source,dict) or source.get('kind')!='github':
             errors.append(f'{ref}: generated PDFs must have GitHub editable source')
