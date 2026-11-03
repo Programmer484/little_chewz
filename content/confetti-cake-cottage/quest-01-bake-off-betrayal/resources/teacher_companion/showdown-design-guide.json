@@ -8,12 +8,12 @@
     "40–50 min total",
     "Teams of 3–4"
   ],
-  "intro": "Teams turn solo sketches into one shared cupcake design, then explain one decision they made together.",
+  "intro": "Teams combine solo sketches into one paper cupcake that shows the qualities of a strong team.",
   "blocks": [
     {
       "type": "callout",
       "title": "One cupcake. Many ideas.",
-      "text": "Create ONE shared cupcake design that shows teamwork."
+      "text": "Design ONE team cupcake that represents teamwork, communication and creativity."
     },
     {
       "type": "heading",
@@ -23,8 +23,8 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Print the Print Pack: one Design Challenge Card per team; Design Your Cupcake Worksheet, page 1 per student and page 2 per team",
-        "Pencils, erasers and colouring materials",
+        "Print the Print Pack: one Design Challenge Card per team; Design Your Cupcake Worksheet, page 1 per student and page 2 per team (blank paper also works)",
+        "Pencils, markers and coloured pencils; erasers",
         "A timer the class can see",
         "Tables for teams of 3–4, with room for every solo sketch and one team page in the middle"
       ]
@@ -46,7 +46,7 @@
           "title": "Sketch alone",
           "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Students draw on page 1 without talking. Drawings, symbols and labels all count."
+          "text": "Students draw on page 1 without talking. Symbols, colours, words and illustrations all count."
         },
         {
           "title": "Share ideas",
@@ -58,7 +58,7 @@
           "title": "Agree and draw",
           "tag": "Guide step 3 · A",
           "mins": "18–20 min",
-          "text": "The team draws ONE cupcake on page 2, labels three teamwork qualities, and completes the Shared Decision box.",
+          "text": "The team draws ONE cupcake on page 2, shows at least three teamwork qualities, and completes the Shared Decision box.",
           "prompts": [
             "What can we keep from both ideas?",
             "Who hasn’t added an idea yet?"
@@ -87,34 +87,41 @@
       "style": "check",
       "items": [
         "Every student sketches alone before team talk.",
-        "The team design keeps at least one idea from each solo sketch.",
-        "The team draws ONE agreed cupcake, not separate designs side by side.",
-        "Three teamwork qualities are named or drawn.",
-        "The team explains one choice it made together, and why."
+        "The team draws ONE agreed cupcake that keeps at least one idea from each solo sketch.",
+        "The design includes at least three teamwork qualities, named or drawn.",
+        "The team can explain the meaning behind its design and one choice it made together."
       ]
     },
     {
+      "type": "note",
+      "text": "Teamwork qualities students might show: communication, inclusion, creativity, trust, collaboration. The activity is an example; adapt materials or format to fit your class."
+    },
+    {
+      "type": "spacer",
+      "points": 10
+    },
+    {
       "type": "heading",
-      "text": "Signs of real negotiation"
+      "text": "What to look for"
     },
     {
       "type": "pairs",
       "items": [
         {
-          "term": "Building on",
-          "text": "A student adds to a teammate’s idea instead of replacing it."
+          "term": "Participation",
+          "text": "Every student adds an idea from their sketch, not only the loudest voice."
         },
         {
-          "term": "Trading",
+          "term": "Communication",
+          "text": "Teammates ask about each other’s sketches and build on ideas instead of replacing them."
+        },
+        {
+          "term": "Cooperation",
           "text": "The team gives up one idea to keep another, and says why."
         },
         {
-          "term": "Including",
-          "text": "Someone asks a quieter teammate for an idea."
-        },
-        {
-          "term": "Disagreeing kindly",
-          "text": "A student disagrees and offers an alternative."
+          "term": "Adapting",
+          "text": "The team changes its plan when an idea does not fit, without starting over."
         }
       ]
     },
@@ -157,7 +164,7 @@
       ]
     }
   ],
-  "source_note": "PROTOTYPE 2026-11-03 for template review. Adapted from the 2026-11-01 Drive review batch (A_Design_Teacher_Guide_REVIEW.pdf, A_Design_Challenge_Card_REVIEW.pdf, A_Design_Worksheet_REVIEW.pdf), the Showdown guide option A summary, and the user's task spec (3–5 min solo sketch). Not yet checked against the v0 Full Guide Showdown pages (pp. 46–62), which were not available. Signs-of-negotiation and stuck-team wording is newly authored and needs human review.",
+  "source_note": "PROTOTYPE 2026-11-03 for template review. Sources: Day 3 The Showdown (v0) Level 1 Design Challenge page, card and worksheet (mission wording, materials, teamwork-quality examples, success criteria, assessment look-for headings, teacher tip); the 2026-11-01 Drive review batch (A_Design_Teacher_Guide_REVIEW.pdf, A_Design_Challenge_Card_REVIEW.pdf, A_Design_Worksheet_REVIEW.pdf); the Showdown guide option A summary; and the user's task spec (3–5 min solo sketch, one team design, one shared decision). 'Level 1' renamed Design. Look-for and stuck-team explanations are newly written and need human review.",
   "resource_id": "ccc-q01-showdown-design-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
