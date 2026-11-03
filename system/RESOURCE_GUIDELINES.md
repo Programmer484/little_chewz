@@ -38,7 +38,7 @@ A Teacher Guide that offers lettered activity options (such as the Showdown's A�
 
 ## Option overviews
 
-A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing: an optional `intro` on the option we encourage and why; one `pairs` row per option whose `details` answer a teacher's usual questions, one per line (Time, Food, Needs, Prepare, Result, Clean-up); and a `Safety first` callout when any option involves food, ovens or hot equipment. It holds nothing about running an option; that lives in the activity guides.
+A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing: an optional `intro` on the option we encourage and why; one `table` comparing the options at a glance (time, team size, food, oven, and prep effort and clean-up as Low / Medium / High), each row followed by a one-line note on its main preparation step; and a `Safety first` callout when any option involves food, ovens or hot equipment. It holds nothing about running an option; that lives in the activity guides.
 
 ## Source and generation
 
@@ -51,7 +51,8 @@ Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optio
 | `checklist` | `style: "box"` for prep and materials; `style: "check"` for success criteria or look-fors | Unnumbered rows with a box or tick in the number column |
 | `steps` | Ordered teacher actions; items take `title`, `text`, and optionally `mins`, `tag`, `prompts` | Numbered rows; `mins` right-aligned, `tag` in grey caps after the title (e.g. `Guide step 3`), `prompts` as italic teacher lines beside an accent rule, without quotation marks |
 | `questions`, `answers` | Question banks and answer keys | Numbered rows with hairline dividers |
-| `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`); or `details`, a list of `[label, text]` lines | Bold term column with the explanation beside it, hairline dividers; `details` put each labelled fact on its own line with aligned grey labels |
+| `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`) | Bold term column with the explanation beside it, hairline dividers |
+| `table` | Comparing options at a glance (`columns`, then `rows` of `cells` and an optional one-line `note`) | Grey column labels, a bold first column, hairline dividers; each note in grey under its row; kept on one page |
 | `bullets`, `paragraph`, `note` | Plain lists, body text, small grey notes | Body or grey text |
 | `links` | Registry resources by `ref`, with a short `description` | Bold underlined title and grey description |
 | `image`, `spacer` | A comprehension-aiding illustration; a rare extra gap. Sections space themselves, so never use `spacer` for layout | |

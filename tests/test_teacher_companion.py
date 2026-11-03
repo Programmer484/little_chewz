@@ -43,12 +43,15 @@ class TeacherCompanionRendererTest(unittest.TestCase):
                           {'type': 'heading', 'text': 'Tip'}, {'type': 'paragraph', 'text': 'One line.'}]
         self.assertTrue(self.render(data).startswith(b'%PDF'))
 
-    def test_pairs_details_render(self):
+    def test_table_renders_and_checks_cell_count(self):
         data = self.template()
-        data['blocks'] = [{'type': 'heading', 'text': 'Choose one'},
-                          {'type': 'pairs', 'items': [{'term': 'A · Design', 'details': [
-                              ['Time', '20–30 min'], ['Prepare', 'A longer line of preparation that wraps ' * 3]]}]}]
+        table = {'type': 'table', 'columns': ['Challenge', 'Time', 'Prep'],
+                 'rows': [{'cells': ['A · Design', '20–30 min', 'Low'], 'note': 'A one-line note that is long enough to wrap ' * 3}]}
+        data['blocks'] = [{'type': 'heading', 'text': 'Choose one'}, table]
         self.assertTrue(self.render(data).startswith(b'%PDF'))
+        table['rows'].append({'cells': ['B · Decorate', '30–45 min']})
+        with self.assertRaises(ValueError):
+            self.render(data)
 
     def test_option_overview_template_renders(self):
         data = json.loads((ROOT / 'templates/option_overview/TEMPLATE.json').read_text())

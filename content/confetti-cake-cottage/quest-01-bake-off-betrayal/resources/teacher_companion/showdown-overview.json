@@ -10,118 +10,71 @@
   "intro": "Students enjoy the food challenges most, and we are keen to learn how cooking together shapes their experience. If your school allows it, we encourage Decorate, Bake or Mystery.",
   "blocks": [
     {
-      "type": "heading",
-      "text": "Choose one"
-    },
-    {
-      "type": "pairs",
-      "items": [
+      "type": "table",
+      "columns": [
+        "Challenge",
+        "Time",
+        "Team",
+        "Food",
+        "Oven",
+        "Prep",
+        "Clean-up"
+      ],
+      "rows": [
         {
-          "term": "A · Design",
-          "details": [
-            [
-              "Time",
-              "20–30 min; whole lesson about 35–45 min"
-            ],
-            [
-              "Food",
-              "None"
-            ],
-            [
-              "Needs",
-              "Teams of 2–3 at tables; no kitchen or oven"
-            ],
-            [
-              "Prepare",
-              "Print the cards and worksheets; gather paper and colouring supplies"
-            ],
-            [
-              "Result",
-              "One paper cupcake design per team"
-            ],
-            [
-              "Clean-up",
-              "Minimal"
-            ]
-          ]
+          "cells": [
+            "A · Design",
+            "20–30 min",
+            "2–3",
+            "None",
+            "No",
+            "Low",
+            "Low"
+          ],
+          "note": "Paper only. Print the cards and worksheets; gather paper and colouring supplies."
         },
         {
-          "term": "B · Decorate",
-          "details": [
-            [
-              "Time",
-              "30–45 min; whole lesson about 45–60 min"
-            ],
-            [
-              "Food",
-              "Premade cupcakes and frosting; a craft backup with no food"
-            ],
-            [
-              "Needs",
-              "Teams of 2–3; no oven; hand-washing, plates and wipes"
-            ],
-            [
-              "Prepare",
-              "Buy cupcakes the day before, one per student or one per team"
-            ],
-            [
-              "Result",
-              "Decorated cupcakes to eat, take home or display"
-            ],
-            [
-              "Clean-up",
-              "Moderate: frosting and sticky tables"
-            ]
-          ]
+          "cells": [
+            "B · Decorate",
+            "30–45 min",
+            "2–3",
+            "Premade",
+            "No",
+            "Medium",
+            "Medium"
+          ],
+          "note": "Buy cupcakes and frosting the day before; a craft version works if food isn’t possible."
         },
         {
-          "term": "C · Bake",
-          "details": [
-            [
-              "Time",
-              "45–60 min; whole lesson about 60–75 min, plus cooling"
-            ],
-            [
-              "Food",
-              "The chocolate cupcake recipe: no eggs or dairy, contains wheat flour"
-            ],
-            [
-              "Needs",
-              "Teams of 3–5 by oven space; an oven and an adult to run it"
-            ],
-            [
-              "Prepare",
-              "Book the oven; buy one recipe per team (12–18 cupcakes each)"
-            ],
-            [
-              "Result",
-              "A batch of cupcakes per team, still warm at the end"
-            ],
-            [
-              "Clean-up",
-              "The most: bowls, pans and stations"
-            ]
-          ]
+          "cells": [
+            "C · Bake",
+            "45–60 min",
+            "3–5",
+            "Baked",
+            "Yes",
+            "High",
+            "High"
+          ],
+          "note": "Book the oven and an adult; buy one recipe per team. Cooling runs past the lesson."
         },
         {
-          "term": "D · Mystery",
-          "details": [
-            [
-              "Twist",
-              "A mix-in ingredient, a missing measuring cup, or a half batch"
-            ],
-            [
-              "Otherwise",
-              "Same time, food and prep as Bake"
-            ]
-          ]
+          "cells": [
+            "D · Mystery",
+            "45–60 min",
+            "3–5",
+            "Baked",
+            "Yes",
+            "High",
+            "High"
+          ],
+          "note": "As Bake, plus one twist you choose: a mix-in, a missing measuring cup or a half batch."
         }
       ]
     },
     {
       "type": "callout",
       "title": "Before any food challenge",
-      "text": "Check your school’s food rules and every student’s allergies and dietary needs against each label, including any mystery ingredient."
+      "text": "Check your school’s food rules and every student’s allergies and dietary needs against each label, including any mystery ingredient. The recipe has no eggs or dairy but contains wheat flour."
     }
   ],
   "source_note": "DRAFT 2026-11-03, needs human review. Sources: Day 3 The Showdown (v0) teacher pages (pp. 4–7: same learning outcomes across levels, levels by materials and complexity, Level 2 craft alternative, Level 3/4 recipe and twist); the Showdown Teacher Guide and activity guides (times, prep); the food-check note formerly in the Teacher Guide's Preparation; and the user's note that food options are encouraged because students enjoy them most and we want to learn how they shape the experience (wording newly written). Allergen line derived from the Day 3 recipe ingredient list (no eggs or dairy; wheat flour); whole-lesson times add the Teacher Guide's 5 min launch and 10 min clean-up and debrief.",

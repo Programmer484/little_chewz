@@ -13,40 +13,28 @@
   "intro": "Optional: one or two sentences on the option we encourage, and why.",
   "blocks": [
     {
-      "type": "heading",
-      "text": "Choose one"
-    },
-    {
-      "type": "pairs",
-      "items": [
+      "type": "table",
+      "columns": [
+        "Challenge",
+        "Time",
+        "Team",
+        "Food",
+        "Oven",
+        "Prep",
+        "Clean-up"
+      ],
+      "rows": [
         {
-          "term": "A · Name",
-          "details": [
-            [
-              "Time",
-              "Challenge time; whole lesson time"
-            ],
-            [
-              "Food",
-              "What food, if any"
-            ],
-            [
-              "Needs",
-              "Space, equipment and adult help"
-            ],
-            [
-              "Prepare",
-              "What to buy or set up, and when"
-            ],
-            [
-              "Result",
-              "What students end up with"
-            ],
-            [
-              "Clean-up",
-              "How much"
-            ]
-          ]
+          "cells": [
+            "A · Name",
+            "20–30 min",
+            "2–3",
+            "None",
+            "No",
+            "Low",
+            "Low"
+          ],
+          "note": "The main preparation step, in one line."
         }
       ]
     },
