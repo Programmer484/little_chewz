@@ -17,7 +17,7 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 
 - **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header. A guide for one lettered lesson option sets `option` (`"A"`), which adds `· OPTION A` to the section label.
 - **Section and colour** come from the companion's `stage` and `quest.json`, using the Teacher Guide's section palette. Never set them by hand; colour always appears with the section name.
-- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions` or `reference`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
+- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions`, `reference` or `overview`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
 - **Title:** short and matching the resource's catalogue title, so the Teacher Guide link and the document agree. No section names or dashes in the title.
 - **Meta line:** two or three short facts in `meta`: whether it is optional, added time, and when or with what to use it (`Optional · Adds about 15–25 minutes · Follows Small Bite 1: School Song`).
 - **Footer:** `LITTLE CHEWZ · CHEWLANDIA ACADEMY` and `page / total` on every page.
@@ -35,6 +35,10 @@ A Teacher Guide that offers lettered activity options (such as the Showdown's A�
 - **Keep steps clean.** A step is one or two short sentences of what happens. Timing, logistics and other notes go in `Tips`, each in one line, and only when a teacher would otherwise get it wrong. Generic classroom management never qualifies.
 - **Repeat nothing** from the overview, the Teacher Guide or the student materials unless it is safety-critical. The meta line names the guide step it expands and its time.
 - **Essentials only.** One page by default; never add content to fill space. Activities with food or ovens may go longer to cover everything the teacher must check.
+
+## Option overviews
+
+A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing: one `pairs` row per option (letter, name and time, then its key restriction and main prep), a `Safety first` callout when any option involves food, ovens or hot equipment, and optionally one short paragraph on an option we encourage. It holds nothing about running an option; that lives in the activity guides.
 
 ## Source and generation
 

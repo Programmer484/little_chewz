@@ -125,7 +125,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
 | [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
-| `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
+| `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `option_overview`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
@@ -335,7 +335,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
 | Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, builds and publication evidence | `catalog/resources.json` |
-| Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides) and `welcome` (clean page style and quest navigation) |
+| Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides), `option_overview` (choosing between options) and `welcome` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -652,7 +652,7 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 
 - **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header. A guide for one lettered lesson option sets `option` (`"A"`), which adds `· OPTION A` to the section label.
 - **Section and colour** come from the companion's `stage` and `quest.json`, using the Teacher Guide's section palette. Never set them by hand; colour always appears with the section name.
-- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions` or `reference`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
+- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions`, `reference` or `overview`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
 - **Title:** short and matching the resource's catalogue title, so the Teacher Guide link and the document agree. No section names or dashes in the title.
 - **Meta line:** two or three short facts in `meta`: whether it is optional, added time, and when or with what to use it (`Optional · Adds about 15–25 minutes · Follows Small Bite 1: School Song`).
 - **Footer:** `LITTLE CHEWZ · CHEWLANDIA ACADEMY` and `page / total` on every page.
@@ -670,6 +670,10 @@ A Teacher Guide that offers lettered activity options (such as the Showdown's A�
 - **Keep steps clean.** A step is one or two short sentences of what happens. Timing, logistics and other notes go in `Tips`, each in one line, and only when a teacher would otherwise get it wrong. Generic classroom management never qualifies.
 - **Repeat nothing** from the overview, the Teacher Guide or the student materials unless it is safety-critical. The meta line names the guide step it expands and its time.
 - **Essentials only.** One page by default; never add content to fill space. Activities with food or ovens may go longer to cover everything the teacher must check.
+
+### Option overviews
+
+A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing: one `pairs` row per option (letter, name and time, then its key restriction and main prep), a `Safety first` callout when any option involves food, ovens or hot equipment, and optionally one short paragraph on an option we encourage. It holds nothing about running an option; that lives in the activity guides.
 
 ### Source and generation
 
@@ -920,7 +924,7 @@ Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.m
 
 ## Editing templates
 
-Templates are starting structures for supported source types, one folder each: `teacher_guide/` (lesson.json), `teacher_companion/` (question banks, extensions, answer keys), `activity_guide/` (one guide per lettered lesson option) and the `welcome/` page style with its assets. A template is the content structure; the renderer that builds it is separate and recorded in the catalogue as `pdf.renderer` ([CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states)). `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
+Templates are starting structures for supported source types, one folder each: `teacher_guide/` (lesson.json), `teacher_companion/` (question banks, extensions, answer keys), `activity_guide/` (one guide per lettered lesson option), `option_overview/` (one page for choosing between them) and the `welcome/` page style with its assets. A template is the content structure; the renderer that builds it is separate and recorded in the catalogue as `pdf.renderer` ([CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states)). `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
 
 - **Build templates from individual assets.** Logos, crests, icons, and illustrations go in the template's `assets/` folder as separate image files that the renderer places around live text. Never generate or rasterize a whole page as one image. Full rule: [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets).
 - Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need, then `"template": "<folder name>"`, so copies inherit both. `scripts/validate.py` checks both, and that each source's template matches its catalogue renderer. A new template folder also needs its renderer added to `TEMPLATE_RENDERER` in `scripts/validate.py`.

@@ -274,9 +274,9 @@ for ref,item in registry.items():
 # Content templates (the structure a source follows) and the renderer that builds each one.
 # One renderer may serve several templates; the catalogue records the renderer as pdf.renderer.
 TEMPLATE_RENDERER={'teacher_guide':'teacher_guide','teacher_companion':'teacher_companion',
-                   'activity_guide':'teacher_companion','welcome':'welcome'}
+                   'activity_guide':'teacher_companion','option_overview':'teacher_companion','welcome':'welcome'}
 TEMPLATE_INSTRUCTIONS={'teacher_guide':'lesson','teacher_companion':'companion',
-                       'activity_guide':'companion','welcome':'welcome'}
+                       'activity_guide':'companion','option_overview':'companion','welcome':'welcome'}
 for folder in sorted(p for p in (R/'templates').glob('*') if (p/'TEMPLATE.json').is_file()):
     path=folder.relative_to(R)/'TEMPLATE.json'; doc=json.loads((R/path).read_text())
     if folder.name not in TEMPLATE_RENDERER:

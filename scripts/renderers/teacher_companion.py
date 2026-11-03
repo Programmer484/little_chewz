@@ -52,6 +52,7 @@ RESOURCE_TAGS = {
     "answer_key": "ANSWER KEY",
     "instructions": "INSTRUCTIONS",
     "reference": "REFERENCE",
+    "overview": "OVERVIEW",
 }
 
 # Tight-column list metrics (spacing study variant A, approved 2026-10-31).

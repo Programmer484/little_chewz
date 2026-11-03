@@ -256,7 +256,11 @@
     "title": "Showdown Challenges",
     "type": "teacher_resource",
     "published_url": null,
-    "holding_url": null
+    "holding_url": null,
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "showdown-overview.pdf"
+    }
   },
   "ccc-q01-showdown-design-guide": {
     "title": "Design Challenge",
