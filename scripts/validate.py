@@ -45,15 +45,12 @@ for ref,item in registry.items():
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ref):
         errors.append(f'{ref}: resource ID must be stable lowercase kebab-case')
     category = item.get('type')
-    if category not in {'teacher_guide', 'teacher_resource', 'student_worksheet', 'slides'}:
-        errors.append(f'{ref}: type must match one of the four delivery folders')
-    audience = item.get('audience')
-    if audience not in {'teacher', 'student'}:
-        errors.append(f'{ref}: audience must be teacher or student')
-    elif audience != ('student' if category == 'student_worksheet' else 'teacher'):
-        errors.append(f'{ref}: audience does not match intended delivery category')
+    if category not in {'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}:
+        errors.append(f'{ref}: type must match one of the five published Drive folders')
+    if 'audience' in item:
+        errors.append(f'{ref}: redundant audience field; resource type is the delivery folder')
     if 'tags' in item:
-        errors.append(f'{ref}: obsolete free-form tags; use type, audience and pdf_template')
+        errors.append(f'{ref}: obsolete free-form tags; use type and pdf_template')
     production = item.get('production_type')
     if production not in {'generated_pdf','external'}:
         errors.append(f'{ref}: explicit production_type must be generated_pdf or external')
@@ -168,7 +165,7 @@ else:
     for purpose in ('root','generated_pdf','worksheets','visuals','other','slide_pdfs'):
         if not (staging.get(purpose) or {}).get('folder_id'):
             errors.append(f'Unconfigured holding folder: {purpose}')
-    for category in ('01_TEACHER_GUIDES','02_CLASSROOM_SLIDES','03_STUDENT_MATERIALS','04_EXTRA_RESOURCES'):
+    for category in ('01_TEACHER_GUIDES','02_CLASSROOM_SLIDES','03_STUDENT_MATERIALS','04_TEACHER_RESOURCES'):
         if not (staging.get('categories') or {}).get(category,{}).get('folder_id'):
             errors.append(f'Unconfigured holding category: {category}')
     for section in [*(value for value in staging.values() if isinstance(value,dict)),
@@ -225,7 +222,7 @@ for path in lesson_paths:
         if not ref:
             return
         quantity = link.get('quantity')
-        if registry.get(ref, {}).get('type') == 'student_worksheet':
+        if registry.get(ref, {}).get('type') == 'student_material':
             if quantity not in ('per_student', 'per_group'):
                 errors.append(f'{path}: worksheet {ref} must set quantity to per_student or per_group')
         elif quantity is not None:
