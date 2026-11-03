@@ -21,7 +21,6 @@ import type { ExtensionSpec, LessonManifest, MaterialSpec, OptionSpec, QuantityR
 export interface RegistryEntry {
   title: string;
   type?: string;
-  status?: string;
   print?: { cards_per_sheet?: number };
 }
 export type RegistryLike = Record<string, RegistryEntry>;
