@@ -13,11 +13,11 @@ function fixture(): Inputs {
     registry: {
       sheet: {
         title: "Student sheet",
-        type: "student_worksheet",
+        type: "student_material",
         published_url: "https://drive.google.com/file/d/" + FILE + "/view",
         publication: { drive_file_id: FILE },
       },
-      other: { title: "Unreferenced teacher file", type: "teacher_companion" },
+      other: { title: "Unreferenced teacher file", type: "teacher_resource" },
     },
     files: {
       [QUEST]: {
@@ -88,7 +88,7 @@ describe("semantic Print Pack CI impact", () => {
   });
 
   it("detects resource type and official-link availability changes", () => {
-    expect(changed((input) => { input.registry.sheet.type = "teacher_companion"; })).toBe(true);
+    expect(changed((input) => { input.registry.sheet.type = "teacher_resource"; })).toBe(true);
     expect(changed((input) => { input.registry.sheet.published_url = null; })).toBe(true);
   });
 

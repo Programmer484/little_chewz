@@ -28,23 +28,22 @@ Use lowercase kebab-case for new content filenames and folders, retaining establ
 
 ## Catalogue resource categories
 
-Catalogue `type` describes the **four teacher-facing delivery categories**, not a story genre or file format. It aligns with the published Drive organization:
+Catalogue `type` mirrors the **five published Drive folders**. It represents the delivery destination, not genre, format, or audience.
 
-| `type` | Delivery folder | Included |
+| `type` | Published folder | Included |
 | --- | --- | --- |
-| `teacher_guide` | `01_TEACHER_GUIDES` | Published lesson Teacher Guides |
-| `teacher_resource` | `04_EXTRA_RESOURCES` (or the established Welcome area) | Teacher companions, reference PDFs, lesson stories and letters, media, posters, print-pack links, and Quest Overview |
-| `student_worksheet` | `03_STUDENT_MATERIALS` | Printable student-facing worksheets and activity cards |
-| `slides` | `02_CLASSROOM_SLIDES` | Published lesson PPTX files |
+| `welcome` | `00_WELCOME` | Quest Overview and welcome materials |
+| `teacher_guide` | `01_TEACHER_GUIDES` | Lesson Teacher Guides |
+| `classroom_slides` | `02_CLASSROOM_SLIDES` | Lesson presentation decks |
+| `student_material` | `03_STUDENT_MATERIALS` | Student-facing worksheets and activity cards |
+| `teacher_resource` | `04_TEACHER_RESOURCES` | Teacher companions, answer keys, references, letters, media, posters, and print-pack links |
 
-`type` is **not** a PDF renderer selector. The source remains `production_type` (`generated_pdf` or `external`), with `build` describing the generated output when applicable.
+No `audience` or free-form `tags` fields are stored: the intended usage is clear from the folder category. Only separate technical production metadata remains:
+- `production_type`: `generated_pdf` or `external`.
+- `pdf_template`: `teacher_guide`, `teacher_companion`, or `welcome` for Python-rendered PDFs; `null` for external files and links.
+- `build`: the explicit renderer or output mapping for generated PDFs.
 
-Keep metadata structured rather than adding arbitrary keyword tags:
-- `audience`: `teacher` or `student`, describing the intended reader. Worksheets are `student` even when teachers distribute them.
-- `pdf_template`: `teacher_guide`, `teacher_companion`, or `welcome` for Python-rendered PDFs; `null` for externally authored files, links, media and slides.
-- No free-form `tags` field. Lesson identity comes from the stable resource ID, references and source path, not an extra genre label.
-
-Companion files retain their own `kind` (`questions`, `extension`, `answer_key`, etc.) inside their editable JSON to control the printed masthead; this is independent of catalogue classification. Similarly, `story/*.md` may remain a source directory for raw prose but is not a catalogue resource type.
+Companion source JSON can retain its own `kind` (`questions`, `extension`, `answer_key`) to control the *printed document*, independent of the catalogue category. A `story/*.md` source directory is not a catalogue resource type.
 
 ## Production workflows and delivery states
 
@@ -58,8 +57,7 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | Field | Meaning |
 | --- | --- |
 | Stable object key | Resource identity, independent of filename, Drive ID or title |
-| `type` | Four delivery categories: `teacher_guide`, `teacher_resource`, `student_worksheet`, `slides` |
-| `audience` | Intended reader: `teacher` or `student` |
+| `type` | Five published-folder categories: `welcome`, `teacher_guide`, `classroom_slides`, `student_material`, `teacher_resource` |
 | `pdf_template` | PDF generator template (`teacher_guide`, `teacher_companion`, `welcome`) or `null` for non-generated resources |
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |

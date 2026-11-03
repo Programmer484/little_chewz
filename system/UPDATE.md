@@ -7,14 +7,14 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 1. Use the existing shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch; only create it from `main` if absent. Reconcile its latest head with `main`. Do not create a separate task branch unless explicitly requested; preserve concurrent edits and never force-push.
 2. Edit authorized JSON/text source and separate required assets; keep the current official file ID, live URL and publication evidence unchanged.
 3. Validate, test, render through the existing repository PDF renderer and inspect the pages and clickable links.
-4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_EXTRA_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
+4. Upload or replace the **review PDF in holding**, keeping its existing category: Teacher Guides under `01_TEACHER_GUIDES`, companions under `04_TEACHER_RESOURCES`. Preserve the file ID when possible and update `holding_url` only if needed.
 5. Save source to GitHub, open/update the PR and share the actual Actions run and review copy. A passing build or ordinary merge is not publication.
 
 ## External resources
 
 ## Student-facing worksheet PDFs — preserve US Letter
 
-- When updating a resource registered as `student_worksheet`, keep **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
+- When updating a resource registered as `student_material`, keep **every PDF page US Letter (8.5 × 11 in / 612 × 792 pt)**, portrait or landscape.
 - After revising and **before uploading** the replacement review copy, run `python scripts/pdf_page_size.py path/to/worksheet.pdf`. Fix any page-size failures without distorting content.
 - This requirement does **not** apply to Teacher Guides, companions, references, artwork or classroom slide PDFs.
 

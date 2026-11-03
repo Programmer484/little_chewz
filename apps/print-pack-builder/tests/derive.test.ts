@@ -19,13 +19,13 @@ const ROOT = resolve(__dirname, "../../..");
 const registry: Registry = JSON.parse(readFileSync(resolve(ROOT, "catalog/resources.json"), "utf8"));
 
 const reg: RegistryLike = {
-  sheet: { title: "Sheet", type: "student_worksheet" },
-  group: { title: "Group Card", type: "student_worksheet", print: { cards_per_sheet: 4 } },
-  ext: { title: "Extension", type: "student_worksheet" },
-  bonus: { title: "Bonus", type: "student_worksheet" },
-  prep: { title: "Prep Only", type: "student_worksheet" },
-  slides: { title: "Slides", type: "slide_deck" },
-  key: { title: "Answer Key", type: "teacher_companion" },
+  sheet: { title: "Sheet", type: "student_material" },
+  group: { title: "Group Card", type: "student_material", print: { cards_per_sheet: 4 } },
+  ext: { title: "Extension", type: "student_material" },
+  bonus: { title: "Bonus", type: "student_material" },
+  prep: { title: "Prep Only", type: "student_material" },
+  slides: { title: "Slides", type: "classroom_slides" },
+  key: { title: "Answer Key", type: "teacher_resource" },
 };
 const guide: LessonSource = {
   core: [
@@ -177,7 +177,7 @@ describe("the real Teacher Guides", () => {
   it("only offers published student worksheets for download, through their catalogue Drive file", () => {
     for (const id of new Set(catalog.manifests.flatMap(allMaterials).map((m) => m.resourceId))) {
       const record = registry[id];
-      expect(record.type).toBe("student_worksheet");
+      expect(record.type).toBe("student_material");
       const served = catalog.lookup(id, "drive");
       if (record.published_url) expect(served?.source).toEqual({ kind: "drive", fileId: (trustedDriveFile(record) as { fileId: string }).fileId });
       else expect(served).toBeNull();
