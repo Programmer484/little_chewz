@@ -205,12 +205,12 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
 
         <fieldset className="section print-options">
           <legend>Printing</legend>
-          <label className="option option-label">
+          <label className="print-toggle">
             <input type="checkbox" checked={print.duplex} onChange={(e) => setPrint({ duplex: e.target.checked })} />
-            <span className="option-text">
+            <span>
               <span className="option-title">Print double-sided</span>
-              <span className="option-summary block">
-                Each student's packet starts on a new sheet. Set your printer to two-sided, flip on long edge.
+              <span className="option-summary">
+                Student packets start on separate sheets. Flip on long edge.
               </span>
             </span>
           </label>
