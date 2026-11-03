@@ -248,8 +248,11 @@
   "ccc-q01-showdown-slides": {
     "title": "Showdown Slides",
     "type": "classroom_slides",
-    "published_url": null,
-    "holding_url": null
+    "pdf_url": "https://drive.google.com/file/d/19u7-PK1Vobmxh1HCJ8gxnJ8DuVivUbFh/view?usp=drivesdk",
+    "powerpoint_file_id": "1ygrgZhjBOABpM75s1xg532dRmCzuKzIl",
+    "powerpoint_filename": "03_Explore_Slides.pptx",
+    "holding_url": null,
+    "published_url": "https://docs.google.com/presentation/d/1ygrgZhjBOABpM75s1xg532dRmCzuKzIl/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
   },
   "ccc-q01-showdown-design-guide": {
     "title": "Design Challenge",
