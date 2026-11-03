@@ -23,7 +23,7 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Book the oven and an adult for the lesson; size teams so every pan fits in at once",
+        "Book the oven and an adult; check the oven holds every team’s pan at once",
         "Shop from the recipe card: one recipe per team makes about 12–18 standard cupcakes",
         "Each team: its own labelled cupcake pan with liners, bowl, square pan, measuring tools and fork",
         "Hand-washing and cleaning supplies, oven mitts, and a safe spot for hot pans",
@@ -81,7 +81,7 @@
         {
           "title": "Pans in",
           "mins": "5 min",
-          "text": "Every pan goes in by the cutoff; an adult bakes them 20–25 min during clean-up and debrief."
+          "text": "All pans go in together at the cutoff; they bake 20–25 min during clean-up and reflection."
         }
       ]
     }
