@@ -67,10 +67,11 @@ def inspect_link(url: str | None, resource: dict, service,
     if parsed.scheme != "https" or not parsed.hostname:
         return FAIL, "Invalid HTTPS URL"
 
-    # Human approval is URL-bound; ordinary Drive links still require public sharing.
-    review = (resource.get("human_review") or {}).get(url)
-    if resource.get("review_mode") == "human" or parsed.hostname not in DRIVE_HOSTS:
-        return (PASS, "Human reviewed this URL") if review == "reviewed" else (
+    # Non-Drive links require explicit human approval of the exact current URL.
+    # Every published Drive resource (including externally owned files and slides)
+    # must pass live API checks; human review is not a bypass.
+    if parsed.hostname not in DRIVE_HOSTS:
+        return (PASS, "Human reviewed this URL") if resource.get("human_reviewed_url") == url else (
             REVIEW, "Human review required")
 
     file_id = drive_id(url)
@@ -80,7 +81,7 @@ def inspect_link(url: str | None, resource: dict, service,
         return REVIEW, "Service account unavailable"
     try:
         metadata = service.files().get(
-            fileId=file_id, supportsAllDrives=True, fields="id,trashed").execute()
+            fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum").execute()
     except Exception as exc:
         # Drive's 404 can mean either missing or inaccessible to this service account.
         if diagnostics is not None:
@@ -89,6 +90,16 @@ def inspect_link(url: str | None, resource: dict, service,
     if metadata.get("id") != file_id or metadata.get("trashed") is True:
         return FAIL, "Wrong Drive file or file in Trash"
 
+    checksum_problem = None
+    if resource.get("pdf"):
+        approved = (resource["pdf"] or {}).get("approved_md5")
+        actual = metadata.get("md5Checksum")
+        if not approved:
+            checksum_problem = (REVIEW, "Approved PDF checksum not recorded")
+        elif not actual:
+            checksum_problem = (REVIEW, "Drive did not return PDF checksum")
+        elif approved.lower() != str(actual).lower():
+            checksum_problem = (FAIL, "Published PDF checksum differs from approved version")
     try:
         token = None
         while True:
@@ -105,7 +116,7 @@ def inspect_link(url: str | None, resource: dict, service,
                 return REVIEW, "Drive did not return permission information"
             if any(p.get("type") == "anyone" and p.get("role") in
                    {"reader", "commenter", "writer", "owner"} for p in permissions):
-                return PASS, "Public sharing enabled"
+                return checksum_problem or (PASS, "Public sharing enabled")
             token = result.get("nextPageToken")
             if not token:
                 return FAIL, "Anyone-with-the-link permission is missing"
@@ -128,7 +139,7 @@ def audit(registry: dict, folders=None, service=None, builder=None,
         result = PASS
         issues = []
         for url in links(resource):
-            if url and drive_id(url) and resource.get("review_mode") != "human":
+            if url and drive_id(url):
                 if not credentials_checked:
                     credentials_checked = True
                     try:
