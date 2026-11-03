@@ -36,21 +36,22 @@ class SelectionTests(unittest.TestCase):
                         self.assertEqual(sb.select([path]), [name])
 
     def test_lesson_targets_match_existing_sources(self):
-        # A lesson becomes buildable when lesson.json exists, not when its
-        # status is published. Missing sources never produce placeholder PDFs.
+        # Preview eligibility is based on an authored lesson.json, never
+        # duplicated lesson publication status in quest.json or a build manifest.
         expected = {}
         for school in sb.read_json('catalog/quests.json')['school_index']:
             manifest = Path(school['quest_manifest'])
             quest = sb.read_json(manifest.as_posix())
             for lesson in quest['learning_sequence']:
+                self.assertNotIn('status', lesson)
                 source = manifest.parent / 'lessons' / lesson['folder'] / 'lesson.json'
                 if (sb.ROOT / source).is_file():
-                    expected[f"{lesson['folder']}-teacher-guide.pdf"] = (
-                        source.as_posix(), lesson.get('status', 'unpublished'))
-        actual = {name: (target['source'], target['status'])
-                  for name, target in self.targets.items()
+                    expected[f"{lesson['folder']}-teacher-guide.pdf"] = source.as_posix()
+        actual = {name: target['source'] for name, target in self.targets.items()
                   if target['kind'] == 'teacher_guide'}
         self.assertEqual(actual, expected)
+        self.assertTrue(all('status' not in target for target in self.targets.values()))
+        self.assertNotIn('status', sb.selection('all'))
 
     def test_renderer_consumers(self):
         for kind in {t['kind'] for t in self.targets.values()}:
@@ -72,12 +73,11 @@ class SelectionTests(unittest.TestCase):
         path = 'catalog/resources.json'
         rid = 'ccc-q01-set-the-table-slides'
         previous = copy.deepcopy(sb.read_json(path))
-        previous[rid]['status'] = (
-            'unpublished' if previous[rid]['status'] != 'unpublished' else 'published')
+        previous[rid]['publication']['note'] = "A previous note only"
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), [])
 
-        previous[rid]['url'] = 'https://example.com/old-link'
+        previous[rid]['published_url'] = 'https://example.com/old-link'
         consumers = sorted(name for name, target in self.targets.items()
                            if rid in sb.resource_refs(target['data']))
         self.assertTrue(consumers)
@@ -97,12 +97,17 @@ class SelectionTests(unittest.TestCase):
             data['core'][0]['ref']='missing-resource'
             del data['$instructions']
             source.write_text(json.dumps(data))
+            quest_path=root/'content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json'
+            quest=json.loads(quest_path.read_text())
+            quest['learning_sequence'][0]['status']='published'
+            quest_path.write_text(json.dumps(quest))
             run=subprocess.run([sys.executable, str(root/'scripts/validate.py')],
                                capture_output=True, text=True)
             self.assertNotEqual(run.returncode,0)
             for error in ['missing visual cover','step IDs not consecutive',
                           'unsupported action label','missing catalog resource ref',
-                          'first key must be "$instructions"']:
+                          'first key must be "$instructions"',
+                          'redundant publication fields']:
                 self.assertIn(error,run.stdout)
 
 if __name__=='__main__':

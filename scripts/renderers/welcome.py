@@ -44,7 +44,6 @@ ASSETS = REPO / "templates" / "welcome" / "assets"
 FONTS = ASSETS / "fonts"
 REGISTRY = REPO / "catalog" / "resources.json"
 DOC_DIR = REPO  # set to the document folder by render(); icon paths are relative to it
-LINKABLE = {"pending_publish", "published"}
 
 # Page matches the Welcome PDF exactly (Canva A4).
 PAGE_W, PAGE_H = 595.5, 842.25
@@ -302,10 +301,8 @@ def resolve(registry: dict, resource_id: str | None) -> str | None:
     entry = registry.get(resource_id)
     if not entry:
         raise SystemExit(f"Unknown resource ID in navigation: {resource_id}")
-    url = entry.get("url") or entry.get("destination") or ""
-    if entry.get("status") in LINKABLE and url.startswith("https://"):
-        return url
-    return None
+    url = entry.get("published_url")
+    return url if isinstance(url, str) and url.startswith("https://") else None
 
 
 # ---------------------------------------------------------------- page

@@ -11,7 +11,7 @@ from pathlib import Path
 
 from select_builds import ROOT, select, targets
 from publication_checks import unpublished_references
-from publish_to_drive import PublishError, load_registry, save_registry, publish, output_name
+from publish_to_drive import PublishError, load_registry, publish, output_name
 
 SIGNAL_DIR = Path(".github/resource-releases")
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -78,7 +78,7 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
     changed_after = set(git("diff", "--name-only", merge_sha, head).splitlines())
     superseded = set(select(changed_after, base_ref=merge_sha)) if changed_after else set()
     result = {"pr": pr, "merge_revision": merge_sha, "build_revision": head,
-              "generated": [], "external": [], "pending": [], "blocked": []}
+              "generated": [], "external": [], "blocked": []}
     for rid in ids:
         item = registry.get(rid)
         if item is None:
@@ -96,15 +96,13 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
         except PublishError as exc:
             result["blocked"].append({"resource_id": rid, "reason": str(exc)})
             continue
-        if output in affected and item.get("status") == "published":
-            result["pending"].append(rid)
         if output not in registered:
             result["blocked"].append({"resource_id": rid, "reason": "generated output is not registered"})
         elif output not in affected:
             result["blocked"].append({"resource_id": rid, "reason": "no eligible generated source change in accepted PR"})
         elif output in superseded:
             result["blocked"].append({"resource_id": rid, "reason": "accepted source superseded by newer main"})
-        elif not item.get("url") or item.get("status") == "unpublished":
+        elif not item.get("published_url"):
             result["blocked"].append({"resource_id": rid, "reason": "initial upload/verification required"})
         elif unpublished_references(registered[output], registry):
             result["blocked"].append({"resource_id": rid,
@@ -115,13 +113,7 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
 
 
 def run_release(result: dict) -> dict:
-    """A failed upload leaves pending_publish; external releases are never auto-uploaded."""
-    for rid in result.get("pending", []):
-        registry = load_registry()
-        item = registry[rid]
-        if item.get("status") == "published":
-            item["status"] = "pending_publish"
-            save_registry(registry)
+    """Publish accepted PDFs; pending state derives from checksum evidence."""
     for rid in result["generated"]:
         try:
             verified = publish(rid, expected_revision=result["build_revision"])

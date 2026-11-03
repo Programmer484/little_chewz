@@ -4,7 +4,7 @@ A small web app for Grade 4–6 teachers: choose a lesson, pick the activities y
 
 **Open → tick activities → check copies → download**, all on one page.
 
-**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#where-lessons-come-from)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline.
+**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#where-lessons-come-from)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline. Its lesson labels (`ready`, `no_student_printing`, `in_progress`) describe **printing readiness**, not publication status; lesson publication is derived separately from each Teacher Guide using `python scripts/publication_state.py --lessons`.
 
 | Part | Technology | Where |
 | --- | --- | --- |
@@ -46,10 +46,10 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 
 ## How it works
 
-1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only published `student_worksheet` resources with trusted Drive file URLs can be fetched in drive mode.
+1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only `student_worksheet` resources with trusted official `published_url` Drive file URLs can be fetched in drive mode.
 2. **Everything is a checkbox, with the guide's defaults pre-ticked.** `GIVE` and unreferenced preparation `core` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
 3. Steps whose worksheets and optional extras would otherwise appear twice share one heading.
-4. The teacher enters the class size. Each selected group activity has a **Groups** field, prefilled with `Math.ceil(studentCount / 4)` (the lesson's default group size) and showing how many students that puts in each group. Enter 1 for **one whole-class copy**. Teachers may override each print line's copies independently, down to 0. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
+4. The teacher enters the class size once. Each printable resource shows its calculated quantity and a **Change** button. Per-student resources default to one copy per student; per-group resources use the lesson's default students-per-group size (4 unless configured otherwise). Inside **Change**, teachers can enter any valid whole number for **Students per group**, or switch that resource to **Custom copy count** (including 0). Changing a group's size recalculates copies and clears previous custom quantities for that activity. Custom quantities stay fixed when class size changes; choosing Automatic again restores calculation. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
 5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size and the double-sided preference are saved only in the browser.
 
 ### Print order and duplex
@@ -101,13 +101,13 @@ Unpublished resources remain visible as unavailable; no Drive ID or URL is sent 
 
 ### Login (`REQUIRE_ACCESS`)
 
-The pilot runs **without a login** (`REQUIRE_ACCESS: "false"` in `wrangler.jsonc`). This is acceptable because the only files ever served are published student worksheets linked from a guide, and published worksheets in the official student-materials folder are shared "anyone with the link can view" (checked 2026-11-02). The Worker can never become a proxy for other Drive files: unpublished worksheets, review copies and anything not linked from a guide get 404.
+The pilot runs **without a login** (`REQUIRE_ACCESS: "false"` in `wrangler.jsonc`). This is acceptable because the only files ever served are published student worksheets linked from a guide, and published worksheets in the official student-materials folder are shared "anyone with the link can view" (checked 2026-11-02). The Worker can never become a proxy for other Drive files: worksheets lacking an official URL, review copies and anything not linked from a guide get 404.
 
 If a published worksheet ever needs to stay private, set `REQUIRE_ACCESS` to `"true"` and follow [Optional: private login](#optional-private-login-cloudflare-access) first.
 
 In `drive` mode every resource request must pass, in order:
 
-1. Resource ID format check, then: linked from a guide, `student_worksheet`, `published`, Drive file URL (anything else gets 404).
+1. Resource ID format check, then: linked from a guide, `student_worksheet`, a valid official Drive `published_url` (anything else gets 404).
 2. **Login, when required:** the Cloudflare Access `Cf-Access-Jwt-Assertion` token is verified against your team's public keys (RS256 signature, audience, issuer, expiry). If a login is required but `ACCESS_TEAM_DOMAIN` or `ACCESS_AUD` is not set, real downloads are **switched off** (503); the only exception is local testing with `LOCAL_DRIVE_TESTING=true` on `localhost`.
 3. Google credentials present (`GOOGLE_SERVICE_ACCOUNT_JSON` secret), else 503.
 4. Drive metadata check: not trashed, a PDF, PNG or JPEG, size within 25 MB.
@@ -120,7 +120,7 @@ Responses are `Cache-Control: private, no-store` and `X-Content-Type-Options: no
 | Name | Kind | Value |
 | --- | --- | --- |
 | `RESOURCE_MODE` | variable | `disabled`, `demo` or `drive` |
-| `REQUIRE_ACCESS` | variable | `"false"` for no login (published files only); anything else requires Cloudflare Access |
+| `REQUIRE_ACCESS` | variable | `"false"` for no login (official files only); anything else requires Cloudflare Access |
 | `ACCESS_TEAM_DOMAIN` | variable | only with a login: your Zero Trust team domain, e.g. `littlechewz.cloudflareaccess.com` |
 | `ACCESS_AUD` | variable | only with a login: the Access application's Audience (AUD) tag |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | **secret** | full JSON key of a read-only service account |

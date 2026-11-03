@@ -2,7 +2,8 @@
 """Local, dependency-free source checks. Validation is not editorial signoff."""
 from pathlib import Path
 import json,sys,re
-from select_builds import targets, resource_refs, read_json
+from select_builds import targets, resource_refs, read_json, generated_outputs
+from publication_state import has_official_version
 R=Path(__file__).resolve().parents[1]
 def read_registry():
     duplicates = []
@@ -22,15 +23,14 @@ def read_registry():
 registry=read_registry()
 actions=json.loads((R/'system/action_labels.json').read_text())
 allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
-STATUSES={'unpublished','pending_publish','published'}
 # Every editable source names the instructions an editor must read; agents meet
 # this pointer as soon as they open the file. Templates carry it so new files do too.
 INSTRUCTIONS={
-    'lesson':'Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.',
+    'lesson':'Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Publication state derives from the registered Teacher Guide, not lesson.json. Save and preview per system/WORKFLOW.md.',
     'stage':'Provenance only; never add status or teaching content here. To convert this lesson, create lesson.json from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.',
     'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.',
-    'quest':'Owns lesson delivery status (unpublished, pending_publish, published); WIP on branches does not alter it. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.',
-    'quest_catalog':'Navigation index only. Start at the root AGENTS.md. Each quest.json owns lesson status; catalog/resources.json owns resource names, links, and status (system/CONTENT_CONTRACT.md).',
+    'quest':'Owns quest metadata and lesson order only; lesson publication state derives from each Teacher Guide resource in catalog/resources.json. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.',
+    'quest_catalog':'Navigation index only. Start at the root AGENTS.md. Each quest.json owns lesson sequence; catalog/resources.json owns resource links and publication evidence (system/CONTENT_CONTRACT.md).',
     'welcome':'Before editing, read templates/welcome/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
 }
 STORY_INSTRUCTIONS='instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.'
@@ -79,8 +79,6 @@ for ref,item in registry.items():
             errors.append(f'{ref}: missing explicit {role} (use null if unknown)')
         elif item[role] is not None and (not isinstance(item[role],str) or not item[role].startswith('https://')):
             errors.append(f'{ref}: {role} must be HTTPS or null')
-    if item.get('status') in {'pending_publish','published'} and not item.get('published_url'):
-        errors.append(f'{ref}: live or pending resource needs an established published_url')
     if item.get('review_mode') not in (None, 'human'):
         errors.append(f'{ref}: review_mode must be human when set')
     reviews = item.get('human_review')
@@ -93,7 +91,7 @@ for ref,item in registry.items():
                 if link not in destinations or state not in {'pending', 'reviewed'}:
                     errors.append(f'{ref}: human_review must refer to a current link with pending/reviewed status')
     public_url = item.get('published_url') or ''
-    if (item.get('status') == 'published' and public_url.startswith('https://')
+    if (has_official_version(item) and public_url.startswith('https://')
             and not public_url.startswith(('https://drive.google.com/', 'https://docs.google.com/'))
             and (not isinstance(reviews, dict) or public_url not in reviews)):
         errors.append(f'{ref}: non-Drive publication requires URL-bound human_review')
@@ -133,17 +131,15 @@ for ref,item in registry.items():
         errors.append(f'{ref}: redundant resource_id; the registry key is the stable ID')
     if 'legacy_alias' in item:
         errors.append(f'{ref}: legacy_alias belongs in archive/2026-10/resource-aliases.json')
-    if item.get('status', 'unpublished') not in STATUSES:
-        errors.append(f'{ref}: invalid status {item.get("status")}')
+    if 'status' in item:
+        errors.append(f'{ref}: obsolete stored resource status; derive from official link and checksum')
     if 'approved_link' in item:
-        errors.append(f'{ref}: obsolete approved_link field; use status')
+        errors.append(f'{ref}: obsolete approved_link field')
     if 'print' in item:
         printing = item['print'] if isinstance(item['print'], dict) else {}
         cards = printing.get('cards_per_sheet')
         if set(printing) != {'cards_per_sheet'} or type(cards) is not int or cards < 2:
             errors.append(f'{ref}: print must be {{"cards_per_sheet": <number of cutouts per sheet, at least 2>}}')
-    if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
-        errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
 folders_path=R/'catalog/drive_folders.json'
 if not folders_path.is_file():
@@ -185,23 +181,25 @@ for path in R.glob('content/**/lessons/**/stage.json'):
     duplicate=set(stage) & {'id','title','status','preview_enabled','lesson_source','required_fields','guide_metadata','slide_sequence','activity_decision'}
     if duplicate: errors.append(f'{path}: duplicated stage fields {sorted(duplicate)}')
 check_instructions(R/'catalog/quests.json',read_json('catalog/quests.json'),'quest_catalog')
+guide_outputs = generated_outputs(registry)
 for school in read_json('catalog/quests.json')['school_index']:
     quest_path=R / school['quest_manifest']
     quest=json.loads(quest_path.read_text())
     check_instructions(quest_path,quest,'quest')
     for lesson in quest['learning_sequence']:
-        status=lesson.get('status','unpublished')
-        if status not in STATUSES:
-            errors.append(f'{quest_path}: invalid lesson status {status}')
+        redundant = set(lesson) & {'status','published_url','holding_url','publication'}
+        if redundant:
+            errors.append(f'{quest_path}: lesson {lesson["folder"]} has redundant publication fields {sorted(redundant)}')
         folder=quest_path.parent/'lessons'/lesson['folder']
-        if status in ('pending_publish','published') and not (folder/'lesson.json').is_file():
-            errors.append(f'{folder}: live/pending lesson has no lesson.json')
+        guide_id=guide_outputs.get(f"{lesson['folder']}-teacher-guide.pdf")
+        if guide_id and registry[guide_id].get('published_url') and not (folder/'lesson.json').is_file():
+            errors.append(f'{folder}: published Teacher Guide has no lesson.json')
 lesson_paths = sorted(R.glob('content/**/lessons/**/lesson.json'))
 for path in lesson_paths:
     d=json.loads(path.read_text())
     check_instructions(path,d,'lesson')
-    if 'review_status' in d or 'preview_enabled' in d:
-        errors.append(f'{path}: obsolete lesson status/preview field')
+    if set(d) & {'review_status','preview_enabled','status','holding_url','published_url'}:
+        errors.append(f'{path}: obsolete lesson publication/preview fields')
     for field in ['key','goal','steps','outcomes','cover','output']:
         if field not in d: errors.append(f'{path}: missing {field}')
     def check_quantity(link):
@@ -249,8 +247,8 @@ for path in R.glob('content/**/resources/**/*.json'):
     if not d.get('resource_id') or d.get('resource_id') not in registry:
         errors.append(f'{path}: companion missing registered resource ID')
     if 'review_status' in d or 'preview_enabled' in d:
-        errors.append(f'{path}: status belongs in catalog/resources.json')
-    if registry.get(d.get('resource_id'),{}).get('status','unpublished')=='unpublished':
+        errors.append(f'{path}: resource status is derived from publication evidence')
+    if not has_official_version(registry.get(d.get('resource_id'), {})):
         warnings.append(f'{path.name}: unpublished companion; preview only')
 for path in R.glob('content/**/story/*.md'):
     if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
@@ -278,9 +276,9 @@ try:
     for name, target in registered.items():
         for ref in resource_refs(target['data']):
             record = registry.get(ref, {})
-            if not str(record.get('url', '')).startswith('https://'):
+            if not str(record.get('published_url') or record.get('holding_url') or record.get('url') or '').startswith('https://'):
                 errors.append(f'{name}: unresolved HTTPS destination for {ref}')
-            elif record.get('status','unpublished')!='published':
+            elif not has_official_version(record):
                 warnings.append(f'{name}: {ref} is not verified current on Drive; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')

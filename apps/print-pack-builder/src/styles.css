@@ -114,3 +114,41 @@ p.alert { padding-left: 1rem; }
 .link-button { background: none; border: 0; padding: 0; font: inherit; font-size: 0.85rem; color: var(--coral-dark); text-decoration: underline; cursor: pointer; }
 .success p { margin: 0.25rem 0; }
 .tip { color: var(--ink); font-weight: 400; }
+
+/* Copy planner: show quantities first; reveal editing controls on demand. */
+.copy-heading { display: flex; align-items: start; justify-content: space-between; gap: 1.5rem; margin-top: 1.5rem; }
+.copy-heading h2 { margin: 0.3rem 0 0; }
+.copy-class-size .field { gap: 0.3rem; }
+.copy-class-size .field label { font-size: 0.88rem; }
+.copy-class-size .field input { width: 6.5rem; font-size: 1rem; padding: 0.45rem 0.65rem; }
+.copy-list { margin-top: 1rem; border-top: 1px solid var(--line); }
+.copy-item { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.copy-item-main { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.copy-item-detail { min-width: 0; }
+.copy-item-detail > strong { display: block; font-size: 1.02rem; }
+.copy-summary { display: block; margin-top: 0.2rem; color: var(--muted); font-size: 0.88rem; }
+.copy-item-actions { display: flex; flex-shrink: 0; align-items: center; gap: 0.85rem; }
+.copy-quantity { display: flex; flex-direction: column; align-items: end; min-width: 3.2rem; line-height: 1.25; }
+.copy-quantity strong { font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.copy-quantity span { color: var(--muted); font-size: 0.76rem; }
+.copy-change { font: inherit; font-weight: 600; font-size: 0.88rem; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0.45rem 0.9rem; min-height: 40px; cursor: pointer; }
+.copy-change:hover { border-color: var(--coral); color: var(--coral-dark); }
+.copy-settings { border: 0; border-radius: 12px; background: #faf7f2; padding: 1rem; margin: 0.85rem 0 0; min-width: 0; }
+.copy-mode { display: flex; gap: 0.65rem 1.5rem; flex-wrap: wrap; }
+.copy-mode label { display: inline-flex; gap: 0.5rem; align-items: center; font-size: 0.92rem; cursor: pointer; }
+.copy-mode input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--coral); }
+.copy-settings .field { margin-top: 0.9rem; }
+.copy-settings .field input { background: white; }
+.copy-settings .hint { font-size: 0.85rem; }
+.copy-rule { color: var(--muted); font-size: 0.9rem; margin: 0.8rem 0 0; }
+.print-options { margin-top: 1.4rem; }
+.print-toggle { display: flex; gap: 0.65rem; align-items: start; cursor: pointer; }
+.print-toggle input { width: 1.18rem; height: 1.18rem; flex: 0 0 auto; accent-color: var(--coral); margin: 0.2rem 0 0; }
+.print-toggle .option-title { display: block; font-weight: 600; }
+.print-toggle .option-summary { display: block; font-size: 0.88rem; margin: 0.1rem 0 0; }
+@media (max-width: 560px) {
+  .copy-item-main { align-items: start; }
+  .copy-item-actions { gap: 0.55rem; }
+  .copy-change { padding: 0.45rem 0.7rem; }
+  .copy-heading { gap: 1rem; }
+}

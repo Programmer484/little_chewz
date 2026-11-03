@@ -1,6 +1,6 @@
 # Classroom slide PDF → PowerPoint
 
-Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](WORKFLOW.md). Human review is separate from publication status; nothing here publishes without authorization.
+Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](WORKFLOW.md). Human review is separate from derived publication state; nothing here publishes without authorization. Record the approved PDF source in `pdf_url`; use `holding_url` only for a *new revision* awaiting release. Clear that pending-update pointer after publication.
 
 ## Routine
 

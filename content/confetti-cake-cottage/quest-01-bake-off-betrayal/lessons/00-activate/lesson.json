@@ -1,5 +1,5 @@
 {
-  "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in quest.json, not here. Save and preview per system/WORKFLOW.md.",
+  "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Publication state derives from the registered Teacher Guide, not lesson.json. Save and preview per system/WORKFLOW.md.",
   "key": "activate",
   "title": "ACTIVATE",
   "grade": "4–6",
@@ -174,5 +174,9 @@
       "description": "— Display Callie throughout Quest One."
     }
   ],
-  "prep_heading": "PRINT YOUR CHOICES"
+  "prep_heading": "PRINT YOUR CHOICES",
+  "migration_review": {
+    "verified_student_worksheet_links": "Verified 2026-11-02: the official 03_STUDENT_MATERIALS/00_Activate Drive folder contains no standalone student worksheets; the lesson references none.",
+    "verified_current_slides_url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
+  }
 }
