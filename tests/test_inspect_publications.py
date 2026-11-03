@@ -105,7 +105,7 @@ class InspectionTests(unittest.TestCase):
     def test_published_slides_use_same_drive_check_as_other_resources(self):
         drive = Drive(public=False)
         slides_url = f"https://docs.google.com/presentation/d/{A}/edit"
-        slide = item(slides_url, type="slide_deck", pdf_url=V, holding_url=V,
+        slide = item(slides_url, type="slides", pdf_url=V, holding_url=V,
                      human_review={slides_url: "reviewed"})
         report = audit.audit({"slide": slide}, service=drive)
         self.assertEqual(report["result"], audit.FAIL)
