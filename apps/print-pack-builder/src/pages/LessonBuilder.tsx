@@ -19,19 +19,13 @@ type SetSelection = (f: (s: Selection) => Selection) => void;
 
 const validWhole = (n: number, min: number, max: number) => Number.isInteger(n) && n >= min && n <= max;
 
-/** "4 per group" or "4–5 per group". */
-function perGroup(students: number, groups: number) {
-  const low = Math.floor(students / groups);
-  const high = Math.ceil(students / groups);
-  return low === high ? `${low} per group` : `${low}–${high} per group`;
-}
-
 export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
   const [prefs] = useState(() => loadPrefs());
   const [selection, setSelection] = useState<Selection>({ options: {}, extensions: {} });
   const [students, setStudents] = useState(String(prefs.studentCount ?? lesson.defaults.studentCount));
-  const [groups, setGroups] = useState<Record<string, string>>({});
+  const [groupSizes, setGroupSizes] = useState<Record<string, string>>({});
   const [copies, setCopies] = useState<Record<string, string>>({});
+  const [expandedLine, setExpandedLine] = useState<string | null>(null);
   const [print, setPrint] = useState<PrintOptions>({ duplex: prefs.duplex });
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [showErrors, setShowErrors] = useState(false);
@@ -39,12 +33,11 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
 
   const quantities: Quantities = {
     studentCount: toWhole(students),
-    groups: Object.fromEntries(Object.entries(groups).map(([k, v]) => [k, toWhole(v)])),
-    copies: Object.fromEntries(Object.entries(copies).filter(([, v]) => v.trim() !== "").map(([k, v]) => [k, toWhole(v)])),
+    groupSizes: Object.fromEntries(Object.entries(groupSizes).map(([k, v]) => [k, toWhole(v)])),
+    copies: Object.fromEntries(Object.entries(copies).map(([k, v]) => [k, toWhole(v)])),
   };
   const plan = computePlan(lesson, selection, quantities);
   const studentsOk = validWhole(quantities.studentCount, LIMITS.minStudents, LIMITS.maxStudents);
-  const groupActivities = [...new Map(plan.lines.filter((l) => l.rule === "per_group").map((l) => [l.activityId, l])).values()];
 
   // Remember class size and print settings on this device.
   useEffect(() => {
@@ -163,62 +156,51 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
           );
         })}
 
-        <h2>Copies</h2>
-        <div className="fields">
-          <NumberField
-            label="Number of students"
-            value={students}
-            onChange={setStudents}
-            min={LIMITS.minStudents}
-            max={LIMITS.maxStudents}
-            error={showErrors && !studentsOk ? `Enter a whole number from ${LIMITS.minStudents} to ${LIMITS.maxStudents}.` : undefined}
-          />
-          {groupActivities.map((line) => {
-            const value = groups[line.activityId] ?? (Number.isFinite(line.groups) ? String(line.groups) : "");
-            const n = toWhole(value);
-            return (
-              <NumberField
-                key={line.activityId}
-                label={`Groups for ${line.sources[0]}`}
-                hint={studentsOk && validWhole(n, 1, LIMITS.maxGroups) ? perGroup(quantities.studentCount, n) : undefined}
-                value={value}
-                onChange={(v) => setGroups((previous) => ({ ...previous, [line.activityId]: v }))}
-                min={1}
-                max={LIMITS.maxGroups}
-                error={showErrors && !validWhole(n, 1, LIMITS.maxGroups) ? `Enter 1 to ${LIMITS.maxGroups}.` : undefined}
-              />
-            );
-          })}
+
+        <div className="copy-heading">
+          <h2>Copies</h2>
+          <div className="copy-class-size">
+            <NumberField
+              label="Number of students"
+              value={students}
+              onChange={setStudents}
+              min={LIMITS.minStudents}
+              max={LIMITS.maxStudents}
+              error={showErrors && !studentsOk ? `Enter a whole number from ${LIMITS.minStudents} to ${LIMITS.maxStudents}.` : undefined}
+            />
+          </div>
         </div>
 
         {plan.lines.length > 0 && (
-          <table className="review">
-            <caption className="visually-hidden">Copies of each worksheet</caption>
-            <thead>
-              <tr>
-                <th scope="col">Worksheet</th>
-                <th scope="col" className="num">Copies</th>
-              </tr>
-            </thead>
-            <tbody>
-              {plan.lines.map((line) => (
-                <CopiesRow
-                  key={line.id}
-                  line={line}
-                  raw={copies[line.id]}
-                  showErrors={showErrors}
-                  onChange={(v) => setCopies((c) => ({ ...c, [line.id]: v }))}
-                  onReset={() =>
-                    setCopies((c) => {
-                      const next = { ...c };
-                      delete next[line.id];
-                      return next;
-                    })
-                  }
-                />
-              ))}
-            </tbody>
-          </table>
+          <div className="copy-list" aria-label="Copies of each worksheet">
+            {plan.lines.map((line) => (
+              <CopiesRow
+                key={line.id}
+                line={line}
+                raw={copies[line.id]}
+                groupSize={groupSizes[line.activityId] ?? String(lesson.defaults.groupSize)}
+                expanded={expandedLine === line.id}
+                showErrors={showErrors}
+                onToggle={() => setExpandedLine((id) => id === line.id ? null : line.id)}
+                onCustomChange={(value) => setCopies((previous) => ({ ...previous, [line.id]: value }))}
+                onAuto={() => setCopies((previous) => {
+                  const next = { ...previous };
+                  delete next[line.id];
+                  return next;
+                })}
+                onGroupSizeChange={(value) => {
+                  setGroupSizes((previous) => ({ ...previous, [line.activityId]: value }));
+                  // A group-size edit takes precedence over stale copy overrides for this activity.
+                  setCopies((previous) => {
+                    const next = { ...previous };
+                    for (const item of plan.lines)
+                      if (item.rule === "per_group" && item.activityId === line.activityId) delete next[item.id];
+                    return next;
+                  });
+                }}
+              />
+            ))}
+          </div>
         )}
 
         <fieldset className="section print-options">
@@ -294,49 +276,97 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
   );
 }
 
+
 function CopiesRow(props: {
   line: PlanLine;
   raw: string | undefined;
+  groupSize: string;
+  expanded: boolean;
   showErrors: boolean;
-  onChange: (value: string) => void;
-  onReset: () => void;
+  onToggle: () => void;
+  onCustomChange: (value: string) => void;
+  onAuto: () => void;
+  onGroupSizeChange: (value: string) => void;
 }) {
   const id = useId();
   const { line } = props;
-  const value = props.raw ?? String(line.defaultCopies);
-  const invalid = props.showErrors && !validWhole(toWhole(value), 0, LIMITS.maxCopies);
+  const custom = props.raw !== undefined;
+  const invalidGroupSize = props.showErrors && !validWhole(toWhole(props.groupSize), 1, LIMITS.maxStudents);
+  const invalidCopies = props.showErrors && custom && !validWhole(toWhole(props.raw!), 0, LIMITS.maxCopies);
+  const quantity = Number.isFinite(line.copies) ? line.copies : "—";
+  const summary = custom
+    ? "Custom quantity"
+    : line.rule === "per_student" ? "1 per student" : `Groups of ${props.groupSize}`;
+
   return (
-    <tr>
-      <th scope="row">
-        <label htmlFor={id}>{line.title}</label>
-        <span className="row-sources">{line.sources.join(", ")}</span>
-      </th>
-      <td className="num copies-cell">
-        <input
-          id={id}
-          type="number"
-          inputMode="numeric"
-          min={0}
-          max={LIMITS.maxCopies}
-          step={1}
-          value={value}
-          aria-invalid={invalid || undefined}
-          aria-describedby={`${id}-rule`}
-          onChange={(e) => props.onChange(e.target.value)}
-        />
-        <span className="row-sources" id={`${id}-rule`}>{describeLine(line)}</span>
-        {line.edited && (
-          <button type="button" className="link-button" onClick={props.onReset}>
-            Reset to {line.defaultCopies}
+    <div className="copy-item">
+      <div className="copy-item-main">
+        <div className="copy-item-detail">
+          <strong>{line.title}</strong>
+          <span className="row-sources">{line.sources.join(", ")}</span>
+          <span className="copy-summary">{summary}{line.cardsPerSheet ? ` · ${line.cardsPerSheet} cards/sheet` : ""}</span>
+        </div>
+        <div className="copy-item-actions">
+          <div className="copy-quantity" aria-live="polite">
+            <strong>{quantity}</strong>
+            <span>copies</span>
+          </div>
+          <button
+            type="button"
+            className="copy-change"
+            aria-expanded={props.expanded}
+            aria-controls={id}
+            aria-label={`${props.expanded ? "Close settings for" : "Change copies for"} ${line.title}`}
+            onClick={props.onToggle}
+          >
+            {props.expanded ? "Done" : "Change"}
           </button>
-        )}
-        {invalid && (
-          <span className="field-error" role="alert">
-            0 to {LIMITS.maxCopies}
-          </span>
-        )}
-      </td>
-    </tr>
+        </div>
+      </div>
+
+      {props.expanded && (
+        <fieldset id={id} className="copy-settings">
+          <legend className="visually-hidden">Copy settings for {line.title}</legend>
+          <div className="copy-mode">
+            <label>
+              <input type="radio" name={`${id}-mode`} checked={!custom} onChange={props.onAuto} />
+              Automatic
+            </label>
+            <label>
+              <input
+                type="radio"
+                name={`${id}-mode`}
+                checked={custom}
+                onChange={() => props.onCustomChange(String(Number.isFinite(line.copies) ? line.copies : 0))}
+              />
+              Custom copy count
+            </label>
+          </div>
+          {custom ? (
+            <NumberField
+              label="Number of copies"
+              value={props.raw!}
+              onChange={props.onCustomChange}
+              min={0}
+              max={LIMITS.maxCopies}
+              error={invalidCopies ? `Enter a whole number from 0 to ${LIMITS.maxCopies}.` : undefined}
+            />
+          ) : line.rule === "per_group" ? (
+            <NumberField
+              label="Students per group"
+              hint="Copies update automatically for this activity."
+              value={props.groupSize}
+              onChange={props.onGroupSizeChange}
+              min={1}
+              max={LIMITS.maxStudents}
+              error={invalidGroupSize ? `Enter a whole number from 1 to ${LIMITS.maxStudents}.` : undefined}
+            />
+          ) : (
+            <p className="copy-rule">{describeLine(line)}. Based on your class size.</p>
+          )}
+        </fieldset>
+      )}
+    </div>
   );
 }
 
