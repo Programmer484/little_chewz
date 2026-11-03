@@ -32,7 +32,35 @@ def links(resource: dict) -> list[str]:
     return [resource.get("published_url")]
 
 
-def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
+def diagnostic_line(resource_id: str, url: str, operation: str, exc: Exception) -> str:
+    """Retain safe API identifiers, never raw exception bodies or credentials."""
+    fields = [f"resource_id={resource_id}", f"operation={operation}",
+              f"file_id={drive_id(url) or 'unknown'}",
+              f"exception={type(exc).__name__}"]
+    status = getattr(getattr(exc, "resp", None), "status", None)
+    if isinstance(status, int):
+        fields.append(f"http_status={status}")
+    # Google HttpError may expose error_details, or a JSON response body.
+    details = getattr(exc, "error_details", None)
+    reason = None
+    if isinstance(details, list) and details:
+        reason = details[0].get("reason") if isinstance(details[0], dict) else None
+    if not reason:
+        body = getattr(exc, "content", b"")
+        if isinstance(body, (str, bytes)) and len(body) < 8192:
+            try:
+                error = json.loads(body).get("error", {})
+                reasons = error.get("errors", [])
+                reason = (reasons[0].get("reason") if reasons else None) or error.get("status")
+            except (ValueError, TypeError, AttributeError, IndexError):
+                pass
+    if isinstance(reason, str) and re.fullmatch(r"[A-Za-z0-9_.:-]{1,96}", reason):
+        fields.append(f"api_reason={reason}")
+    return "\t".join(fields)
+
+
+def inspect_link(url: str | None, resource: dict, service,
+                 diagnostics: list[str] | None = None, resource_id: str = "") -> tuple[str, str]:
     if not url:
         return FAIL, "No published URL"
     parsed = urlsplit(url)
@@ -55,6 +83,8 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
             fileId=file_id, supportsAllDrives=True, fields="id,trashed").execute()
     except Exception as exc:
         # Drive's 404 can mean either missing or inaccessible to this service account.
+        if diagnostics is not None:
+            diagnostics.append(diagnostic_line(resource_id, url, "files.get", exc))
         return REVIEW, "Service account cannot access Drive file"
     if metadata.get("id") != file_id or metadata.get("trashed") is True:
         return FAIL, "Wrong Drive file or file in Trash"
@@ -69,6 +99,9 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
             result = service.permissions().list(**params).execute()
             permissions = result.get("permissions")
             if not isinstance(permissions, list):
+                if diagnostics is not None:
+                    diagnostics.append(f"resource_id={resource_id}\toperation=permissions.list"
+                                       f"\tfile_id={file_id}\tapi_reason=permissions_not_returned")
                 return REVIEW, "Drive did not return permission information"
             if any(p.get("type") == "anyone" and p.get("role") in
                    {"reader", "commenter", "writer", "owner"} for p in permissions):
@@ -77,6 +110,8 @@ def inspect_link(url: str | None, resource: dict, service) -> tuple[str, str]:
             if not token:
                 return FAIL, "Anyone-with-the-link permission is missing"
     except Exception as exc:
+        if diagnostics is not None:
+            diagnostics.append(diagnostic_line(resource_id, url, "permissions.list", exc))
         return REVIEW, "Cannot read Drive sharing permissions"
 
 
@@ -85,12 +120,10 @@ def audit(registry: dict, folders=None, service=None, builder=None,
     if only and only not in registry:
         raise ValueError("Unknown resource: " + only)
     report = []
+    diagnostics: list[str] = []
     credentials_checked = service is not None
     for rid, resource in registry.items():
         if not has_official_version(resource) or (only and rid != only):
-            continue
-        # Classroom slide PPTX files are human approved; linked PDFs remain holding copies.
-        if resource.get("type") == "slide_deck":
             continue
         result = PASS
         issues = []
@@ -100,9 +133,11 @@ def audit(registry: dict, folders=None, service=None, builder=None,
                     credentials_checked = True
                     try:
                         service = drive_service()
-                    except Exception:
+                    except Exception as exc:
                         service = None
-            state, reason = inspect_link(url, resource, service)
+                        diagnostics.append(f"resource_id={rid}\toperation=drive_service"
+                                           f"\texception={type(exc).__name__}")
+            state, reason = inspect_link(url, resource, service, diagnostics, rid)
             if state != PASS:
                 issues.append({"status": state, "url": url, "reason": reason})
                 result = state
@@ -111,7 +146,8 @@ def audit(registry: dict, folders=None, service=None, builder=None,
         report.append({"resource_id": rid, "result": result, "issues": issues})
     overall = FAIL if any(r["result"] == FAIL for r in report) else (
         REVIEW if any(r["result"] == REVIEW for r in report) else PASS)
-    return {"read_only": True, "result": overall, "resources": report}
+    return {"read_only": True, "result": overall, "resources": report,
+            "diagnostics": diagnostics}
 
 
 def summary_table(report: dict) -> str:
@@ -135,6 +171,13 @@ def main() -> None:
     result = audit(load_registry(), only=args.resource_id)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(result, indent=2) + "\n")
+    # Keep detailed diagnostics in an artifact, not in the console or summary.
+    diagnostic_path = args.report.with_suffix(".txt")
+    diagnostic_path.write_text(
+        "Publication inspection diagnostics (safe API codes only)\n"
+        + ("\n".join(result["diagnostics"]) if result["diagnostics"]
+           else "No API exceptions recorded.")
+        + "\n", encoding="utf-8")
     summary = summary_table(result)
     print(summary)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
