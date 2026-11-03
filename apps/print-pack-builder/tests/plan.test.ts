@@ -24,6 +24,9 @@ describe("class quantities", () => {
   it("validates class size, group counts and overrides", () => {
     expect(quantityProblems({ studentCount: 0 })).toHaveLength(1);
     expect(quantityProblems({ studentCount: 25.5 })).toHaveLength(1);
+    expect(quantityProblems({ ...q, groupSizes: { a: 0 } })).toHaveLength(1);
+    expect(quantityProblems({ ...q, groupSizes: { a: 201 } })).toHaveLength(1);
+    expect(quantityProblems({ ...q, groupSizes: { a: 3 } })).toEqual([]);
     expect(quantityProblems({ ...q, groups: { a: 0 } })).toHaveLength(1);
     expect(quantityProblems({ ...q, groups: { a: 201 } })).toHaveLength(1);
     expect(quantityProblems({ ...q, groups: { a: 1 } })).toEqual([]);
@@ -76,6 +79,21 @@ describe("per-activity quantities", () => {
     const edited = computePlan(testLesson(), sel, { studentCount: 17, groups: { b: 4, "group-sheet": 6 } });
     expect(pick(edited, "team-cards")).toMatchObject({ groups: 4, needed: 4, defaultCopies: 1 });
     expect(pick(edited, "group-sheet")).toMatchObject({ groups: 6, needed: 6, defaultCopies: 6 });
+  });
+
+  it("calculates each activity from its own students-per-group input", () => {
+    const sel = { options: { b: true }, extensions: { "group-sheet": true } };
+    const plan = computePlan(testLesson(), sel, {
+      studentCount: 25, groupSizes: { b: 3, "group-sheet": 5 },
+    });
+    expect(pick(plan, "team-cards")).toMatchObject({ groups: 9, needed: 9, defaultCopies: 3 });
+    expect(pick(plan, "group-sheet")).toMatchObject({ groups: 5, needed: 5, defaultCopies: 5 });
+    const smaller = computePlan(testLesson(), sel, {
+      studentCount: 10, groupSizes: { b: 3, "group-sheet": 5 },
+      copies: { "core-sheet:per_student": 12 },
+    });
+    expect(pick(smaller, "team-cards").groups).toBe(4);
+    expect(pick(smaller, "core-sheet").copies).toBe(12);
   });
 
   it("treats a whole class as one group", () => {

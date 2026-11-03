@@ -8,6 +8,8 @@ export function quantityProblems(q: Quantities): string[] {
   const errors: string[] = [];
   if (!whole(q.studentCount) || q.studentCount < LIMITS.minStudents || q.studentCount > LIMITS.maxStudents)
     errors.push(`Enter a student count from ${LIMITS.minStudents} to ${LIMITS.maxStudents}.`);
+  if (Object.values(q.groupSizes ?? {}).some((n) => n !== undefined && (!whole(n) || n < 1 || n > LIMITS.maxStudents)))
+    errors.push(`Students per group must be a whole number from 1 to ${LIMITS.maxStudents}.`);
   if (Object.values(q.groups ?? {}).some((n) => n !== undefined && (!whole(n) || n < 1 || n > LIMITS.maxGroups)))
     errors.push(`Enter a number of groups from 1 to ${LIMITS.maxGroups}.`);
   if (Object.values(q.copies ?? {}).some((n) => n !== undefined && (!whole(n) || n < 0 || n > LIMITS.maxCopies)))
@@ -51,8 +53,6 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
   const numberProblems = quantityProblems(q);
   const problems = [...numberProblems];
   if (lesson.status !== "ready") problems.push("This lesson has no downloadable student materials yet.");
-  const defaultGroups = groupCount(q.studentCount, lesson.defaults.groupSize);
-
   const lines = new Map<string, PlanLine>();
   const unavailable = new Map<string, Plan["unavailable"][number]>();
   for (const { material: m, source, activityId } of selectedMaterials(lesson, sel)) {
@@ -65,7 +65,9 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
       });
       continue;
     }
-    const groups = m.rule === "per_group" ? (q.groups?.[activityId] ?? defaultGroups) : undefined;
+    const groups = m.rule === "per_group"
+      ? (q.groups?.[activityId] ?? groupCount(q.studentCount, q.groupSizes?.[activityId] ?? lesson.defaults.groupSize))
+      : undefined;
     const needed = numberProblems.length ? 0 : m.rule === "per_student" ? q.studentCount : groups!;
     const id = `${m.resourceId}:${m.rule}${m.rule === "per_group" ? `:${activityId}` : ""}`;
     const previous = lines.get(id);
