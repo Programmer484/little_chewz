@@ -6,7 +6,7 @@
   "option": "C/D",
   "meta": [
     "Expands Teacher Guide step 2",
-    "45–60 min",
+    "25–35 min",
     "Teams of 3–5"
   ],
   "blocks": [
@@ -23,11 +23,11 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Book the oven and an adult for the whole session; check how many pans fit at once",
-        "Confirm whether students may eat what they bake, and when; cupcakes won’t be cool by the end of the session",
+        "Book the oven and an adult for the lesson; size teams so every pan fits in at once",
         "Shop from the recipe card: one recipe per team makes about 12–18 standard cupcakes",
-        "Give each team its own labelled cupcake pan with liners, bowl, square pan, measuring cups and spoons, and fork",
-        "Hand-washing and cleaning supplies, oven mitts, and a safe spot for hot pans"
+        "Each team: its own labelled cupcake pan with liners, bowl, square pan, measuring tools and fork",
+        "Hand-washing and cleaning supplies, oven mitts, and a safe spot for hot pans",
+        "Confirm whether students may eat what they bake; it won’t be cool by the end of the lesson"
       ]
     },
     {
@@ -39,15 +39,15 @@
       "items": [
         {
           "term": "Mystery mix-in",
-          "text": "Teams fold in one ingredient, such as chocolate chips or sprinkles. Allergy-check it first; one portion per team."
+          "text": "Teams fold in one ingredient, such as chocolate chips; allergy-check it first."
         },
         {
           "term": "Missing measure",
           "text": "Remove one measuring cup; teams measure with what’s left."
         },
         {
-          "term": "Half batch",
-          "text": "Teams make half the recipe, halving every quantity."
+          "term": "Role swap",
+          "text": "Halfway through mixing, every student swaps to a new role."
         }
       ]
     },
@@ -59,41 +59,34 @@
       "type": "steps",
       "items": [
         {
-          "title": "Roles",
+          "title": "Preheat",
+          "mins": "Start",
+          "text": "An adult switches the oven to 350°F (175°C) as the lesson begins, so it is hot when the pans are ready."
+        },
+        {
+          "title": "Cutoff and roles",
           "mins": "5 min",
-          "text": "Teams pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew. In smaller teams, students take more than one role. Everyone washes hands."
+          "text": "Announce the pans-in time, 25–30 min from now. Teams wash hands and pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew; smaller teams double up."
         },
         {
-          "title": "Measure and mix",
-          "mins": "20 min",
-          "text": "Mystery: reveal the twist. Teams follow the recipe and fill liners about ¾ full."
+          "title": "Reveal the twist (Mystery only)",
+          "mins": "5 min",
+          "text": "Tell teams the twist you chose."
         },
         {
-          "title": "Bake",
-          "mins": "20–35 min",
-          "text": "An adult bakes each load for 20–25 min and checks with a toothpick."
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "Tips"
-    },
-    {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "Oven not hot yet",
-          "text": "Switch it to 350°F (175°C) at the start; it takes 10–15 min to heat."
+          "title": "Mix",
+          "mins": "15–20 min",
+          "text": "Teams follow the recipe. Circulate: by halfway, every team’s dry ingredients are mixed."
         },
         {
-          "term": "Oven too small",
-          "text": "Each extra load adds 20–25 min; teams wash up at their station while they wait."
+          "title": "Pans in",
+          "mins": "5 min",
+          "text": "Every pan goes in by the cutoff; an adult bakes them 20–25 min during clean-up and debrief."
         }
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. The detailed activity guide: everything a teacher should check so they don't have to think of it. Repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, card and recipe links, option totals) or the recipe card (ingredient quantities stay on the recipe). Covers guide step 2 and step 3 · C/D. Sources: Day 3 The Showdown (v0) Level 3 and Level 4 pages (role names, twist ideas, 'not perfection, but adaptability', success criteria) and recipe page (350°F, ¾-full liners, cool completely); the task spec (non-ingredient default twists, allergy checks, adult oven supervision, oven/cooling caveat, 12–18 cupcake estimate, no class-size assumption). 'Level 3/4' renamed Bake/Mystery. Twists (2026-11-03): bake-specific only; mix-in and missing measure adapt Day 3's mystery ingredient and limited kitchen tool; half batch is newly written. Team size 3–5 depending on oven space. Newly written: checklist wording, timings, oven capacity, preheat timing, labelled pans, per-team equipment, and limiting icing and design twists to a later decorating session.",
+  "source_note": "DRAFT 2026-11-03, needs human review. Built around one constraint: every pan must be in the oven by a fixed cutoff so baking overlaps the Teacher Guide's clean-up and debrief (human decision 2026-11-03). Repeats nothing in the Showdown Teacher Guide, the overview or the recipe card (quantities, method and filling stay on the recipe). Sources: Day 3 The Showdown (v0) Level 3 and Level 4 pages (role names, mystery ingredient, limited kitchen tool, role switch, 'not perfection, but adaptability') and recipe page (350°F, 20–25 min bake, cool completely); the task spec (allergy checks, adult oven supervision, 12–18 cupcake estimate, no class-size assumption). 'Level 3/4' renamed Bake/Mystery. Newly written: checklist wording, step timings, pans-in cutoff and midway pacing check.",
   "resource_id": "ccc-q01-showdown-bake-mystery-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",

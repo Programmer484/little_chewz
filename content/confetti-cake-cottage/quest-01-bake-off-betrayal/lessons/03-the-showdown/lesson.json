@@ -4,7 +4,7 @@
   "key": "p3",
   "title": "PART 3 / THE SHOWDOWN",
   "grade": "4–6",
-  "duration": "35–70+ min by challenge",
+  "duration": "35–65 min by challenge",
   "print_note": "PRINT ONLY YOUR CHOICE",
   "goal": "Put learning into action through a shared challenge that develops communication, collaboration, and creative problem-solving.",
   "outcomes": [
@@ -69,7 +69,7 @@
     {
       "id": 2,
       "title": "Run One Showdown Challenge",
-      "mins": "20–60",
+      "mins": "20–45",
       "rows": [],
       "options": [
         {
@@ -113,7 +113,7 @@
         },
         {
           "label": "C",
-          "title": "Bake · 45–60 min",
+          "title": "Bake · 25–30 min",
           "group_size": 4,
           "rows": [
             {
@@ -135,7 +135,7 @@
         },
         {
           "label": "D",
-          "title": "Mystery · 45–60 min",
+          "title": "Mystery · 30–35 min",
           "group_size": 4,
           "rows": [
             {
@@ -160,11 +160,11 @@
     {
       "id": 3,
       "title": "Clean Up and TASTE Debrief",
-      "mins": "10+",
+      "mins": "10–25",
       "rows": [
         {
           "kind": "DO",
-          "text": "Clean stations safely, with extra time after baking; then lead Share, Think Back and Extend."
+          "text": "Clean stations safely; for Bake or Mystery, the cupcakes bake meanwhile and an adult takes them out after 20–25 min. Then lead Share, Think Back and Extend."
         },
         {
           "kind": "ASK",
@@ -183,6 +183,6 @@
   "migration_review": {
     "basis": "05_The_Showdown.pdf (7 pages), Full Guide Revised.pdf pp. 14–17, Full Guide.pdf v0 pp. 46–62",
     "not_yet_verified": "All linked option guides, handouts, recipe, slides, and TASTE sheet are draft-only placeholders pointing to the Drive homepage; replace with verified resources before publication.",
-    "timing": "2026-11-03 human decisions: challenge times follow Day 3 (Design 20–30, Decorate 30–45, Bake/Mystery 45–60 min). The Showdown overview (Preparation) holds each option's restrictions and prep for choosing; each option's activity guide holds its planning, roles and tips. This guide links the overview and activity guides once, in Preparation, and keeps only the flow and cards. Clean Up and the TASTE debrief share one step so the Teaching Flow fits one page. Team sizes (2026-11-03 human decision): Design and Decorate 2–3, Bake and Mystery 3–5 depending on oven space; group_size gives the Print Pack Builder's default (3 and 4)."
+    "timing": "2026-11-03 human decisions: challenge times: Design 20–30, Decorate 30–45, Bake 25–30, Mystery 30–35 min; Bake and Mystery pans go in by a fixed cutoff and bake during step 3. The Showdown overview (Preparation) holds each option's restrictions and prep for choosing; each option's activity guide holds its planning, roles and tips. This guide links the overview and activity guides once, in Preparation, and keeps only the flow and cards. Clean Up and the TASTE debrief share one step so the Teaching Flow fits one page. Team sizes (2026-11-03 human decision): Design and Decorate 2–3, Bake and Mystery 3–5 depending on oven space; group_size gives the Print Pack Builder's default (3 and 4)."
   }
 }
