@@ -54,7 +54,7 @@ Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optio
 | `steps` | Ordered teacher actions; items take `title`, `text`, and optionally `mins`, `tag`, `prompts` | Numbered rows; `mins` right-aligned, `tag` in grey caps after the title (e.g. `Guide step 3`), `prompts` as italic teacher lines beside an accent rule, without quotation marks |
 | `questions`, `answers` | Question banks and answer keys | Numbered rows with hairline dividers |
 | `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`) | Bold term column with the explanation beside it, hairline dividers |
-| `table` | Comparing options at a glance (`columns`, then `rows` of `cells` and an optional one-line `note`) | Grey column labels, a bold first column, hairline dividers; each note in grey under its row; kept on one page |
+| `table` | Comparing options at a glance (`columns`, then `rows` of `cells` and an optional one-line `note`) | Grey column labels over one hairline; columns sized to their content; an `A · Name` first cell gets an accent letter badge; `Low` / `Medium` / `High` cells show a three-dot meter beside the word; `No` and `None` are muted; each note in grey under the detail columns; whitespace, not dividers, between rows; kept on one page |
 | `bullets`, `paragraph`, `note` | Plain lists, body text, small grey notes | Body or grey text |
 | `links` | Registry resources by `ref`, with a short `description` | Bold underlined title and grey description |
 | `image`, `spacer` | A comprehension-aiding illustration; a rare extra gap. Sections space themselves, so never use `spacer` for layout | |
