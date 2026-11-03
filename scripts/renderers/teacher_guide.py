@@ -106,7 +106,7 @@ def txt(p,s,x,y,size=11.,font='regular',color=BLACK,max_right=R):
 #       identical in every step so the label column never moves
 #   129 instruction text
 #   551 right margin: step times, page counter
-# Bonus columns use a two-column grid with a 40 pt gutter.
+# Overview and bonus columns share one two-column grid with a 40 pt gutter.
 # ---------------------------------------------------------------------------
 CAP=.7165                      # Lato cap height / em
 BOX_MID=.387                   # Lato text-box middle above baseline / em ((0.987-0.213)/2)
@@ -116,9 +116,11 @@ GUTTER=40.
 COL_W=(PAGE_W-GUTTER)/2
 COL2_X=L+COL_W+GUTTER
 GAP=24.                        # rule <-> neighbouring text on flow pages
+OV_GAP=27.                     # the same on the overview, which has room to breathe
 HDR_EYEBROW,HDR_TITLE,HDR_RULE=38.,70.,88.
 
 # Type scale
+SEC_SIZE=13.4;BAR_W=28.
 BODY,BODY_LH=11.2,17.2          # overview prose
 FLOW_BODY,FLOW_ASK,FLOW_LH=10.9,11.2,16.   # every Teaching Flow row, in or out of options
 ROW_STEP=25.                   # baseline -> baseline between consecutive rows
@@ -157,6 +159,13 @@ def lines(p,s,x,baseline,w,size,lh,font='regular',color=BLACK):
 
 def label(p,title,x,baseline,color=DEEP,size=LABEL_SIZE):
     return at(p,title,x,baseline,size,'heavy',color)
+
+def section(p,title,x,cap_top,accent):
+    """Section title with a short accent bar. Returns the cap-top for body text."""
+    b=at(p,title,x,cap_to_base(cap_top,SEC_SIZE),SEC_SIZE,'bold')
+    bar=b+7.5
+    line(p,bar,x,x+BAR_W,accent,2.)
+    return bar+15.
 
 def hdr(p,eyebrow,title,accent=CORAL):
     label(p,eyebrow.upper(),L,HDR_EYEBROW,MID,9.1)
@@ -229,37 +238,10 @@ def normalized_assessment(value):
         return entries or None
     raise ValueError('Assessment must be a string, list of strings, null, or omitted')
 
-# ---------------------------------------------------------------------------
-# At a Glance (overview)
-#
-# One open column of sections separated by whitespace, not rules: small accent
-# labels, the learning goal set as a lead statement, and Preparation, the only
-# thing the teacher acts on before class, in one tinted card beside the outcomes.
-# ---------------------------------------------------------------------------
-OV_LABEL,OV_TRACK=9.,.8       # accent section label: heavy caps, lightly tracked
-OV_LABEL_TO_BODY=20.           # label baseline -> first body baseline
-OV_SECTION=42.                 # last baseline -> next label cap-top
-GOAL_SIZE,GOAL_LH=14.,20.5     # learning goal lead statement
-OUT_W=214.                     # outcomes column
-CARD_X,CARD_PAD,CARD_RADIUS=L+OUT_W+22.,18.,6.
-CARD_W=R-CARD_X
-CARD_IN=CARD_W-2*CARD_PAD
-CARD_MIX=.075                  # accent share of the card tint (prints as a pale wash)
-
-def tracked(p,s,x,baseline,size,font,color,track):
-    """One line with extra letter spacing, drawn glyph by glyph."""
-    for ch in s:
-        at(p,ch,x,baseline,size,font,color);x+=tw(ch,size,font)+track
-    return baseline
-
-def ov_label(p,title,x,cap_top,accent):
-    """Accent section label; returns the first body baseline below it."""
-    b=tracked(p,title.upper(),x,cap_to_base(cap_top,OV_LABEL),OV_LABEL,'heavy',accent,OV_TRACK)
-    return b+OV_LABEL_TO_BODY
-
-def prose_section(p,title,text,cap_top,accent,size=BODY,lh=BODY_LH,font='regular'):
-    """Full-width labelled section; returns the last baseline."""
-    return lines(p,text,L,ov_label(p,title,L,cap_top,accent),PAGE_W,size,lh,font)
+def prose_section(p,title,text,cap_top,accent):
+    """Full-width section; returns the last baseline."""
+    c=section(p,title,L,cap_top,accent)
+    return lines(p,text,L,cap_to_base(c,BODY),PAGE_W,BODY,BODY_LH)
 
 def meta_row(p,items,baseline):
     """Grade / duration / print note, separated by short vertical ticks."""
@@ -270,21 +252,6 @@ def meta_row(p,items,baseline):
         at(p,item,x,baseline,size,'bold',MID);x+=tw(item,size,'bold')
     if x>R:raise LayoutError('Overview meta row is too long')
 
-def prep_card(p,d,reg,cap_top,accent):
-    """Preparation content inside the card; returns the last baseline."""
-    x=CARD_X+CARD_PAD
-    rb=ov_label(p,'Preparation',x,cap_top,accent)-OV_LABEL_TO_BODY
-    rb=label(p,'CORE RESOURCES',x,rb+22,MID,8.)
-    for it in d['core']:
-        rb=resource_line(p,it,reg,x,rb+19,CARD_IN,size=10.4,strict=True,description_size=9.6)
-    if d['optional_prep'] or d.get('prep_note'):
-        rb=label(p,d.get('prep_heading','OPTIONAL PREPARATION').upper(),x,rb+28,MID,8.)
-        for it in d['optional_prep']:
-            rb=resource_line(p,it,reg,x,rb+19,CARD_IN,size=10.4,strict=True,description_size=9.6)
-        if d.get('prep_note'):
-            rb=lines(p,d['prep_note'],x,rb+(19 if d['optional_prep'] else 17),CARD_IN,9.6,14.4,'italic',MID)
-    return rb
-
 def overview(doc,d,reg):
     p=newp(doc);accent=section_accent(d['key'])
     if d['key'].startswith('p') and d['key'][1:].isdigit():
@@ -292,39 +259,51 @@ def overview(doc,d,reg):
         rule=hdr(p,part+' / TEACHER GUIDE',topic+' / AT A GLANCE',accent)
     else:rule=hdr(p,'TEACHER GUIDE',d['title']+' / AT A GLANCE',accent)
 
+    # Meta band: equal optical space above and below the line.
     meta_b=cap_to_base(rule+17,9.3)
     meta_row(p,[f"GRADES {d['grade']}",d['duration'].upper(),d['print_note'].upper()],meta_b)
+    rule=meta_b+17;line(p,rule)
 
-    # The goal leads the page; everything else sits on one quieter body size.
-    b=prose_section(p,'Learning goal',d['goal'],meta_b+44,accent,GOAL_SIZE,GOAL_LH,'medium')
+    b=prose_section(p,'Learning goal',d['goal'],rule+OV_GAP,accent)
+    rule=b+OV_GAP;line(p,rule);top=rule
 
-    # Outcomes beside the Preparation card; whitespace, not rules, separates them.
-    top=b+OV_SECTION
-    lb=ov_label(p,'Learning outcomes',L,top,accent)-FLOW_LH-9
+    # Two equal columns joined to the rules above and below by a vertical divider.
+    c=section(p,'Learning outcomes',L,top+OV_GAP,accent)
+    lb=cap_to_base(c,BODY)-FLOW_LH-9
     for i,value in enumerate(d['outcomes'],1):
         lb+=FLOW_LH+9
         at(p,f'{i:02d}',L,lb,10.4,'bold',accent)
-        lb=lines(p,value,L+26,lb,OUT_W-26,10.9,FLOW_LH)
-    card_top=top-CARD_PAD
-    rb=prep_card(None,d,reg,top,accent)
-    card_bottom=rb+CARD_PAD+3
-    tint=tuple(BG[i]*(1-CARD_MIX)+accent[i]*CARD_MIX for i in range(3))
-    p.draw_rect(fitz.Rect(CARD_X,card_top,R,card_bottom),color=None,fill=tint,radius=CARD_RADIUS/min(CARD_W,card_bottom-card_top))
-    prep_card(p,d,reg,top,accent)
+        lb=lines(p,value,L+26,lb,COL_W-26,10.9,FLOW_LH)
 
-    b=prose_section(p,'Teaching focus',d['focus'],max(lb,card_bottom-CARD_PAD)+OV_SECTION,accent)
+    c=section(p,'Preparation',COL2_X,top+OV_GAP,accent)
+    rb=label(p,'CORE RESOURCES',COL2_X,cap_to_base(c,LABEL_SIZE),MID)
+    for it in d['core']:
+        rb=resource_line(p,it,reg,COL2_X,rb+19,COL_W,size=10.4,strict=True,description_size=9.6)
+    if d['optional_prep'] or d.get('prep_note'):
+        rb=label(p,d.get('prep_heading','OPTIONAL PREPARATION'),COL2_X,rb+29,MID)
+        for it in d['optional_prep']:
+            rb=resource_line(p,it,reg,COL2_X,rb+19,COL_W,size=10.4,strict=True,description_size=9.6)
+        if d.get('prep_note'):
+            rb=lines(p,d['prep_note'],COL2_X,rb+(19 if d['optional_prep'] else 17),COL_W,9.6,14.4,'italic',MID)
+    bottom=max(lb,rb)+OV_GAP
+    vline(p,L+COL_W+GUTTER/2,top,bottom)
+    line(p,bottom)
+
+    b=prose_section(p,'Teaching focus',d['focus'],bottom+OV_GAP,accent)
     assessment=normalized_assessment(d.get('assessment'))
     # Assessment is optional and never adds a Teaching Flow activity.
     if assessment:
+        rule=b+OV_GAP;line(p,rule)
         if isinstance(assessment,str):
-            b=prose_section(p,'Assessment',assessment,b+OV_SECTION,accent)
+            b=prose_section(p,'Assessment',assessment,rule+OV_GAP,accent)
         else:
-            b=ov_label(p,'Assessment',L,b+OV_SECTION,accent)-15.2-5
+            c=section(p,'Assessment',L,rule+OV_GAP,accent);b=cap_to_base(c,10.6)-15.2-5
             for item in assessment:
                 b+=15.2+5
                 at(p,'•',L,b,10.6,'bold',accent)
                 b=lines(p,item,L+14,b,PAGE_W-14,10.6,15.2)
-    b=prose_section(p,'Curriculum connections',' · '.join(d['curriculum']),b+OV_SECTION,accent)
+    rule=b+OV_GAP;line(p,rule)
+    b=prose_section(p,'Curriculum connections',' · '.join(d['curriculum']),rule+OV_GAP,accent)
     if b>806:raise LayoutError(f'{d["key"]} overview exceeds page at baseline {b:.1f}')
     return p
 
