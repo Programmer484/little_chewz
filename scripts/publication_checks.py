@@ -10,5 +10,5 @@ def unpublished_references(target: dict, registry: dict) -> list[str]:
     for rid in sorted(resource_refs(target.get("data", {}))):
         record = registry.get(rid)
         if not has_official_version(record):
-            blocked.append(f"{rid} ({publication_status(record) if record else 'missing'})")
+            blocked.append(f"{rid} ({publication_status(record) if record is not None else 'missing'})")
     return blocked
