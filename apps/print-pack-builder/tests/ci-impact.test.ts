@@ -82,7 +82,6 @@ describe("semantic Print Pack CI impact", () => {
     expect(changed((input) => {
       input.registry.sheet.published_url =
         "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view";
-      input.registry.sheet.publication = { drive_file_id: "1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ" };
     })).toBe(true);
   });
 
