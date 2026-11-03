@@ -15,7 +15,6 @@ function fixture(): Inputs {
         title: "Student sheet",
         type: "student_material",
         published_url: "https://drive.google.com/file/d/" + FILE + "/view",
-        publication: { drive_file_id: FILE },
       },
       other: { title: "Unreferenced teacher file", type: "teacher_resource" },
     },
