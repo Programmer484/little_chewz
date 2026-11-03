@@ -12,8 +12,8 @@
   "blocks": [
     {
       "type": "callout",
-      "title": "One cupcake. Many ideas.",
-      "text": "Design ONE team cupcake that represents teamwork, communication and creativity."
+      "title": "Mission",
+      "text": "Create ONE paper cupcake design that represents teamwork, communication and creativity."
     },
     {
       "type": "heading",
@@ -23,10 +23,10 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Print the Print Pack: one Design Challenge Card per team; Design Your Cupcake Worksheet, page 1 per student and page 2 per team (blank paper also works)",
-        "Pencils, markers and coloured pencils; erasers",
-        "A timer the class can see",
-        "Tables for teams of 3–4, with room for every solo sketch and one team page in the middle"
+        "Print the Print Pack: one Design Challenge Card and one Design Your Cupcake Worksheet per team",
+        "Blank paper for each student’s solo sketch",
+        "Pencils, markers and coloured pencils; a timer the class can see",
+        "Tables for teams of 3–4, with room for every solo sketch and one team worksheet in the middle"
       ]
     },
     {
@@ -46,7 +46,7 @@
           "title": "Sketch alone",
           "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Students draw on page 1 without talking. Symbols, colours, words and illustrations all count."
+          "text": "Students sketch on blank paper without talking. Symbols, colours, words and illustrations all count."
         },
         {
           "title": "Share ideas",
@@ -55,10 +55,10 @@
           "text": "Each student shows one idea. Teammates ask one question and name one idea they want to keep."
         },
         {
-          "title": "Agree and draw",
+          "title": "Agree and design",
           "tag": "Guide step 3 · A",
           "mins": "18–20 min",
-          "text": "The team draws ONE cupcake on page 2, shows at least three teamwork qualities, and completes the Shared Decision box.",
+          "text": "The team draws ONE cupcake on its worksheet, shows at least three teamwork qualities, and agrees on one shared decision to explain.",
           "prompts": [
             "What can we keep from both ideas?",
             "Who hasn’t added an idea yet?"
@@ -68,13 +68,13 @@
           "title": "Clean up",
           "tag": "Guide step 4",
           "mins": "3 min",
-          "text": "Collect solo and team pages together; put supplies away."
+          "text": "Collect each team’s sketches and worksheet together; put supplies away."
         },
         {
           "title": "Explain one decision",
           "tag": "Guide step 5",
           "mins": "5–8 min",
-          "text": "Each team shares one decision it made together, by speaking, reading aloud, or pointing to the drawing."
+          "text": "Each team explains the meaning behind its cupcake and one choice it made together, by speaking or pointing to the drawing."
         }
       ]
     },
@@ -86,8 +86,8 @@
       "type": "checklist",
       "style": "check",
       "items": [
-        "Every student sketches alone before team talk.",
-        "The team draws ONE agreed cupcake that keeps at least one idea from each solo sketch.",
+        "Every student sketches an idea before team talk.",
+        "The team completes ONE worksheet that keeps at least one idea from each sketch.",
         "The design includes at least three teamwork qualities, named or drawn.",
         "The team can explain the meaning behind its design and one choice it made together."
       ]
@@ -159,12 +159,12 @@
         },
         {
           "ref": "ccc-q01-showdown-design-sheet",
-          "description": "Page 1 per student, page 2 per team"
+          "description": "One per team"
         }
       ]
     }
   ],
-  "source_note": "PROTOTYPE 2026-11-03 for template review. Sources: Day 3 The Showdown (v0) Level 1 Design Challenge page, card and worksheet (mission wording, materials, teamwork-quality examples, success criteria, assessment look-for headings, teacher tip); the 2026-11-01 Drive review batch (A_Design_Teacher_Guide_REVIEW.pdf, A_Design_Challenge_Card_REVIEW.pdf, A_Design_Worksheet_REVIEW.pdf); the Showdown guide option A summary; and the user's task spec (3–5 min solo sketch, one team design, one shared decision). 'Level 1' renamed Design. Look-for and stuck-team explanations are newly written and need human review.",
+  "source_note": "PROTOTYPE 2026-11-03 for template review. Sources: Day 3 The Showdown (v0) Level 1 Design Challenge page and card (mission wording, materials, teamwork-quality examples, success criteria, assessment look-for headings, teacher tip); the Showdown Teacher Guide option A summary; and the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, one shared decision). 'Level 1' renamed Design. Written to work with the existing student card and worksheet; it does not depend on a worksheet layout. Look-for and stuck-team explanations are newly written and need human review.",
   "resource_id": "ccc-q01-showdown-design-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
