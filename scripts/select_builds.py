@@ -95,7 +95,7 @@ def targets():
         if name in result:
             raise ValueError(f'Duplicate output: {name}')
         result[name] = dict(
-            source=source.as_posix(), kind=build['template'],
+            source=source.as_posix(), kind=build['renderer'],
             data=data,
             cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
             folder=source.parent.as_posix()
@@ -128,7 +128,7 @@ def changed_pdf_config_ids(base_ref):
     old = json.loads(previous('catalog/resources.json', base_ref))
     def config(resource):
         pdf = (resource or {}).get('pdf') or {}
-        return {key: pdf.get(key) for key in ('template','output','source')}
+        return {key: pdf.get(key) for key in ('renderer','output','source')}
     return {rid for rid in old.keys() | current.keys()
             if config(old.get(rid)) != config(current.get(rid))}
 

@@ -64,7 +64,7 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(set(mapping), set(self.targets))
         for output, resource_id in mapping.items():
             self.assertEqual(self.targets[output]['resource_id'], resource_id)
-            self.assertIn(records[resource_id]['pdf']['template'], {'teacher_guide', 'teacher_companion', 'welcome'})
+            self.assertIn(records[resource_id]['pdf']['renderer'], {'teacher_guide', 'teacher_companion', 'welcome'})
         self.assertTrue(all('pdf' not in item
                             for item in records.values() if item.get('pdf') is None))
 

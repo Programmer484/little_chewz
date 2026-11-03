@@ -293,7 +293,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
 
-The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"template":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"template":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
+The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"renderer":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
 
 ### Automatic publication inspection
 
@@ -361,13 +361,13 @@ The folder category is the only audience/content classification. No `audience`, 
 ### Production workflows and delivery states
 
 Generation is inferred from the presence of `pdf` in `catalog/resources.json` (no redundant `production_type`, `pdf_template`, `source`, `build` or `url`). The object contains:
-- `template`: `teacher_guide`, `teacher_companion` or `welcome`.
+- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. A *template* is different: it is the content structure a source file follows, marked in the source itself (for example `"template": "activity_guide"` in a companion, or `"template": "welcome"`).
 - `output`: registered PDF filename for guide/companion; alternatively `source`: explicit editable GitHub JSON path for the standalone Welcome renderer.
 - `approved_md5` and `revision`: written only after verified Drive read-back of the exact generated PDF. Missing checksum is **unknown parity**; never infer equality.
 
 Every resource retains its stable catalogue key, `title`, folder-aligned `type`, `published_url` and nullable `holding_url`. Optional extras are `pdf_url` (original classroom-slide source PDF), `print.cards_per_sheet` (student-material cutouts) and `human_reviewed_url` (the exact approved non-Drive URL). Non-Drive links without approval automatically report NEEDS REVIEW; `review_mode` and URL-keyed `human_review` maps do not exist. All published Drive files, regardless of owner or category, undergo Drive existence/permission inspection.
 
-`catalog/drive_folders.json` keeps verified staging and official folder IDs. Files published externally are managed manually and have no generated PDF template or source checksum. Stage a distinct `holding_url` while revising; clear it on release. The official URL may remain unchanged when the same file is moved to an approved folder. An existing permanent URL is never evidence of public access without a real inspection.
+`catalog/drive_folders.json` keeps verified staging and official folder IDs. Files published externally are managed manually and have no PDF renderer or source checksum. Stage a distinct `holding_url` while revising; clear it on release. The official URL may remain unchanged when the same file is moved to an approved folder. An existing permanent URL is never evidence of public access without a real inspection.
 
 Resource delivery has **three derived states**; never store a separate resource `status` field:
 
@@ -663,7 +663,7 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 
 ### Activity guides
 
-A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/teacher_companion/ACTIVITY_TEMPLATE.json`, which fixes the section names and order and marks the source `"template": "activity_guide"`; `scripts/validate.py` then checks the sections, their order and the absence of spacer blocks. It uses the same companion renderer and catalogue `pdf.template` (`teacher_companion`), and keep every activity guide in that shape so a teacher who has used one can scan the next:
+A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/teacher_companion/ACTIVITY_TEMPLATE.json`, which fixes the section names and order and marks the source `"template": "activity_guide"`; `scripts/validate.py` then checks the sections, their order and the absence of spacer blocks. It uses the same companion renderer and catalogue `pdf.renderer` (`teacher_companion`), and keep every activity guide in that shape so a teacher who has used one can scan the next:
 
 - **Sections, in this order, each only when needed:** `Before class` (materials and setup that need lead time) → `How it runs` (timed `steps` for the guide steps it expands, each `tag` naming that step) → `Look for` (two or three `check` items from the activity's success criteria). An option-specific choice, such as a list of twists, may sit before `Look for`.
 - **Write from what goes wrong.** Walk the activity step by step and note what is easiest to miss or most likely to fail: timing, supplies, logistics, safety. Put the preparation it needs in `Before class` and the fix in the step itself. Leave out generic classroom management, such as dominant voices or frustration; teachers already handle it.

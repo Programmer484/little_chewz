@@ -43,13 +43,13 @@ The folder category is the only audience/content classification. No `audience`, 
 ## Production workflows and delivery states
 
 Generation is inferred from the presence of `pdf` in `catalog/resources.json` (no redundant `production_type`, `pdf_template`, `source`, `build` or `url`). The object contains:
-- `template`: `teacher_guide`, `teacher_companion` or `welcome`.
+- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. A *template* is different: it is the content structure a source file follows, marked in the source itself (for example `"template": "activity_guide"` in a companion, or `"template": "welcome"`).
 - `output`: registered PDF filename for guide/companion; alternatively `source`: explicit editable GitHub JSON path for the standalone Welcome renderer.
 - `approved_md5` and `revision`: written only after verified Drive read-back of the exact generated PDF. Missing checksum is **unknown parity**; never infer equality.
 
 Every resource retains its stable catalogue key, `title`, folder-aligned `type`, `published_url` and nullable `holding_url`. Optional extras are `pdf_url` (original classroom-slide source PDF), `print.cards_per_sheet` (student-material cutouts) and `human_reviewed_url` (the exact approved non-Drive URL). Non-Drive links without approval automatically report NEEDS REVIEW; `review_mode` and URL-keyed `human_review` maps do not exist. All published Drive files, regardless of owner or category, undergo Drive existence/permission inspection.
 
-`catalog/drive_folders.json` keeps verified staging and official folder IDs. Files published externally are managed manually and have no generated PDF template or source checksum. Stage a distinct `holding_url` while revising; clear it on release. The official URL may remain unchanged when the same file is moved to an approved folder. An existing permanent URL is never evidence of public access without a real inspection.
+`catalog/drive_folders.json` keeps verified staging and official folder IDs. Files published externally are managed manually and have no PDF renderer or source checksum. Stage a distinct `holding_url` while revising; clear it on release. The official URL may remain unchanged when the same file is moved to an approved folder. An existing permanent URL is never evidence of public access without a real inspection.
 
 Resource delivery has **three derived states**; never store a separate resource `status` field:
 

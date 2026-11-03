@@ -50,7 +50,7 @@
     "published_url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "mission-video-questions.pdf"
     }
   },
@@ -60,7 +60,7 @@
     "published_url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "confetti-file-questions.pdf"
     }
   },
@@ -70,7 +70,7 @@
     "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_guide",
+      "renderer": "teacher_guide",
       "output": "00-activate-teacher-guide.pdf",
       "approved_md5": "1ce2d383ddcd71dfbf1b89a16af4ca4a",
       "revision": "3cbe3853d9ad2b9495db943b900a0658f71f77a7"
@@ -89,7 +89,7 @@
     "published_url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "songwriting-extension.pdf"
     }
   },
@@ -124,7 +124,7 @@
     "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_guide",
+      "renderer": "teacher_guide",
       "output": "01-set-the-table-teacher-guide.pdf",
       "approved_md5": "c949c145b815e1d1665aecc35368a87f",
       "revision": "6bef77a75f3706a55c22c9aaeaea8d09f4e5c1bc"
@@ -154,7 +154,7 @@
     "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
     "holding_url": null,
     "pdf": {
-      "template": "welcome",
+      "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json",
       "approved_md5": "f580361687172d6b0da5dbae7cc67414",
       "revision": "685df51222da6f50e726e4229b39a8b5f948a0ca"
@@ -197,7 +197,7 @@
     "published_url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "clue-tracker-answer-key.pdf"
     }
   },
@@ -239,7 +239,7 @@
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
     "holding_url": null,
     "pdf": {
-      "template": "teacher_guide",
+      "renderer": "teacher_guide",
       "output": "02-secret-ingredients-teacher-guide.pdf",
       "approved_md5": "08c490f2bfa8552c383a8d6d56e9b430",
       "revision": "0084238e7b3a5ba60839a1c0b3e64064038044db"
@@ -257,7 +257,7 @@
     "published_url": null,
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "showdown-design-guide.pdf"
     }
   },
@@ -267,7 +267,7 @@
     "published_url": null,
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "showdown-decorate-guide.pdf"
     }
   },
@@ -277,7 +277,7 @@
     "published_url": null,
     "holding_url": null,
     "pdf": {
-      "template": "teacher_companion",
+      "renderer": "teacher_companion",
       "output": "showdown-bake-mystery-guide.pdf"
     }
   },
@@ -299,7 +299,7 @@
     "published_url": null,
     "holding_url": null,
     "pdf": {
-      "template": "teacher_guide",
+      "renderer": "teacher_guide",
       "output": "03-the-showdown-teacher-guide.pdf"
     }
   },

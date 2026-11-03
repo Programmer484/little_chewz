@@ -42,7 +42,7 @@ errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
 FOLDERS={'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}
-PDF_TEMPLATES={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
+PDF_RENDERERS={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
                'welcome': 'welcome'}
 FIELDS={'title', 'type', 'published_url', 'holding_url', 'pdf',
         'pdf_url', 'human_reviewed_url', 'print'}
@@ -71,12 +71,12 @@ for ref,item in registry.items():
         if not isinstance(pdf,dict):
             errors.append(f'{ref}: pdf must be an object')
             continue
-        template = pdf.get('template')
-        if template not in PDF_TEMPLATES:
-            errors.append(f'{ref}: unsupported generated PDF template')
-        elif PDF_TEMPLATES[template] != category:
-            errors.append(f'{ref}: PDF template does not match delivery folder type')
-        extra = set(pdf)-{'template','output','source','approved_md5','revision'}
+        renderer = pdf.get('renderer')
+        if renderer not in PDF_RENDERERS:
+            errors.append(f'{ref}: unsupported PDF renderer (pdf.renderer)')
+        elif PDF_RENDERERS[renderer] != category:
+            errors.append(f'{ref}: PDF renderer does not match delivery folder type')
+        extra = set(pdf)-{'renderer','output','source','approved_md5','revision'}
         if extra:
             errors.append(f'{ref}: unknown pdf metadata {sorted(extra)}')
         output, source = pdf.get('output'), pdf.get('source')
@@ -89,9 +89,9 @@ for ref,item in registry.items():
             if (not isinstance(source,str) or candidate.is_absolute() or '..' in candidate.parts
                     or not (R/candidate).is_file()):
                 errors.append(f'{ref}: PDF source must be a valid repository file')
-        if template == 'welcome' and not source:
+        if renderer == 'welcome' and not source:
             errors.append(f'{ref}: Welcome renderer needs a source')
-        if template in {'teacher_guide','teacher_companion'} and not output:
+        if renderer in {'teacher_guide','teacher_companion'} and not output:
             errors.append(f'{ref}: guide/companion needs an output mapping')
         approved=pdf.get('approved_md5')
         revision=pdf.get('revision')
@@ -262,14 +262,14 @@ for path in R.glob('content/**/story/*.md'):
 for ref,item in registry.items():
     build=item.get('pdf') or {}
     if build.get('source'):
-        if build['template'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['template']}.py").is_file():
-            errors.append(f'{ref}: unknown PDF template {build["template"]}')
+        if build['renderer'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['renderer']}.py").is_file():
+            errors.append(f'{ref}: unknown PDF renderer {build["renderer"]}')
             continue
         source=R/build.get('source','')
         if not source.is_file():
             errors.append(f'{ref}: build source {source} is missing'); continue
         doc=json.loads(source.read_text())
-        check_instructions(source.relative_to(R),doc,build['template'])
+        check_instructions(source.relative_to(R),doc,build['renderer'])
         from select_builds import nav_refs
         for nav in nav_refs(doc):
             if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')

@@ -64,11 +64,11 @@ class InspectionTests(unittest.TestCase):
 
     def test_generated_pdf_uses_live_drive_checksum(self):
         digest = "a" * 32
-        pdf = {"template": "teacher_guide", "approved_md5": digest}
+        pdf = {"renderer": "teacher_guide", "approved_md5": digest}
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(md5=digest))["result"], audit.PASS)
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(md5="b" * 32))["result"], audit.FAIL)
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive())["result"], audit.REVIEW)
-        self.assertEqual(audit.audit({"guide": item(pdf={"template": "teacher_guide"})},
+        self.assertEqual(audit.audit({"guide": item(pdf={"renderer": "teacher_guide"})},
                                      service=Drive(md5=digest))["result"], audit.REVIEW)
         # Confirmed private access still fails even when a checksum is missing.
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(public=False))["result"], audit.FAIL)
