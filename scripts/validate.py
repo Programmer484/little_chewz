@@ -220,6 +220,32 @@ for path in lesson_paths:
             for link in row.get('links',[]):check_ref(link['ref'],path)
     if ids!=list(range(1,len(ids)+1)): errors.append(f'{path}: step IDs not consecutive')
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
+ACTIVITY_SECTIONS=('Before class','How it runs','Choose one','If ','Look for')
+def activity_guide_errors(doc):
+    """Companions marked "template": "activity_guide" keep the shape of
+    templates/teacher_companion/ACTIVITY_TEMPLATE.json (see RESOURCE_GUIDELINES.md)."""
+    template=doc.get('template')
+    if template is None: return []
+    if template!='activity_guide': return [f'unknown companion template {template!r}']
+    errs=[]
+    if doc.get('kind')!='instructions' or not doc.get('option'):
+        errs.append('activity guide needs kind "instructions" and an option letter')
+    ranks=[]; seen_heading=False
+    for block in doc.get('blocks',[]):
+        typ=block.get('type')
+        if typ=='spacer': errs.append('activity guide must not use spacer blocks; sections space themselves')
+        if typ=='callout' and seen_heading: errs.append('activity guide callout (Safety first) must come before the first section')
+        if typ!='heading': continue
+        seen_heading=True
+        text=block.get('text','')
+        rank=next((i for i,name in enumerate(ACTIVITY_SECTIONS) if text==name or (name in ('Choose one','If ') and text.startswith(name))),None)
+        if rank is None: errs.append(f'activity guide section {text!r} is not one of Before class, How it runs, Choose one …, If …, Look for')
+        else: ranks.append(rank)
+    if ranks!=sorted(ranks) or len(ranks)!=len(set(ranks)):
+        errs.append('activity guide sections must appear once each, in template order')
+    for required in (1,4):
+        if required not in ranks: errs.append(f'activity guide needs a {ACTIVITY_SECTIONS[required]!r} section')
+    return errs
 for path in R.glob('content/**/resources/**/*.json'):
     d=json.loads(path.read_text())
     check_instructions(path,d,'companion')
@@ -229,6 +255,7 @@ for path in R.glob('content/**/resources/**/*.json'):
         errors.append(f'{path}: resource status is derived from publication evidence')
     if not has_official_version(registry.get(d.get('resource_id'), {})):
         warnings.append(f'{path.name}: unpublished companion; preview only')
+    errors.extend(f'{path}: {e}' for e in activity_guide_errors(d))
 for path in R.glob('content/**/story/*.md'):
     if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
         errors.append(f'{path}: frontmatter must include the line "{STORY_INSTRUCTIONS}"')
@@ -251,6 +278,9 @@ for path,kind in [('templates/teacher_guide/TEMPLATE.json','lesson'),
                   ('templates/teacher_companion/ACTIVITY_TEMPLATE.json','companion'),
                   ('templates/welcome/TEMPLATE.json','welcome')]:
     if (R/path).is_file(): check_instructions(path,json.loads((R/path).read_text()),kind)
+ACTIVITY_TEMPLATE=R/'templates/teacher_companion/ACTIVITY_TEMPLATE.json'
+if ACTIVITY_TEMPLATE.is_file():
+    errors.extend(f'{ACTIVITY_TEMPLATE.relative_to(R)}: {e}' for e in activity_guide_errors(json.loads(ACTIVITY_TEMPLATE.read_text())))
 try:
     registered = targets()
     for name, target in registered.items():

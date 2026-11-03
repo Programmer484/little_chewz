@@ -4,6 +4,7 @@
   "resource_type": "teacher_companion",
   "title": "Untitled Challenge",
   "kind": "instructions",
+  "template": "activity_guide",
   "option": "A",
   "meta": [
     "Expands Teacher Guide steps 2 and 3",
