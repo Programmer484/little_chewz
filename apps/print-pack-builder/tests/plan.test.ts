@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { computePlan, copiesFor, groupCount, printSequence, quantityProblems } from "../shared/plan.ts";
 import { testLesson } from "./helpers.ts";
 
-const q = { studentCount: 25, groupSize: 4 };
+const q = { studentCount: 25 };
+const none = { options: {}, extensions: {} };
 const pick = (plan: ReturnType<typeof computePlan>, id: string, rule?: string) =>
   plan.lines.find((l) => l.resourceId === id && (!rule || l.rule === rule))!;
 const ids = (plan: ReturnType<typeof computePlan>) => plan.lines.map((l) => l.resourceId);
@@ -20,119 +21,86 @@ describe("class quantities", () => {
     expect(copiesFor(9)).toBe(9);
   });
 
-  it("validates class size, group sizes and overrides", () => {
-    expect(quantityProblems({ studentCount: 0, groupSize: 4 })).toHaveLength(1);
-    expect(quantityProblems({ studentCount: 25.5, groupSize: 4 })).toHaveLength(1);
-    expect(quantityProblems({ studentCount: 25, groupSize: 0 })).toHaveLength(1);
-    expect(quantityProblems({ ...q, groupSizes: { a: 0 } })).toHaveLength(1);
-    expect(quantityProblems({ ...q, groupSizes: { a: 201 } })).toHaveLength(1);
+  it("validates class size, group counts and overrides", () => {
+    expect(quantityProblems({ studentCount: 0 })).toHaveLength(1);
+    expect(quantityProblems({ studentCount: 25.5 })).toHaveLength(1);
+    expect(quantityProblems({ ...q, groups: { a: 0 } })).toHaveLength(1);
+    expect(quantityProblems({ ...q, groups: { a: 201 } })).toHaveLength(1);
+    expect(quantityProblems({ ...q, groups: { a: 1 } })).toEqual([]);
     expect(quantityProblems({ ...q, copies: { a: -1 } })).toHaveLength(1);
     expect(quantityProblems({ ...q, copies: { a: 501 } })).toHaveLength(1);
     expect(quantityProblems({ ...q, copies: { a: 0 } })).toEqual([]);
   });
 });
 
-describe("Guided Printing (default)", () => {
-  it("always includes mandatory core and requires a selection in each A/B group", () => {
-    const plan = computePlan(testLesson(), { choices: {}, extensions: {} }, q);
-    expect(plan.problems).toContain("Choose one option for “Small Bite”.");
+describe("selection", () => {
+  it("starts with core ticked and warns, without blocking, about choices with nothing picked", () => {
+    const plan = computePlan(testLesson(), none, q);
     expect(ids(plan)).toEqual(["core-sheet"]);
     expect(plan.lines[0].copies).toBe(25);
+    expect(plan.problems).toEqual([]);
+    expect(plan.warnings).toEqual(["Nothing picked for “Small Bite”."]);
+    expect(computePlan(testLesson(), { ...none, options: { a: true } }, q).warnings).toEqual([]);
   });
 
-  it("rejects zero copies of required materials in Guided, but permits zero in Custom", () => {
-    const guided = computePlan(testLesson(), { choices: { bite: "a" }, extensions: {} },
-      { ...q, copies: { "core-sheet:per_student": 0 } });
-    expect(guided.problems).toContain("Guided Printing requires at least one copy of each mandatory worksheet.");
-    const custom = computePlan(testLesson(), { customize: true, choices: {}, extensions: {}, customChoices: { a: true } }, { ...q, copies: { "core-sheet:per_student": 0 } });
-    expect(custom.problems).toEqual([]);
-  });
-
-  it("permits exactly the chosen activity and its checked extension", () => {
-    const chosen = computePlan(testLesson(), { choices: { bite: "b" }, extensions: { "b-extra": true } }, q);
+  it("includes a picked option and its ticked extension, ignoring extensions of unpicked options", () => {
+    const chosen = computePlan(testLesson(), { options: { b: true }, extensions: { "b-extra": true } }, q);
     expect(ids(chosen)).toEqual(["core-sheet", "team-cards", "b-extra-sheet"]);
-    expect(chosen.problems).toEqual([]);
-    const ignored = computePlan(testLesson(), { choices: { bite: "a" }, extensions: { "b-extra": true } }, q);
+    const ignored = computePlan(testLesson(), { options: { a: true }, extensions: { "b-extra": true } }, q);
     expect(ids(ignored)).toEqual(["core-sheet", "song-sheet"]);
   });
-});
 
-describe("Custom Printing", () => {
-  it("unlocks required worksheets and permits both alternatives simultaneously", () => {
-    const plan = computePlan(testLesson(), {
-      customize: true, choices: {}, extensions: {},
-      materials: { "core:core-sheet": false },
-      customChoices: { a: true, b: true },
-    }, q);
-    expect(plan.problems).toEqual([]);
-    expect(ids(plan)).toEqual(["song-sheet", "team-cards"]);
+  it("allows both alternatives and unticking core, e.g. to print only an extension later", () => {
+    const both = computePlan(testLesson(), { ...none, options: { a: true, b: true } }, q);
+    expect(ids(both)).toEqual(["core-sheet", "song-sheet", "team-cards"]);
+    const later = computePlan(testLesson(), { options: { b: true }, extensions: { "b-extra": true }, core: { "core:core-sheet": false } },
+      { ...q, copies: { "team-cards:per_group:b": 0 } });
+    expect(later.problems).toEqual([]);
+    expect(later.lines.filter((l) => l.copies > 0).map((l) => l.resourceId)).toEqual(["b-extra-sheet"]);
   });
 
-  it("lets teachers remove individual worksheets within an option", () => {
-    const plan = computePlan(testLesson(), {
-      customize: true, choices: {}, extensions: {},
-      customChoices: { a: true, b: true }, materials: { "a:song-sheet": false },
-    }, q);
-    expect(ids(plan)).toEqual(["core-sheet", "team-cards"]);
-  });
-
-  it("allows no A/B selection when core remains, but rejects an entirely empty pack", () => {
-    const kept = computePlan(testLesson(), { customize: true, choices: {}, extensions: {} }, q);
-    expect(ids(kept)).toEqual(["core-sheet"]);
-    expect(kept.problems).toEqual([]);
-    const empty = computePlan(testLesson(), {
-      customize: true, choices: {}, extensions: {}, materials: { "core:core-sheet": false },
-    }, q);
+  it("rejects an empty pack or one where every copy is 0", () => {
+    const empty = computePlan(testLesson(), { ...none, core: { "core:core-sheet": false } }, q);
     expect(empty.lines).toEqual([]);
     expect(empty.problems).toEqual(["Select at least one worksheet."]);
-  });
-
-  it("does not apply Custom selections after returning to Guided mode", () => {
-    const plan = computePlan(testLesson(), {
-      customize: false, choices: { bite: "a" }, extensions: {},
-      customChoices: { a: false, b: true }, materials: { "core:core-sheet": false },
-    }, q);
-    expect(ids(plan)).toEqual(["core-sheet", "song-sheet"]);
+    const zero = computePlan(testLesson(), none, { ...q, copies: { "core-sheet:per_student": 0 } });
+    expect(zero.problems).toEqual(["Every worksheet is set to 0 copies."]);
   });
 });
 
 describe("per-activity quantities", () => {
-  it("uses an independent editable group size for every selected activity", () => {
-    const plan = computePlan(testLesson(), {
-      choices: { bite: "b" }, extensions: { "group-sheet": true },
-    }, {
-      studentCount: 17, groupSize: 4,
-      groupSizes: { b: 5, "group-sheet": 3 },
-    });
-    expect(pick(plan, "team-cards")).toMatchObject({ groupSize: 5, needed: 4, defaultCopies: 1 });
-    expect(pick(plan, "group-sheet")).toMatchObject({ groupSize: 3, needed: 6, defaultCopies: 6 });
+  it("defaults to students ÷ 4 groups, rounded up, with an editable count per activity", () => {
+    const sel = { options: { b: true }, extensions: { "group-sheet": true } };
+    const plan = computePlan(testLesson(), sel, { studentCount: 17 });
+    expect(pick(plan, "group-sheet")).toMatchObject({ groups: 5, needed: 5, defaultCopies: 5 });
+    const edited = computePlan(testLesson(), sel, { studentCount: 17, groups: { b: 4, "group-sheet": 6 } });
+    expect(pick(edited, "team-cards")).toMatchObject({ groups: 4, needed: 4, defaultCopies: 1 });
+    expect(pick(edited, "group-sheet")).toMatchObject({ groups: 6, needed: 6, defaultCopies: 6 });
   });
 
-  it("treats a whole class as one large group", () => {
-    const plan = computePlan(testLesson(),
-      { choices: { bite: "c" }, extensions: { poster: true } },
-      { studentCount: 17, groupSize: 4, groupSizes: { poster: 17 } });
+  it("treats a whole class as one group", () => {
+    const plan = computePlan(testLesson(), { options: {}, extensions: { poster: true } }, { studentCount: 17, groups: { poster: 1 } });
     expect(pick(plan, "poster")).toMatchObject({ needed: 1, copies: 1 });
   });
 
-  it("keeps the same resource separate when selected with different quantity rules", () => {
-    const plan = computePlan(testLesson(),
-      { choices: { bite: "c" }, extensions: { reuse: true } }, q);
-    expect(ids(plan)).toEqual(["core-sheet", "core-sheet"]);
-    expect(pick(plan, "core-sheet", "per_student")).toMatchObject({ copies: 25 });
-    expect(pick(plan, "core-sheet", "per_group")).toMatchObject({ copies: 7 });
+  it("skips group copies of a sheet every student already gets, unless student copies are 0", () => {
+    const sel = { options: {}, extensions: { reuse: true } };
+    const plan = computePlan(testLesson(), sel, q);
+    expect(ids(plan)).toEqual(["core-sheet"]);
+    expect(pick(plan, "core-sheet")).toMatchObject({ rule: "per_student", copies: 25, sources: ["Core", "Reuse core"] });
+    const zero = computePlan(testLesson(), sel, { ...q, copies: { "core-sheet:per_student": 0 } });
+    expect(pick(zero, "core-sheet", "per_group")).toMatchObject({ copies: 7 });
   });
 
   it("keeps teacher copy overrides without changing defaults", () => {
-    const plan = computePlan(testLesson(), { choices: { bite: "b" }, extensions: {} },
+    const plan = computePlan(testLesson(), { options: { b: true }, extensions: {} },
       { ...q, copies: { "core-sheet:per_student": 30, "team-cards:per_group:b": 3 } });
     expect(pick(plan, "core-sheet")).toMatchObject({ defaultCopies: 25, copies: 30, edited: true });
     expect(pick(plan, "team-cards")).toMatchObject({ defaultCopies: 2, copies: 3, edited: true });
   });
 
   it("shows unavailable materials but excludes them from downloaded pages", () => {
-    const plan = computePlan(testLesson(),
-      { choices: { bite: "c" }, extensions: { locked: true } }, q);
+    const plan = computePlan(testLesson(), { options: {}, extensions: { locked: true } }, q);
     expect(ids(plan)).not.toContain("locked-sheet");
     expect(plan.unavailable).toMatchObject([{ resourceId: "locked-sheet" }]);
   });
@@ -141,8 +109,8 @@ describe("per-activity quantities", () => {
 describe("one fixed print sequence", () => {
   it("makes consecutive packets then shared copies grouped by resource", () => {
     const plan = computePlan(testLesson(),
-      { choices: { bite: "b" }, extensions: { "b-extra": true, poster: true } },
-      { studentCount: 3, groupSize: 2, copies: { "b-extra-sheet:per_student": 2 }, groupSizes: { poster: 3 } });
+      { options: { b: true }, extensions: { "b-extra": true, poster: true } },
+      { studentCount: 3, copies: { "b-extra-sheet:per_student": 2 }, groups: { poster: 1 } });
     expect(printSequence(plan.lines)).toEqual({
       packets: [["core-sheet", "b-extra-sheet"], ["core-sheet", "b-extra-sheet"], ["core-sheet"]],
       shared: [

@@ -27,22 +27,32 @@ export function LessonList({ lessons, mode }: { lessons: ResolvedLesson[]; mode:
             {items.map((lesson) => {
               const state = lessonState(lesson);
               const href = `/lesson/${lesson.lessonId}`;
+              const body = (
+                <>
+                  <span className="lesson-title">{lesson.title}</span>
+                  <span className="lesson-state">
+                    {state.tone === "ready" ? "→ " : ""}
+                    {state.label}
+                  </span>
+                </>
+              );
+              // Only printable lessons are links; direct URLs to the others still work.
               return (
                 <li key={lesson.lessonId}>
-                  <a
-                    className={`lesson-card tone-${state.tone}`}
-                    href={href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate(href);
-                    }}
-                  >
-                    <span className="lesson-title">{lesson.title}</span>
-                    <span className="lesson-state">
-                      {state.tone === "ready" ? "→ " : ""}
-                      {state.label}
-                    </span>
-                  </a>
+                  {state.tone === "ready" ? (
+                    <a
+                      className={`lesson-card tone-${state.tone}`}
+                      href={href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(href);
+                      }}
+                    >
+                      {body}
+                    </a>
+                  ) : (
+                    <div className={`lesson-card tone-${state.tone}`}>{body}</div>
+                  )}
                 </li>
               );
             })}

@@ -44,6 +44,12 @@ Explore a teacher registration/request workflow using **Google Forms + Google Ap
 
 Before implementation, decide whether access is immediate or manually approved, how purchases/teacher eligibility are verified (form submission alone is not verification), what access scope and expiration/revocation rules apply, and how to avoid exposing paid or unpublished materials. Respect the existing holding-versus-official publication boundary; **never let a form submission publish resources or bypass review**. Confirm Apps Script trigger ownership, Google Workspace sharing restrictions, duplicate submissions, failures, and the audit trail before enabling automated permission changes.
 
+## SYS-007 — Print Pack Builder settings page for default group size
+
+**Status:** Proposed, not implemented.
+
+The [Print Pack Builder](apps/AGENTS.md) prefills each group activity's **Groups** field with students ÷ 4, rounded up. Add a small settings page where a teacher sets their own default students per group, saved in the browser like the class size. Keep the per-activity Groups field as the override; do not reintroduce a group-size field on the lesson page.
+
 ## Previously implemented
 
 - Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).

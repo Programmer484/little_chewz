@@ -9,8 +9,8 @@ const memory = () => {
 describe("remembered settings", () => {
   it("round-trips class size and print options", () => {
     const store = memory();
-    savePrefs({ duplex: true, studentCount: 27, groupSize: 3 }, store);
-    expect(loadPrefs(store)).toEqual({ duplex: true, studentCount: 27, groupSize: 3 });
+    savePrefs({ duplex: true, studentCount: 27 }, store);
+    expect(loadPrefs(store)).toEqual({ duplex: true, studentCount: 27 });
   });
 
   it("falls back to defaults for missing, bad or blocked storage", () => {
