@@ -1,16 +1,12 @@
-# Publication inspection — Drive sharing + human link review
+# Publication inspection — Drive access and exact URL review
 
-**Scope:** All resources with an official `published_url`, **including pending replacements and classroom slide decks**. The inspector validates the existing live destination and never publishes, modifies Drive or calculates resource delivery status.
+**Scope:** Every catalogue resource with a `published_url`, including pending replacements and classroom slides. The inspector is read-only; it never publishes, moves Drive files or changes catalogue metadata.
 
-- **Standard Google Drive links** (even when human-reviewed): confirm the exact file is accessible to the service account, is not in Trash, and has `anyone` viewing permission. No folder placement, PDF bytes, checksums, or content correctness checks.
-- **Non-Google-Drive links:** human review only. No automated website probing.
-- **Externally owned Drive files:** set `review_mode: "human"` and track the exact URL in `human_review` to bypass service-account checks. Only these explicitly marked Drive links bypass Drive permissions.
-- **After review:** change only that URL's value from `pending` to `reviewed`. A changed URL does not inherit approval. Recording review on standard Drive links never disables the automated permission check.
-- **Missing/invalid URLs, trashed Drive files, and confirmed nonpublic Drive sharing**: FAIL.
-- **Service-account access/permission uncertainty**: NEEDS REVIEW, not a claim that the file is missing. API exception details (operation, file ID, HTTP status and safe API reason if available) are saved as a separate `.txt` Actions artifact; the table and console only show a short reason. Raw exception bodies and credentials are never emitted.
-- **Classroom slides:** check the published PPTX Google Drive URL exactly like any other Drive file. The separately recorded `pdf_url` is an approved source PDF, not a second published destination and is not scanned by this link inspector. A distinct staged revision may use `holding_url`, which is not scanned either.
-- **Fail fast within a resource** but continue through the catalogue to collect every other issue and review link.
+- **Any Google Drive / Google Docs URL:** verify ID, accessibility to the service account, not in Trash, and an `anyone` public permission. No ownership exception or manual review bypass. If Google refuses metadata/permissions, report NEEDS REVIEW rather than claiming inaccessible implies absent.
+- **Generated PDF (has `pdf`):** after confirming public permissions, compare the official Drive file's `md5Checksum` with `pdf.approved_md5`. Missing approved/Drive checksum = NEEDS REVIEW; mismatch = FAIL. The first verified generated-PDF publication captures the baseline; never infer one from an unverified historical link.
+- **Non-Drive URL:** exact matching `human_reviewed_url` passes. Otherwise require human review automatically (NEEDS REVIEW), with no manual `review_mode` or `human_review` assignment. Approval is invalidated if the published URL changes.
+- **Slides:** check the published presentation's Google URL; do not inspect its separately recorded `pdf_url` source or staged `holding_url` copy.
+- **Unpublished resources:** skip if `published_url` is null.
+- **Results:** PASS confirms the corresponding check; FAIL for confirmed bad/missing published links, private permissions or wrong generated PDF bytes; NEEDS REVIEW means uncertainty or pending human approval. Only FAIL makes the manually triggered full inspection workflow red. Generated publication workflows treat FAIL and NEEDS REVIEW as release blockers.
 
-A separate generated-PDF checksum comparison derives pending publication when a current source PDF is built; link inspection does not determine source parity. The GitHub Actions summary is one table with failures and URLs awaiting human review; successful resources are omitted. A run fails only for a confirmed FAIL. Outstanding human reviews remain visible but do not falsely fail the workflow.
-
-Generated-PDF publication itself still performs its existing source checksum and Drive read-back checks in `publish_to_drive.py`. Those publishing safeguards are distinct from link inspection.
+The Action summary shows only problem links, not every passing file. The JSON report includes outcomes and a separate downloadable .txt artifact records sanitized API operation, file ID, status and reason; no raw exception text or credentials. The inspector never checks PDF hyperlinks, live site responses, ownership, folder placement or source content parity. A separate `publication_state.py` build compares current GitHub output with `pdf.approved_md5` to derive pending edits. The Drive publisher verifies exact bytes and writes the approved checksum/revision only after read-back.
