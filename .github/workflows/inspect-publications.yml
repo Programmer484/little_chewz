@@ -45,6 +45,8 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: publication-inspection
-          path: inspection-report.json
+          path: |
+            inspection-report.json
+            inspection-report.txt
           if-no-files-found: ignore
           retention-days: 30

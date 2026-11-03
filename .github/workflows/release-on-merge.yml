@@ -113,7 +113,9 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: publication-inspection-${{ github.event.pull_request.number }}
-          path: inspection-*.json
+          path: |
+            inspection-*.json
+            inspection-*.txt
           if-no-files-found: ignore
           retention-days: 30
 
