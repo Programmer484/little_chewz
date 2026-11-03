@@ -4,11 +4,9 @@
   "kind": "instructions",
   "option": "A",
   "meta": [
-    "Paper only, no food",
-    "40–50 min total",
-    "Teams of 3–4"
+    "Expands Teacher Guide steps 2 and 3",
+    "About 25–35 min"
   ],
-  "intro": "Teams combine solo sketches into one paper cupcake that shows the qualities of a strong team.",
   "blocks": [
     {
       "type": "callout",
@@ -23,148 +21,76 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Print the Print Pack: one Design Challenge Card and one Design Your Cupcake Worksheet per team",
-        "Blank paper for each student’s solo sketch",
-        "Pencils, markers and coloured pencils; a timer the class can see",
-        "Tables for teams of 3–4, with room for every solo sketch and one team worksheet in the middle"
+        "Blank paper for each student; pencils, markers and coloured pencils for each team of 3–4"
       ]
     },
     {
       "type": "heading",
-      "text": "Run the challenge"
+      "text": "How it runs"
     },
     {
       "type": "steps",
       "items": [
         {
-          "title": "Launch",
-          "tag": "Guide step 1",
-          "mins": "5 min",
-          "text": "Give each team a Challenge Card. Read the mission aloud: one team cupcake, three teamwork qualities, one shared decision."
-        },
-        {
           "title": "Sketch alone",
           "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Students sketch alone, without team talk; a student may tell you the idea instead of drawing it."
+          "text": "Each student sketches one idea, without talking."
         },
         {
           "title": "Share ideas",
           "tag": "Guide step 3 · A",
           "mins": "5–8 min",
-          "text": "Each student shows or describes one idea; teammates ask one question and name one idea to keep."
+          "text": "Each student shows one idea; teammates name one idea to keep."
         },
         {
           "title": "Agree and design",
           "tag": "Guide step 3 · A",
-          "mins": "17–22 min",
-          "text": "The team draws ONE cupcake on its worksheet, using symbols, colours and words to show at least three teamwork qualities, and agrees on one shared decision to explain.",
-          "prompts": [
-            "What can we keep from both ideas?",
-            "Who hasn’t added an idea yet?"
-          ]
-        },
-        {
-          "title": "Clean up",
-          "tag": "Guide step 4",
-          "mins": "5 min",
-          "text": "Collect each team’s sketches and worksheet together; put supplies away."
-        },
-        {
-          "title": "Explain one decision",
-          "tag": "Guide step 5",
-          "mins": "5 min",
-          "text": "Each team explains its cupcake and one shared choice, by speaking or pointing to the drawing."
+          "mins": "15–22 min",
+          "text": "The team draws ONE cupcake on its worksheet, showing at least three teamwork qualities."
         }
       ]
     },
     {
       "type": "heading",
-      "text": "Success criteria"
+      "text": "Tricky parts"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Sketching turns into talk",
+          "text": "Keep it short and silent. A student may tell you the idea instead of drawing it."
+        },
+        {
+          "term": "One voice dominates",
+          "text": "Ask who hasn’t added an idea yet; each person names one thing that must stay."
+        },
+        {
+          "term": "Designs sit side by side",
+          "text": "Ask what they can keep from both ideas: one cupcake, not a collage."
+        },
+        {
+          "term": "Reluctant to draw",
+          "text": "The student describes the idea or points while a teammate draws."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Look for"
     },
     {
       "type": "checklist",
       "style": "check",
       "items": [
-        "Every student sketches an idea before team talk.",
-        "The team completes ONE worksheet that keeps at least one idea from each sketch.",
-        "The design includes at least three teamwork qualities, named or drawn.",
-        "The team can explain the meaning behind its design and one choice it made together."
-      ]
-    },
-    {
-      "type": "note",
-      "text": "Teamwork qualities students might show: communication, inclusion, creativity, trust, collaboration. The activity is an example; adapt materials or format to fit your class."
-    },
-    {
-      "type": "spacer",
-      "points": 10
-    },
-    {
-      "type": "heading",
-      "text": "What to look for"
-    },
-    {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "Participation",
-          "text": "Every student adds an idea from their sketch, not only the loudest voice."
-        },
-        {
-          "term": "Communication",
-          "text": "Teammates ask about each other’s sketches and build on ideas instead of replacing them."
-        },
-        {
-          "term": "Problem-solving",
-          "text": "The team combines ideas, or gives one up to keep another, and says why."
-        },
-        {
-          "term": "Adapting",
-          "text": "The team changes its plan when an idea does not fit, without starting over."
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "If a team gets stuck"
-    },
-    {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "One voice dominates",
-          "text": "Each person names one thing from their sketch that must stay."
-        },
-        {
-          "term": "No agreement",
-          "text": "Keep the base from one sketch and the decorations from another."
-        },
-        {
-          "term": "Reluctant to write or draw",
-          "text": "A student can describe ideas aloud or point while a teammate draws."
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "Student resources"
-    },
-    {
-      "type": "links",
-      "items": [
-        {
-          "ref": "ccc-q01-showdown-design-card",
-          "description": "One per team"
-        },
-        {
-          "ref": "ccc-q01-showdown-design-sheet",
-          "description": "One per team"
-        }
+        "Every student’s idea shows up somewhere in the team cupcake.",
+        "At least three teamwork qualities, such as communication, inclusion, creativity, trust or collaboration.",
+        "The team can explain the meaning behind its design."
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. Sources: Day 3 The Showdown (v0) Level 1 Design Challenge page (p. 6: purpose, teamwork-quality examples, materials, success criteria), card (p. 12: mission wording) and worksheet (p. 13: cupcake drawing, name, toppings and decorations); Day 3 lesson plan (p. 3: assessment look-fors: participation and teamwork, communication and cooperation, creative problem-solving, adapting) and teacher tip (p. 4); the Showdown Teacher Guide option A (40–50 min total; guide steps 1, 2, 4 and 5 run 5 min each, so the Design challenge itself is 20–30 min, matching Day 3); and the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, one shared decision, verbal or drawn responses). 'Level 1' renamed Design. Works with the existing card and worksheet without depending on their layout. Teams of 3–4, the look-for explanations and stuck-team moves are newly written.",
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, student-resource links and option totals stay there). Covers guide step 2 (5 min) and step 3 · A (20–30 min). Sources: Day 3 The Showdown (v0) Level 1 page (p. 6: purpose, teamwork-quality examples, materials, success criteria) and card (p. 12: mission); the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, verbal or drawn responses). 'Level 1' renamed Design. A teacher summary with light notes on the trickiest moments. Teams of 3–4 and the tricky-part notes are newly written.",
   "resource_id": "ccc-q01-showdown-design-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",

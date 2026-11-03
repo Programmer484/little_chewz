@@ -4,9 +4,9 @@
   "kind": "instructions",
   "option": "B",
   "meta": [
-    "Premade cupcakes or craft, no oven",
-    "50–65 min total",
-    "Teams of 3–4"
+    "Expands Teacher Guide steps 2 and 3",
+    "About 35–50 min",
+    "No oven"
   ],
   "blocks": [
     {
@@ -16,181 +16,84 @@
     },
     {
       "type": "heading",
-      "text": "Before class"
-    },
-    {
-      "type": "callout",
-      "title": "Food route: check first",
-      "text": "Follow your school’s food policy. Check every student’s allergies and dietary needs against all ingredient labels. If food won’t work for everyone, use the craft route."
-    },
-    {
-      "type": "checklist",
-      "style": "box",
-      "items": [
-        "Print one Decorate Challenge Card per team; gather your route’s materials (page 2)",
-        "One station per team of 3–4: cupcakes or craft bases, decorations, scrap paper",
-        "Food route: plan hand-washing and keep an adult at the stations throughout"
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "Run the challenge"
-    },
-    {
-      "type": "steps",
-      "items": [
-        {
-          "title": "Launch",
-          "tag": "Guide step 1",
-          "mins": "5 min",
-          "text": "Hand out the cards and read the mission. Decorations stay closed until the plan is agreed."
-        },
-        {
-          "title": "Everyone adds an idea",
-          "tag": "Guide step 2",
-          "mins": "5 min",
-          "text": "Each student names or sketches one decorating idea on scrap paper."
-        },
-        {
-          "title": "Agree one plan and roles",
-          "tag": "Guide step 3 · B",
-          "mins": "10 min",
-          "text": "Agree one design that keeps part of each idea; choose roles (page 2). Check plans first.",
-          "prompts": [
-            "Who hasn’t added an idea yet?"
-          ]
-        },
-        {
-          "title": "Decorate together",
-          "tag": "Guide step 3 · B",
-          "mins": "20–35 min",
-          "text": "Food route: wash hands first. Teams follow their plan and agree before changing it.",
-          "prompts": [
-            "Does this still match your plan?"
-          ]
-        },
-        {
-          "title": "Clean up",
-          "tag": "Guide step 4",
-          "mins": "5 min",
-          "text": "Food: follow school policy on eating or taking cupcakes home; wipe stations, wash hands. Craft: let glue dry; return supplies."
-        },
-        {
-          "title": "Share one decision",
-          "tag": "Guide step 5",
-          "mins": "5 min",
-          "text": "Each team explains one decision it made together and what it would try next."
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "Materials: choose one route"
+      "text": "Before class: choose one route"
     },
     {
       "type": "pairs",
       "items": [
         {
           "term": "Food route",
-          "text": "Premade cupcakes; frosting and decorations (your choice). Add spreading tools, plates, napkins and wipes for each station."
+          "text": "Premade cupcakes; frosting and decorations of your choice; spreading tools, plates and wipes."
         },
         {
           "term": "Craft route (proposed)",
-          "text": "Paper cupcake liners; card or paper rolled or cut into a cupcake base; tissue paper or cotton balls for frosting; markers, stickers or paper scraps for decorations; glue sticks, tape and safety scissors."
+          "text": "Paper liners, a card base, tissue paper or cotton balls for frosting, markers or stickers, glue. Glue the base into the liner, add the frosting, then decorate."
         }
       ]
     },
     {
-      "type": "note",
-      "text": "Craft route, step by step: glue the base into the liner, add the “frosting” on top, then decorate it to the team’s plan. No oven or food is needed for either route."
+      "type": "heading",
+      "text": "How it runs"
     },
     {
-      "type": "spacer",
-      "points": 10
+      "type": "steps",
+      "items": [
+        {
+          "title": "Everyone adds an idea",
+          "tag": "Guide step 2",
+          "mins": "5 min",
+          "text": "Each student names or sketches one decorating idea."
+        },
+        {
+          "title": "Plan and roles",
+          "tag": "Guide step 3 · B",
+          "mins": "10 min",
+          "text": "The team agrees one design that keeps part of each idea, and picks roles: Leader, Supply Manager, Timekeeper, Clean-Up Crew."
+        },
+        {
+          "title": "Decorate together",
+          "tag": "Guide step 3 · B",
+          "mins": "20–35 min",
+          "text": "Teams follow their plan. Food route: wash hands first."
+        }
+      ]
     },
     {
       "type": "heading",
-      "text": "Team roles"
+      "text": "Tricky parts"
     },
     {
       "type": "pairs",
       "items": [
         {
-          "term": "Leader",
-          "text": "Keeps the team to its plan and checks that every idea is heard."
+          "term": "Decorating before planning",
+          "text": "Keep decorations closed until you have checked the team’s plan."
         },
-        {
-          "term": "Supply Manager",
-          "text": "Collects decorations from the station and shares them fairly."
-        },
-        {
-          "term": "Timekeeper",
-          "text": "Watches the time so the team finishes before clean-up."
-        },
-        {
-          "term": "Clean-Up Crew",
-          "text": "Leads clean-up at the station. In teams of 3, the Timekeeper also cleans up."
-        }
-      ]
-    },
-    {
-      "type": "note",
-      "text": "Everyone decorates; a role adds one job."
-    },
-    {
-      "type": "spacer",
-      "points": 10
-    },
-    {
-      "type": "heading",
-      "text": "Success criteria"
-    },
-    {
-      "type": "checklist",
-      "style": "check",
-      "items": [
-        "The team creates a shared plan before decorating.",
-        "All team members contribute ideas, and the finished cupcakes show part of each one.",
-        "Students demonstrate respectful collaboration and compromise.",
-        "The team can explain one decision it made together."
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "If a team gets stuck"
-    },
-    {
-      "type": "pairs",
-      "items": [
         {
           "term": "One voice dominates",
           "text": "Each person names one part of their idea that must stay."
         },
         {
-          "term": "No agreement",
-          "text": "Keep the colours from one idea and the decorations from another."
-        },
-        {
-          "term": "The plan doesn’t work",
-          "text": "Ask what the team could change without starting over, then let them agree."
+          "term": "The plan changes",
+          "text": "That’s fine if the team agrees first. Ask: does this still match your plan?"
         }
       ]
     },
     {
       "type": "heading",
-      "text": "Student resources"
+      "text": "Look for"
     },
     {
-      "type": "links",
+      "type": "checklist",
+      "style": "check",
       "items": [
-        {
-          "ref": "ccc-q01-showdown-decorate-card",
-          "description": "One per team"
-        }
+        "A shared plan before decorating.",
+        "Every member contributes, and the cupcakes show part of each idea.",
+        "Respectful collaboration and compromise."
       ]
     }
   ],
-  "source_note": "PROTOTYPE 2026-11-03. Sources: Day 3 The Showdown (v0) Level 2 Decorating Challenge page and card (mission and task wording, premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria); the Showdown Teacher Guide option B summary and step timings (5 + 5 + 30–45 + 5 + 5 = 50–65 min); and the task spec (both routes complete, food policy and allergy checks, supervision, hygiene, station setup, cleanup, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. NEWLY PROPOSED, needs approval: the craft-route materials list and craft build steps (Day 3 lists none); food-route spreading tools, plates, napkins and wipes; the team roles (adapted from the Day 3 Level 3 role list); the 10 / 20–35 min split of guide step 3; and the stuck-team responses. Safety text names checks for the teacher to make, not specific rules. Written to work with the existing Decorate Challenge Card without depending on its layout.",
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, food-safety check, clean-up, debrief, printing, card link and option totals stay there). Covers guide step 2 (5 min) and step 3 · B (30–45 min, matching Day 3). Sources: Day 3 The Showdown (v0) Level 2 page (p. 6: premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria) and card (p. 14: mission); the task spec (both routes, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. NEWLY PROPOSED, needs approval: craft-route materials and build steps; food-route spreading tools, plates, napkins and wipes; roles (adapted from the Day 3 Level 3 list); the 10 / 20–35 min split; tricky-part notes. A teacher summary with light notes on the trickiest moments.",
   "resource_id": "ccc-q01-showdown-decorate-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
