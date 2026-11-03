@@ -46,19 +46,19 @@
           "title": "Sketch alone",
           "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Students sketch on blank paper without talking. Symbols, colours, words and illustrations all count."
+          "text": "Students sketch alone, without team talk; a student may tell you the idea instead of drawing it."
         },
         {
           "title": "Share ideas",
-          "tag": "Guide step 2",
-          "mins": "6–8 min",
-          "text": "Each student shows one idea. Teammates ask one question and name one idea they want to keep."
+          "tag": "Guide step 3 · A",
+          "mins": "5–8 min",
+          "text": "Each student shows or describes one idea; teammates ask one question and name one idea to keep."
         },
         {
           "title": "Agree and design",
           "tag": "Guide step 3 · A",
-          "mins": "18–20 min",
-          "text": "The team draws ONE cupcake on its worksheet, shows at least three teamwork qualities, and agrees on one shared decision to explain.",
+          "mins": "17–22 min",
+          "text": "The team draws ONE cupcake on its worksheet, using symbols, colours and words to show at least three teamwork qualities, and agrees on one shared decision to explain.",
           "prompts": [
             "What can we keep from both ideas?",
             "Who hasn’t added an idea yet?"
@@ -67,14 +67,14 @@
         {
           "title": "Clean up",
           "tag": "Guide step 4",
-          "mins": "3 min",
+          "mins": "5 min",
           "text": "Collect each team’s sketches and worksheet together; put supplies away."
         },
         {
           "title": "Explain one decision",
           "tag": "Guide step 5",
-          "mins": "5–8 min",
-          "text": "Each team explains the meaning behind its cupcake and one choice it made together, by speaking or pointing to the drawing."
+          "mins": "5 min",
+          "text": "Each team explains its cupcake and one shared choice, by speaking or pointing to the drawing."
         }
       ]
     },
@@ -116,8 +116,8 @@
           "text": "Teammates ask about each other’s sketches and build on ideas instead of replacing them."
         },
         {
-          "term": "Cooperation",
-          "text": "The team gives up one idea to keep another, and says why."
+          "term": "Problem-solving",
+          "text": "The team combines ideas, or gives one up to keep another, and says why."
         },
         {
           "term": "Adapting",
@@ -164,7 +164,7 @@
       ]
     }
   ],
-  "source_note": "PROTOTYPE 2026-11-03 for template review. Sources: Day 3 The Showdown (v0) Level 1 Design Challenge page and card (mission wording, materials, teamwork-quality examples, success criteria, assessment look-for headings, teacher tip); the Showdown Teacher Guide option A summary; and the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, one shared decision). 'Level 1' renamed Design. Written to work with the existing student card and worksheet; it does not depend on a worksheet layout. Look-for and stuck-team explanations are newly written and need human review.",
+  "source_note": "DRAFT 2026-11-03, needs human review. Sources: Day 3 The Showdown (v0) Level 1 Design Challenge page (p. 6: purpose, teamwork-quality examples, materials, success criteria), card (p. 12: mission wording) and worksheet (p. 13: cupcake drawing, name, toppings and decorations); Day 3 lesson plan (p. 3: assessment look-fors: participation and teamwork, communication and cooperation, creative problem-solving, adapting) and teacher tip (p. 4); the Showdown Teacher Guide option A (40–50 min total; guide steps 1, 2, 4 and 5 run 5 min each, so the Design challenge itself is 20–30 min, matching Day 3); and the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, one shared decision, verbal or drawn responses). 'Level 1' renamed Design. Works with the existing card and worksheet without depending on their layout. Teams of 3–4, the look-for explanations and stuck-team moves are newly written.",
   "resource_id": "ccc-q01-showdown-design-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
