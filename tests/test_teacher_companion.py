@@ -31,8 +31,16 @@ class TeacherCompanionRendererTest(unittest.TestCase):
         self.assertTrue(self.render(data, registry).startswith(b'%PDF'))
 
     def test_activity_template_renders(self):
-        data = json.loads((ROOT / 'templates/teacher_companion/ACTIVITY_TEMPLATE.json').read_text())
+        data = json.loads((ROOT / 'templates/activity_guide/TEMPLATE.json').read_text())
         data['_base'] = str(QUEST / 'resources/teacher_companion')
+        self.assertTrue(self.render(data).startswith(b'%PDF'))
+
+    def test_long_and_short_pairs_tables_render(self):
+        data = self.template()
+        rows = [{'term': f'Term {i}', 'text': 'Text'} for i in range(9)]
+        data['blocks'] = [{'type': 'heading', 'text': 'Short'}, {'type': 'pairs', 'items': rows[:3]},
+                          {'type': 'heading', 'text': 'Long'}, {'type': 'pairs', 'items': rows},
+                          {'type': 'heading', 'text': 'Tip'}, {'type': 'paragraph', 'text': 'One line.'}]
         self.assertTrue(self.render(data).startswith(b'%PDF'))
 
     def test_option_adds_section_suffix(self):

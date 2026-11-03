@@ -82,7 +82,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
 - Find the rule's owner in `START_HERE.md`. Update it there; replace superseded wording and link from other documents instead of copying the rule.
 - State the scope, required behavior, and any necessary exception. Use direct instructions and keep examples only when they clarify a decision.
 - Search for conflicts and stale references. Update affected templates or behavior within the authorized scope; record remaining work explicitly.
-- Keep agents routed: a new source type gets a `$instructions` pointer (defined in `scripts/validate.py`) and a template carrying it; a new folder of editable files gets an `AGENTS.md`, a row in the table above, and an entry in `scripts/build_agents_md.py`.
+- Keep agents routed: a new source type gets a `$instructions` pointer (defined in `scripts/validate.py`) and a `templates/<name>/TEMPLATE.json` carrying it and `"template": "<name>"`, with its renderer added to `TEMPLATE_RENDERER` in `scripts/validate.py`; a new folder of editable files gets an `AGENTS.md`, a row in the table above, and an entry in `scripts/build_agents_md.py`.
 - Never edit the root `AGENTS.md`; it is generated. After editing any instruction file, run `python scripts/build_agents_md.py`; `scripts/validate.py` fails while `AGENTS.md` is stale. A new instruction file is added to `SOURCES` in that script.
 - Keep editorial judgment in prose, shared values in their existing data files, and objective checks in `scripts/validate.py`. Do not add unused enforcement files or speculative tooling.
 - Apply explicit user decisions within their scope. If conflicting instructions would change human review scope, publication, or content meaning and intent is unclear, flag the conflict and continue independent work.
@@ -125,7 +125,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
 | [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
-| `templates/` | Templates for supported lesson and companion sources, plus the `welcome` page style (clean pages and quest navigation) |
+| `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
@@ -335,7 +335,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
 | Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, builds and publication evidence | `catalog/resources.json` |
-| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/welcome/` (clean page style and quest navigation) |
+| Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides) and `welcome` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -361,7 +361,7 @@ The folder category is the only audience/content classification. No `audience`, 
 ### Production workflows and delivery states
 
 Generation is inferred from the presence of `pdf` in `catalog/resources.json` (no redundant `production_type`, `pdf_template`, `source`, `build` or `url`). The object contains:
-- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. A *template* is different: it is the content structure a source file follows, marked in the source itself (for example `"template": "activity_guide"` in a companion, or `"template": "welcome"`).
+- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. It is not the *template*. Every generated-PDF source declares its template (the content structure it follows) as its second key, `"template": "<name>"`, copied from `templates/<name>/TEMPLATE.json`. One renderer can serve several templates: `teacher_companion` builds both `teacher_companion` and `activity_guide` sources. `scripts/validate.py` (`TEMPLATE_RENDERER`) checks each source's template against its `pdf.renderer`.
 - `output`: registered PDF filename for guide/companion; alternatively `source`: explicit editable GitHub JSON path for the standalone Welcome renderer.
 - `approved_md5` and `revision`: written only after verified Drive read-back of the exact generated PDF. Missing checksum is **unknown parity**; never infer equality.
 
@@ -663,7 +663,7 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 
 ### Activity guides
 
-A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/teacher_companion/ACTIVITY_TEMPLATE.json`, which fixes the section names and order and marks the source `"template": "activity_guide"`; `scripts/validate.py` then checks the sections, their order and the absence of spacer blocks. It uses the same companion renderer and catalogue `pdf.renderer` (`teacher_companion`), and keep every activity guide in that shape so a teacher who has used one can scan the next:
+A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/activity_guide/TEMPLATE.json` (`"template": "activity_guide"`), which fixes the section names and order; `scripts/validate.py` checks the sections, their order and the absence of spacer blocks. Activity guides use the companion renderer (catalogue `pdf.renderer`: `teacher_companion`). Keep every activity guide in that shape so a teacher who has used one can scan the next:
 
 - **Sections, in this order, each only when needed:** `Before class` (materials and setup that need lead time) → `How it runs` (timed `steps` for the guide steps it expands, each `tag` naming that step) → `Look for` (two or three `check` items from the activity's success criteria). An option-specific choice, such as a list of twists, may sit before `Look for`.
 - **Write from what goes wrong.** Walk the activity step by step and note what is easiest to miss or most likely to fail: timing, supplies, logistics, safety. Put the preparation it needs in `Before class` and the fix in the step itself. Leave out generic classroom management, such as dominant voices or frustration; teachers already handle it.
@@ -674,7 +674,7 @@ A Teacher Guide that offers lettered activity options (such as the Showdown's A�
 
 ### Source and generation
 
-Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optional `option` and `intro`. Start from `templates/teacher_companion/TEMPLATE.json`, which shows every block; delete the ones you do not use. Blocks mix in any order, with no minimum count, one-page requirement or decorative filler.
+Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optional `option` and `intro`. Start from `templates/teacher_companion/TEMPLATE.json` (`"template": "teacher_companion"`), which shows every block; delete the ones you do not use. Blocks mix in any order, with no minimum count, one-page requirement or decorative filler.
 
 | Block | Use for | Renders as |
 | --- | --- | --- |
@@ -921,10 +921,10 @@ Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.m
 
 ## Editing templates
 
-Templates are starting structures for supported source types: `teacher_guide/` (lesson.json), `teacher_companion/`, and the `welcome/` page style with its assets. `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
+Templates are starting structures for supported source types, one folder each: `teacher_guide/` (lesson.json), `teacher_companion/` (question banks, extensions, answer keys), `activity_guide/` (one guide per lettered lesson option) and the `welcome/` page style with its assets. A template is the content structure; the renderer that builds it is separate and recorded in the catalogue as `pdf.renderer` ([CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states)). `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
 
 - **Build templates from individual assets.** Logos, crests, icons, and illustrations go in the template's `assets/` folder as separate image files that the renderer places around live text. Never generate or rasterize a whole page as one image. Full rule: [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets).
-- Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need, so copies inherit it. `scripts/validate.py` checks this.
+- Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need, then `"template": "<folder name>"`, so copies inherit both. `scripts/validate.py` checks both, and that each source's template matches its catalogue renderer. A new template folder also needs its renderer added to `TEMPLATE_RENDERER` in `scripts/validate.py`.
 - Renderers live in `scripts/renderers/`, not here ([scripts/AGENTS.md](scripts/AGENTS.md)).
 
 ---

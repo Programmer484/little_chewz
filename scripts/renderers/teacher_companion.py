@@ -20,7 +20,7 @@ from reportlab.lib.utils import ImageReader, simpleSplit
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas as rl_canvas
-from reportlab.platypus import (BaseDocTemplate, Flowable, Frame, Image, PageTemplate,
+from reportlab.platypus import (BaseDocTemplate, Flowable, Frame, Image, KeepTogether, PageTemplate,
                                 Paragraph, Spacer)
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -288,12 +288,13 @@ class GroupLabel(Flowable):
     def __init__(self, text, accent):
         super().__init__()
         self.text, self.accent = text.upper().replace(" · ", "  ·  "), accent
+        self.trim = 0.0  # set when a text paragraph follows, whose first baseline sits lower than a row's
 
     def wrap(self, avail_w, avail_h):
-        return avail_w, LABEL_TO_ROW
+        return avail_w, LABEL_TO_ROW - self.trim
 
     def draw(self):
-        tracked(self.canv, 0, LABEL_TO_ROW - 0.72 * 8.4, self.text, "LC-Heavy", 8.4, self.accent)
+        tracked(self.canv, 0, LABEL_TO_ROW - self.trim - 0.72 * 8.4, self.text, "LC-Heavy", 8.4, self.accent)
 
 
 class Gap(Spacer):
@@ -399,6 +400,8 @@ def generator(data, output, registry=None):
                 story.append(Gap(1, SECTION_GAP - 10))  # text blocks end with 10 pt; sections sit 26 pt apart
             story.append(GroupLabel(block["text"], accent))
         elif typ == "paragraph":
+            if story and isinstance(story[-1], GroupLabel):
+                story[-1].trim = 0.28 * styles["body"].fontSize  # Paragraph baseline: fontSize below top; rows: cap height
             story.append(Paragraph(safe(block["text"]), styles["body"]))
         elif typ in ("questions", "answers"):
             numbered(block.get("items", []), divided=True, start=block.get("start"))
@@ -413,8 +416,14 @@ def generator(data, output, registry=None):
                                          separator=None if i == 0 else "tight"))
             story.append(Gap(1, 26))
         elif typ == "pairs":
-            for i, item in enumerate(block.get("items", [])):
-                story.append(PairRow(item["term"], item["text"], separator=None if i == 0 else "rule"))
+            rows = [PairRow(item["term"], item["text"], separator=None if i == 0 else "rule")
+                    for i, item in enumerate(block.get("items", []))]
+            heading = [story.pop()] if story and isinstance(story[-1], GroupLabel) else []
+            # A short table moves to the next page whole, with its heading, rather than splitting.
+            if len(rows) <= 6:
+                story.append(KeepTogether(heading + rows))
+            else:
+                story.extend(heading + rows)
             story.append(Gap(1, 26))
         elif typ == "callout":
             story.append(Callout(block.get("title"), block.get("text"), accent))

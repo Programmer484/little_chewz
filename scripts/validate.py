@@ -222,11 +222,9 @@ for path in lesson_paths:
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
 ACTIVITY_SECTIONS=('Before class','How it runs','Choose one','If ','Look for')
 def activity_guide_errors(doc):
-    """Companions marked "template": "activity_guide" keep the shape of
-    templates/teacher_companion/ACTIVITY_TEMPLATE.json (see RESOURCE_GUIDELINES.md)."""
-    template=doc.get('template')
-    if template is None: return []
-    if template!='activity_guide': return [f'unknown companion template {template!r}']
+    """Sources with "template": "activity_guide" keep the shape of
+    templates/activity_guide/TEMPLATE.json (see RESOURCE_GUIDELINES.md)."""
+    if doc.get('template')!='activity_guide': return []
     errs=[]
     if doc.get('kind')!='instructions' or not doc.get('option'):
         errs.append('activity guide needs kind "instructions" and an option letter')
@@ -273,17 +271,29 @@ for ref,item in registry.items():
         from select_builds import nav_refs
         for nav in nav_refs(doc):
             if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')
-for path,kind in [('templates/teacher_guide/TEMPLATE.json','lesson'),
-                  ('templates/teacher_companion/TEMPLATE.json','companion'),
-                  ('templates/teacher_companion/ACTIVITY_TEMPLATE.json','companion'),
-                  ('templates/welcome/TEMPLATE.json','welcome')]:
-    if (R/path).is_file(): check_instructions(path,json.loads((R/path).read_text()),kind)
-ACTIVITY_TEMPLATE=R/'templates/teacher_companion/ACTIVITY_TEMPLATE.json'
-if ACTIVITY_TEMPLATE.is_file():
-    errors.extend(f'{ACTIVITY_TEMPLATE.relative_to(R)}: {e}' for e in activity_guide_errors(json.loads(ACTIVITY_TEMPLATE.read_text())))
+# Content templates (the structure a source follows) and the renderer that builds each one.
+# One renderer may serve several templates; the catalogue records the renderer as pdf.renderer.
+TEMPLATE_RENDERER={'teacher_guide':'teacher_guide','teacher_companion':'teacher_companion',
+                   'activity_guide':'teacher_companion','welcome':'welcome'}
+TEMPLATE_INSTRUCTIONS={'teacher_guide':'lesson','teacher_companion':'companion',
+                       'activity_guide':'companion','welcome':'welcome'}
+for folder in sorted(p for p in (R/'templates').glob('*') if (p/'TEMPLATE.json').is_file()):
+    path=folder.relative_to(R)/'TEMPLATE.json'; doc=json.loads((R/path).read_text())
+    if folder.name not in TEMPLATE_RENDERER:
+        errors.append(f'{path}: template folder {folder.name!r} has no renderer in validate.py TEMPLATE_RENDERER'); continue
+    check_instructions(path,doc,TEMPLATE_INSTRUCTIONS[folder.name])
+    if doc.get('template')!=folder.name:
+        errors.append(f'{path}: must declare "template": "{folder.name}"')
+    errors.extend(f'{path}: {e}' for e in activity_guide_errors(doc))
 try:
     registered = targets()
     for name, target in registered.items():
+        template=target['data'].get('template')
+        renderer=((registry.get(target.get('resource_id'),{}) or {}).get('pdf') or {}).get('renderer')
+        if template not in TEMPLATE_RENDERER or not (R/'templates'/str(template)/'TEMPLATE.json').is_file():
+            errors.append(f'{target["source"]}: must declare "template" naming a folder in templates/ (one of {sorted(TEMPLATE_RENDERER)})')
+        elif TEMPLATE_RENDERER[template]!=renderer:
+            errors.append(f'{target["source"]}: template {template!r} is built by {TEMPLATE_RENDERER[template]!r}, but the catalogue says pdf.renderer {renderer!r}')
         for ref in resource_refs(target['data']):
             record = registry.get(ref, {})
             if not str(record.get('published_url') or record.get('holding_url') or '').startswith('https://'):
