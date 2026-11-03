@@ -44,8 +44,13 @@ def check_ref(ref,source):
 for ref,item in registry.items():
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ref):
         errors.append(f'{ref}: resource ID must be stable lowercase kebab-case')
-    if not isinstance(item.get('type'),str) or not item['type']:
-        errors.append(f'{ref}: missing established resource type')
+    category = item.get('type')
+    if category not in {'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}:
+        errors.append(f'{ref}: type must match one of the five published Drive folders')
+    if 'audience' in item:
+        errors.append(f'{ref}: redundant audience field; resource type is the delivery folder')
+    if 'tags' in item:
+        errors.append(f'{ref}: obsolete free-form tags; use type and pdf_template')
     production = item.get('production_type')
     if production not in {'generated_pdf','external'}:
         errors.append(f'{ref}: explicit production_type must be generated_pdf or external')
@@ -62,6 +67,16 @@ for ref,item in registry.items():
     elif source['kind']=='external_original' and source.get('url') and not source['url'].startswith('https://'):
         errors.append(f'{ref}: external original URL must use HTTPS')
     build = item.get('build')
+    template = item.get('pdf_template', '__missing__')
+    if template not in (None, 'teacher_guide', 'teacher_companion', 'welcome'):
+        errors.append(f'{ref}: unsupported pdf_template')
+    if production == 'external' and template is not None:
+        errors.append(f'{ref}: external resources cannot claim a generated PDF template')
+    if production == 'generated_pdf':
+        expected_template = (build.get('renderer') if isinstance(build,dict) and build.get('renderer')
+                             else 'teacher_guide' if category == 'teacher_guide' else 'teacher_companion')
+        if template != expected_template:
+            errors.append(f'{ref}: pdf_template must match generated renderer {expected_template!r}')
     if production=='generated_pdf':
         if not isinstance(source,dict) or source.get('kind')!='github':
             errors.append(f'{ref}: generated PDFs must have GitHub editable source')
@@ -150,7 +165,7 @@ else:
     for purpose in ('root','generated_pdf','worksheets','visuals','other','slide_pdfs'):
         if not (staging.get(purpose) or {}).get('folder_id'):
             errors.append(f'Unconfigured holding folder: {purpose}')
-    for category in ('01_TEACHER_GUIDES','02_CLASSROOM_SLIDES','03_STUDENT_MATERIALS','04_EXTRA_RESOURCES'):
+    for category in ('01_TEACHER_GUIDES','02_CLASSROOM_SLIDES','03_STUDENT_MATERIALS','04_TEACHER_RESOURCES'):
         if not (staging.get('categories') or {}).get(category,{}).get('folder_id'):
             errors.append(f'Unconfigured holding category: {category}')
     for section in [*(value for value in staging.values() if isinstance(value,dict)),
@@ -207,7 +222,7 @@ for path in lesson_paths:
         if not ref:
             return
         quantity = link.get('quantity')
-        if registry.get(ref, {}).get('type') == 'student_worksheet':
+        if registry.get(ref, {}).get('type') == 'student_material':
             if quantity not in ('per_student', 'per_group'):
                 errors.append(f'{path}: worksheet {ref} must set quantity to per_student or per_group')
         elif quantity is not None:
