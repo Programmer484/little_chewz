@@ -36,6 +36,8 @@ export interface OptionSpec {
   label: string;
   title: string;
   summary?: string;
+  /** Default students per group for this option's per-group materials (lesson.json `group_size`). */
+  groupSize?: number;
   materials: MaterialSpec[];
   /** Checkbox extras that only apply when this option is chosen. */
   extensions?: ExtensionSpec[];
@@ -143,6 +145,8 @@ export interface Quantities {
 export interface PlanLine {
   id: string;
   activityId: string;
+  /** Students per group used when the teacher has not changed it. */
+  defaultGroupSize?: number;
   /** Number of groups, for per_group lines. */
   groups?: number;
   resourceId: string;

@@ -210,6 +210,9 @@ for path in lesson_paths:
         for option in options:
             if not option.get('title') or not option.get('rows'):
                 errors.append(f'{path}: option must have a title and rows')
+            size=option.get('group_size')
+            if size is not None and (not isinstance(size,int) or isinstance(size,bool) or not 1<=size<=200):
+                errors.append(f'{path}: option group_size must be a whole number of students from 1 to 200')
         rows=st.get('rows',[])+[row for option in options for row in option.get('rows',[])]
         for row in rows:
             check_quantity(row)

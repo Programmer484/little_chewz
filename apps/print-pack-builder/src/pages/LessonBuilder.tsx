@@ -178,7 +178,7 @@ export function LessonBuilder({ lesson }: { lesson: ResolvedLesson }) {
                 key={line.id}
                 line={line}
                 raw={copies[line.id]}
-                groupSize={groupSizes[line.activityId] ?? String(lesson.defaults.groupSize)}
+                groupSize={groupSizes[line.activityId] ?? String(line.defaultGroupSize ?? lesson.defaults.groupSize)}
                 expanded={expandedLine === line.id}
                 showErrors={showErrors}
                 onToggle={() => setExpandedLine((id) => id === line.id ? null : line.id)}

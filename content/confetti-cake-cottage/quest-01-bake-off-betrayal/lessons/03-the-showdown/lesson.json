@@ -75,18 +75,19 @@
         {
           "label": "A",
           "title": "Design · 20–30 min",
+          "group_size": 3,
           "rows": [
             {
               "kind": "GIVE",
               "links": [
                 {
                   "ref": "ccc-q01-showdown-design-card",
-                  "description": "One per team",
+                  "description": "One per team of 2–3",
                   "quantity": "per_group"
                 },
                 {
                   "ref": "ccc-q01-showdown-design-sheet",
-                  "description": "One shared design per team",
+                  "description": "One per team",
                   "quantity": "per_group"
                 }
               ]
@@ -96,13 +97,14 @@
         {
           "label": "B",
           "title": "Decorate · 30–45 min",
+          "group_size": 3,
           "rows": [
             {
               "kind": "GIVE",
               "links": [
                 {
                   "ref": "ccc-q01-showdown-decorate-card",
-                  "description": "One per team",
+                  "description": "One per team of 2–3",
                   "quantity": "per_group"
                 }
               ]
@@ -112,18 +114,19 @@
         {
           "label": "C",
           "title": "Bake · 45–60 min",
+          "group_size": 4,
           "rows": [
             {
               "kind": "GIVE",
               "links": [
                 {
                   "ref": "ccc-q01-showdown-bake-card",
-                  "description": "One per team",
+                  "description": "One per team of 3–5",
                   "quantity": "per_group"
                 },
                 {
                   "ref": "ccc-q01-showdown-recipe",
-                  "description": "Recipe per baking team",
+                  "description": "One per team",
                   "quantity": "per_group"
                 }
               ]
@@ -133,18 +136,19 @@
         {
           "label": "D",
           "title": "Mystery · 45–60 min",
+          "group_size": 4,
           "rows": [
             {
               "kind": "GIVE",
               "links": [
                 {
                   "ref": "ccc-q01-showdown-mystery-card",
-                  "description": "One per team",
+                  "description": "One per team of 3–5",
                   "quantity": "per_group"
                 },
                 {
                   "ref": "ccc-q01-showdown-recipe",
-                  "description": "Recipe per baking team",
+                  "description": "One per team",
                   "quantity": "per_group"
                 }
               ]
@@ -179,6 +183,6 @@
   "migration_review": {
     "basis": "05_The_Showdown.pdf (7 pages), Full Guide Revised.pdf pp. 14–17, Full Guide.pdf v0 pp. 46–62",
     "not_yet_verified": "All linked option guides, handouts, recipe, slides, and TASTE sheet are draft-only placeholders pointing to the Drive homepage; replace with verified resources before publication.",
-    "timing": "2026-11-03 human decisions: challenge times follow Day 3 (Design 20–30, Decorate 30–45, Bake/Mystery 45–60 min). The Showdown overview (Preparation) holds each option's restrictions and prep for choosing; each option's activity guide holds its planning, roles and tips. This guide links the overview and activity guides once, in Preparation, and keeps only the flow and cards. Clean Up and the TASTE debrief share one step so the Teaching Flow fits one page."
+    "timing": "2026-11-03 human decisions: challenge times follow Day 3 (Design 20–30, Decorate 30–45, Bake/Mystery 45–60 min). The Showdown overview (Preparation) holds each option's restrictions and prep for choosing; each option's activity guide holds its planning, roles and tips. This guide links the overview and activity guides once, in Preparation, and keeps only the flow and cards. Clean Up and the TASTE debrief share one step so the Teaching Flow fits one page. Team sizes (2026-11-03 human decision): Design and Decorate 2–3, Bake and Mystery 3–5 depending on oven space; group_size gives the Print Pack Builder's default (3 and 4)."
   }
 }

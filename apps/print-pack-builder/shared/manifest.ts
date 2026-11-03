@@ -1,4 +1,4 @@
-import { DEFAULT_GROUP_SIZE, DEFAULT_STUDENT_COUNT } from "./limits.ts";
+import { DEFAULT_GROUP_SIZE, DEFAULT_STUDENT_COUNT, LIMITS } from "./limits.ts";
 import type {
   ClientResource,
   ExtensionSpec,
@@ -87,6 +87,8 @@ export function validateManifest(
       for (const o of s.options) {
         claim(o.id, "option");
         if (!o.label || !o.title) p.push(`${where}: option ${o.id} needs a label and title`);
+        if (o.groupSize !== undefined && (!Number.isInteger(o.groupSize) || o.groupSize < 1 || o.groupSize > LIMITS.maxStudents))
+          p.push(`${where}: option ${o.id} has an invalid group size`);
         o.materials.forEach(checkMaterial);
         (o.extensions ?? []).forEach(checkExtension);
       }

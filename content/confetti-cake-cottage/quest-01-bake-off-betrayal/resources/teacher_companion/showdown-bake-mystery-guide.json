@@ -6,7 +6,8 @@
   "option": "C/D",
   "meta": [
     "Expands Teacher Guide step 2",
-    "45–60 min"
+    "45–60 min",
+    "Teams of 3–5"
   ],
   "blocks": [
     {
@@ -31,26 +32,22 @@
     },
     {
       "type": "heading",
-      "text": "Choose one Mystery twist"
+      "text": "Choose one Mystery twist (if running Mystery)"
     },
     {
       "type": "pairs",
       "items": [
         {
-          "term": "Roles switch halfway",
-          "text": "Halfway through mixing, every student takes a new role."
+          "term": "Mystery mix-in",
+          "text": "Teams fold in one ingredient, such as chocolate chips or sprinkles. Allergy-check it first; one portion per team."
         },
         {
-          "term": "One tool limited",
-          "text": "Remove one mixing tool; never oven mitts or safety equipment."
+          "term": "Missing measure",
+          "text": "Remove one measuring cup; teams measure with what’s left."
         },
         {
-          "term": "Mystery ingredient",
-          "text": "Only after the allergy check above; set out one portion per team."
-        },
-        {
-          "term": "Icing or design rule",
-          "text": "Only if teams decorate in a later session, once the cupcakes are cool."
+          "term": "Half batch",
+          "text": "Teams make half the recipe, halving every quantity."
         }
       ]
     },
@@ -64,7 +61,7 @@
         {
           "title": "Roles",
           "mins": "5 min",
-          "text": "Teams pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew. Everyone washes hands."
+          "text": "Teams pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew. In smaller teams, students take more than one role. Everyone washes hands."
         },
         {
           "title": "Measure and mix",
@@ -96,7 +93,7 @@
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. The detailed activity guide: everything a teacher should check so they don't have to think of it. Repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, card and recipe links, option totals) or the recipe card (ingredient quantities stay on the recipe). Covers guide step 2 and step 3 · C/D. Sources: Day 3 The Showdown (v0) Level 3 and Level 4 pages (role names, twist ideas, 'not perfection, but adaptability', success criteria) and recipe page (350°F, ¾-full liners, cool completely); the task spec (non-ingredient default twists, allergy checks, adult oven supervision, oven/cooling caveat, 12–18 cupcake estimate, no class-size assumption). 'Level 3/4' renamed Bake/Mystery. Newly written: checklist wording, timings, oven capacity, preheat timing, labelled pans, per-team equipment, and limiting icing and design twists to a later decorating session.",
+  "source_note": "DRAFT 2026-11-03, needs human review. The detailed activity guide: everything a teacher should check so they don't have to think of it. Repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, card and recipe links, option totals) or the recipe card (ingredient quantities stay on the recipe). Covers guide step 2 and step 3 · C/D. Sources: Day 3 The Showdown (v0) Level 3 and Level 4 pages (role names, twist ideas, 'not perfection, but adaptability', success criteria) and recipe page (350°F, ¾-full liners, cool completely); the task spec (non-ingredient default twists, allergy checks, adult oven supervision, oven/cooling caveat, 12–18 cupcake estimate, no class-size assumption). 'Level 3/4' renamed Bake/Mystery. Twists (2026-11-03): bake-specific only; mix-in and missing measure adapt Day 3's mystery ingredient and limited kitchen tool; half batch is newly written. Team size 3–5 depending on oven space. Newly written: checklist wording, timings, oven capacity, preheat timing, labelled pans, per-team equipment, and limiting icing and design twists to a later decorating session.",
   "resource_id": "ccc-q01-showdown-bake-mystery-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",

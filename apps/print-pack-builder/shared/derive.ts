@@ -38,7 +38,7 @@ interface LessonStep {
   id: number | string;
   title: string;
   rows?: Row[];
-  options?: { label: string; title: string; rows?: Row[] }[];
+  options?: { label: string; title: string; group_size?: number; rows?: Row[] }[];
 }
 /** The parts of a lesson.json this app reads. */
 export interface LessonSource {
@@ -154,6 +154,7 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
           id: optionId,
           label: option.label,
           title: option.title,
+          ...(option.group_size ? { groupSize: option.group_size } : {}),
           ...(materials.length || extensions.length ? {} : { summary: "Nothing to print." }),
           materials,
           extensions,
