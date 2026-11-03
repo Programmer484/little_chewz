@@ -700,7 +700,7 @@ python scripts/renderers/welcome.py \
 
 ### Navigation links
 
-`nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry is `pending_publish` or `published` with an HTTPS URL; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
+`nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry has an official HTTPS `published_url`; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
 
 ### Fonts
 
@@ -882,7 +882,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |
 
-Linked resource names, URLs, and companion status live in [catalog/resources.json](catalog/AGENTS.md), never in these files.
+Linked resource names, URLs and companion publication evidence live in [catalog/resources.json](catalog/AGENTS.md); resource status is derived rather than stored.
 
 **Student worksheets print from the guide.** The [Print Pack Builder](apps/AGENTS.md) reads each `lesson.json`: a `student_worksheet` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per group of 3–4`).
 
@@ -894,11 +894,11 @@ After editing, run `python scripts/validate.py` and save through a PR per [WORKF
 
 ## Editing the catalogue
 
-- `resources.json` owns stable linked-resource IDs, production type, provenance, holding and official URLs, build mapping, publication evidence and linked-resource delivery status. See [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states).
+- `resources.json` owns stable linked-resource IDs, production type, provenance, holding and official URLs, build mapping, publication evidence (resource status is derived, never stored). See [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states).
 - Use `generated_pdf` only for existing Python-rendered PDF outputs with GitHub editable sources and explicit `build`. Externally authored PDFs remain `external`, as do slides and image-based resources.
 - `drive_folders.json` owns four holding category folder IDs mirroring the official Drive layout; existing nested subfolders retain their IDs. Legacy Slide PDF originals remain separate. Never invent file or folder IDs. A holding file is not published **even when its permanent URL will be unchanged**.
-- [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) owns status definitions; **[PUBLISH.md](system/PUBLISH.md) alone owns the actions and verification that permit recording `published`**. Legacy records can remain explicitly unverified. Add `human_review: {"<exact URL>": "pending"}` for reviewable links; set to `reviewed` only after a human checks that URL. For externally owned Drive files, add `review_mode: "human"`; ordinary Drive links always retain automatic public-permission checks.
-- Published resources always render their `published_url`, in both review and release PDFs. Slide PPTX files may keep an original PDF link in `holding_url` and `pdf_url` as an unpublished review copy; the publication inspector skips slide decks. Draft previews may use a genuine holding link; non-slide published resources must have `holding_url: null`. Release builds require every referenced resource to have `status: published` and an official URL.
+- [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) owns status definitions; **[PUBLISH.md](system/PUBLISH.md) alone owns the actions and verification that permit recording an official `published_url`**. Legacy records can remain explicitly unverified. Add `human_review: {"<exact URL>": "pending"}` for reviewable links; set to `reviewed` only after a human checks that URL. For externally owned Drive files, add `review_mode: "human"`; ordinary Drive links always retain automatic public-permission checks.
+- Published resources always render their `published_url`, in both review and release PDFs. Any external resource (including slides) may have a **distinct** staged holding link indicating `pending_publish`; a link to the same Drive file ID is not pending. The link inspector skips slide decks. Draft previews may use holding links; release builds require every referenced resource to have an official URL. Generated PDFs use approved/current MD5 parity, not holding links.
 - `quests.json` indexes quest manifests; each quest's `quest.json` owns lesson-source delivery status, separate from linked resource status.
 
 Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.md) for revisions, and [PUBLISH.md](system/PUBLISH.md) for release; [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) owns slide-specific conversion. Run `python scripts/validate.py` after changes.
@@ -929,12 +929,13 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
+| `publication_state.py` | One derived publication-state rule for all resources | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
 | `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](system/PUBLISH.md) |
 | `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](system/PUBLISH.md) |
 | `inspect_publications.py` | Read-only Drive permission / exact-URL human-review audit of published resources | [PUBLISH.md](system/PUBLISH.md#on-demand-inspection) |
 | `pdf_to_linked_slides.py` | Human-reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 
-PDF previews use `renderers/resource_links.py` to select holding URLs; generated-PDF release builds use published URLs and `publication_checks.py` to reject unpublished dependencies. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
+PDF previews and releases use official `published_url` whenever present, and draft previews use holding links otherwise. `publication_checks.py` rejects release dependencies without an official URL; `publication_state.py` derives resource status from distinct external holding URLs or generated-PDF MD5 parity. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
 When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
 
@@ -944,13 +945,13 @@ When changing renderer inputs or build selection, update `select_builds.py` and 
 
 ## Editing apps
 
-`apps/` holds standalone teacher-facing web apps. They are separate from the Python Teacher Guide pipeline: they read repository records but never edit lesson sources, change publication status, or publish to Drive.
+`apps/` holds standalone teacher-facing web apps. They are separate from the Python Teacher Guide pipeline: they read repository records but never edit lesson sources, set publication status, or publish to Drive.
 
 | App | Purpose | Read first |
 | --- | --- | --- |
 | `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
 
-- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_worksheet` links count. A worksheet becomes downloadable when its catalogue entry is `published`. Never add per-lesson lists, allowlists or Drive IDs to the app.
+- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_worksheet` links count. A worksheet becomes downloadable when its catalogue entry has a valid official `published_url`. Never add per-lesson lists, allowlists or Drive IDs to the app.
 - **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF.
 - The site runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because published student worksheets are shared publicly on Drive. Require the login before publishing a worksheet that must stay private.
 - Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).
