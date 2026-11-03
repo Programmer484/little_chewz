@@ -5,7 +5,7 @@ def resolve_url(record: dict, release: bool = False) -> str | None:
     if release:
         return None
     # Legacy url preserves old draft pointers without making them "published".
-    return record.get("holding_url") or record.get("url")
+    return record.get("holding_url")
 
 
 def resolved_registry(registry: dict, release: bool = False) -> dict:

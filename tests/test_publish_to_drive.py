@@ -72,11 +72,11 @@ class PublishTests(unittest.TestCase):
         self.registry = self.tmp / "resources.json"
         self.pdf = self.tmp / "out.pdf"
         self.pdf.write_bytes(PDF)
-        self.entry = {"title": "Quest Overview", "url": f"https://drive.google.com/file/d/{FILE_ID}/view",
-                      "type": "published_export", "production_type": "generated_pdf",
+        self.entry = {"title": "Quest Overview", "type": "welcome",
                       "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
-                      "holding_url": None, "publication": {"artifact_md5": "0" * 32},
-                      "build": {"renderer": "welcome", "source": "x.json"}}
+                      "holding_url": None,
+                      "pdf": {"template": "welcome", "source": "x.json",
+                              "approved_md5": "0" * 32, "revision": "b" * 40}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
         try:
@@ -118,13 +118,23 @@ class PublishTests(unittest.TestCase):
         self.assertEqual(report["new_version"], "8")
         self.assertEqual(self.status(), "published")
         self.assertEqual(self.registry.read_text(), saved)
-        publication = json.loads(saved)["ccc-q01-welcome"]["publication"]
-        self.assertEqual(publication["verification"], "verified")
-        self.assertEqual(publication["drive_file_id"], FILE_ID)
-        self.assertEqual(publication["release_revision"], revision)
-        self.assertEqual(publication["artifact_md5"], hashlib.md5(PDF).hexdigest())
-        self.assertEqual(publication["drive_version"], "8")
-        self.assertEqual(report["publication"], publication)
+        pdf = json.loads(saved)["ccc-q01-welcome"]["pdf"]
+        self.assertEqual(pdf["template"], "welcome")
+        self.assertEqual(pdf["source"], "x.json")
+        self.assertEqual(pdf["revision"], revision)
+        self.assertEqual(pdf["approved_md5"], hashlib.md5(PDF).hexdigest())
+        self.assertEqual(report["drive_version"], "8")
+        self.assertEqual(report["pdf"], pdf)
+
+    def test_first_verified_replacement_records_missing_baseline(self):
+        entry = {**self.entry, "pdf": {"template": "welcome", "source": "x.json"}}
+        self.write({"ccc-q01-welcome": entry})
+        with patch.object(pub, "current_revision", return_value="a" * 40):
+            report = self.run_publish(FakeService(md5Checksum=hashlib.md5(PDF).hexdigest()))
+        details = json.loads(self.registry.read_text())["ccc-q01-welcome"]["pdf"]
+        self.assertEqual(details["approved_md5"], hashlib.md5(PDF).hexdigest())
+        self.assertEqual(details["revision"], "a" * 40)
+        self.assertEqual(report["result"], "unchanged: Drive already has these exact bytes")
 
     def test_a4_generated_teacher_guide_is_allowed(self):
         self.pdf.write_bytes(make_pdf(595.28, 841.89))
@@ -142,9 +152,11 @@ class PublishTests(unittest.TestCase):
         self.assertIn("dry run", report["result"])
 
     def test_initial_publication_and_external_items_cannot_auto_publish(self):
-        for official, production in [(None, "generated_pdf"), (self.entry["published_url"], "external")]:
-            with self.subTest(official=official, production=production):
-                entry = {**self.entry, "published_url": official, "production_type": production}
+        for official, generated in [(None, True), (self.entry["published_url"], False)]:
+            with self.subTest(official=official, generated=generated):
+                entry = {**self.entry, "published_url": official}
+                if not generated:
+                    entry.pop("pdf")
                 self.write({"ccc-q01-welcome": entry})
                 with self.assertRaises(pub.PublishError):
                     self.run_publish(FakeService())
@@ -188,8 +200,8 @@ class PublishTests(unittest.TestCase):
                 with self.assertRaisesRegex(pub.PublishError, "read-back"):
                     self.run_publish(service)
         self.assertEqual(self.status(), "pending_publish")
-        self.assertEqual(json.loads(self.registry.read_text())["ccc-q01-welcome"]["publication"],
-                         {"artifact_md5": "0" * 32})
+        self.assertEqual(json.loads(self.registry.read_text())["ccc-q01-welcome"]["pdf"],
+                         self.entry["pdf"])
 
 
 

@@ -2,10 +2,10 @@
 """Build one registered document and replace its Drive file in place.
 
 The registry entry in catalog/resources.json names the Drive destination
-(`url`) and how to build the PDF (`build`):
+(`published_url`) and the generated PDF details (`pdf`):
 
-    "build": {"renderer": "welcome", "source": "content/.../welcome.json"}
-    "build": {"output": "00-activate-teacher-guide.pdf"}   # select_builds target
+    "pdf": {"template": "welcome", "source": "content/.../welcome.json"}
+    "pdf": {"template": "teacher_guide", "output": "00-activate-teacher-guide.pdf"}   # select_builds target
 
 Publishing replaces the file's contents through the Drive API, so the file
 ID, link, name, folder, and sharing stay the same and Drive keeps the old
@@ -64,25 +64,20 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
         raise PublishError(f"Unknown resource ID: {resource_id}")
     if not entry.get("published_url"):
         raise PublishError(f"{resource_id} has no established official destination; initial publication is agent-managed")
-    if entry.get("production_type") != "generated_pdf":
-        raise PublishError(f"{resource_id} is external; agent-managed publication required")
-    build = entry.get("build")
-    if not isinstance(build, dict) or not (build.get("source") or build.get("output")):
-        raise PublishError(f"{resource_id} has no 'build' instructions in the registry")
-    official_url = entry["published_url"]
-    file_id = drive_file_id(official_url)
-    recorded_id = (entry.get("publication") or {}).get("drive_file_id")
-    if recorded_id and recorded_id != file_id:
-        raise PublishError(f"{resource_id} has conflicting publication Drive file ID")
-    return file_id, build
+    pdf = entry.get("pdf")
+    if not isinstance(pdf, dict) or pdf.get("template") not in {"teacher_guide", "teacher_companion", "welcome"}:
+        raise PublishError(f"{resource_id} is external or lacks PDF generation metadata")
+    if not (pdf.get("source") or pdf.get("output")):
+        raise PublishError(f"{resource_id} has no PDF build source/output")
+    return drive_file_id(entry["published_url"]), pdf
 
 
 def output_name(resource_id: str, build: dict) -> str:
     """Registry-built documents preview as <resource-id>.pdf; others name a select_builds output."""
-    if build.get("renderer"):
-        return f"{resource_id}.pdf"
     if build.get("output"):
         return build["output"]
+    if build.get("source"):
+        return f"{resource_id}.pdf"
     raise PublishError(f"Unsupported build instructions for {resource_id}: {build}")
 
 
@@ -207,28 +202,18 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
     if confirmed.get("id") != file_id or confirmed.get("md5Checksum") != local_md5:
         raise PublishError(f"Drive read-back checksum or file ID mismatch for {resource_id}")
     assert_revision(revision)
-    prior = entry.get("publication") or {}
-    if (prior.get("verification") == "verified"
-            and prior.get("method") == "generated_pdf"
-            and prior.get("drive_file_id") == file_id
-            and prior.get("release_revision") == revision
-            and prior.get("artifact_md5") == local_md5
-            and prior.get("drive_version") == str(confirmed.get("version"))):
+    details = entry["pdf"]
+    if details.get("revision") == revision and details.get("approved_md5") == local_md5:
         report["status_after"] = "published"
-        report["publication"] = prior
+        report["pdf"] = details
         return report
-    entry["publication"] = {
-        "verification": "verified",
-        "method": "generated_pdf",
-        "drive_file_id": file_id,
-        "release_revision": revision,
-        "artifact_md5": local_md5,
-        "drive_version": str(confirmed["version"]) if confirmed.get("version") is not None else None,
-        "confirmed_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-    }
+    details["approved_md5"] = local_md5
+    details["revision"] = revision
     save_registry(registry)
     report["status_after"] = "published"
-    report["publication"] = entry["publication"]
+    report["confirmed_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    report["drive_version"] = str(confirmed["version"]) if confirmed.get("version") is not None else None
+    report["pdf"] = details
     return report
 
 

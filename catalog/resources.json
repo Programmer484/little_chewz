@@ -1,1036 +1,349 @@
 {
   "ccc-q01-activate-slides": {
     "title": "Classroom Slideshow",
-    "url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
     "type": "classroom_slides",
-    "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
-    "pdf_url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
-    "powerpoint_file_id": "1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom",
-    "powerpoint_filename": "Activate_Slides.pptx",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
-    "human_review": {
-      "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
-      "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "pdf_url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view"
   },
   "ccc-q01-mrs-tongsleys-letter": {
     "title": "Mrs. Tongsley's Letter",
-    "url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/story/mrs-tongsleys-letter.md"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-school-pass-instructions": {
     "title": "Chewlandia Passport",
-    "url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
     "type": "teacher_resource",
-    "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "11bA2JwLlOp7ZLRAirDAzwk2w17gs842G",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
-    "human_review": {
-      "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-callie-cupcake-poster": {
     "title": "Callie Cupcake Poster",
-    "url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-mrs-tongsley-video": {
     "title": "Mrs. Tongsley's Video",
-    "url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU"
-    },
-    "publication": {
-      "verification": "unverified",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
-    "human_review": {
-      "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "human_reviewed_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU"
   },
   "ccc-q01-callie-cupcake-video": {
     "title": "Callie Cupcake Video",
-    "url": "https://youtu.be/qXq3cCxg8l8",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://youtu.be/qXq3cCxg8l8"
-    },
-    "publication": {
-      "verification": "unverified",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://youtu.be/qXq3cCxg8l8",
-    "human_review": {
-      "https://youtu.be/qXq3cCxg8l8": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "human_reviewed_url": "https://youtu.be/qXq3cCxg8l8"
   },
   "ccc-q01-bakery-log-1958": {
     "title": "Bakery Log (1958)",
-    "url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/story/bakery-log-1958.md"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-activate-video-questions": {
     "title": "Mission Video Questions",
-    "url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
     "type": "teacher_resource",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/mission-video-questions.json"
-    },
-    "build": {
-      "output": "mission-video-questions.pdf"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1qKFGb14wUd_QZZtljKrjZF07EWJBevMj"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view": "reviewed"
-    },
-    "pdf_template": "teacher_companion"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_companion",
+      "output": "mission-video-questions.pdf"
+    }
   },
   "ccc-q01-activate-confetti-questions": {
     "title": "Confetti File Questions",
-    "url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
     "type": "teacher_resource",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/confetti-file-questions.json"
-    },
-    "build": {
-      "output": "confetti-file-questions.pdf"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
-    "human_review": {
-      "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view": "reviewed"
-    },
-    "pdf_template": "teacher_companion"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_companion",
+      "output": "confetti-file-questions.pdf"
+    }
   },
   "ccc-q01-activate-teacher-guide": {
     "title": "Activate Teacher Guide",
-    "url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
     "type": "teacher_guide",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/00-activate/lesson.json"
-    },
-    "build": {
-      "output": "00-activate-teacher-guide.pdf"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "generated_pdf",
-      "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux",
-      "release_revision": "3cbe3853d9ad2b9495db943b900a0658f71f77a7",
-      "artifact_md5": "1ce2d383ddcd71dfbf1b89a16af4ca4a",
-      "drive_version": "86",
-      "confirmed_at": "2026-11-03T03:26:16+00:00",
-      "note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view": "reviewed"
-    },
-    "pdf_template": "teacher_guide"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_guide",
+      "output": "00-activate-teacher-guide.pdf",
+      "approved_md5": "1ce2d383ddcd71dfbf1b89a16af4ca4a",
+      "revision": "3cbe3853d9ad2b9495db943b900a0658f71f77a7"
+    }
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
-    "url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
     "type": "classroom_slides",
-    "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
-    "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
-    "powerpoint_filename": "01_Set_the_Table_Slides.pptx",
-    "pdf_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
-    "human_review": {
-      "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
-      "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "pdf_url": "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view"
   },
   "ccc-q01-set-the-table-songwriting-extension": {
     "title": "Songwriting Extension",
-    "url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
     "type": "teacher_resource",
-    "link_note": "Published Songwriting Extension companion. Verified existing PDF in the official 04_EXTRA_RESOURCES/01_Set_the_Table folder on 2026-10-31, with anyone-reader sharing; current PDF text matches the editable companion source. No Drive file replacement performed in this update.",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/songwriting-extension.json"
-    },
-    "build": {
-      "output": "songwriting-extension.pdf"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM",
-      "release_revision": "5320e43f1698fbeeb0b2a579b8056c51aa34f796",
-      "confirmed_at": "2026-11-01T04:34:40.643+00:00",
-      "note": "Official PDF ID and parent folder, PDF MIME, and anyone-reader sharing confirmed by Google Drive. Current Drive revision 0B-RH5zxR-RN3V2lXSlAxRmxCQjlZRXArOE5rTkYxMld5UVlZPQ (modified 2026-10-31T17:19:05.665Z); readable text matches current source. Existing manual publication verified; PDF byte checksum not independently matched."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view": "reviewed"
-    },
-    "pdf_template": "teacher_companion"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_companion",
+      "output": "songwriting-extension.pdf"
+    }
   },
   "ccc-q01-set-the-table-kwls-starter": {
     "title": "KWLS Starter",
-    "url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view",
     "type": "student_material",
-    "link_note": "Standalone two-page KWLS Starter extracted unchanged from pages 7–8 of Quest 1 Student Booklet and uploaded to Set the Table Drive folder. Editorial/access approval not independently verified.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK",
-      "note": "Owner marked this resource published for inspection testing on 2026-11-02. Drive permission inspection previously found owner-only access; public access and approved content remain unverified."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-set-the-table-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
     "type": "teacher_resource",
-    "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table"
-    },
-    "publication": {
-      "verification": "unverified",
-      "method": "external_agent",
-      "confirmed_at": null,
-      "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
-    },
-    "holding_url": null,
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
-    "human_review": {
-      "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table"
   },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
-    "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
     "type": "student_material",
-    "link_note": "Standalone student-only School Song Activity PDF, existing Drive file confirmed accessible.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Our Vocabulary",
-    "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
     "type": "student_material",
-    "link_note": "Published one-page Our Vocabulary worksheet with 15 words. Renamed from Mission Vocabulary on 2026-11-02; original Drive file ID preserved.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
-    "url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
     "type": "teacher_guide",
-    "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft.",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/01-set-the-table/lesson.json"
-    },
-    "build": {
-      "output": "01-set-the-table-teacher-guide.pdf"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "generated_pdf",
-      "drive_file_id": "1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4",
-      "release_revision": "6bef77a75f3706a55c22c9aaeaea8d09f4e5c1bc",
-      "artifact_md5": "c949c145b815e1d1665aecc35368a87f",
-      "drive_version": "52",
-      "confirmed_at": "2026-11-03T03:24:09+00:00",
-      "note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view": "reviewed"
-    },
-    "pdf_template": "teacher_guide"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_guide",
+      "output": "01-set-the-table-teacher-guide.pdf",
+      "approved_md5": "c949c145b815e1d1665aecc35368a87f",
+      "revision": "6bef77a75f3706a55c22c9aaeaea8d09f4e5c1bc"
+    }
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
-    "url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
     "type": "student_material",
-    "link_note": "Two-page printable word cards. The current GitHub teaching flow uses Which Word Fits? instead of cards.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-set-the-table-team-builder": {
     "title": "Team Builder",
-    "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
     "type": "student_material",
-    "link_note": "Student-facing Team Builder Word Sorting Worksheet in the Set the Table Drive folder. Partners sort words that help or challenge teams, choose their top three, and explain why.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-set-the-table-triple-c-audio": {
     "title": "Triple C School Song — Audio Preview",
-    "url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
     "type": "teacher_resource",
-    "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view": "reviewed"
-    },
-    "review_mode": "human",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-welcome": {
     "title": "Quest Overview",
-    "url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
     "type": "welcome",
-    "build": {
-      "renderer": "welcome",
-      "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
-    },
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "generated_pdf",
-      "drive_file_id": "1w-es-VamWXMfCrr34pRbq59a3ASngEbL",
-      "release_revision": "685df51222da6f50e726e4229b39a8b5f948a0ca",
-      "artifact_md5": "f580361687172d6b0da5dbae7cc67414",
-      "drive_version": "38",
-      "confirmed_at": "2026-10-27T03:32:39+00:00",
-      "note": "2026-10-26: production acceptance tested via authorized PRs #65, #67, and #68. A changed Welcome PDF was replaced in place and then the exact original source and published PDF bytes were restored. Final confirmed PDF MD5: f580361687172d6b0da5dbae7cc67414; existing Drive file ID preserved, final Drive version 38."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view": "reviewed"
-    },
-    "pdf_template": "welcome"
+    "holding_url": null,
+    "pdf": {
+      "template": "welcome",
+      "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json",
+      "approved_md5": "f580361687172d6b0da5dbae7cc67414",
+      "revision": "685df51222da6f50e726e4229b39a8b5f948a0ca"
+    }
   },
   "ccc-q01-secret-ingredients-clue-video": {
     "title": "Zenix Clue Tracker Video",
-    "url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
     "type": "teacher_resource",
-    "link_note": "Historical direct-video link; lesson-specific slides are not yet verified.",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY"
-    },
-    "publication": {
-      "verification": "unverified",
-      "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
-    },
-    "holding_url": null,
     "published_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
-    "human_review": {
-      "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "human_reviewed_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY"
   },
   "ccc-q01-secret-ingredients-chapter-one": {
     "title": "Chapter One: The Bake-Off Betrayal",
-    "url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view",
     "type": "teacher_resource",
-    "link_note": "Chapter download link from original Guide page 42; permissions unverified.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC",
-      "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view",
-    "human_review": {
-      "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view": "reviewed"
-    },
-    "review_mode": "human",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
     "title": "Chapter One Audio",
-    "url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing",
     "type": "teacher_resource",
-    "link_note": "Legacy audio folder link from original Guide page 42; specific recording and permissions unverified.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unverified",
-      "note": "User manually checked the linked resource on 2026-10-31. Existing URL retained; access/official destination not independently verified."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing",
-    "human_review": {
-      "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing": "reviewed"
-    },
-    "review_mode": "human",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-clue-tracker-core": {
     "title": "Clue Tracker — Core",
     "type": "student_material",
-    "link_note": "Core follow-up to independent clue observations. Original Clue Tracker page 1, questions 1–5, preserved without edits; hand out after the 3-minute scene and initial clue share. Published in official student materials.",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
-      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
-      "confirmed_at": "2026-10-31T15:42:00+00:00"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
-    "url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-clue-tracker-extension": {
     "title": "Clue Tracker — Extension",
     "type": "student_material",
-    "link_note": "Extension +10–15 min. Original Clue Tracker page 2, questions 6–8 including the drawing box, preserved without edits; follows the core page. Published in official student materials.",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
-      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
-      "confirmed_at": "2026-10-31T15:42:00+00:00"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
-    "url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
-    "url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
     "type": "teacher_resource",
-    "link_note": "Standalone answer key with Core (1–5) and Extension (6–8) answers, in teacher-resource styling. 2026-10-31: converted to a generated companion source with the shared resource masthead. The live file below is the earlier external release; the next authorized generated release replaces it in place.",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/clue-tracker-answer-key.json"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0",
-      "release_revision": "4bbec3b4a8161576eba2296d6e967791c3a4ae5f",
-      "confirmed_at": "2026-10-31T16:28:41+00:00",
-      "note": "Standalone PDF in official 04_EXTRA_RESOURCES folder with anyone-reader access."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
-    "build": {
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_companion",
       "output": "clue-tracker-answer-key.pdf"
-    },
-    "human_review": {
-      "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view": "reviewed"
-    },
-    "pdf_template": "teacher_companion"
+    }
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
     "title": "Chapter Notes",
-    "url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view",
     "type": "student_material",
-    "link_note": "Standalone Chapter Notes worksheet, original prediction prompt and open notes/drawing area. Published in official student materials; 2–3-detail scaffold appears in teaching directions.",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "107xSYGXDG-46-bQA652m7HOhFR1CVb17",
-      "note": "Verified PDF in official Confetti Cake Pilot (Remake) / 03_STUDENT_MATERIALS / 02_Secret_Ingredients folder; Drive metadata confirms anyone-reader access.",
-      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
-      "confirmed_at": "2026-10-31T15:42:00+00:00"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view",
-    "human_review": {
-      "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
     "type": "teacher_resource",
-    "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients"
-    },
-    "publication": {
-      "verification": "unverified",
-      "method": "external_agent",
-      "confirmed_at": null,
-      "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
-    },
-    "holding_url": null,
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
-    "human_review": {
-      "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients"
   },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Character Profile — Advanced",
-    "url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
     "type": "student_material",
-    "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min), published in official student materials.",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP",
-      "note": "Replacement PDF verified by Google Drive metadata on 2026-11-02 in the existing official Secret Ingredients student materials folder, with anyone-reader access. Replaces prior trashed file ID; the historic release_revision remains the accepted source revision, not a new PDF checksum.",
-      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
-      "confirmed_at": "2026-11-02T18:41:48Z"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-character-profile-core": {
     "title": "Character Profile — Core",
     "type": "student_material",
-    "link_note": "One-page evidence-first Character Profile, now published as a US Letter PDF converted from the supplied worksheet image. Teacher Guide links to this PDF.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "external_agent",
-      "drive_file_id": "1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ",
-      "note": "Published PDF verified in official Secret Ingredients student materials folder, replacing prior PNG destination.",
-      "release_revision": "624c3dbaf8156c698ae827db94d1b9799da0a526",
-      "confirmed_at": "2026-10-31T16:12:24+00:00"
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
-    "url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-secret-ingredients-slides": {
     "title": "Secret Ingredients Classroom Slides",
-    "url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
     "type": "classroom_slides",
-    "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
-    "pdf_url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view",
-    "powerpoint_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
-    "powerpoint_filename": "02_Secret_Ingredients_Slides.pptx",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view"
-    },
-    "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
-      "content_parity": "unverified"
-    },
-    "holding_url": null,
     "published_url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
-    "human_review": {
-      "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
-      "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "pdf_url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view"
   },
   "ccc-q01-secret-ingredients-teacher-guide": {
     "title": "Secret Ingredients Teacher Guide",
     "type": "teacher_guide",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/02-secret-ingredients/lesson.json"
-    },
-    "build": {
-      "output": "02-secret-ingredients-teacher-guide.pdf"
-    },
-    "publication": {
-      "verification": "verified",
-      "method": "generated_pdf",
-      "drive_file_id": "17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5",
-      "release_revision": "0084238e7b3a5ba60839a1c0b3e64064038044db",
-      "artifact_md5": "08c490f2bfa8552c383a8d6d56e9b430",
-      "drive_version": "17",
-      "confirmed_at": "2026-11-03T03:21:34+00:00",
-      "note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
-    },
-    "holding_url": null,
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
-    "url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
-    "human_review": {
-      "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view": "reviewed"
-    },
-    "pdf_template": "teacher_guide"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_guide",
+      "output": "02-secret-ingredients-teacher-guide.pdf",
+      "approved_md5": "08c490f2bfa8552c383a8d6d56e9b430",
+      "revision": "0084238e7b3a5ba60839a1c0b3e64064038044db"
+    }
   },
   "ccc-q01-showdown-slides": {
     "title": "Showdown Slides",
-    "url": "https://drive.google.com/",
     "type": "classroom_slides",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-showdown-design-guide": {
     "title": "Design Challenge",
-    "url": "https://drive.google.com/",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-showdown-decorate-guide": {
     "title": "Decorate Challenge",
-    "url": "https://drive.google.com/",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-showdown-bake-mystery-guide": {
     "title": "Bake & Mystery Challenge",
-    "url": "https://drive.google.com/",
     "type": "teacher_resource",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-showdown-design-sheet": {
     "title": "Design Your Cupcake Worksheet",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-showdown-taste-reflection": {
     "title": "TASTE Reflection",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-showdown-teacher-guide": {
     "title": "The Showdown Teacher Guide",
-    "url": "https://drive.google.com/",
     "type": "teacher_guide",
-    "production_type": "generated_pdf",
-    "source": {
-      "kind": "github",
-      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/03-the-showdown/lesson.json"
-    },
-    "build": {
-      "output": "03-the-showdown-teacher-guide.pdf"
-    },
-    "publication": {
-      "verification": "unknown",
-      "note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists.",
-    "pdf_template": "teacher_guide"
+    "holding_url": null,
+    "pdf": {
+      "template": "teacher_guide",
+      "output": "03-the-showdown-teacher-guide.pdf"
+    }
   },
   "ccc-q01-showdown-design-card": {
     "title": "Design Challenge Card",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "holding_url": null,
     "print": {
       "cards_per_sheet": 4
-    },
-    "pdf_template": null
+    }
   },
   "ccc-q01-showdown-decorate-card": {
     "title": "Decorate Challenge Card",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "holding_url": null,
     "print": {
       "cards_per_sheet": 4
-    },
-    "pdf_template": null
+    }
   },
   "ccc-q01-showdown-bake-card": {
     "title": "Bake Challenge Card",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "holding_url": null,
     "print": {
       "cards_per_sheet": 4
-    },
-    "pdf_template": null
+    }
   },
   "ccc-q01-showdown-mystery-card": {
     "title": "Mystery Challenge Card",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "holding_url": null,
     "print": {
       "cards_per_sheet": 4
-    },
-    "pdf_template": null
+    }
   },
   "ccc-q01-showdown-recipe": {
     "title": "Chocolate Cupcake Recipe",
-    "url": "https://drive.google.com/",
     "type": "student_material",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown"
-    },
-    "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
-    "pdf_template": null
+    "holding_url": null
   },
   "ccc-q01-activate-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
     "type": "teacher_resource",
-    "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate"
-    },
-    "publication": {
-      "verification": "unverified",
-      "method": "external_agent",
-      "confirmed_at": null,
-      "note": "Direct route updated from the user-supplied /lesson/<lessonId> format and repository routing. Live page access and PDF generation were not independently verified."
-    },
-    "holding_url": null,
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
-    "human_review": {
-      "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate": "reviewed"
-    },
-    "pdf_template": null
+    "holding_url": null,
+    "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate"
   },
   "ccc-q01-showdown-print-pack": {
     "title": "Build Print Pack",
-    "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
     "type": "teacher_resource",
-    "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
-    "production_type": "external",
-    "source": {
-      "kind": "external_original",
-      "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/"
-    },
-    "publication": {
-      "verification": "unverified",
-      "method": "external_agent",
-      "confirmed_at": "2026-11-02T20:13:30.910085+00:00",
-      "note": "Public HTTPS GET returned 200 and the Little Chewz Print Pack Builder HTML title. Deployed source revision and PDF generation were not verified."
-    },
-    "holding_url": null,
     "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
-    "human_review": {
-      "https://little-chewz-print-pack-builder.littlechewz.workers.dev/": "pending"
-    },
-    "pdf_template": null
+    "holding_url": null
   }
 }

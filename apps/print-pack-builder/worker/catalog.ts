@@ -17,7 +17,6 @@ import type { AllowedMime, ClientResource, LessonManifest, QuestInfo, ResolvedLe
 /** The subset of a catalog/resources.json record this app reads. */
 export interface RegistryRecord extends RegistryEntry {
   published_url?: string | null;
-  publication?: { verification?: string; drive_file_id?: string };
 }
 export type Registry = Record<string, RegistryRecord>;
 
@@ -60,8 +59,6 @@ export function trustedDriveFile(record: RegistryRecord | undefined): { fileId: 
   // Publication state is derived, never read from a stored status field.
   const id = driveFileId(record.published_url);
   if (!id) return { problem: "published_url is not a Drive file URL" };
-  if (record.publication?.drive_file_id && record.publication.drive_file_id !== id)
-    return { problem: "published_url does not match publication.drive_file_id" };
   return { fileId: id };
 }
 

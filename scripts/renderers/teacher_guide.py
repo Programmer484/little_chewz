@@ -191,7 +191,10 @@ def annotate(p,rec,rect):
         p.insert_link({'kind':fitz.LINK_URI,'from':rect,'uri':rec['url']})
     elif rec.get('file'):
         p.insert_link({'kind':fitz.LINK_GOTOR,'from':rect,'file':rec['file'],'page':int(rec.get('page',0)),'to':fitz.Point(0,0),'zoom':0.})
-    else:raise ValueError(f'Unresolved resource; do not invent a link: {rec}')
+    else:
+        # Unpublished and unstaged resources appear as unlinked labels in draft previews.
+        # The guarded publisher refuses them until real official links exist.
+        return
 
 def resource_line(p,item,reg,x,baseline,w,size=10.5,strict=False,description_size=None,lh=None,show_description=True):
     """Linked resource name (underlined) + ' — description'. Returns the last baseline.
