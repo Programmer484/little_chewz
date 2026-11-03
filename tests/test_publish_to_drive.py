@@ -75,7 +75,7 @@ class PublishTests(unittest.TestCase):
         self.entry = {"title": "Quest Overview", "url": f"https://drive.google.com/file/d/{FILE_ID}/view",
                       "type": "published_export", "production_type": "generated_pdf",
                       "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
-                      "holding_url": None, "status": "pending_publish",
+                      "holding_url": None, "publication": {"artifact_md5": "0" * 32},
                       "build": {"renderer": "welcome", "source": "x.json"}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry)]
@@ -100,7 +100,8 @@ class PublishTests(unittest.TestCase):
         self.registry.write_text(json.dumps(data, indent=2) + "\n")
 
     def status(self):
-        return json.loads(self.registry.read_text())["ccc-q01-welcome"]["status"]
+        return pub.publication_status(json.loads(self.registry.read_text())["ccc-q01-welcome"],
+                                      hashlib.md5(self.pdf.read_bytes()).hexdigest())
 
     def run_publish(self, service, dry_run=False):
         return pub.publish("ccc-q01-welcome", dry_run=dry_run, service=service, builder=lambda *_: self.pdf)
@@ -140,15 +141,11 @@ class PublishTests(unittest.TestCase):
         self.assertEqual(self.status(), "pending_publish")
         self.assertIn("dry run", report["result"])
 
-    def test_unpublished_or_external_items_cannot_auto_publish(self):
-        for status, production in [
-            ("unpublished", "generated_pdf"),
-            ("pending_publish", "external"),
-        ]:
-            with self.subTest(status=status, production=production):
-                self.entry["status"] = status
-                self.entry["production_type"] = production
-                self.write({"ccc-q01-welcome": self.entry})
+    def test_initial_publication_and_external_items_cannot_auto_publish(self):
+        for official, production in [(None, "generated_pdf"), (self.entry["published_url"], "external")]:
+            with self.subTest(official=official, production=production):
+                entry = {**self.entry, "published_url": official, "production_type": production}
+                self.write({"ccc-q01-welcome": entry})
                 with self.assertRaises(pub.PublishError):
                     self.run_publish(FakeService())
 
@@ -191,7 +188,8 @@ class PublishTests(unittest.TestCase):
                 with self.assertRaisesRegex(pub.PublishError, "read-back"):
                     self.run_publish(service)
         self.assertEqual(self.status(), "pending_publish")
-        self.assertNotIn("publication", json.loads(self.registry.read_text())["ccc-q01-welcome"])
+        self.assertEqual(json.loads(self.registry.read_text())["ccc-q01-welcome"]["publication"],
+                         {"artifact_md5": "0" * 32})
 
 
 
