@@ -98,21 +98,42 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(audit.audit({"worksheet": record}, service=drive)["result"], audit.FAIL)
         self.assertEqual(drive.requests, [A])
 
-    def test_slide_holding_pdfs_are_never_inspected(self):
+    def test_published_slides_use_same_drive_check_as_other_resources(self):
         drive = Drive(public=False)
-        slide = item(type="slide_deck", pdf_url=V, holding_url=V,
-                     human_review={U: "reviewed", V: "reviewed"})
+        slides_url = f"https://docs.google.com/presentation/d/{A}/edit"
+        slide = item(slides_url, type="slide_deck", pdf_url=V, holding_url=V,
+                     human_review={slides_url: "reviewed"})
         report = audit.audit({"slide": slide}, service=drive)
-        self.assertEqual(report["resources"], [])
-        self.assertEqual(drive.requests, [])
+        self.assertEqual(report["result"], audit.FAIL)
+        self.assertEqual(len(report["resources"]), 1)
+        self.assertEqual(drive.requests, [A])  # Only the published presentation; not its source PDF.
 
-    def test_slide_exemption_does_not_skip_other_resources(self):
-        slide = item("http://invalid", type="slide_deck", pdf_url=V)
+    def test_unpublished_slides_still_skipped(self):
         drive = Drive()
+        slide = {"type": "slide_deck", "published_url": None, "pdf_url": V}
         report = audit.audit({"slide": slide, "second": item()}, service=drive)
         self.assertEqual(report["result"], audit.PASS)
         self.assertEqual(drive.requests, [A])
         self.assertEqual(len(report["resources"]), 1)
+
+    def test_drive_api_exception_logged_separately_without_raw_error_body(self):
+        drive = Drive(permissions_error=PermissionError("sensitive details should not leak"))
+        report = audit.audit({"worksheet": item()}, service=drive)
+        self.assertEqual(report["result"], audit.REVIEW)
+        self.assertEqual(len(report["diagnostics"]), 1)
+        self.assertIn("operation=permissions.list", report["diagnostics"][0])
+        self.assertIn("exception=PermissionError", report["diagnostics"][0])
+        self.assertNotIn("sensitive details", str(report))
+        self.assertNotIn("exception=", audit.summary_table(report))
+
+    def test_diagnostic_retains_safe_http_status_and_reason(self):
+        class GoogleError(Exception):
+            resp = type("Response", (), {"status": 403})()
+            content = b'{"error":{"errors":[{"reason":"insufficientPermissions"}]}}'
+        report = audit.audit({"worksheet": item()}, service=Drive(permissions_error=GoogleError()))
+        self.assertEqual(report["result"], audit.REVIEW)
+        self.assertIn("http_status=403", report["diagnostics"][0])
+        self.assertIn("api_reason=insufficientPermissions", report["diagnostics"][0])
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())
