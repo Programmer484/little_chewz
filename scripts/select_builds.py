@@ -4,7 +4,6 @@ import argparse
 import json
 import subprocess
 from pathlib import Path
-from publication_state import publication_status
 
 ROOT = Path(__file__).resolve().parents[1]
 def read_json(path):
@@ -51,7 +50,7 @@ def generated_outputs(registry):
 
 
 def targets():
-    """All existing lesson and companion sources are previewable; status tracks delivery."""
+    """All existing lesson and companion sources can preview independently of publication."""
     result = {}
     registry = read_json('catalog/resources.json')
     for school in read_json('catalog/quests.json')['school_index']:
@@ -69,7 +68,6 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.as_posix(), kind='teacher_guide',
-                status=lesson.get('status', 'unpublished'),
                 data=data, cover=(folder / data['cover']).as_posix()
             )
         for source in sorted((ROOT / root / 'resources/teacher_companion').glob('*.json')):
@@ -83,7 +81,6 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.relative_to(ROOT).as_posix(), kind='teacher_companion',
-                status=publication_status(record),
                 data=data
             )
     # Registry entries with `build.renderer` are standalone documents (e.g. the Welcome PDF),
@@ -97,9 +94,8 @@ def targets():
         name = f'{resource_id}.pdf'
         if name in result:
             raise ValueError(f'Duplicate output: {name}')
-        status = publication_status(record)
         result[name] = dict(
-            source=source.as_posix(), kind=build['renderer'], status=status,
+            source=source.as_posix(), kind=build['renderer'],
             data=data,
             cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
             folder=source.parent.as_posix()
@@ -168,8 +164,7 @@ def selection(request=None, changed=(), base_ref=None):
         names = [request]
     else:
         names = select(changed, base_ref)
-    return {'outputs': names, 'source_paths': [registered[n]['source'] for n in names],
-            'status': {n: registered[n]['status'] for n in names}}
+    return {'outputs': names, 'source_paths': [registered[n]['source'] for n in names]}
 
 
 def main():
