@@ -4,15 +4,14 @@
   "kind": "instructions",
   "option": "C/D",
   "meta": [
-    "Food · adult-supervised oven",
-    "65–80+ min total",
-    "Mystery adds one twist"
+    "Expands Teacher Guide steps 2 and 3",
+    "About 45–50 min, plus each extra oven load"
   ],
   "blocks": [
     {
       "type": "callout",
-      "title": "Mission",
-      "text": "Bake: bake the Chapter 1 cupcakes with agreed team roles. Mystery: bake them while adapting to one twist you choose. The goal is not perfection, but adaptability and teamwork."
+      "title": "Safety first",
+      "text": "Check your school’s food requirements and every student’s allergies and dietary needs against each ingredient label, including any Mystery ingredient. Only adults handle the oven and hot pans."
     },
     {
       "type": "heading",
@@ -22,190 +21,81 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Check your school’s food requirements, including whether students may eat what they bake",
-        "Check every student’s allergies and dietary needs against each ingredient label",
-        "Book the oven and an adult to run it; only adults handle the oven and hot pans",
-        "Set up one station per team: ingredients, equipment, hand-washing and cleaning supplies",
-        "Print one Bake or Mystery Challenge Card per team and one recipe per baking team",
-        "Mystery: choose and prepare one safe twist (Mystery only, below)"
+        "Book the oven and an adult to run it for the whole session",
+        "Confirm whether students may eat what they bake, and when",
+        "Shop from the recipe card: one recipe per team makes about 12–18 standard cupcakes",
+        "Each team: mixing bowl, square pan (recipe step 3), measuring cups and spoons, fork, cupcake pan, liners, toothpick",
+        "Hand-washing and cleaning supplies, oven mitts, and a safe place for hot pans",
+        "Plan for cooling: cupcakes won’t be cool by the end of the session, so decide when they are eaten, iced or taken home",
+        "Mystery: choose one twist (below) and prepare it"
       ]
     },
     {
       "type": "heading",
-      "text": "Run the challenge"
+      "text": "How it runs"
     },
     {
       "type": "steps",
       "items": [
         {
-          "title": "Launch",
-          "tag": "Guide step 1",
-          "mins": "5 min",
-          "text": "An adult preheats the oven to 350°F (175°C). Give each team its card and a recipe."
-        },
-        {
-          "title": "Agree on roles",
+          "title": "Roles",
           "tag": "Guide step 2",
-          "mins": "5–10 min",
-          "text": "Teams agree who does each job (Team roles, below). Everyone washes hands."
+          "mins": "5 min",
+          "text": "Teams choose roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew. Small teams combine roles. Everyone washes hands."
         },
         {
           "title": "Measure and mix",
           "tag": "Guide step 3 · C/D",
           "mins": "20 min",
-          "text": "Teams follow the recipe to fill lined cupcake pans about ¾ full. Mystery: reveal a mixing twist.",
-          "prompts": [
-            "How will you adapt using only what you were given?"
-          ]
+          "text": "An adult preheats the oven to 350°F (175°C). Teams follow the recipe and fill liners about ¾ full."
         },
         {
           "title": "Bake",
           "tag": "Guide step 3 · C/D",
           "mins": "20–25 min",
-          "text": "Only an adult handles the oven and hot pans. Teams wash bowls and tools. Each extra oven load adds 20–25 min."
-        },
-        {
-          "title": "Clean up and cool",
-          "tag": "Guide step 4",
-          "mins": "10–15 min",
-          "text": "An adult sets hot pans aside. Teams wipe stations and wash hands. Cupcakes take longer to cool completely, so plan when they are eaten or decorated."
-        },
-        {
-          "title": "Debrief",
-          "tag": "Guide step 5",
-          "mins": "5 min",
-          "text": "While the cupcakes cool, ask each team:",
-          "prompts": [
-            "What decision helped your team, and what would you try next?"
-          ]
+          "text": "Only an adult loads and unloads the oven. Teams wash up while it bakes. Each extra oven load adds 20–25 min."
         }
       ]
     },
     {
       "type": "heading",
-      "text": "Ingredients and equipment"
-    },
-    {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "One recipe",
-          "text": "1½ cups all-purpose flour · 1 cup sugar · 3 tablespoons cocoa powder · 1 teaspoon baking powder · 1 teaspoon baking soda · ½ teaspoon salt · ⅓ cup vegetable oil · 1 tablespoon vinegar · 1 teaspoon vanilla extract · 1 cup warm water"
-        },
-        {
-          "term": "Estimated yield",
-          "text": "12–18 standard cupcakes. Each baking team makes one recipe."
-        },
-        {
-          "term": "Each team",
-          "text": "Mixing bowl, square pan (recipe step 3), measuring cups and spoons, fork, cupcake pan, liners, toothpick"
-        },
-        {
-          "term": "Adult only",
-          "text": "Oven, oven mitts and a safe place for hot pans to cool"
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "Team roles"
-    },
-    {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "Leader",
-          "text": "Keeps the team on one plan and checks everyone has a job."
-        },
-        {
-          "term": "Reader",
-          "text": "Reads each recipe step aloud before the team starts it."
-        },
-        {
-          "term": "Ingredient Manager",
-          "text": "Gathers, measures and checks off each ingredient."
-        },
-        {
-          "term": "Mixer",
-          "text": "Combines and stirs the batter; shares turns when asked."
-        },
-        {
-          "term": "Timekeeper",
-          "text": "Watches the clock and tells the team the time left."
-        },
-        {
-          "term": "Clean-Up Crew",
-          "text": "Washes tools and wipes the station as the team goes."
-        }
-      ]
-    },
-    {
-      "type": "note",
-      "text": "Smaller teams combine roles; every student keeps at least one job."
-    },
-    {
-      "type": "spacer",
-      "points": 10
-    },
-    {
-      "type": "heading",
-      "text": "Mystery only · Choose one twist"
-    },
-    {
-      "type": "callout",
-      "title": "Default to a non-ingredient twist",
-      "text": "Use a mystery ingredient only after checking it in advance against every student’s allergies and dietary needs and your school’s food requirements. Teams never add unapproved ingredients."
+      "text": "Mystery: choose one twist"
     },
     {
       "type": "pairs",
       "items": [
         {
           "term": "Roles switch halfway",
-          "text": "Halfway through Measure and mix, every student takes a new role."
+          "text": "Halfway through mixing, every student takes a new role."
         },
         {
           "term": "One tool limited",
           "text": "Remove one mixing tool. Never limit oven mitts or safety equipment."
         },
         {
-          "term": "Surprise icing colour",
-          "text": "Reveal at icing time. Needs frosting and fully cooled cupcakes."
-        },
-        {
-          "term": "Surprise design rule",
-          "text": "Reveal at decorating time. Needs supplies and fully cooled cupcakes."
-        },
-        {
           "term": "Mystery ingredient",
-          "text": "Only after the allergy check. Prepare one portion per team."
+          "text": "Only after the allergy check above. Prepare one portion per team."
         }
       ]
     },
     {
-      "type": "heading",
-      "text": "Success criteria"
+      "type": "note",
+      "text": "Icing-colour and design twists need frosting and cooled cupcakes, so save them for a later session."
     },
     {
-      "type": "checklist",
-      "style": "check",
-      "items": [
-        "Students follow their agreed roles.",
-        "Team members support one another throughout the process.",
-        "Students communicate and solve problems as they go.",
-        "Mystery: students stay flexible when the twist changes the plan.",
-        "Mystery: the team shows resilience and adapts without unapproved ingredients."
-      ]
+      "type": "spacer",
+      "points": 8
     },
     {
       "type": "heading",
-      "text": "If a team gets stuck"
+      "text": "Tricky parts"
     },
     {
       "type": "pairs",
       "items": [
         {
-          "term": "Roles break down",
-          "text": "The Leader reads the roles back; each student names their next job."
+          "term": "One oven, several teams",
+          "text": "Stagger teams by a few minutes so pans are ready when the oven is."
         },
         {
           "term": "A step goes wrong",
@@ -219,27 +109,18 @@
     },
     {
       "type": "heading",
-      "text": "Student resources"
+      "text": "Look for"
     },
     {
-      "type": "links",
+      "type": "checklist",
+      "style": "check",
       "items": [
-        {
-          "ref": "ccc-q01-showdown-bake-card",
-          "description": "Bake · one per team"
-        },
-        {
-          "ref": "ccc-q01-showdown-mystery-card",
-          "description": "Mystery · one per team"
-        },
-        {
-          "ref": "ccc-q01-showdown-recipe",
-          "description": "One per baking team"
-        }
+        "Students follow their roles and support each other.",
+        "Mystery: teams adapt to the twist without unapproved ingredients."
       ]
     }
   ],
-  "source_note": "PROTOTYPE 2026-11-03. Sources: Day 3 The Showdown (v0) Level 3 Baking and Level 4 Mystery teacher pages and cards (missions, role names, twist ideas, materials, success criteria, 'not perfection, but adaptability'), the Chapter 1 recipe page (ingredient quantities unchanged; oven temperature, ¾-full liners, toothpick test, cool completely), the Showdown Teacher Guide options C and D, and the user's task spec (65–80+ min, non-ingredient default twists, allergy callout, 12–18 cupcake yield estimate, no class-size assumption). 'Level 3/4' renamed Bake/Mystery. Newly written and needing human review: step timings, role descriptions, twist reveal points, equipment list (derived from the recipe method plus oven mitts and a cooling place for hot-equipment handling), stuck-team responses and safety checklist wording (checks only; no specific legal or medical rules). The recipe stays the linked student resource and is not rewritten here.",
+  "source_note": "DRAFT 2026-11-03, needs human review. The detailed activity guide: everything a teacher should check so they don't have to think of it. Repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, card and recipe links, option totals) or the recipe card (ingredient quantities stay on the recipe). Covers guide step 2 and step 3 · C/D. Sources: Day 3 The Showdown (v0) Level 3 and Level 4 pages (role names, twist ideas, 'not perfection, but adaptability', success criteria) and recipe page (350°F, ¾-full liners, cool completely); the task spec (non-ingredient default twists, allergy checks, adult oven supervision, oven/cooling caveat, 12–18 cupcake estimate, no class-size assumption). 'Level 3/4' renamed Bake/Mystery. Newly written: checklist wording, timings, oven staggering, tricky-part notes, and moving icing and design twists to a later session.",
   "resource_id": "ccc-q01-showdown-bake-mystery-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",

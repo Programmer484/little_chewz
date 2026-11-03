@@ -9,11 +9,6 @@
   ],
   "blocks": [
     {
-      "type": "callout",
-      "title": "Mission",
-      "text": "Create ONE paper cupcake design that represents teamwork, communication and creativity."
-    },
-    {
       "type": "heading",
       "text": "Before class"
     },
@@ -35,7 +30,7 @@
           "title": "Sketch alone",
           "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Each student sketches one idea, without talking."
+          "text": "Each student sketches one idea without talking, or tells you it instead of drawing."
         },
         {
           "title": "Share ideas",
@@ -59,20 +54,12 @@
       "type": "pairs",
       "items": [
         {
-          "term": "Sketching turns into talk",
-          "text": "Keep it short and silent. A student may tell you the idea instead of drawing it."
-        },
-        {
           "term": "One voice dominates",
           "text": "Ask who hasn’t added an idea yet; each person names one thing that must stay."
         },
         {
           "term": "Designs sit side by side",
           "text": "Ask what they can keep from both ideas: one cupcake, not a collage."
-        },
-        {
-          "term": "Reluctant to draw",
-          "text": "The student describes the idea or points while a teammate draws."
         }
       ]
     },
@@ -84,13 +71,12 @@
       "type": "checklist",
       "style": "check",
       "items": [
-        "Every student’s idea shows up somewhere in the team cupcake.",
-        "At least three teamwork qualities, such as communication, inclusion, creativity, trust or collaboration.",
-        "The team can explain the meaning behind its design."
+        "Every student’s idea shows up in the team cupcake.",
+        "Three teamwork qualities, such as communication, inclusion, creativity, trust or collaboration."
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, student-resource links and option totals stay there). Covers guide step 2 (5 min) and step 3 · A (20–30 min). Sources: Day 3 The Showdown (v0) Level 1 page (p. 6: purpose, teamwork-quality examples, materials, success criteria) and card (p. 12: mission); the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, verbal or drawn responses). 'Level 1' renamed Design. A teacher summary with light notes on the trickiest moments. Teams of 3–4 and the tricky-part notes are newly written.",
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, student-resource links and option totals stay there). Covers guide step 2 (5 min) and step 3 · A (20–30 min). Sources: Day 3 The Showdown (v0) Level 1 page (p. 6: purpose, teamwork-quality examples, materials, success criteria); the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, verbal or drawn responses). 'Level 1' renamed Design. A teacher summary with light notes on the trickiest moments. Teams of 3–4 and the tricky-part notes are newly written.",
   "resource_id": "ccc-q01-showdown-design-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",

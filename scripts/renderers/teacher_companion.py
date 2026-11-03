@@ -295,6 +295,14 @@ class GroupLabel(Flowable):
         tracked(self.canv, 0, LABEL_TO_ROW - 0.72 * 8.4, self.text, "LC-Heavy", 8.4, self.accent)
 
 
+class Gap(Spacer):
+    """Vertical gap that collapses at the top of a frame, so no page starts with blank space."""
+
+    def wrap(self, avail_w, avail_h):
+        at_top = getattr(getattr(self, "_frame", None), "_atTop", False)
+        return (avail_w, 0) if at_top else super().wrap(avail_w, avail_h)
+
+
 def counted_canvas(header):
     """Canvas class that knows the total page count for the 'n / N' footer."""
 
@@ -381,7 +389,7 @@ def generator(data, output, registry=None):
             story.append(NumberedRow(f"{number:02d}", item.get("text", ""), accent, title=item.get("title"),
                                      number_width=width, separator=separator, mins=item.get("mins"),
                                      tag=item.get("tag"), prompts=item.get("prompts", [])))
-        story.append(Spacer(1, 26))
+        story.append(Gap(1, 26))
 
     for block in data.get("blocks", []):
         typ = block.get("type", "paragraph")
@@ -400,21 +408,21 @@ def generator(data, output, registry=None):
             for i, item in enumerate(block.get("items", [])):
                 story.append(NumberedRow("", item, accent, number_width=MARK_W, marker=style,
                                          separator=None if i == 0 else "tight"))
-            story.append(Spacer(1, 26))
+            story.append(Gap(1, 26))
         elif typ == "pairs":
             for i, item in enumerate(block.get("items", [])):
                 story.append(PairRow(item["term"], item["text"], separator=None if i == 0 else "rule"))
-            story.append(Spacer(1, 26))
+            story.append(Gap(1, 26))
         elif typ == "callout":
             story.append(Callout(block.get("title"), block.get("text"), accent))
-            story.append(Spacer(1, 24))
+            story.append(Gap(1, 24))
         elif typ == "bullets":
             for item in block.get("items", []):
                 story.append(Paragraph("•  " + safe(item), styles["body"]))
         elif typ == "note":
             story.append(Paragraph(safe(block["text"]), styles["note"]))
         elif typ == "spacer":
-            story.append(Spacer(1, min(40, max(0, float(block.get("points", 8))))))
+            story.append(Gap(1, min(40, max(0, float(block.get("points", 8))))))
         elif typ == "image":
             path = Path(block["path"])
             if not path.is_absolute():
@@ -426,7 +434,7 @@ def generator(data, output, registry=None):
             story.append(Image(str(path), width=w * scale, height=h * scale, hAlign="LEFT"))
             if block.get("caption"):
                 story.append(Paragraph(safe(block["caption"]), styles["note"]))
-            story.append(Spacer(1, 8))
+            story.append(Gap(1, 8))
         elif typ == "links":
             for item in block.get("items", []):
                 entry = registry.get(item.get("ref", ""), {})

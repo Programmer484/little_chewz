@@ -26,6 +26,15 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 - No other decorative headers, badges or boxes. Use illustrations or setup photos only when they aid comprehension.
 - For multiple resource variants, link the Teacher Guide to one instruction/chooser PDF that links to the separate versions.
 
+## Activity guides
+
+A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Keep every activity guide in the same shape so a teacher who has used one can scan the next:
+
+- **Sections, in this order, each only when needed:** `Before class` (materials and setup that need lead time) → `How it runs` (timed `steps` for the guide steps it expands, each `tag` naming that step) → `Tricky parts` (`pairs`: the moment that goes wrong, then what to do) → `Look for` (two or three `check` items from the activity's success criteria).
+- **Repeat nothing** from the Teacher Guide (launch, clean-up, debrief, printing, student-resource links, option totals) or from the student materials (missions on cards, recipe quantities). The meta line names the guide steps it expands and their time.
+- **One page by default.** Only activities with safety risks, such as food or ovens, go longer, and then to cover everything the teacher must check so they don't have to think of it themselves. Only these use a `callout`.
+- Apply the test from the Teacher Guide's Preparation rule to every line: would a teacher get this wrong, or have to improvise, without it?
+
 ## Source and generation
 
 Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optional `option` and `intro`. Start from `templates/teacher_companion/TEMPLATE.json`, which shows every block; delete the ones you do not use. Blocks mix in any order, with no minimum count, one-page requirement or decorative filler.
@@ -33,7 +42,7 @@ Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optio
 | Block | Use for | Renders as |
 | --- | --- | --- |
 | `heading` | Group label (`Before class`, `Core · Clue Tracker page 1`) | Small tracked caps in the section colour |
-| `callout` | The one mission or warning that must not be missed (`title`, `text`) | Tinted panel with an accent rule; at most one or two per document |
+| `callout` | Safety warnings only: allergies, food rules, ovens, hot equipment (`title`, `text`) | Tinted panel with an accent rule; omit it when nothing can hurt anyone |
 | `checklist` | `style: "box"` for prep and materials; `style: "check"` for success criteria or look-fors | Unnumbered rows with a box or tick in the number column |
 | `steps` | Ordered teacher actions; items take `title`, `text`, and optionally `mins`, `tag`, `prompts` | Numbered rows; `mins` right-aligned, `tag` in grey caps after the title (e.g. `Guide step 3`), `prompts` as italic teacher lines beside an accent rule, without quotation marks |
 | `questions`, `answers` | Question banks and answer keys | Numbered rows with hairline dividers |

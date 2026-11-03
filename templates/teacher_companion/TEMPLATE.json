@@ -12,7 +12,7 @@
   "stage": "00-activate",
   "intro": "One sentence on what this resource is for.",
   "blocks": [
-    {"type": "callout", "title": "Short headline", "text": "The one thing the teacher or students must keep in mind."},
+    {"type": "callout", "title": "Safety first", "text": "A safety check the teacher must not miss; delete this block when nothing can hurt anyone."},
     {"type": "heading", "text": "Before class"},
     {"type": "checklist", "style": "box", "items": ["Something to print, buy or set up"]},
     {"type": "heading", "text": "Run the activity"},

@@ -10,11 +10,6 @@
   ],
   "blocks": [
     {
-      "type": "callout",
-      "title": "Mission",
-      "text": "Work as a team to decorate cupcakes using a shared vision and collaborative planning."
-    },
-    {
       "type": "heading",
       "text": "Before class: choose one route"
     },
@@ -72,10 +67,6 @@
         {
           "term": "One voice dominates",
           "text": "Each person names one part of their idea that must stay."
-        },
-        {
-          "term": "The plan changes",
-          "text": "That’s fine if the team agrees first. Ask: does this still match your plan?"
         }
       ]
     },
@@ -88,12 +79,11 @@
       "style": "check",
       "items": [
         "A shared plan before decorating.",
-        "Every member contributes, and the cupcakes show part of each idea.",
-        "Respectful collaboration and compromise."
+        "Cupcakes that show part of every member’s idea."
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, food-safety check, clean-up, debrief, printing, card link and option totals stay there). Covers guide step 2 (5 min) and step 3 · B (30–45 min, matching Day 3). Sources: Day 3 The Showdown (v0) Level 2 page (p. 6: premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria) and card (p. 14: mission); the task spec (both routes, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. NEWLY PROPOSED, needs approval: craft-route materials and build steps; food-route spreading tools, plates, napkins and wipes; roles (adapted from the Day 3 Level 3 list); the 10 / 20–35 min split; tricky-part notes. A teacher summary with light notes on the trickiest moments.",
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, food-safety check, clean-up, debrief, printing, card link and option totals stay there). Covers guide step 2 (5 min) and step 3 · B (30–45 min, matching Day 3). Sources: Day 3 The Showdown (v0) Level 2 page (p. 6: premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria); the task spec (both routes, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. NEWLY PROPOSED, needs approval: craft-route materials and build steps; food-route spreading tools, plates, napkins and wipes; roles (adapted from the Day 3 Level 3 list); the 10 / 20–35 min split; tricky-part notes. A teacher summary with light notes on the trickiest moments.",
   "resource_id": "ccc-q01-showdown-decorate-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
