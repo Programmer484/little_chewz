@@ -61,10 +61,18 @@ NUM_GAP = 12.0                                # widest number to text column
 RULE_GAP = 11.0                               # equal optical space above and below a divider
 STEP_GAP = 20.0                               # whitespace between undivided step rows
 LABEL_TO_ROW = 18.0                           # group label baseline to first row cap-top
+CHECK_GAP = 9.0                               # whitespace between checklist rows
+MARK_W = 12.0                                 # marker column: checklist text aligns with 2-digit numbers
+TERM_W = 128.0                                # `pairs` term column; text starts TERM_GAP after it
+TERM_GAP = 14.0
+TAG_SIZE = 6.8                                # grey tracked-caps tag after a step title
+PROMPT_RULE = 1.6                             # accent rule beside teacher prompts
+PROMPT_INSET = 11.0                           # prompt text inset from its rule
+CALLOUT_PAD = 14.0                            # callout inner padding
 
 
 def fonts():
-    for weight in ("Regular", "Bold", "Heavy"):
+    for weight in ("Regular", "Bold", "Heavy", "Italic"):
         pdfmetrics.registerFont(TTFont(f"LC-{weight}", str(FONT_DIR / f"Lato-{weight}.ttf")))
     pdfmetrics.registerFontFamily("LC-Regular", normal="LC-Regular", bold="LC-Bold")
 
@@ -105,21 +113,36 @@ def section_info(data):
         raise ValueError(f"Stage {stage} is not in quest.json")
     title = lesson["title"].upper()
     label = title if key in ("activate", "celebrate") else f"PART {int(stage[:2])}  ·  {title}"
+    if data.get("option"):
+        label += f"  ·  OPTION {str(data['option']).upper()}"
     school = quest["school"].upper().replace(" SCHOOL", "")
     quest_line = f"{school}  ·  QUEST {quest['quest_number']:02d}"
     return label, quest_line, HexColor(SECTION_COLOR_HEX[key])
 
 
-class NumberedRow(Flowable):
-    """Number on the margin, text 12 pt after the widest number, shared baseline.
+def tint(color, amount):
+    """Mix a colour into the page paper; amount 0 is paper, 1 is the colour."""
+    mix = lambda a, b: a + (b - a) * amount
+    return HexColor("#%02X%02X%02X" % tuple(round(255 * mix(getattr(PAPER, ch), getattr(color, ch)))
+                                            for ch in ("red", "green", "blue")))
 
-    `separator` is drawn above the row ('rule' or 'space') and dropped when the
+
+class NumberedRow(Flowable):
+    """Number (or checklist marker) on the margin, text 12 pt after the widest number.
+
+    `separator` is drawn above the row ('rule', 'space' or 'tight') and dropped when the
     row starts a page, so no divider or gap is ever stranded at a page edge.
+    Timed steps add `mins` (right-aligned on the title line), a grey `tag` after the
+    title, and teacher `prompts` set in italics beside a thin accent rule.
     """
 
-    def __init__(self, number, text, accent, title=None, number_width=0, separator=None):
+    GAPS = {"rule": 2 * RULE_GAP, "space": STEP_GAP, "tight": CHECK_GAP}
+
+    def __init__(self, number, text, accent, title=None, number_width=0, separator=None,
+                 marker=None, mins=None, tag=None, prompts=()):
         super().__init__()
         self.number, self.text, self.title, self.accent = number, text, title, accent
+        self.marker, self.mins, self.tag, self.prompts = marker, mins, tag, list(prompts)
         self.text_x = number_width + NUM_GAP
         self.separator = separator
         self.lines = []
@@ -127,13 +150,38 @@ class NumberedRow(Flowable):
     def wrap(self, avail_w, avail_h):
         self.width_avail = avail_w
         at_top = getattr(getattr(self, "_frame", None), "_atTop", False)
-        self.lead_in = 0 if (at_top or not self.separator) else (2 * RULE_GAP if self.separator == "rule" else STEP_GAP)
-        self.lines = simpleSplit(self.text, "LC-Regular", SIZE, avail_w - self.text_x)
+        self.lead_in = 0 if (at_top or not self.separator) else self.GAPS[self.separator]
+        text_w = avail_w - self.text_x
+        mins_w = pdfmetrics.stringWidth(self.mins, "LC-Bold", SIZE) + 16 if self.mins else 0
+        if self.title:
+            title_w = pdfmetrics.stringWidth(self.title, "LC-Bold", SIZE)
+            tag_w = (pdfmetrics.stringWidth(self.tag.upper(), "LC-Heavy", TAG_SIZE)
+                     + 0.9 * (len(self.tag) - 1) + 10) if self.tag else 0
+            if title_w + tag_w + mins_w > text_w:
+                raise ValueError(f"Step title, tag and time do not fit one line: {self.title}")
+        self.lines = simpleSplit(self.text, "LC-Regular", SIZE,
+                                 text_w - (0 if self.title else mins_w))
+        self.prompt_lines = [simpleSplit(p, "LC-Italic", SIZE, text_w - PROMPT_INSET)
+                             for p in self.prompts]
         rows = len(self.lines) + (1 if self.title else 0)
+        prompt_rows = sum(len(p) for p in self.prompt_lines)
         # Body runs from cap-top of the first line to the descender of the last.
-        self.body = CAP + (rows - 1) * LEAD + DESC
+        self.body = CAP + (rows + prompt_rows - 1) * LEAD + DESC + (6 + 2 * (len(self.prompts) - 1) if self.prompts else 0)
         self.height = self.lead_in + self.body
         return avail_w, self.height
+
+    def draw_marker(self, c, base):
+        c.setStrokeColor(self.accent); c.setFillColor(self.accent)
+        if self.marker == "box":
+            c.setLineWidth(0.9)
+            c.rect(0.5, base - 0.6, CAP + 1.4, CAP + 1.4, stroke=1, fill=0)
+        elif self.marker == "check":
+            c.setLineWidth(1.5); c.setLineCap(1); c.setLineJoin(1)
+            p = c.beginPath()
+            p.moveTo(0.6, base + CAP * 0.48); p.lineTo(3.6, base + 0.4); p.lineTo(9.0, base + CAP + 0.6)
+            c.drawPath(p, stroke=1, fill=0)
+        else:
+            c.setFont("LC-Bold", SIZE); c.drawString(0, base, self.number)
 
     def draw(self, c=None):
         c = self.canv
@@ -141,16 +189,96 @@ class NumberedRow(Flowable):
             c.setStrokeColor(HAIR); c.setLineWidth(0.6)
             c.line(0, self.body + RULE_GAP, self.width_avail, self.body + RULE_GAP)
         base = self.body - CAP
-        c.setFont("LC-Bold", SIZE); c.setFillColor(self.accent)
-        c.drawString(0, base, self.number)
+        self.draw_marker(c, base)
+        if self.mins:
+            c.setFont("LC-Bold", SIZE); c.setFillColor(MID)
+            c.drawRightString(self.width_avail, base, self.mins)
         if self.title:
             c.setFont("LC-Bold", SIZE); c.setFillColor(INK)
             c.drawString(self.text_x, base, self.title)
+            if self.tag:
+                x = self.text_x + pdfmetrics.stringWidth(self.title, "LC-Bold", SIZE) + 10
+                tracked(c, x, base + 0.6, self.tag.upper(), "LC-Heavy", TAG_SIZE, MID, 0.9)
             base -= LEAD
         c.setFont("LC-Regular", SIZE); c.setFillColor(INK)
         for line in self.lines:
             c.drawString(self.text_x, base, line)
             base -= LEAD
+        if self.prompts:
+            base -= 6
+            for lines in self.prompt_lines:
+                top = base + CAP + 2
+                c.setFont("LC-Italic", SIZE); c.setFillColor(INK)
+                for line in lines:
+                    c.drawString(self.text_x + PROMPT_INSET, base, line)
+                    base -= LEAD
+                c.setStrokeColor(self.accent); c.setLineWidth(PROMPT_RULE)
+                c.line(self.text_x + PROMPT_RULE / 2, top, self.text_x + PROMPT_RULE / 2, base + LEAD - DESC - 1)
+                base -= 2
+
+
+class PairRow(Flowable):
+    """Bold term in a fixed left column, explanation beside it; hairline between rows."""
+
+    def __init__(self, term, text, separator=None):
+        super().__init__()
+        self.term, self.text, self.separator = term, text, separator
+
+    def wrap(self, avail_w, avail_h):
+        self.width_avail = avail_w
+        at_top = getattr(getattr(self, "_frame", None), "_atTop", False)
+        self.lead_in = 0 if (at_top or not self.separator) else 2 * RULE_GAP
+        self.term_lines = simpleSplit(self.term, "LC-Bold", SIZE, TERM_W)
+        self.lines = simpleSplit(self.text, "LC-Regular", SIZE, avail_w - TERM_W - TERM_GAP)
+        rows = max(len(self.term_lines), len(self.lines))
+        self.body = CAP + (rows - 1) * LEAD + DESC
+        self.height = self.lead_in + self.body
+        return avail_w, self.height
+
+    def draw(self):
+        c = self.canv
+        if self.lead_in:
+            c.setStrokeColor(HAIR); c.setLineWidth(0.6)
+            c.line(0, self.body + RULE_GAP, self.width_avail, self.body + RULE_GAP)
+        for x, font, lines in ((0, "LC-Bold", self.term_lines),
+                               (TERM_W + TERM_GAP, "LC-Regular", self.lines)):
+            base = self.body - CAP
+            c.setFont(font, SIZE); c.setFillColor(INK)
+            for line in lines:
+                c.drawString(x, base, line)
+                base -= LEAD
+
+
+class Callout(Flowable):
+    """Tinted panel with an accent rule on its left: optional bold title, then text."""
+
+    def __init__(self, title, text, accent):
+        super().__init__()
+        self.title, self.text, self.accent = title, text, accent
+
+    def wrap(self, avail_w, avail_h):
+        self.width_avail = avail_w
+        inner = avail_w - 2 * CALLOUT_PAD - 3
+        self.title_lines = simpleSplit(self.title, "LC-Heavy", 14, inner) if self.title else []
+        self.lines = simpleSplit(self.text, "LC-Regular", 11, inner) if self.text else []
+        h = len(self.title_lines) * 19 + len(self.lines) * 16.5
+        self.height = 2 * CALLOUT_PAD + h - 6
+        return avail_w, self.height
+
+    def draw(self):
+        c = self.canv
+        c.setFillColor(tint(self.accent, 0.10))
+        c.rect(0, 0, self.width_avail, self.height, stroke=0, fill=1)
+        c.setFillColor(self.accent)
+        c.rect(0, 0, 3, self.height, stroke=0, fill=1)
+        x, base = 3 + CALLOUT_PAD, self.height - CALLOUT_PAD - 0.72 * 14
+        c.setFillColor(INK)
+        for line in self.title_lines:
+            c.setFont("LC-Heavy", 14); c.drawString(x, base, line); base -= 19
+        if self.title_lines:
+            base += 19 - 17
+        for line in self.lines:
+            c.setFont("LC-Regular", 11); c.drawString(x, base, line); base -= 16.5
 
 
 class GroupLabel(Flowable):
@@ -248,9 +376,11 @@ def generator(data, output, registry=None):
         for i, item in enumerate(items):
             number += 1
             separator = None if i == 0 else ("rule" if divided else "space")
-            text, title = (item, None) if isinstance(item, str) else (item.get("text", ""), item.get("title"))
-            story.append(NumberedRow(f"{number:02d}", text, accent, title=title,
-                                     number_width=width, separator=separator))
+            if isinstance(item, str):
+                item = {"text": item}
+            story.append(NumberedRow(f"{number:02d}", item.get("text", ""), accent, title=item.get("title"),
+                                     number_width=width, separator=separator, mins=item.get("mins"),
+                                     tag=item.get("tag"), prompts=item.get("prompts", [])))
         story.append(Spacer(1, 26))
 
     for block in data.get("blocks", []):
@@ -263,6 +393,21 @@ def generator(data, output, registry=None):
             numbered(block.get("items", []), divided=True, start=block.get("start"))
         elif typ == "steps":
             numbered(block.get("items", []), divided=False, start=block.get("start"))
+        elif typ == "checklist":
+            style = block.get("style", "box")
+            if style not in ("box", "check"):
+                raise ValueError(f"Checklist style must be box or check, got {style!r}")
+            for i, item in enumerate(block.get("items", [])):
+                story.append(NumberedRow("", item, accent, number_width=MARK_W, marker=style,
+                                         separator=None if i == 0 else "tight"))
+            story.append(Spacer(1, 26))
+        elif typ == "pairs":
+            for i, item in enumerate(block.get("items", [])):
+                story.append(PairRow(item["term"], item["text"], separator=None if i == 0 else "rule"))
+            story.append(Spacer(1, 26))
+        elif typ == "callout":
+            story.append(Callout(block.get("title"), block.get("text"), accent))
+            story.append(Spacer(1, 24))
         elif typ == "bullets":
             for item in block.get("items", []):
                 story.append(Paragraph("•  " + safe(item), styles["body"]))

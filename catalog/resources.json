@@ -978,16 +978,20 @@
       "design"
     ],
     "status": "unpublished",
-    "production_type": "external",
+    "production_type": "generated_pdf",
     "source": {
-      "kind": "unknown"
+      "kind": "github",
+      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/showdown-design-guide.json"
+    },
+    "build": {
+      "output": "showdown-design-guide.pdf"
     },
     "publication": {
       "verification": "unknown"
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage. Prototype companion source exists in GitHub (template review); no holding copy staged yet."
   },
   "ccc-q01-showdown-decorate-guide": {
     "title": "Decorate Challenge",

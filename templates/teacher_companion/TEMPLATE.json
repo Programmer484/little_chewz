@@ -3,13 +3,32 @@
   "resource_id": "REPLACE-WITH-STABLE-ID",
   "resource_type": "teacher_companion",
   "title": "Untitled Teacher Resource",
-  "kind": "questions",
+  "kind": "instructions",
+  "option": "",
   "meta": [
     "Optional",
     "Use after ..."
   ],
   "stage": "00-activate",
-  "intro": "",
-  "blocks": [],
-  "source_note": "Populate only from verified material; follow system/RESOURCE_GUIDELINES.md."
+  "intro": "One sentence on what this resource is for.",
+  "blocks": [
+    {"type": "callout", "title": "Short headline", "text": "The one thing the teacher or students must keep in mind."},
+    {"type": "heading", "text": "Before class"},
+    {"type": "checklist", "style": "box", "items": ["Something to print, buy or set up"]},
+    {"type": "heading", "text": "Run the activity"},
+    {"type": "steps", "items": [
+      {"title": "Step title", "tag": "Guide step 1", "mins": "5 min", "text": "What the teacher does.", "prompts": ["A line the teacher can say?"]}
+    ]},
+    {"type": "heading", "text": "Success criteria"},
+    {"type": "checklist", "style": "check", "items": ["Observable evidence of success."]},
+    {"type": "heading", "text": "If a team gets stuck"},
+    {"type": "pairs", "items": [{"term": "Situation", "text": "What to do."}]},
+    {"type": "questions", "items": ["A numbered question."]},
+    {"type": "answers", "items": ["A numbered answer."]},
+    {"type": "bullets", "items": ["A plain bullet."]},
+    {"type": "paragraph", "text": "Plain body text."},
+    {"type": "note", "text": "Small grey note."},
+    {"type": "links", "items": [{"ref": "REGISTRY-ID", "description": "One per team"}]}
+  ],
+  "source_note": "Populate only from verified material; follow system/RESOURCE_GUIDELINES.md. Delete every block you do not use; there is no required order. Leave option empty except for a Showdown-style option guide (A, B, C, D)."
 }

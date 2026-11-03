@@ -1,0 +1,165 @@
+{
+  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
+  "title": "Design Challenge",
+  "kind": "instructions",
+  "option": "A",
+  "meta": [
+    "Paper only, no food",
+    "40–50 min total",
+    "Teams of 3–4"
+  ],
+  "intro": "Teams turn solo sketches into one shared cupcake design, then explain one decision they made together.",
+  "blocks": [
+    {
+      "type": "callout",
+      "title": "One cupcake. Many ideas.",
+      "text": "Create ONE shared cupcake design that shows teamwork."
+    },
+    {
+      "type": "heading",
+      "text": "Before class"
+    },
+    {
+      "type": "checklist",
+      "style": "box",
+      "items": [
+        "Print the Print Pack: one Design Challenge Card per team; Design Your Cupcake Worksheet, page 1 per student and page 2 per team",
+        "Pencils, erasers and colouring materials",
+        "A timer the class can see",
+        "Tables for teams of 3–4, with room for every solo sketch and one team page in the middle"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Run the challenge"
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "title": "Launch",
+          "tag": "Guide step 1",
+          "mins": "5 min",
+          "text": "Give each team a Challenge Card. Read the mission aloud: one team cupcake, three teamwork qualities, one shared decision."
+        },
+        {
+          "title": "Sketch alone",
+          "tag": "Guide step 2",
+          "mins": "3–5 min",
+          "text": "Students draw on page 1 without talking. Drawings, symbols and labels all count."
+        },
+        {
+          "title": "Share ideas",
+          "tag": "Guide step 2",
+          "mins": "6–8 min",
+          "text": "Each student shows one idea. Teammates ask one question and name one idea they want to keep."
+        },
+        {
+          "title": "Agree and draw",
+          "tag": "Guide step 3 · A",
+          "mins": "18–20 min",
+          "text": "The team draws ONE cupcake on page 2, labels three teamwork qualities, and completes the Shared Decision box.",
+          "prompts": [
+            "What can we keep from both ideas?",
+            "Who hasn’t added an idea yet?"
+          ]
+        },
+        {
+          "title": "Clean up",
+          "tag": "Guide step 4",
+          "mins": "3 min",
+          "text": "Collect solo and team pages together; put supplies away."
+        },
+        {
+          "title": "Explain one decision",
+          "tag": "Guide step 5",
+          "mins": "5–8 min",
+          "text": "Each team shares one decision it made together, by speaking, reading aloud, or pointing to the drawing."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Success criteria"
+    },
+    {
+      "type": "checklist",
+      "style": "check",
+      "items": [
+        "Every student sketches alone before team talk.",
+        "The team design keeps at least one idea from each solo sketch.",
+        "The team draws ONE agreed cupcake, not separate designs side by side.",
+        "Three teamwork qualities are named or drawn.",
+        "The team explains one choice it made together, and why."
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Signs of real negotiation"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Building on",
+          "text": "A student adds to a teammate’s idea instead of replacing it."
+        },
+        {
+          "term": "Trading",
+          "text": "The team gives up one idea to keep another, and says why."
+        },
+        {
+          "term": "Including",
+          "text": "Someone asks a quieter teammate for an idea."
+        },
+        {
+          "term": "Disagreeing kindly",
+          "text": "A student disagrees and offers an alternative."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "If a team gets stuck"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "One voice dominates",
+          "text": "Each person names one thing from their sketch that must stay."
+        },
+        {
+          "term": "No agreement",
+          "text": "Keep the base from one sketch and the decorations from another."
+        },
+        {
+          "term": "Reluctant to write or draw",
+          "text": "A student can describe ideas aloud or point while a teammate draws."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Student resources"
+    },
+    {
+      "type": "links",
+      "items": [
+        {
+          "ref": "ccc-q01-showdown-design-card",
+          "description": "One per team"
+        },
+        {
+          "ref": "ccc-q01-showdown-design-sheet",
+          "description": "Page 1 per student, page 2 per team"
+        }
+      ]
+    }
+  ],
+  "source_note": "PROTOTYPE 2026-11-03 for template review. Adapted from the 2026-11-01 Drive review batch (A_Design_Teacher_Guide_REVIEW.pdf, A_Design_Challenge_Card_REVIEW.pdf, A_Design_Worksheet_REVIEW.pdf), the Showdown guide option A summary, and the user's task spec (3–5 min solo sketch). Not yet checked against the v0 Full Guide Showdown pages (pp. 46–62), which were not available. Signs-of-negotiation and stuck-team wording is newly authored and needs human review.",
+  "resource_id": "ccc-q01-showdown-design-guide",
+  "resource_type": "teacher_companion",
+  "audience": "teacher",
+  "stage": "03-the-showdown"
+}
