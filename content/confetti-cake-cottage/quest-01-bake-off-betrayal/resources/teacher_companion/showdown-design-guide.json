@@ -31,17 +31,17 @@
       "items": [
         {
           "title": "Sketch alone",
-          "mins": "3–5 min",
+          "mins": "5–10 min",
           "text": "Each student sketches one idea, without talking."
         },
         {
           "title": "Share ideas",
-          "mins": "5–8 min",
+          "mins": "5 min",
           "text": "Each student shows their sketch; teammates name one idea to keep."
         },
         {
           "title": "Design together",
-          "mins": "12–17 min",
+          "mins": "10–15 min",
           "text": "The team draws ONE cupcake on its worksheet and labels three teamwork qualities."
         }
       ]
@@ -54,15 +54,7 @@
       "type": "pairs",
       "items": [
         {
-          "term": "Quick sketches",
-          "text": "An idea, not a finished drawing. Give a one-minute warning."
-        },
-        {
-          "term": "Timed sharing",
-          "text": "About a minute each, or the first speaker uses up the slot."
-        },
-        {
-          "term": "No agreement",
+          "term": "Team can’t agree",
           "text": "Build one cupcake from parts: the base from one sketch, the frosting from another."
         }
       ]

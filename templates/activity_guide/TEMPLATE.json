@@ -63,8 +63,8 @@
       "type": "pairs",
       "items": [
         {
-          "term": "Situation",
-          "text": "The non-obvious fix, in one line. Optional; only what a teacher would otherwise get wrong."
+          "term": "The problem, as a teacher would see it",
+          "text": "The fix, in one line. Optional; only foreseeable problems specific to this activity."
         }
       ]
     }

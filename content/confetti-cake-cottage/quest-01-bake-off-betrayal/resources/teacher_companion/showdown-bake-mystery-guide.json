@@ -83,12 +83,12 @@
       "type": "pairs",
       "items": [
         {
-          "term": "Preheat early",
-          "text": "Switch the oven to 350°F (175°C) at the start; it takes 10–15 min to heat."
+          "term": "Oven not hot yet",
+          "text": "Switch it to 350°F (175°C) at the start; it takes 10–15 min to heat."
         },
         {
-          "term": "Oven queue",
-          "text": "Each extra load adds 20–25 min. Teams wait and wash up at their station, not at the oven."
+          "term": "Oven too small",
+          "text": "Each extra load adds 20–25 min; teams wash up at their station while they wait."
         }
       ]
     }

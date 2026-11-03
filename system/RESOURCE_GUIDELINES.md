@@ -32,7 +32,8 @@ A Teacher Guide that offers lettered activity options (such as the Showdown's A�
 
 - **Where things live.** The lesson's overview one-pager holds each option's key restrictions, prep and notes for choosing. The Teacher Guide holds the launch, clean-up, debrief, cards and links. The activity guide holds only how to prepare and run its option.
 - **Sections, in this order:** `Before class` (what to buy, prepare or set up) → `Choose one …` (optional: a route or twist the teacher picks before class) → `How it runs` (timed `steps`, each saying only what happens) → `Tips` (optional `pairs`: the non-obvious fixes). A `Safety first` callout, only for food, ovens or hot equipment, comes before them all.
-- **Keep steps clean.** A step is one or two short sentences of what happens. Timing, logistics and other notes go in `Tips`, each in one line, and only when a teacher would otherwise get it wrong. Generic classroom management never qualifies.
+- **Keep steps clean.** A step is one or two short sentences of what happens. Give times as ranges rounded to 5 or 10 minutes where that makes sense.
+- **Tips name a problem, then the fix.** Each tip's term is the situation a teacher would recognise (`Team can't agree`, `Oven not hot yet`), not a topic, and its fix is one line. Include only the foreseeable problems specific to this activity; one tip is fine. Generic classroom management never qualifies.
 - **Repeat nothing** from the overview, the Teacher Guide or the student materials unless it is safety-critical. The meta line names the guide step it expands and its time.
 - **Essentials only.** One page by default; never add content to fill space. Activities with food or ovens may go longer to cover everything the teacher must check.
 
