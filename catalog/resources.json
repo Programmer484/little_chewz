@@ -2,12 +2,8 @@
   "ccc-q01-activate-slides": {
     "title": "Classroom Slideshow",
     "url": "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
-    "type": "slide_deck",
+    "type": "slides",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "slides"
-    ],
     "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
     "pdf_url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
     "powerpoint_file_id": "1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom",
@@ -27,17 +23,14 @@
     "human_review": {
       "https://docs.google.com/presentation/d/1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
       "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-mrs-tongsleys-letter": {
     "title": "Mrs. Tongsley's Letter",
     "url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
-    "type": "story",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "read-aloud"
-    ],
     "production_type": "external",
     "source": {
       "kind": "github",
@@ -52,17 +45,14 @@
     "published_url": "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view",
     "human_review": {
       "https://drive.google.com/file/d/1SMAAdLlgjiSq4LXdn2UzwF0H4suHKK54/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-school-pass-instructions": {
     "title": "Chewlandia Passport",
     "url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
-    "type": "teacher_reference",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "passport",
-      "print-instructions"
-    ],
     "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review.",
     "production_type": "external",
     "source": {
@@ -77,17 +67,14 @@
     "published_url": "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view",
     "human_review": {
       "https://drive.google.com/file/d/11bA2JwLlOp7ZLRAirDAzwk2w17gs842G/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-callie-cupcake-poster": {
     "title": "Callie Cupcake Poster",
     "url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
-    "type": "visual_asset",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "mascot",
-      "display"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -101,17 +88,14 @@
     "published_url": "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view",
     "human_review": {
       "https://drive.google.com/file/d/1hBY0v_OmbAHpyoZzu5vRotx80OhMDnOc/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-mrs-tongsley-video": {
     "title": "Mrs. Tongsley's Video",
     "url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
-    "type": "media",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "video"
-    ],
     "production_type": "external",
     "source": {
       "kind": "external_original",
@@ -125,17 +109,14 @@
     "published_url": "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU",
     "human_review": {
       "https://youtu.be/wSYhXYEiocA?si=G4BTgz7ZKBrI8jhU": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-callie-cupcake-video": {
     "title": "Callie Cupcake Video",
     "url": "https://youtu.be/qXq3cCxg8l8",
-    "type": "media",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "video"
-    ],
     "production_type": "external",
     "source": {
       "kind": "external_original",
@@ -149,17 +130,14 @@
     "published_url": "https://youtu.be/qXq3cCxg8l8",
     "human_review": {
       "https://youtu.be/qXq3cCxg8l8": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-bakery-log-1958": {
     "title": "Bakery Log (1958)",
     "url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
-    "type": "story",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "historic-log"
-    ],
     "production_type": "external",
     "source": {
       "kind": "github",
@@ -174,17 +152,14 @@
     "published_url": "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view",
     "human_review": {
       "https://drive.google.com/file/d/1mA4D7qpx1a7ISElKk8zR8PUC_-8BFjaM/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-activate-video-questions": {
     "title": "Mission Video Questions",
     "url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
-    "type": "teacher_companion",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "questions"
-    ],
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -201,17 +176,14 @@
     "published_url": "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view",
     "human_review": {
       "https://drive.google.com/file/d/1qKFGb14wUd_QZZtljKrjZF07EWJBevMj/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_companion"
   },
   "ccc-q01-activate-confetti-questions": {
     "title": "Confetti File Questions",
     "url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
-    "type": "teacher_companion",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "questions"
-    ],
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -228,17 +200,14 @@
     "published_url": "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view",
     "human_review": {
       "https://drive.google.com/file/d/18ZGU44ik-A0SZeRDpmdyXvC1BO6k4q8F/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_companion"
   },
   "ccc-q01-activate-teacher-guide": {
     "title": "Activate Teacher Guide",
     "url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
-    "type": "published_export",
+    "type": "teacher_guide",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "guide"
-    ],
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -261,17 +230,14 @@
     "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
     "human_review": {
       "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_guide"
   },
   "ccc-q01-set-the-table-slides": {
     "title": "Set the Table Classroom Slides",
     "url": "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
-    "type": "slide_deck",
+    "type": "slides",
     "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "slides"
-    ],
     "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
     "powerpoint_filename": "01_Set_the_Table_Slides.pptx",
@@ -291,18 +257,14 @@
     "human_review": {
       "https://docs.google.com/presentation/d/1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
       "https://drive.google.com/file/d/1r5w-EWU3N47iz5p02NSOsmN-P7Kv7QJt/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-songwriting-extension": {
     "title": "Songwriting Extension",
     "url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
-    "type": "teacher_companion",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "optional",
-      "school-song"
-    ],
     "link_note": "Published Songwriting Extension companion. Verified existing PDF in the official 04_EXTRA_RESOURCES/01_Set_the_Table folder on 2026-10-31, with anyone-reader sharing; current PDF text matches the editable companion source. No Drive file replacement performed in this update.",
     "production_type": "generated_pdf",
     "source": {
@@ -324,17 +286,14 @@
     "published_url": "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view",
     "human_review": {
       "https://drive.google.com/file/d/1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_companion"
   },
   "ccc-q01-set-the-table-kwls-starter": {
     "title": "KWLS Starter",
     "url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "preparation"
-    ],
+    "audience": "student",
     "link_note": "Standalone two-page KWLS Starter extracted unchanged from pages 7–8 of Quest 1 Student Booklet and uploaded to Set the Table Drive folder. Editorial/access approval not independently verified.",
     "production_type": "external",
     "source": {
@@ -349,18 +308,14 @@
     "published_url": "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view",
     "human_review": {
       "https://drive.google.com/file/d/1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-print-pack": {
     "title": "Build Print Pack",
     "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
-    "type": "print_pack",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "preparation",
-      "print-pack"
-    ],
     "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
@@ -377,17 +332,14 @@
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table",
     "human_review": {
       "https://print.littlechewz.workers.dev/lesson/ccc-q01-set-the-table": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-school-song-activity": {
     "title": "School Song Activity",
     "url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "preparation"
-    ],
+    "audience": "student",
     "link_note": "Standalone student-only School Song Activity PDF, existing Drive file confirmed accessible.",
     "production_type": "external",
     "source": {
@@ -401,17 +353,14 @@
     "published_url": "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view",
     "human_review": {
       "https://drive.google.com/file/d/1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-our-vocabulary": {
     "title": "Our Vocabulary",
     "url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "preparation"
-    ],
+    "audience": "student",
     "link_note": "Published one-page Our Vocabulary worksheet with 15 words. Renamed from Mission Vocabulary on 2026-11-02; original Drive file ID preserved.",
     "production_type": "external",
     "source": {
@@ -425,17 +374,14 @@
     "published_url": "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view",
     "human_review": {
       "https://drive.google.com/file/d/1dqezZa5XwBFyinDzD8aUMVjZp5GRlp5-/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-teacher-guide": {
     "title": "Set the Table Teacher Guide",
     "url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
-    "type": "published_export",
+    "type": "teacher_guide",
     "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "teacher-guide"
-    ],
     "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft.",
     "production_type": "generated_pdf",
     "source": {
@@ -459,18 +405,14 @@
     "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
     "human_review": {
       "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_guide"
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
     "title": "Vocabulary Cards",
     "url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "vocabulary",
-      "optional"
-    ],
+    "audience": "student",
     "link_note": "Two-page printable word cards. The current GitHub teaching flow uses Which Word Fits? instead of cards.",
     "production_type": "external",
     "source": {
@@ -485,19 +427,14 @@
     "published_url": "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view",
     "human_review": {
       "https://drive.google.com/file/d/1aAtEsR7c1qkeOMFi-6PXdsoafCMES-Lj/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-team-builder": {
     "title": "Team Builder",
     "url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "preparation",
-      "teamwork",
-      "vocabulary"
-    ],
+    "audience": "student",
     "link_note": "Student-facing Team Builder Word Sorting Worksheet in the Set the Table Drive folder. Partners sort words that help or challenge teams, choose their top three, and explain why.",
     "production_type": "external",
     "source": {
@@ -512,19 +449,14 @@
     "published_url": "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view",
     "human_review": {
       "https://drive.google.com/file/d/1ds25A9bNwdek0FUwqq9aOoq_PeXByRlG/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-set-the-table-triple-c-audio": {
     "title": "Triple C School Song — Audio Preview",
     "url": "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view",
-    "type": "media",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "set-the-table",
-      "school-song",
-      "audio",
-      "preview"
-    ],
     "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified.",
     "production_type": "external",
     "source": {
@@ -539,18 +471,14 @@
     "human_review": {
       "https://drive.google.com/file/d/1wE3AovdpzAc5g_JtJhzkvw7Wa_DI1xFk/view": "reviewed"
     },
-    "review_mode": "human"
+    "review_mode": "human",
+    "pdf_template": null
   },
   "ccc-q01-welcome": {
     "title": "Quest Overview",
     "url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
-    "type": "published_export",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "welcome",
-      "overview",
-      "navigation"
-    ],
     "build": {
       "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
@@ -574,17 +502,14 @@
     "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
     "human_review": {
       "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view": "reviewed"
-    }
+    },
+    "pdf_template": "welcome"
   },
   "ccc-q01-secret-ingredients-clue-video": {
     "title": "Zenix Clue Tracker Video",
     "url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
-    "type": "media",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "investigation"
-    ],
     "link_note": "Historical direct-video link; lesson-specific slides are not yet verified.",
     "production_type": "external",
     "source": {
@@ -599,17 +524,14 @@
     "published_url": "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY",
     "human_review": {
       "https://youtu.be/FzEimv92JOk?si=ksYkFXc-ZJiOtbkY": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-chapter-one": {
     "title": "Chapter One: The Bake-Off Betrayal",
     "url": "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view",
-    "type": "story",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "chapter-one"
-    ],
     "link_note": "Chapter download link from original Guide page 42; permissions unverified.",
     "production_type": "external",
     "source": {
@@ -625,17 +547,14 @@
     "human_review": {
       "https://drive.google.com/file/d/14qIcqMB0QqGos-1kvKQSOu1YzNv5-gaC/view": "reviewed"
     },
-    "review_mode": "human"
+    "review_mode": "human",
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-chapter-audio": {
     "title": "Chapter One Audio",
     "url": "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing",
-    "type": "media",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "audio"
-    ],
     "link_note": "Legacy audio folder link from original Guide page 42; specific recording and permissions unverified.",
     "production_type": "external",
     "source": {
@@ -650,17 +569,13 @@
     "human_review": {
       "https://drive.google.com/drive/folders/1JSwatLRIeJ6E2rdowbmD5JIbzNVA-0kp?usp=sharing": "reviewed"
     },
-    "review_mode": "human"
+    "review_mode": "human",
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-clue-tracker-core": {
     "title": "Clue Tracker — Core",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "core",
-      "clue-hunt"
-    ],
+    "audience": "student",
     "link_note": "Core follow-up to independent clue observations. Original Clue Tracker page 1, questions 1–5, preserved without edits; hand out after the 3-minute scene and initial clue share. Published in official student materials.",
     "production_type": "external",
     "source": {
@@ -680,18 +595,13 @@
     "url": "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view",
     "human_review": {
       "https://drive.google.com/file/d/1cRfJWiGJJ-oMzzXoENoj1EcndlEA9pUv/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-clue-tracker-extension": {
     "title": "Clue Tracker — Extension",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "optional",
-      "extension",
-      "inference"
-    ],
+    "audience": "student",
     "link_note": "Extension +10–15 min. Original Clue Tracker page 2, questions 6–8 including the drawing box, preserved without edits; follows the core page. Published in official student materials.",
     "production_type": "external",
     "source": {
@@ -711,17 +621,14 @@
     "url": "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view",
     "human_review": {
       "https://drive.google.com/file/d/1kh1rrL3mC68VFJ9shIl2PevXc-0xnDoh/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-clue-answer-key": {
     "title": "Clue Tracker Answer Key",
     "url": "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view",
-    "type": "teacher_companion",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "answer-key"
-    ],
     "link_note": "Standalone answer key with Core (1–5) and Extension (6–8) answers, in teacher-resource styling. 2026-10-31: converted to a generated companion source with the shared resource masthead. The live file below is the earlier external release; the next authorized generated release replaces it in place.",
     "production_type": "generated_pdf",
     "source": {
@@ -743,17 +650,14 @@
     },
     "human_review": {
       "https://drive.google.com/file/d/1OwfwqmpoocnxssqnTsGG0F9zXfv1RIM0/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_companion"
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
     "title": "Chapter Notes",
     "url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "chapter-notes"
-    ],
+    "audience": "student",
     "link_note": "Standalone Chapter Notes worksheet, original prediction prompt and open notes/drawing area. Published in official student materials; 2–3-detail scaffold appears in teaching directions.",
     "production_type": "external",
     "source": {
@@ -772,18 +676,14 @@
     "published_url": "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view",
     "human_review": {
       "https://drive.google.com/file/d/107xSYGXDG-46-bQA652m7HOhFR1CVb17/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-print-pack": {
     "title": "Build Print Pack",
     "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
-    "type": "print_pack",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "preparation",
-      "print-pack"
-    ],
     "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
@@ -800,18 +700,14 @@
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients",
     "human_review": {
       "https://print.littlechewz.workers.dev/lesson/ccc-q01-secret-ingredients": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-character-profile": {
     "title": "Character Profile — Advanced",
     "url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "optional",
-      "extension"
-    ],
+    "audience": "student",
     "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min), published in official student materials.",
     "production_type": "external",
     "source": {
@@ -830,17 +726,13 @@
     "published_url": "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view",
     "human_review": {
       "https://drive.google.com/file/d/1ZG0ZO1l-ExsskVsKh-s9IYh3YBvO81XP/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-character-profile-core": {
     "title": "Character Profile — Core",
     "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "core",
-      "character-analysis"
-    ],
+    "audience": "student",
     "link_note": "One-page evidence-first Character Profile, now published as a US Letter PDF converted from the supplied worksheet image. Teacher Guide links to this PDF.",
     "production_type": "external",
     "source": {
@@ -859,17 +751,14 @@
     "url": "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view",
     "human_review": {
       "https://drive.google.com/file/d/1qY77-jKnCFBoj-MI2su-o48jKRcwzRiZ/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-slides": {
     "title": "Secret Ingredients Classroom Slides",
     "url": "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
-    "type": "slide_deck",
+    "type": "slides",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "slides"
-    ],
     "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
     "pdf_url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view",
     "powerpoint_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
@@ -889,16 +778,13 @@
     "human_review": {
       "https://docs.google.com/presentation/d/1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true": "reviewed",
       "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-secret-ingredients-teacher-guide": {
     "title": "Secret Ingredients Teacher Guide",
-    "type": "published_export",
+    "type": "teacher_guide",
     "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "teacher-guide"
-    ],
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -922,17 +808,14 @@
     "url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
     "human_review": {
       "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view": "reviewed"
-    }
+    },
+    "pdf_template": "teacher_guide"
   },
   "ccc-q01-showdown-slides": {
     "title": "Showdown Slides",
     "url": "https://drive.google.com/",
-    "type": "slide_deck",
+    "type": "slides",
     "audience": "teacher",
-    "tags": [
-      "showdown",
-      "slides"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -942,17 +825,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
+    "pdf_template": null
   },
   "ccc-q01-showdown-design-guide": {
     "title": "Design Challenge",
     "url": "https://drive.google.com/",
-    "type": "teacher_reference",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "showdown",
-      "design"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -962,17 +842,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
+    "pdf_template": null
   },
   "ccc-q01-showdown-decorate-guide": {
     "title": "Decorate Challenge",
     "url": "https://drive.google.com/",
-    "type": "teacher_reference",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "showdown",
-      "decorate"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -982,18 +859,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
+    "pdf_template": null
   },
   "ccc-q01-showdown-bake-mystery-guide": {
     "title": "Bake & Mystery Challenge",
     "url": "https://drive.google.com/",
-    "type": "teacher_reference",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "showdown",
-      "bake",
-      "mystery"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1003,17 +876,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
+    "pdf_template": null
   },
   "ccc-q01-showdown-design-sheet": {
     "title": "Design Your Cupcake Worksheet",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "design"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1023,17 +893,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
+    "pdf_template": null
   },
   "ccc-q01-showdown-taste-reflection": {
     "title": "TASTE Reflection",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "reflection"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1043,17 +910,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
+    "pdf_template": null
   },
   "ccc-q01-showdown-teacher-guide": {
     "title": "The Showdown Teacher Guide",
     "url": "https://drive.google.com/",
-    "type": "published_export",
+    "type": "teacher_guide",
     "audience": "teacher",
-    "tags": [
-      "showdown",
-      "guide"
-    ],
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -1068,17 +932,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists."
+    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists.",
+    "pdf_template": "teacher_guide"
   },
   "ccc-q01-showdown-design-card": {
     "title": "Design Challenge Card",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "design"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1091,17 +952,14 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
     "print": {
       "cards_per_sheet": 4
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-showdown-decorate-card": {
     "title": "Decorate Challenge Card",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "decorate"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1114,17 +972,14 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
     "print": {
       "cards_per_sheet": 4
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-showdown-bake-card": {
     "title": "Bake Challenge Card",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "bake"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1137,17 +992,14 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
     "print": {
       "cards_per_sheet": 4
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-showdown-mystery-card": {
     "title": "Mystery Challenge Card",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "mystery"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1160,18 +1012,14 @@
     "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
     "print": {
       "cards_per_sheet": 4
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-showdown-recipe": {
     "title": "Chocolate Cupcake Recipe",
     "url": "https://drive.google.com/",
     "type": "student_worksheet",
     "audience": "student",
-    "tags": [
-      "showdown",
-      "bake",
-      "mystery"
-    ],
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1181,18 +1029,14 @@
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation."
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage, not a created handout. Replace after resource creation.",
+    "pdf_template": null
   },
   "ccc-q01-activate-print-pack": {
     "title": "Build Print Pack",
     "url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
-    "type": "print_pack",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "activate",
-      "preparation",
-      "print-pack"
-    ],
     "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
@@ -1209,18 +1053,14 @@
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate",
     "human_review": {
       "https://print.littlechewz.workers.dev/lesson/ccc-q01-activate": "reviewed"
-    }
+    },
+    "pdf_template": null
   },
   "ccc-q01-showdown-print-pack": {
     "title": "Build Print Pack",
     "url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
-    "type": "print_pack",
+    "type": "teacher_resource",
     "audience": "teacher",
-    "tags": [
-      "showdown",
-      "preparation",
-      "print-pack"
-    ],
     "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
     "production_type": "external",
     "source": {
@@ -1237,6 +1077,7 @@
     "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
     "human_review": {
       "https://little-chewz-print-pack-builder.littlechewz.workers.dev/": "pending"
-    }
+    },
+    "pdf_template": null
   }
 }
