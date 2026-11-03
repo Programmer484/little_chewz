@@ -666,32 +666,6 @@
     },
     "review_mode": "human"
   },
-  "ccc-q01-secret-ingredients-clue-tracker": {
-    "title": "Full Zenix Clue Tracker",
-    "url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
-    "type": "student_worksheet",
-    "audience": "teacher",
-    "tags": [
-      "secret-ingredients",
-      "optional",
-      "extension"
-    ],
-    "status": "published",
-    "link_note": "Legacy Day Two guide, pages 6–7, not yet split into core and extension; use pages selectively, not the entire teacher PDF.",
-    "production_type": "external",
-    "source": {
-      "kind": "unknown"
-    },
-    "publication": {
-      "verification": "unknown",
-      "drive_file_id": "1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ"
-    },
-    "holding_url": null,
-    "published_url": "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view",
-    "human_review": {
-      "https://drive.google.com/file/d/1yZfWgytGBktqvmte5OudTRAdlCyOEBfZ/view": "reviewed"
-    }
-  },
   "ccc-q01-secret-ingredients-clue-tracker-core": {
     "title": "Clue Tracker — Core",
     "type": "student_worksheet",
