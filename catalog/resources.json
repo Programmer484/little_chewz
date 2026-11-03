@@ -259,8 +259,13 @@
       "output": "00-activate-teacher-guide.pdf"
     },
     "publication": {
-      "verification": "unverified",
-      "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux"
+      "verification": "verified",
+      "method": "generated_pdf",
+      "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux",
+      "release_revision": "3cbe3853d9ad2b9495db943b900a0658f71f77a7",
+      "artifact_md5": "1ce2d383ddcd71dfbf1b89a16af4ca4a",
+      "drive_version": "86",
+      "confirmed_at": "2026-11-03T03:26:16+00:00"
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
