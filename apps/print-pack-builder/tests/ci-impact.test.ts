@@ -17,7 +17,7 @@ function fixture(): Inputs {
         published_url: "https://drive.google.com/file/d/" + FILE + "/view",
         publication: { drive_file_id: FILE },
       },
-      other: { title: "Unreferenced teacher file", type: "teacher_companion" },
+      other: { title: "Unreferenced teacher file", type: "teacher_resource" },
     },
     files: {
       [QUEST]: {
