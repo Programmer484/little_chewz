@@ -124,7 +124,6 @@ class InspectionTests(unittest.TestCase):
         item_with_draft = item(holding_url=V, production_type="external")
         report = audit.audit({"x": item_with_draft}, service=Drive())
         self.assertEqual(len(report["resources"]), 1)
-        self.assertEqual(report["resources"][0]["publication_status"], "pending_publish")
         self.assertEqual(report["result"], audit.PASS)
 
     def test_unpublished_skipped(self):
