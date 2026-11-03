@@ -1,0 +1,79 @@
+{
+  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
+  "resource_id": "REPLACE-WITH-STABLE-ID",
+  "resource_type": "teacher_companion",
+  "title": "Untitled Challenge",
+  "kind": "instructions",
+  "option": "A",
+  "meta": [
+    "Expands Teacher Guide steps 2 and 3",
+    "About 25–35 min"
+  ],
+  "stage": "00-activate",
+  "blocks": [
+    {
+      "type": "callout",
+      "title": "Safety first",
+      "text": "Only for food, ovens or hot equipment: the checks the teacher must make. Delete otherwise."
+    },
+    {
+      "type": "heading",
+      "text": "Before class"
+    },
+    {
+      "type": "checklist",
+      "style": "box",
+      "items": [
+        "What to buy, prepare or set up, with why it is easy to miss"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How it runs"
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "title": "Step title",
+          "tag": "Guide step 2",
+          "mins": "5 min",
+          "text": "What happens, then the timing or logistics note that keeps this step on track."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Choose one …"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Choice",
+          "text": "What it needs or when to use it. Optional: only for an option-specific choice, such as a twist."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "If …"
+    },
+    {
+      "type": "paragraph",
+      "text": "Optional and rare: one activity-specific situation whose fix is not obvious, in one or two lines."
+    },
+    {
+      "type": "heading",
+      "text": "Look for"
+    },
+    {
+      "type": "checklist",
+      "style": "check",
+      "items": [
+        "Two or three items from the activity's success criteria."
+      ]
+    }
+  ],
+  "source_note": "Activity guide skeleton; see the Activity guides section of system/RESOURCE_GUIDELINES.md. Keep the section names and order; delete the optional sections (Safety first, Choose one, If) when not needed. Do not add spacer blocks: the renderer spaces sections."
+}

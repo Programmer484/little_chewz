@@ -248,6 +248,7 @@ for ref,item in registry.items():
             if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')
 for path,kind in [('templates/teacher_guide/TEMPLATE.json','lesson'),
                   ('templates/teacher_companion/TEMPLATE.json','companion'),
+                  ('templates/teacher_companion/ACTIVITY_TEMPLATE.json','companion'),
                   ('templates/welcome/TEMPLATE.json','welcome')]:
     if (R/path).is_file(): check_instructions(path,json.loads((R/path).read_text()),kind)
 try:

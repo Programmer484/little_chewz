@@ -61,6 +61,7 @@ NUM_GAP = 12.0                                # widest number to text column
 RULE_GAP = 11.0                               # equal optical space above and below a divider
 STEP_GAP = 20.0                               # whitespace between undivided step rows
 LABEL_TO_ROW = 18.0                           # group label baseline to first row cap-top
+SECTION_GAP = 26.0                            # space above every group label after a block
 CHECK_GAP = 9.0                               # whitespace between checklist rows
 MARK_W = 12.0                                 # marker column: checklist text aligns with 2-digit numbers
 TERM_W = 128.0                                # `pairs` term column; text starts TERM_GAP after it
@@ -394,6 +395,8 @@ def generator(data, output, registry=None):
     for block in data.get("blocks", []):
         typ = block.get("type", "paragraph")
         if typ == "heading":
+            if story and not isinstance(story[-1], Spacer):
+                story.append(Gap(1, SECTION_GAP - 10))  # text blocks end with 10 pt; sections sit 26 pt apart
             story.append(GroupLabel(block["text"], accent))
         elif typ == "paragraph":
             story.append(Paragraph(safe(block["text"]), styles["body"]))

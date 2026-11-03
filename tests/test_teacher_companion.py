@@ -30,6 +30,11 @@ class TeacherCompanionRendererTest(unittest.TestCase):
         registry = {'REGISTRY-ID': {'title': 'Example', 'url': 'https://example.org/x'}}
         self.assertTrue(self.render(data, registry).startswith(b'%PDF'))
 
+    def test_activity_template_renders(self):
+        data = json.loads((ROOT / 'templates/teacher_companion/ACTIVITY_TEMPLATE.json').read_text())
+        data['_base'] = str(QUEST / 'resources/teacher_companion')
+        self.assertTrue(self.render(data).startswith(b'%PDF'))
+
     def test_option_adds_section_suffix(self):
         data = self.template()
         data['option'] = 'b'

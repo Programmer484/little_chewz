@@ -57,10 +57,6 @@
       "text": "Build one cupcake from parts: the base from one sketch, the frosting from another, a topping from a third."
     },
     {
-      "type": "spacer",
-      "points": 16
-    },
-    {
       "type": "heading",
       "text": "Look for"
     },

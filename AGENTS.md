@@ -663,7 +663,7 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 
 ### Activity guides
 
-A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Keep every activity guide in the same shape so a teacher who has used one can scan the next:
+A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/teacher_companion/ACTIVITY_TEMPLATE.json`, which fixes the section names and order, and keep every activity guide in that shape so a teacher who has used one can scan the next:
 
 - **Sections, in this order, each only when needed:** `Before class` (materials and setup that need lead time) → `How it runs` (timed `steps` for the guide steps it expands, each `tag` naming that step) → `Look for` (two or three `check` items from the activity's success criteria). An option-specific choice, such as a list of twists, may sit before `Look for`.
 - **Write from what goes wrong.** Walk the activity step by step and note what is easiest to miss or most likely to fail: timing, supplies, logistics, safety. Put the preparation it needs in `Before class` and the fix in the step itself. Leave out generic classroom management, such as dominant voices or frustration; teachers already handle it.
@@ -686,7 +686,7 @@ Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optio
 | `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`) | Bold term column with the explanation beside it, hairline dividers |
 | `bullets`, `paragraph`, `note` | Plain lists, body text, small grey notes | Body or grey text |
 | `links` | Registry resources by `ref`, with a short `description` | Bold underlined title and grey description |
-| `image`, `spacer` | A comprehension-aiding illustration; a small extra gap | |
+| `image`, `spacer` | A comprehension-aiding illustration; a rare extra gap. Sections space themselves, so never use `spacer` for layout | |
 
 Numbered blocks (`steps`, `questions`, `answers`) number continuously across a document; set `start` on a block to restart. A step's `tag` may point to the Teacher Guide step it expands; keep the guide's step structure rather than repeating its Teaching Flow. Add a new block type to `scripts/renderers/teacher_companion.py` only when real content needs it.
 
