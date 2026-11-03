@@ -145,7 +145,7 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 - Only `generated_pdf` resources (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub branches and an authorized release-PR merge/checksum pipeline. First release needs manual destination setup.
 - `external` resources (including PDFs made outside the renderer, posters, images, worksheets and slide pairs) stay in holding until an agent manually publishes and verifies them. No automatic external release or checksum tracking.
-- [Drive holding](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) now mirrors the official four categories: `01_TEACHER_GUIDES`, `02_CLASSROOM_SLIDES`, `03_STUDENT_MATERIALS`, `04_EXTRA_RESOURCES`. Existing subfolders retain their Drive IDs; legacy Slide PDF originals remain in their separate review folder. Holding is not publication.
+- [Drive holding](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) now mirrors the official four categories: `01_TEACHER_GUIDES`, `02_CLASSROOM_SLIDES`, `03_STUDENT_MATERIALS`, `04_TEACHER_RESOURCES`. Existing subfolders retain their Drive IDs; legacy Slide PDF originals remain in their separate review folder. Holding is not publication.
 - Use Create, Update, and Publish workflow documents directly; no chat slash commands are configured.
 
 - Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
@@ -273,7 +273,7 @@ Worksheets, posters, external PDFs, media and slides use `production_type: exter
 ### First-time generated PDF publication — agent-managed
 #### Student worksheet PDF check before external publication
 
-For any `student_worksheet` PDF, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` **before uploading or replacing the official Drive file**. Every page must be US Letter (8.5 × 11 inches), portrait or landscape. This check is for student-facing worksheets **only**; do not change Teacher Guide, companion or slide page sizes. External resources are still published by an agent rather than the generated-PDF publisher.
+For any `student_material` PDF, run `python scripts/pdf_page_size.py path/to/worksheet.pdf` **before uploading or replacing the official Drive file**. Every page must be US Letter (8.5 × 11 inches), portrait or landscape. This check is for student-facing worksheets **only**; do not change Teacher Guide, companion or slide page sizes. External resources are still published by an agent rather than the generated-PDF publisher.
 
 
 Move the exact approved generated PDF from holding to the verified official teacher-facing folder (or create a verified official copy if necessary). Read back its ID, MIME, access, and exact file version. Only then register the official URL, ID and publication evidence; the resource state derives automatically. This establishes the official file for subsequent in-place automated updates; the automated replacement workflow does **not** create first-time destinations.
@@ -291,7 +291,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 **Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
 
-For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_EXTRA_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer and `url` only legacy compatibility. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
+For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer and `url` only legacy compatibility. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
 
 The publisher resolves only recorded official targets. Registry build examples: `{"build":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"build":{"output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. No external resource receives a Python build just because it is a PDF.
 
@@ -955,7 +955,7 @@ When changing renderer inputs or build selection, update `select_builds.py` and 
 | --- | --- | --- |
 | `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
 
-- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_worksheet` links count. A worksheet becomes downloadable when its catalogue entry has a valid official `published_url`. Never add per-lesson lists, allowlists or Drive IDs to the app.
+- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_material` links count. A worksheet becomes downloadable when its catalogue entry has a valid official `published_url`. Never add per-lesson lists, allowlists or Drive IDs to the app.
 - **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF.
 - The site runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because published student worksheets are shared publicly on Drive. Require the login before publishing a worksheet that must stay private.
 - Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).
