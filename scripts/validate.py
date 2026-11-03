@@ -41,121 +41,85 @@ def check_instructions(path,data,kind):
 errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
+FOLDERS={'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}
+PDF_TEMPLATES={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
+               'welcome': 'welcome'}
+FIELDS={'title', 'type', 'published_url', 'holding_url', 'pdf',
+        'pdf_url', 'human_reviewed_url', 'print'}
 for ref,item in registry.items():
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ref):
         errors.append(f'{ref}: resource ID must be stable lowercase kebab-case')
+    if not isinstance(item,dict):
+        errors.append(f'{ref}: resource entry must be an object')
+        continue
+    unknown = set(item) - FIELDS
+    if unknown:
+        errors.append(f'{ref}: obsolete or unknown metadata fields {sorted(unknown)}')
+    if not isinstance(item.get('title'),str) or not item['title']:
+        errors.append(f'{ref}: title required')
     category = item.get('type')
-    if category not in {'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}:
-        errors.append(f'{ref}: type must match one of the five published Drive folders')
-    if 'audience' in item:
-        errors.append(f'{ref}: redundant audience field; resource type is the delivery folder')
-    if 'tags' in item:
-        errors.append(f'{ref}: obsolete free-form tags; use type and pdf_template')
-    production = item.get('production_type')
-    if production not in {'generated_pdf','external'}:
-        errors.append(f'{ref}: explicit production_type must be generated_pdf or external')
-    source = item.get('source')
-    if not isinstance(source,dict) or source.get('kind') not in {'github','external_original','unknown'}:
-        errors.append(f'{ref}: missing or invalid source provenance')
-    elif source['kind']=='github':
-        source_path=source.get('path','')
-        candidate=Path(source_path)
-        if (not source_path or candidate.is_absolute() or '..' in candidate.parts
-                or candidate.parts[0] not in ('content','templates')
-                or not (R/candidate).is_file()):
-            errors.append(f'{ref}: GitHub source mapping invalid: {source_path}')
-    elif source['kind']=='external_original' and source.get('url') and not source['url'].startswith('https://'):
-        errors.append(f'{ref}: external original URL must use HTTPS')
-    build = item.get('build')
-    template = item.get('pdf_template', '__missing__')
-    if template not in (None, 'teacher_guide', 'teacher_companion', 'welcome'):
-        errors.append(f'{ref}: unsupported pdf_template')
-    if production == 'external' and template is not None:
-        errors.append(f'{ref}: external resources cannot claim a generated PDF template')
-    if production == 'generated_pdf':
-        expected_template = (build.get('renderer') if isinstance(build,dict) and build.get('renderer')
-                             else 'teacher_guide' if category == 'teacher_guide' else 'teacher_companion')
-        if template != expected_template:
-            errors.append(f'{ref}: pdf_template must match generated renderer {expected_template!r}')
-    if production=='generated_pdf':
-        if not isinstance(source,dict) or source.get('kind')!='github':
-            errors.append(f'{ref}: generated PDFs must have GitHub editable source')
-        if not isinstance(build,dict) or bool(build.get('renderer'))==bool(build.get('output')):
-            errors.append(f'{ref}: generated PDF needs exactly one explicit build renderer or output')
-        elif build.get('renderer'):
-            if build.get('source') != (source if isinstance(source,dict) else {}).get('path'):
-                errors.append(f'{ref}: renderer source disagrees with authoritative GitHub source')
-        elif not isinstance(build.get('output'),str) or not build['output'].endswith('.pdf'):
-            errors.append(f'{ref}: build output must be a PDF filename')
-    elif production=='external' and build:
-        errors.append(f'{ref}: external materials cannot enter the generated PDF renderer')
-    for role in ('holding_url','published_url'):
+    if category not in FOLDERS:
+        errors.append(f'{ref}: type must match a published Drive category')
+    for role in ('published_url','holding_url'):
+        url = item.get(role)
         if role not in item:
-            errors.append(f'{ref}: missing explicit {role} (use null if unknown)')
-        elif item[role] is not None and (not isinstance(item[role],str) or not item[role].startswith('https://')):
+            errors.append(f'{ref}: explicit {role} required (null if absent)')
+        elif url is not None and (not isinstance(url,str) or not url.startswith('https://')):
             errors.append(f'{ref}: {role} must be HTTPS or null')
-    if item.get('review_mode') not in (None, 'human'):
-        errors.append(f'{ref}: review_mode must be human when set')
-    reviews = item.get('human_review')
-    if reviews is not None:
-        if not isinstance(reviews, dict):
-            errors.append(f'{ref}: human_review must map exact URLs to pending/reviewed')
-        else:
-            destinations = {item.get('published_url') or item.get('url'), item.get('pdf_url')}
-            for link, state in reviews.items():
-                if link not in destinations or state not in {'pending', 'reviewed'}:
-                    errors.append(f'{ref}: human_review must refer to a current link with pending/reviewed status')
-    public_url = item.get('published_url') or ''
-    if (has_official_version(item) and public_url.startswith('https://')
-            and not public_url.startswith(('https://drive.google.com/', 'https://docs.google.com/'))
-            and (not isinstance(reviews, dict) or public_url not in reviews)):
-        errors.append(f'{ref}: non-Drive publication requires URL-bound human_review')
-    publication=item.get('publication')
-    if not isinstance(publication,dict) or publication.get('verification') not in {'unknown','unverified','verified'}:
-        errors.append(f'{ref}: publication verification must be explicitly unknown, unverified or verified')
-    else:
-        if production=='external' and 'artifact_md5' in publication:
-            errors.append(f'{ref}: external resources must not claim generated-PDF checksums')
-        if publication.get('drive_file_id'):
-            source_url=item.get('published_url') or item.get('url','')
-            m=re.search(r'/d/([A-Za-z0-9_-]{20,})',source_url)
-            if not m or m.group(1)!=publication['drive_file_id']:
-                errors.append(f'{ref}: recorded Drive ID conflicts with live URL')
-        if publication.get('verification')=='verified':
-            if not re.fullmatch(r'[0-9a-f]{40}',publication.get('release_revision','')):
-                errors.append(f'{ref}: verified publication needs an accepted Git revision')
-            if not publication.get('confirmed_at') or not publication.get('method'):
-                errors.append(f'{ref}: verified publication needs timestamp and method')
-            if production=='generated_pdf' and publication.get('method')=='external_agent':
-                # Live file predates its generated source (converted resource); the next
-                # verified generated release replaces it in place and records a digest.
-                if publication.get('artifact_md5'):
-                    errors.append(f'{ref}: an external release cannot assert a generated-PDF digest')
-            elif production=='generated_pdf':
-                if publication.get('method')!='generated_pdf' or not re.fullmatch(r'[0-9a-f]{32}',publication.get('artifact_md5','')):
-                    errors.append(f'{ref}: generated release needs verified 32-hex PDF digest')
-                if not publication.get('drive_file_id'):
-                    errors.append(f'{ref}: verified generated release needs exact Drive file ID')
-            elif publication.get('method')!='external_agent':
-                errors.append(f'{ref}: external release needs agent-confirmed publication method')
-        elif publication.get('artifact_md5'):
-            errors.append(f'{ref}: unverified publication cannot assert a verified PDF digest')
-    if not ref:
-        errors.append('catalog contains an empty resource ID key')
-    if 'resource_id' in item:
-        errors.append(f'{ref}: redundant resource_id; the registry key is the stable ID')
-    if 'legacy_alias' in item:
-        errors.append(f'{ref}: legacy_alias belongs in archive/2026-10/resource-aliases.json')
-    if 'status' in item:
-        errors.append(f'{ref}: obsolete stored resource status; derive from official link and checksum')
-    if 'approved_link' in item:
-        errors.append(f'{ref}: obsolete approved_link field')
+    pdf = item.get('pdf')
+    if pdf is not None:
+        if not isinstance(pdf,dict):
+            errors.append(f'{ref}: pdf must be an object')
+            continue
+        template = pdf.get('template')
+        if template not in PDF_TEMPLATES:
+            errors.append(f'{ref}: unsupported generated PDF template')
+        elif PDF_TEMPLATES[template] != category:
+            errors.append(f'{ref}: PDF template does not match delivery folder type')
+        extra = set(pdf)-{'template','output','source','approved_md5','revision'}
+        if extra:
+            errors.append(f'{ref}: unknown pdf metadata {sorted(extra)}')
+        output, source = pdf.get('output'), pdf.get('source')
+        if bool(output)==bool(source):
+            errors.append(f'{ref}: PDF needs exactly one output or source')
+        if output is not None and (not isinstance(output,str) or not output.endswith('.pdf') or '/' in output):
+            errors.append(f'{ref}: PDF output must be a filename ending in .pdf')
+        if source is not None:
+            candidate=Path(source) if isinstance(source,str) else Path('/')
+            if (not isinstance(source,str) or candidate.is_absolute() or '..' in candidate.parts
+                    or not (R/candidate).is_file()):
+                errors.append(f'{ref}: PDF source must be a valid repository file')
+        if template == 'welcome' and not source:
+            errors.append(f'{ref}: Welcome renderer needs a source')
+        if template in {'teacher_guide','teacher_companion'} and not output:
+            errors.append(f'{ref}: guide/companion needs an output mapping')
+        approved=pdf.get('approved_md5')
+        revision=pdf.get('revision')
+        if approved is not None and not re.fullmatch(r'[0-9a-f]{32}',str(approved)):
+            errors.append(f'{ref}: approved_md5 must be an exact verified MD5')
+        if revision is not None and not re.fullmatch(r'[0-9a-f]{40}',str(revision)):
+            errors.append(f'{ref}: revision must be an accepted Git SHA')
+        if bool(approved)!=bool(revision):
+            errors.append(f'{ref}: approved PDF checksum and accepted revision must be recorded together')
+        if approved and not item.get('published_url'):
+            errors.append(f'{ref}: cannot approve unpublished PDF bytes')
+    elif 'pdf' in item:
+        errors.append(f'{ref}: omit pdf unless generated')
+    reviewed=item.get('human_reviewed_url')
+    if reviewed is not None:
+        if not isinstance(reviewed,str) or reviewed!=item.get('published_url'):
+            errors.append(f'{ref}: human approval must match current published URL exactly')
+        elif reviewed.startswith(('https://drive.google.com/', 'https://docs.google.com/')):
+            errors.append(f'{ref}: Drive files always use automatic API inspection')
+    if 'pdf_url' in item:
+        if category!='classroom_slides' or not isinstance(item['pdf_url'],str) or not item['pdf_url'].startswith('https://'):
+            errors.append(f'{ref}: pdf_url is only for classroom-slide source PDFs')
     if 'print' in item:
-        printing = item['print'] if isinstance(item['print'], dict) else {}
+        printing = item['print'] if isinstance(item['print'],dict) else {}
         cards = printing.get('cards_per_sheet')
-        if set(printing) != {'cards_per_sheet'} or type(cards) is not int or cards < 2:
-            errors.append(f'{ref}: print must be {{"cards_per_sheet": <number of cutouts per sheet, at least 2>}}')
-    if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
+        if (category!='student_material' or set(printing)!={'cards_per_sheet'}
+                or type(cards) is not int or cards < 2):
+            errors.append(f'{ref}: print requires student_material with cards_per_sheet >= 2')
 folders_path=R/'catalog/drive_folders.json'
 if not folders_path.is_file():
     errors.append('Missing distinct Drive staging/final-folder registry')
@@ -269,16 +233,16 @@ for path in R.glob('content/**/story/*.md'):
     if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
         errors.append(f'{path}: frontmatter must include the line "{STORY_INSTRUCTIONS}"')
 for ref,item in registry.items():
-    build=item.get('build') or {}
-    if build.get('renderer'):
-        if build['renderer'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['renderer']}.py").is_file():
-            errors.append(f'{ref}: unknown build renderer {build["renderer"]}')
+    build=item.get('pdf') or {}
+    if build.get('source'):
+        if build['template'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['template']}.py").is_file():
+            errors.append(f'{ref}: unknown PDF template {build["template"]}')
             continue
         source=R/build.get('source','')
         if not source.is_file():
             errors.append(f'{ref}: build source {source} is missing'); continue
         doc=json.loads(source.read_text())
-        check_instructions(source.relative_to(R),doc,build['renderer'])
+        check_instructions(source.relative_to(R),doc,build['template'])
         from select_builds import nav_refs
         for nav in nav_refs(doc):
             if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')
@@ -291,10 +255,13 @@ try:
     for name, target in registered.items():
         for ref in resource_refs(target['data']):
             record = registry.get(ref, {})
-            if not str(record.get('published_url') or record.get('holding_url') or record.get('url') or '').startswith('https://'):
-                errors.append(f'{name}: unresolved HTTPS destination for {ref}')
+            if not str(record.get('published_url') or record.get('holding_url') or '').startswith('https://'):
+                if has_official_version(record):
+                    errors.append(f'{name}: invalid published HTTPS destination for {ref}')
+                else:
+                    warnings.append(f'{name}: {ref} has no published/staged link; draft preview is unlinked')
             elif not has_official_version(record):
-                warnings.append(f'{name}: {ref} is not verified current on Drive; preview only')
+                warnings.append(f'{name}: {ref} has no official URL; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')
 try:

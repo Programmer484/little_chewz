@@ -28,9 +28,9 @@ class Request:
 
 
 class Drive:
-    def __init__(self, public=True, missing=False, trashed=False, permissions_error=None):
+    def __init__(self, public=True, missing=False, trashed=False, permissions_error=None, md5=None):
         self.public, self.missing, self.trashed = public, missing, trashed
-        self.permissions_error = permissions_error
+        self.permissions_error, self.md5 = permissions_error, md5
         self.requests = []
 
     def files(self):
@@ -39,7 +39,7 @@ class Drive:
     def get(self, fileId, **kwargs):
         self.requests.append(fileId)
         return Request(FileNotFoundError(fileId) if self.missing else
-                       {"id": fileId, "trashed": self.trashed})
+                       {"id": fileId, "trashed": self.trashed, "md5Checksum": self.md5})
 
     def permissions(self):
         return self
@@ -58,9 +58,20 @@ def item(url=U, **kwargs):
 class InspectionTests(unittest.TestCase):
     def test_drive_public_passes_without_folder_or_checksum(self):
         drive = Drive()
-        result = audit.audit({"guide": item(production_type="generated_pdf")}, service=drive)
+        result = audit.audit({"guide": item()}, service=drive)
         self.assertEqual(result["result"], audit.PASS)
         self.assertEqual(drive.requests, [A])
+
+    def test_generated_pdf_uses_live_drive_checksum(self):
+        digest = "a" * 32
+        pdf = {"template": "teacher_guide", "approved_md5": digest}
+        self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(md5=digest))["result"], audit.PASS)
+        self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(md5="b" * 32))["result"], audit.FAIL)
+        self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive())["result"], audit.REVIEW)
+        self.assertEqual(audit.audit({"guide": item(pdf={"template": "teacher_guide"})},
+                                     service=Drive(md5=digest))["result"], audit.REVIEW)
+        # Confirmed private access still fails even when a checksum is missing.
+        self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(public=False))["result"], audit.FAIL)
 
     def test_nonpublic_drive_fails(self):
         result = audit.audit({"x": item()}, service=Drive(public=False))
@@ -80,33 +91,32 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(result["result"], audit.REVIEW)
 
     def test_external_urls_get_human_review_without_network(self):
-        result = audit.audit({"video": item(VIDEO, human_review={VIDEO: "pending"})})
+        result = audit.audit({"video": item(VIDEO)})
         self.assertEqual(result["result"], audit.REVIEW)
         self.assertIn(f"[Open resource]({VIDEO})", audit.summary_table(result))
 
     def test_approval_is_bound_to_exact_url(self):
-        external = item(VIDEO, human_review={VIDEO: "reviewed"})
+        external = item(VIDEO, human_reviewed_url=VIDEO)
         self.assertEqual(audit.audit({"x": external})["result"], audit.PASS)
         external["published_url"] = VIDEO + "?changed=1"
         self.assertEqual(audit.audit({"x": external})["result"], audit.REVIEW)
 
-    def test_external_drive_skips_permission_check(self):
-        story = item(review_mode="human", human_review={U: "pending"})
-        self.assertEqual(audit.audit({"story": story})["result"], audit.REVIEW)
-        story["human_review"][U] = "reviewed"
-        self.assertEqual(audit.audit({"story": story})["result"], audit.PASS)
+    def test_all_drive_files_must_pass_permissions_even_if_human_reviewed(self):
+        record = item(human_reviewed_url=U)
+        drive = Drive(public=False)
+        self.assertEqual(audit.audit({"resource": record}, service=drive)["result"], audit.FAIL)
+        self.assertEqual(drive.requests, [A])
 
     def test_human_review_does_not_hide_private_regular_drive_file(self):
         drive = Drive(public=False)
-        record = item(human_review={U: "reviewed"})
+        record = item(human_reviewed_url=U)
         self.assertEqual(audit.audit({"worksheet": record}, service=drive)["result"], audit.FAIL)
         self.assertEqual(drive.requests, [A])
 
     def test_published_slides_use_same_drive_check_as_other_resources(self):
         drive = Drive(public=False)
         slides_url = f"https://docs.google.com/presentation/d/{A}/edit"
-        slide = item(slides_url, type="classroom_slides", pdf_url=V, holding_url=V,
-                     human_review={slides_url: "reviewed"})
+        slide = item(slides_url, type="classroom_slides", pdf_url=V, holding_url=V)
         report = audit.audit({"slide": slide}, service=drive)
         self.assertEqual(report["result"], audit.FAIL)
         self.assertEqual(len(report["resources"]), 1)
@@ -114,7 +124,7 @@ class InspectionTests(unittest.TestCase):
 
     def test_unpublished_slides_still_skipped(self):
         drive = Drive()
-        slide = {"type": "slide_deck", "published_url": None, "pdf_url": V}
+        slide = {"type": "classroom_slides", "published_url": None, "pdf_url": V}
         report = audit.audit({"slide": slide, "second": item()}, service=drive)
         self.assertEqual(report["result"], audit.PASS)
         self.assertEqual(drive.requests, [A])
@@ -163,13 +173,13 @@ class InspectionTests(unittest.TestCase):
         self.assertIn("`review`", summary)
 
     def test_pending_external_release_still_inspected(self):
-        item_with_draft = item(holding_url=V, production_type="external")
+        item_with_draft = item(holding_url=V)
         report = audit.audit({"x": item_with_draft}, service=Drive())
         self.assertEqual(len(report["resources"]), 1)
         self.assertEqual(report["result"], audit.PASS)
 
     def test_unpublished_skipped(self):
-        self.assertEqual(audit.audit({"x": {"published_url": None, "url": VIDEO}})["resources"], [])
+        self.assertEqual(audit.audit({"x": {"published_url": None}})["resources"], [])
 
 
 if __name__ == "__main__":

@@ -64,16 +64,15 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(set(mapping), set(self.targets))
         for output, resource_id in mapping.items():
             self.assertEqual(self.targets[output]['resource_id'], resource_id)
-            self.assertEqual(records[resource_id]['production_type'], 'generated_pdf')
-            self.assertEqual(records[resource_id]['source']['kind'], 'github')
-        self.assertTrue(all('build' not in item
-                            for item in records.values() if item['production_type']=='external'))
+            self.assertIn(records[resource_id]['pdf']['template'], {'teacher_guide', 'teacher_companion', 'welcome'})
+        self.assertTrue(all('pdf' not in item
+                            for item in records.values() if item.get('pdf') is None))
 
     def test_registry_link_change_rebuilds_consumers(self):
         path = 'catalog/resources.json'
         rid = 'ccc-q01-set-the-table-slides'
         previous = copy.deepcopy(sb.read_json(path))
-        previous[rid]['publication']['note'] = "A previous note only"
+        previous['ccc-q01-secret-ingredients-teacher-guide']['pdf']['approved_md5'] = "f" * 32
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), [])
 

@@ -84,15 +84,11 @@ def plan(pr: int, changed: set[str], merge_sha: str, base_sha: str,
         if item is None:
             result["blocked"].append({"resource_id": rid, "reason": "missing catalogue registration"})
             continue
-        production_type = item.get("production_type")
-        if production_type == "external":
+        if not item.get("pdf"):
             result["blocked"].append({"resource_id": rid, "reason": "External resources never use /merge or automated publishing"})
             continue
-        if production_type != "generated_pdf":
-            result["blocked"].append({"resource_id": rid, "reason": "missing or invalid production_type"})
-            continue
         try:
-            output = output_name(rid, item.get("build") or {})
+            output = output_name(rid, item.get("pdf") or {})
         except PublishError as exc:
             result["blocked"].append({"resource_id": rid, "reason": str(exc)})
             continue
@@ -119,7 +115,7 @@ def run_release(result: dict) -> dict:
             verified = publish(rid, expected_revision=result["build_revision"])
             result.setdefault("published", []).append({
                 "resource_id": rid, "drive_file_id": verified["file_id"],
-                "artifact_md5": verified["local_md5"], "publication": verified.get("publication")})
+                "artifact_md5": verified["local_md5"], "pdf": verified.get("pdf")})
         except Exception as exc:
             # Keep partial outcomes explicit; do not advance any unverified item.
             result["blocked"].append({"resource_id": rid, "reason": str(exc)})

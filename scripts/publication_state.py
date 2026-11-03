@@ -31,8 +31,8 @@ def has_official_version(resource: dict | None) -> bool:
 def publication_status(resource: dict | None, current_md5: str | None = None) -> str:
     if not has_official_version(resource):
         return "unpublished"
-    if resource.get("production_type") == "generated_pdf":
-        approved = (resource.get("publication") or {}).get("artifact_md5")
+    if resource.get("pdf"):
+        approved = (resource.get("pdf") or {}).get("approved_md5")
         if approved and current_md5 and current_md5 != approved:
             return "pending_publish"
     else:
@@ -60,17 +60,17 @@ def status_report(registry: dict, *, only: str | None = None, builder=None) -> l
             continue
         status = publication_status(resource)
         item = {"resource_id": rid, "status": status}
-        if resource.get("production_type") == "generated_pdf" and has_official_version(resource):
-            approved = (resource.get("publication") or {}).get("artifact_md5")
+        if resource.get("pdf") and has_official_version(resource):
+            approved = (resource.get("pdf") or {}).get("approved_md5")
             if not approved:
                 item["checksum_evidence"] = "NEEDS REVIEW: approved MD5 unavailable"
             else:
                 try:
                     if builder is None:
                         from publish_to_drive import build_pdf
-                        source = build_pdf(rid, resource["build"])
+                        source = build_pdf(rid, resource["pdf"])
                     else:
-                        source = builder(rid, resource["build"])
+                        source = builder(rid, resource["pdf"])
                     actual = md5(Path(source).read_bytes()).hexdigest()
                     item["status"] = publication_status(resource, actual)
                     item["checksum_evidence"] = "match" if actual == approved else "changed"
@@ -84,13 +84,13 @@ def status_report(registry: dict, *, only: str | None = None, builder=None) -> l
 def lesson_status_report(registry: dict, quest_index: dict, read_quest, builder=None) -> list[dict]:
     """Derive each lesson's state from its registered Teacher Guide resource.
 
-    A lesson needs no publication fields in quest.json. Guide build.output is the
+    A lesson needs no publication fields in quest.json. Guide pdf.output is the
     existing explicit mapping; checksum comparison uses status_report unchanged.
     """
     guides = {}
     for rid, resource in registry.items():
-        build = resource.get("build") or {}
-        output = build.get("output") if resource.get("production_type") == "generated_pdf" else None
+        build = resource.get("pdf") or {}
+        output = build.get("output") if build.get("template") == "teacher_guide" else None
         if output:
             if output in guides:
                 raise ValueError(f"Duplicate generated PDF output: {output}")

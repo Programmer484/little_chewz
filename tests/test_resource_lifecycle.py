@@ -18,8 +18,7 @@ OFFICIAL = "https://drive.google.com/file/d/abcdefghijklmnopqrstuvwx/view"
 
 class ResourceLifecycleTests(unittest.TestCase):
     def test_external_state_depends_only_on_official_and_different_holding_link(self):
-        draft = {"production_type": "external", "holding_url": HOLDING,
-                 "published_url": None, "url": HOLDING}
+        draft = {"holding_url": HOLDING, "published_url": None}
         self.assertEqual(publication_status(draft), "unpublished")
         self.assertEqual(resolve_url(draft), HOLDING)
         self.assertIsNone(resolve_url(draft, release=True))
@@ -38,12 +37,12 @@ class ResourceLifecycleTests(unittest.TestCase):
         self.assertEqual(identity(same_file["holding_url"]), identity(OFFICIAL))
 
     def test_generated_pdf_pending_only_when_current_md5_differs(self):
-        record = {"production_type": "generated_pdf", "published_url": OFFICIAL,
-                  "holding_url": HOLDING, "publication": {"artifact_md5": "a" * 32}}
+        record = {"published_url": OFFICIAL, "holding_url": HOLDING,
+                  "pdf": {"template": "teacher_guide", "output": "guide.pdf", "approved_md5": "a" * 32}}
         self.assertEqual(publication_status(record, "b" * 32), "pending_publish")
         self.assertEqual(publication_status(record, "a" * 32), "published")
         self.assertEqual(publication_status(record), "published")
-        self.assertEqual(publication_status({**record, "publication": {}}, "b" * 32),
+        self.assertEqual(publication_status({**record, "pdf": {"template": "teacher_guide", "output": "guide.pdf"}}, "b" * 32),
                          "published")  # Missing baseline is inspection's NEEDS REVIEW.
         self.assertEqual(publication_status({**record, "published_url": None}, "b" * 32),
                          "unpublished")
@@ -53,9 +52,8 @@ class ResourceLifecycleTests(unittest.TestCase):
             pdf = Path(folder) / "current.pdf"
             pdf.write_bytes(b"first build")
             approved = hashlib.md5(b"first build").hexdigest()
-            record = {"production_type": "generated_pdf", "published_url": OFFICIAL,
-                      "build": {"output": "guide.pdf"},
-                      "publication": {"artifact_md5": approved}}
+            record = {"published_url": OFFICIAL,
+                      "pdf": {"template": "teacher_guide", "output": "guide.pdf", "approved_md5": approved}}
             build = lambda *_: pdf
             self.assertEqual(status_report({"guide": record}, builder=build)[0]["status"],
                              "published")
@@ -63,7 +61,7 @@ class ResourceLifecycleTests(unittest.TestCase):
             updated = status_report({"guide": record}, builder=build)[0]
             self.assertEqual(updated["status"], "pending_publish")
             self.assertEqual(updated["checksum_evidence"], "changed")
-            record["publication"] = {}
+            record["pdf"].pop("approved_md5")
             unchecked = status_report({"guide": record}, builder=build)[0]
             self.assertEqual(unchecked["status"], "published")
             self.assertIn("NEEDS REVIEW", unchecked["checksum_evidence"])
@@ -75,14 +73,11 @@ class ResourceLifecycleTests(unittest.TestCase):
             approved = hashlib.md5(pdf.read_bytes()).hexdigest()
             registry = {
                 "q-activate-teacher-guide": {
-                    "production_type": "generated_pdf",
-                    "build": {"output": "00-activate-teacher-guide.pdf"},
+                    "pdf": {"template": "teacher_guide", "output": "00-activate-teacher-guide.pdf", "approved_md5": approved},
                     "published_url": OFFICIAL,
-                    "publication": {"artifact_md5": approved},
                 },
                 "q-table-teacher-guide": {
-                    "production_type": "generated_pdf",
-                    "build": {"output": "01-set-the-table-teacher-guide.pdf"},
+                    "pdf": {"template": "teacher_guide", "output": "01-set-the-table-teacher-guide.pdf"},
                     "published_url": None,
                 },
             }
@@ -101,7 +96,7 @@ class ResourceLifecycleTests(unittest.TestCase):
             self.assertIsNone(rows[2]["guide_resource_id"])
             pdf.write_bytes(b"changed guide")
             self.assertEqual(report()[0]["status"], "pending_publish")
-            registry["q-activate-teacher-guide"]["publication"].clear()
+            registry["q-activate-teacher-guide"]["pdf"].pop("approved_md5")
             self.assertIn("NEEDS REVIEW", report()[0]["checksum_evidence"])
 
     def test_release_dependencies_need_official_url_not_a_current_checksum(self):
