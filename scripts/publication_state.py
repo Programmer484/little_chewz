@@ -41,3 +41,51 @@ def publication_status(resource: dict | None, current_md5: str | None = None) ->
         if holding is not None and holding != published:
             return "pending_publish"
     return "published"
+
+
+
+def status_report(registry: dict, *, only: str | None = None, builder=None) -> list[dict]:
+    """Build generated PDFs on demand to calculate current source-vs-approved parity.
+
+    Never writes to the catalogue or Drive. An unavailable checksum is a
+    verification limitation, not proof of a pending change.
+    """
+    from hashlib import md5
+    from pathlib import Path
+    if only and only not in registry:
+        raise ValueError("Unknown resource: " + only)
+    result = []
+    for rid, resource in registry.items():
+        if only and rid != only:
+            continue
+        status = publication_status(resource)
+        item = {"resource_id": rid, "status": status}
+        if resource.get("production_type") == "generated_pdf" and has_official_version(resource):
+            approved = (resource.get("publication") or {}).get("artifact_md5")
+            if not approved:
+                item["checksum_evidence"] = "NEEDS REVIEW: approved MD5 unavailable"
+            else:
+                try:
+                    if builder is None:
+                        from publish_to_drive import build_pdf
+                        source = build_pdf(rid, resource["build"])
+                    else:
+                        source = builder(rid, resource["build"])
+                    actual = md5(Path(source).read_bytes()).hexdigest()
+                    item["status"] = publication_status(resource, actual)
+                    item["checksum_evidence"] = "match" if actual == approved else "changed"
+                except Exception as exc:
+                    item["checksum_evidence"] = "NEEDS REVIEW: " + str(exc)
+        result.append(item)
+    return result
+
+
+if __name__ == "__main__":
+    import argparse
+    import json
+    from publish_to_drive import load_registry
+
+    parser = argparse.ArgumentParser(description="Derived publication status; read-only")
+    parser.add_argument("--resource-id")
+    args = parser.parse_args()
+    print(json.dumps(status_report(load_registry(), only=args.resource_id), indent=2))
