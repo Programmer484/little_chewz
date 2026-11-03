@@ -4,6 +4,7 @@ import argparse
 import json
 import subprocess
 from pathlib import Path
+from publication_state import publication_status
 
 ROOT = Path(__file__).resolve().parents[1]
 def read_json(path):
@@ -82,7 +83,7 @@ def targets():
                 raise ValueError(f'Duplicate output: {name}')
             result[name] = dict(
                 source=source.relative_to(ROOT).as_posix(), kind='teacher_companion',
-                status=record.get('status', 'unpublished'),
+                status=publication_status(record),
                 data=data
             )
     # Registry entries with `build.renderer` are standalone documents (e.g. the Welcome PDF),
@@ -96,7 +97,7 @@ def targets():
         name = f'{resource_id}.pdf'
         if name in result:
             raise ValueError(f'Duplicate output: {name}')
-        status = record.get('status', 'unpublished')
+        status = publication_status(record)
         result[name] = dict(
             source=source.as_posix(), kind=build['renderer'], status=status,
             data=data,
@@ -113,7 +114,7 @@ def targets():
     return result
 
 
-def changed_registry_ids(base_ref, fields=('title', 'url')):
+def changed_registry_ids(base_ref, fields=('title', 'holding_url', 'published_url')):
     current = read_json('catalog/resources.json')
     if not base_ref:
         return set(current)
@@ -129,8 +130,8 @@ def select(changed, base_ref=None):
     selected = set()
     registry_changed = 'catalog/resources.json' in changed
     refs = changed_registry_ids(base_ref) if registry_changed else set()
-    # Navigation rows link only published/pending_publish entries, so status matters there.
-    nav_changed = changed_registry_ids(base_ref, ('title', 'url', 'status')) if registry_changed else set()
+    # Navigation resolves current official links, not a second stored status.
+    nav_changed = changed_registry_ids(base_ref, ('title', 'published_url')) if registry_changed else set()
     builds_changed = changed_registry_ids(base_ref, ('build', 'production_type', 'source')) if registry_changed else set()
     # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
     # This may create extra previews, but cannot miss a new rendering dependency.
