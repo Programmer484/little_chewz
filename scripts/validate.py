@@ -42,7 +42,7 @@ errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
 FOLDERS={'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}
-PDF_TEMPLATES={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
+PDF_RENDERERS={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
                'welcome': 'welcome'}
 FIELDS={'title', 'type', 'published_url', 'holding_url', 'pdf',
         'pdf_url', 'human_reviewed_url', 'print'}
@@ -71,12 +71,12 @@ for ref,item in registry.items():
         if not isinstance(pdf,dict):
             errors.append(f'{ref}: pdf must be an object')
             continue
-        template = pdf.get('template')
-        if template not in PDF_TEMPLATES:
-            errors.append(f'{ref}: unsupported generated PDF template')
-        elif PDF_TEMPLATES[template] != category:
-            errors.append(f'{ref}: PDF template does not match delivery folder type')
-        extra = set(pdf)-{'template','output','source','approved_md5','revision'}
+        renderer = pdf.get('renderer')
+        if renderer not in PDF_RENDERERS:
+            errors.append(f'{ref}: unsupported PDF renderer (pdf.renderer)')
+        elif PDF_RENDERERS[renderer] != category:
+            errors.append(f'{ref}: PDF renderer does not match delivery folder type')
+        extra = set(pdf)-{'renderer','output','source','approved_md5','revision'}
         if extra:
             errors.append(f'{ref}: unknown pdf metadata {sorted(extra)}')
         output, source = pdf.get('output'), pdf.get('source')
@@ -89,9 +89,9 @@ for ref,item in registry.items():
             if (not isinstance(source,str) or candidate.is_absolute() or '..' in candidate.parts
                     or not (R/candidate).is_file()):
                 errors.append(f'{ref}: PDF source must be a valid repository file')
-        if template == 'welcome' and not source:
+        if renderer == 'welcome' and not source:
             errors.append(f'{ref}: Welcome renderer needs a source')
-        if template in {'teacher_guide','teacher_companion'} and not output:
+        if renderer in {'teacher_guide','teacher_companion'} and not output:
             errors.append(f'{ref}: guide/companion needs an output mapping')
         approved=pdf.get('approved_md5')
         revision=pdf.get('revision')
@@ -210,6 +210,9 @@ for path in lesson_paths:
         for option in options:
             if not option.get('title') or not option.get('rows'):
                 errors.append(f'{path}: option must have a title and rows')
+            size=option.get('group_size')
+            if size is not None and (not isinstance(size,int) or isinstance(size,bool) or not 1<=size<=200):
+                errors.append(f'{path}: option group_size must be a whole number of students from 1 to 200')
         rows=st.get('rows',[])+[row for option in options for row in option.get('rows',[])]
         for row in rows:
             check_quantity(row)
@@ -220,6 +223,30 @@ for path in lesson_paths:
             for link in row.get('links',[]):check_ref(link['ref'],path)
     if ids!=list(range(1,len(ids)+1)): errors.append(f'{path}: step IDs not consecutive')
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
+ACTIVITY_SECTIONS=('Before class','Choose one','How it runs','Tips')
+def activity_guide_errors(doc):
+    """Sources with "template": "activity_guide" keep the shape of
+    templates/activity_guide/TEMPLATE.json (see RESOURCE_GUIDELINES.md)."""
+    if doc.get('template')!='activity_guide': return []
+    errs=[]
+    if doc.get('kind')!='instructions' or not doc.get('option'):
+        errs.append('activity guide needs kind "instructions" and an option letter')
+    ranks=[]; seen_heading=False
+    for block in doc.get('blocks',[]):
+        typ=block.get('type')
+        if typ=='spacer': errs.append('activity guide must not use spacer blocks; sections space themselves')
+        if typ=='callout' and seen_heading: errs.append('activity guide callout (Safety first) must come before the first section')
+        if typ!='heading': continue
+        seen_heading=True
+        text=block.get('text','')
+        rank=next((i for i,name in enumerate(ACTIVITY_SECTIONS) if text==name or (name=='Choose one' and text.startswith(name))),None)
+        if rank is None: errs.append(f'activity guide section {text!r} is not one of Before class, Choose one …, How it runs, Tips')
+        else: ranks.append(rank)
+    if ranks!=sorted(ranks) or len(ranks)!=len(set(ranks)):
+        errs.append('activity guide sections must appear once each, in template order')
+    for required in (2,):
+        if required not in ranks: errs.append(f'activity guide needs a {ACTIVITY_SECTIONS[required]!r} section')
+    return errs
 for path in R.glob('content/**/resources/**/*.json'):
     d=json.loads(path.read_text())
     check_instructions(path,d,'companion')
@@ -229,30 +256,47 @@ for path in R.glob('content/**/resources/**/*.json'):
         errors.append(f'{path}: resource status is derived from publication evidence')
     if not has_official_version(registry.get(d.get('resource_id'), {})):
         warnings.append(f'{path.name}: unpublished companion; preview only')
+    errors.extend(f'{path}: {e}' for e in activity_guide_errors(d))
 for path in R.glob('content/**/story/*.md'):
     if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
         errors.append(f'{path}: frontmatter must include the line "{STORY_INSTRUCTIONS}"')
 for ref,item in registry.items():
     build=item.get('pdf') or {}
     if build.get('source'):
-        if build['template'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['template']}.py").is_file():
-            errors.append(f'{ref}: unknown PDF template {build["template"]}')
+        if build['renderer'] not in INSTRUCTIONS or not (R/f"scripts/renderers/{build['renderer']}.py").is_file():
+            errors.append(f'{ref}: unknown PDF renderer {build["renderer"]}')
             continue
         source=R/build.get('source','')
         if not source.is_file():
             errors.append(f'{ref}: build source {source} is missing'); continue
         doc=json.loads(source.read_text())
-        check_instructions(source.relative_to(R),doc,build['template'])
+        check_instructions(source.relative_to(R),doc,build['renderer'])
         from select_builds import nav_refs
         for nav in nav_refs(doc):
             if nav not in registry: errors.append(f'{source}: navigation names unknown resource {nav}')
-for path,kind in [('templates/teacher_guide/TEMPLATE.json','lesson'),
-                  ('templates/teacher_companion/TEMPLATE.json','companion'),
-                  ('templates/welcome/TEMPLATE.json','welcome')]:
-    if (R/path).is_file(): check_instructions(path,json.loads((R/path).read_text()),kind)
+# Content templates (the structure a source follows) and the renderer that builds each one.
+# One renderer may serve several templates; the catalogue records the renderer as pdf.renderer.
+TEMPLATE_RENDERER={'teacher_guide':'teacher_guide','teacher_companion':'teacher_companion',
+                   'activity_guide':'teacher_companion','option_overview':'teacher_companion','welcome':'welcome'}
+TEMPLATE_INSTRUCTIONS={'teacher_guide':'lesson','teacher_companion':'companion',
+                       'activity_guide':'companion','option_overview':'companion','welcome':'welcome'}
+for folder in sorted(p for p in (R/'templates').glob('*') if (p/'TEMPLATE.json').is_file()):
+    path=folder.relative_to(R)/'TEMPLATE.json'; doc=json.loads((R/path).read_text())
+    if folder.name not in TEMPLATE_RENDERER:
+        errors.append(f'{path}: template folder {folder.name!r} has no renderer in validate.py TEMPLATE_RENDERER'); continue
+    check_instructions(path,doc,TEMPLATE_INSTRUCTIONS[folder.name])
+    if doc.get('template')!=folder.name:
+        errors.append(f'{path}: must declare "template": "{folder.name}"')
+    errors.extend(f'{path}: {e}' for e in activity_guide_errors(doc))
 try:
     registered = targets()
     for name, target in registered.items():
+        template=target['data'].get('template')
+        renderer=((registry.get(target.get('resource_id'),{}) or {}).get('pdf') or {}).get('renderer')
+        if template not in TEMPLATE_RENDERER or not (R/'templates'/str(template)/'TEMPLATE.json').is_file():
+            errors.append(f'{target["source"]}: must declare "template" naming a folder in templates/ (one of {sorted(TEMPLATE_RENDERER)})')
+        elif TEMPLATE_RENDERER[template]!=renderer:
+            errors.append(f'{target["source"]}: template {template!r} is built by {TEMPLATE_RENDERER[template]!r}, but the catalogue says pdf.renderer {renderer!r}')
         for ref in resource_refs(target['data']):
             record = registry.get(ref, {})
             if not str(record.get('published_url') or record.get('holding_url') or '').startswith('https://'):

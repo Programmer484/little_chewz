@@ -15,9 +15,9 @@ Companions (question banks, extensions, answer keys and other teacher pages) sup
 
 Every companion uses the shared resource masthead and footer, rendered by `scripts/renderers/teacher_companion.py`; do not restyle individual documents.
 
-- **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header.
+- **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header. A guide for one lettered lesson option sets `option` (`"A"`), which adds `· OPTION A` to the section label.
 - **Section and colour** come from the companion's `stage` and `quest.json`, using the Teacher Guide's section palette. Never set them by hand; colour always appears with the section name.
-- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions` or `reference`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
+- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions`, `reference` or `overview`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
 - **Title:** short and matching the resource's catalogue title, so the Teacher Guide link and the document agree. No section names or dashes in the title.
 - **Meta line:** two or three short facts in `meta`: whether it is optional, added time, and when or with what to use it (`Optional · Adds about 15–25 minutes · Follows Small Bite 1: School Song`).
 - **Footer:** `LITTLE CHEWZ · CHEWLANDIA ACADEMY` and `page / total` on every page.
@@ -26,8 +26,39 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 - No other decorative headers, badges or boxes. Use illustrations or setup photos only when they aid comprehension.
 - For multiple resource variants, link the Teacher Guide to one instruction/chooser PDF that links to the separate versions.
 
+## Activity guides
+
+A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/activity_guide/TEMPLATE.json` (`"template": "activity_guide"`), which fixes the section names and order; `scripts/validate.py` checks the sections, their order and the absence of spacer blocks. Activity guides use the companion renderer (catalogue `pdf.renderer`: `teacher_companion`). Keep every activity guide in that shape so a teacher who has used one can scan the next:
+
+- **Where things live.** The lesson's overview one-pager holds each option's key restrictions, prep and notes for choosing. The Teacher Guide holds the launch, clean-up, debrief, cards and links. The activity guide holds only how to prepare and run its option.
+- **Sections, in this order:** `Before class` (what to buy, prepare or set up) → `Choose one …` (optional: a route or twist the teacher picks before class) → `How it runs` (timed `steps`, each saying only what happens) → `Tips` (optional `pairs`: the non-obvious fixes). A `Safety first` callout, only for food, ovens or hot equipment, comes before them all.
+- **Keep steps clean.** A step is one or two short sentences of what happens. Give times as ranges rounded to 5 or 10 minutes where that makes sense; count only lesson time, and say which Teacher Guide step any waiting (such as baking) overlaps.
+- **Design around the hard constraint.** Where timing is critical, build the steps backwards from it: put essential set-up (such as preheating) in its own step, state the cutoff, and give the check the teacher makes while circulating to keep every team on pace.
+- **Tips name a problem, then the fix.** Each tip's term is the situation a teacher would recognise (`Team can't agree`, `Oven not hot yet`), not a topic, and its fix is one line. Include only the foreseeable problems specific to this activity; one tip is fine. Generic classroom management never qualifies.
+- **Repeat nothing** from the overview, the Teacher Guide or the student materials unless it is safety-critical. The meta line names the guide step it expands and its time.
+- **Essentials only.** One page by default; never add content to fill space. Activities with food or ovens may go longer to cover everything the teacher must check.
+
+## Option overviews
+
+A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing: an optional `intro` on the option we encourage and why; one `table` comparing the options at a glance (time, team size, food, oven, and prep effort and clean-up as Low / Medium / High), each row followed by a one-line note on its main preparation step; and a `Safety first` callout when any option involves food, ovens or hot equipment. It holds nothing about running an option; that lives in the activity guides.
+
 ## Source and generation
 
-Companions use JSON with required `title`, `kind`, `stage` and `meta`, an optional `intro`, and optional `paragraph`, `steps`, `questions`, `answers`, `bullets`, `heading`, `note`, `image`, `links`, and `spacer` blocks. List blocks number continuously across a document; set `start` on a block to restart. No fixed block order, minimum count, one-page requirement, or decorative filler. Start from `templates/teacher_companion/TEMPLATE.json`.
+Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optional `option` and `intro`. Start from `templates/teacher_companion/TEMPLATE.json` (`"template": "teacher_companion"`), which shows every block; delete the ones you do not use. Blocks mix in any order, with no minimum count, one-page requirement or decorative filler.
+
+| Block | Use for | Renders as |
+| --- | --- | --- |
+| `heading` | Group label (`Before class`, `Core · Clue Tracker page 1`) | Small tracked caps in the section colour |
+| `callout` | Safety warnings only: allergies, food rules, ovens, hot equipment (`title`, `text`) | Tinted panel with an accent rule; omit it when nothing can hurt anyone |
+| `checklist` | `style: "box"` for prep and materials; `style: "check"` for success criteria or look-fors | Unnumbered rows with a box or tick in the number column |
+| `steps` | Ordered teacher actions; items take `title`, `text`, and optionally `mins`, `tag`, `prompts` | Numbered rows; `mins` right-aligned, `tag` in grey caps after the title (e.g. `Guide step 3`), `prompts` as italic teacher lines beside an accent rule, without quotation marks |
+| `questions`, `answers` | Question banks and answer keys | Numbered rows with hairline dividers |
+| `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`) | Bold term column with the explanation beside it, hairline dividers |
+| `table` | Comparing options at a glance (`columns`, then `rows` of `cells` and an optional one-line `note`) | Grey column labels, a bold first column, hairline dividers; each note in grey under its row; kept on one page |
+| `bullets`, `paragraph`, `note` | Plain lists, body text, small grey notes | Body or grey text |
+| `links` | Registry resources by `ref`, with a short `description` | Bold underlined title and grey description |
+| `image`, `spacer` | A comprehension-aiding illustration; a rare extra gap. Sections space themselves, so never use `spacer` for layout | |
+
+Numbered blocks (`steps`, `questions`, `answers`) number continuously across a document; set `start` on a block to restart. A step's `tag` may point to the Teacher Guide step it expands; keep the guide's step structure rather than repeating its Teaching Flow. Add a new block type to `scripts/renderers/teacher_companion.py` only when real content needs it.
 
 Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Layout implementation lives in `scripts/renderers/teacher_companion.py`; follow [WORKFLOW.md](WORKFLOW.md) for checking, previews, and publication. See [START_HERE.md](../START_HERE.md#local-checks-and-approved-previews) for current commands.

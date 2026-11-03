@@ -1,0 +1,84 @@
+{
+  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
+  "template": "option_overview",
+  "title": "Showdown Challenges",
+  "kind": "overview",
+  "meta": [
+    "Choose one before class",
+    "Every option meets the same learning outcomes"
+  ],
+  "intro": "Students enjoy the food challenges most, and we are keen to learn how cooking together shapes their experience. If your school allows it, we encourage Decorate, Bake or Mystery.",
+  "blocks": [
+    {
+      "type": "table",
+      "columns": [
+        "Challenge",
+        "Time",
+        "Team",
+        "Food",
+        "Oven",
+        "Prep",
+        "Clean-up"
+      ],
+      "rows": [
+        {
+          "cells": [
+            "A · Design",
+            "20–30 min",
+            "2–3",
+            "None",
+            "No",
+            "Low",
+            "Low"
+          ],
+          "note": "About 10 min prep: print the cards and worksheets; gather paper and colouring supplies."
+        },
+        {
+          "cells": [
+            "B · Decorate",
+            "30–45 min",
+            "2–3",
+            "Premade",
+            "No",
+            "Medium",
+            "Medium"
+          ],
+          "note": "About 20 min prep plus shopping: buy cupcakes and frosting the day before; a craft version works if food isn’t possible."
+        },
+        {
+          "cells": [
+            "C · Bake",
+            "25 min",
+            "3–5",
+            "Baked",
+            "Yes",
+            "High",
+            "High"
+          ],
+          "note": "About 30 min prep plus shopping: book the oven and an adult; one small batch per team makes 6 cupcakes. It bakes during clean-up and reflection."
+        },
+        {
+          "cells": [
+            "D · Mystery",
+            "30 min",
+            "3–5",
+            "Baked",
+            "Yes",
+            "High",
+            "High"
+          ],
+          "note": "As Bake, plus one twist you choose: a mystery mix-in or a teamwork twist, such as only one student reading the recipe."
+        }
+      ]
+    },
+    {
+      "type": "callout",
+      "title": "Before any food challenge",
+      "text": "Check your school’s food rules and every student’s allergies and dietary needs against each label, including cocoa and any mystery ingredient. The recipe has no eggs or dairy but contains wheat flour."
+    }
+  ],
+  "source_note": "DRAFT 2026-11-03, needs human review. Sources: Day 3 The Showdown (v0) teacher pages (pp. 4–7: same learning outcomes across levels, levels by materials and complexity, Level 2 craft alternative, Level 3/4 recipe and twist); the Showdown Teacher Guide and activity guides (times, prep); the food-check note formerly in the Teacher Guide's Preparation; and the user's note that food options are encouraged because students enjoy them most and we want to learn how they shape the experience (wording newly written). Allergen line derived from the Day 3 recipe ingredient list (no eggs or dairy; wheat flour); whole-lesson times add the Teacher Guide's 5 min launch and 10 min clean-up and debrief.",
+  "resource_id": "ccc-q01-showdown-overview",
+  "resource_type": "teacher_companion",
+  "stage": "03-the-showdown"
+}

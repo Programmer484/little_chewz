@@ -15,6 +15,6 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 
 Linked resource names, URLs, and publication evidence (including each lesson's Teacher Guide) live in [catalog/resources.json](../catalog/AGENTS.md); all publication states are derived, never stored.
 
-**Student worksheets print from the guide.** The [Print Pack Builder](../apps/AGENTS.md) reads each `lesson.json`: a `student_material` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per group of 3–4`).
+**Student worksheets print from the guide.** The [Print Pack Builder](../apps/AGENTS.md) reads each `lesson.json`: a `student_material` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per team of 2–3`). An option may set `group_size` (students per group) as the builder's default for its per-group materials; otherwise the builder uses 4.
 
 After editing, run `python scripts/validate.py` and save through a PR per [WORKFLOW.md](../system/WORKFLOW.md).

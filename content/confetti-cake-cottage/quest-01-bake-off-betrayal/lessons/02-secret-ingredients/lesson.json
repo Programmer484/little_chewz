@@ -1,5 +1,6 @@
 {
   "$instructions": "Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Publication state derives from the registered Teacher Guide, not lesson.json. Save and preview per system/WORKFLOW.md.",
+  "template": "teacher_guide",
   "key": "p2",
   "title": "PART 2 / SECRET INGREDIENTS",
   "grade": "4–6",
