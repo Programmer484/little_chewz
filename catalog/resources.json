@@ -248,8 +248,13 @@
       "output": "00-activate-teacher-guide.pdf"
     },
     "publication": {
-      "verification": "unverified",
+      "verification": "verified",
+      "method": "generated_pdf",
       "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux",
+      "release_revision": "3cbe3853d9ad2b9495db943b900a0658f71f77a7",
+      "artifact_md5": "1ce2d383ddcd71dfbf1b89a16af4ca4a",
+      "drive_version": "86",
+      "confirmed_at": "2026-11-03T03:26:16+00:00",
       "note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
     },
     "holding_url": null,
@@ -441,8 +446,13 @@
       "output": "01-set-the-table-teacher-guide.pdf"
     },
     "publication": {
-      "verification": "unverified",
+      "verification": "verified",
+      "method": "generated_pdf",
       "drive_file_id": "1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4",
+      "release_revision": "6bef77a75f3706a55c22c9aaeaea8d09f4e5c1bc",
+      "artifact_md5": "c949c145b815e1d1665aecc35368a87f",
+      "drive_version": "52",
+      "confirmed_at": "2026-11-03T03:24:09+00:00",
       "note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
     },
     "holding_url": null,
@@ -901,10 +911,11 @@
       "verification": "verified",
       "method": "generated_pdf",
       "drive_file_id": "17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5",
-      "release_revision": "29d157b1d0959e9645885da81e04a042ce93bf30",
-      "artifact_md5": "43e2504f7b1f9e2ab5b3b7c7b2154b99",
-      "confirmed_at": "2026-10-31T17:13:34+00:00",
-      "note": "Initial manual publication into official 01_TEACHER_GUIDES folder; PDF downloaded from approved GitHub Actions run 41223381285 and Drive readback MD5 matched exactly. Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
+      "release_revision": "0084238e7b3a5ba60839a1c0b3e64064038044db",
+      "artifact_md5": "08c490f2bfa8552c383a8d6d56e9b430",
+      "drive_version": "17",
+      "confirmed_at": "2026-11-03T03:21:34+00:00",
+      "note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
