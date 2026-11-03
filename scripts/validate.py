@@ -256,9 +256,12 @@ try:
         for ref in resource_refs(target['data']):
             record = registry.get(ref, {})
             if not str(record.get('published_url') or record.get('holding_url') or '').startswith('https://'):
-                errors.append(f'{name}: unresolved HTTPS destination for {ref}')
+                if has_official_version(record):
+                    errors.append(f'{name}: invalid published HTTPS destination for {ref}')
+                else:
+                    warnings.append(f'{name}: {ref} has no published/staged link; draft preview is unlinked')
             elif not has_official_version(record):
-                warnings.append(f'{name}: {ref} is not verified current on Drive; preview only')
+                warnings.append(f'{name}: {ref} has no official URL; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')
 try:
