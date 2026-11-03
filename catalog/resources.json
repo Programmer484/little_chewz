@@ -838,17 +838,21 @@
     "title": "Bake & Mystery Challenge",
     "url": "https://drive.google.com/",
     "type": "teacher_resource",
-    "production_type": "external",
+    "production_type": "generated_pdf",
     "source": {
-      "kind": "unknown"
+      "kind": "github",
+      "path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/resources/teacher_companion/showdown-bake-mystery-guide.json"
+    },
+    "build": {
+      "output": "showdown-bake-mystery-guide.pdf"
     },
     "publication": {
       "verification": "unknown"
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage; resource not yet created or staged. Replace with verified resource URL before release.",
-    "pdf_template": null
+    "link_note": "TEMPORARY REVIEW LINK ONLY: Drive homepage. Prototype companion source exists in GitHub; no holding copy staged yet.",
+    "pdf_template": "teacher_companion"
   },
   "ccc-q01-showdown-design-sheet": {
     "title": "Design Your Cupcake Worksheet",
