@@ -46,7 +46,7 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 
 ## How it works
 
-1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only `student_worksheet` resources with trusted official `published_url` Drive file URLs can be fetched in drive mode.
+1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only `student_material` resources with trusted official `published_url` Drive file URLs can be fetched in drive mode.
 2. **Everything is a checkbox, with the guide's defaults pre-ticked.** `GIVE` and unreferenced preparation `core` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
 3. Steps whose worksheets and optional extras would otherwise appear twice share one heading.
 4. The teacher enters the class size once. Each printable resource shows its calculated quantity and a **Change** button. Per-student resources default to one copy per student; per-group resources use the lesson's default students-per-group size (4 unless configured otherwise). Inside **Change**, teachers can enter any valid whole number for **Students per group**, or switch that resource to **Custom copy count** (including 0). Changing a group's size recalculates copies and clears previous custom quantities for that activity. Custom quantities stay fixed when class size changes; choosing Automatic again restores calculation. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
@@ -73,7 +73,7 @@ The print builder reads only `lesson.json` worksheet links and `catalog/resource
 | No guide source yet | Materials coming soon |
 | Guide without student worksheets | No student printing |
 
-Every link to a `student_worksheet`, including `row.links` entries, must have explicit `"quantity": "per_student"` or `"quantity": "per_group"`. A whole class is one group, **not** a third quantity type. Descriptions do not determine copy counts. Missing/invalid quantities fail `python scripts/validate.py`; the builder also fails closed if malformed metadata reaches it.
+Every link to a `student_material`, including `row.links` entries, must have explicit `"quantity": "per_student"` or `"quantity": "per_group"`. A whole class is one group, **not** a third quantity type. Descriptions do not determine copy counts. Missing/invalid quantities fail `python scripts/validate.py`; the builder also fails closed if malformed metadata reaches it.
 
 For a resource with several cards or cutouts per physical sheet, use the existing `"print": {"cards_per_sheet": 4}` in `catalog/resources.json`, counted from the actual PDF. Ordinary worksheets omit the `print` property. For one card per group, five groups with four cards on a sheet need two file copies. Multi-card sheets are placed with shared materials and get empty backs in duplex mode.
 
@@ -107,7 +107,7 @@ If a published worksheet ever needs to stay private, set `REQUIRE_ACCESS` to `"t
 
 In `drive` mode every resource request must pass, in order:
 
-1. Resource ID format check, then: linked from a guide, `student_worksheet`, a valid official Drive `published_url` (anything else gets 404).
+1. Resource ID format check, then: linked from a guide, `student_material`, a valid official Drive `published_url` (anything else gets 404).
 2. **Login, when required:** the Cloudflare Access `Cf-Access-Jwt-Assertion` token is verified against your team's public keys (RS256 signature, audience, issuer, expiry). If a login is required but `ACCESS_TEAM_DOMAIN` or `ACCESS_AUD` is not set, real downloads are **switched off** (503); the only exception is local testing with `LOCAL_DRIVE_TESTING=true` on `localhost`.
 3. Google credentials present (`GOOGLE_SERVICE_ACCOUNT_JSON` secret), else 503.
 4. Drive metadata check: not trashed, a PDF, PNG or JPEG, size within 25 MB.
