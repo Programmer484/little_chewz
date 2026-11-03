@@ -1,7 +1,11 @@
 """Inspector tests: Drive permissions and URL-specific human approval."""
+import io
 import sys
+import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import inspect_publications as audit
@@ -134,6 +138,23 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(report["result"], audit.REVIEW)
         self.assertIn("http_status=403", report["diagnostics"][0])
         self.assertIn("api_reason=insufficientPermissions", report["diagnostics"][0])
+
+    def test_cli_writes_diagnostic_artifact_without_echoing_exception(self):
+        drive = Drive(permissions_error=PermissionError("PRIVATE-TOKEN"))
+        with tempfile.TemporaryDirectory() as temp:
+            report_path = Path(temp) / "inspection-report.json"
+            output = io.StringIO()
+            with (patch.object(audit, "load_registry", return_value={"x": item()}),
+                  patch.object(audit, "drive_service", return_value=drive),
+                  patch.object(sys, "argv", ["inspector", "--report", str(report_path)]),
+                  redirect_stdout(output)):
+                with self.assertRaises(SystemExit) as stopped:
+                    audit.main()
+            self.assertEqual(stopped.exception.code, 0)  # NEEDS REVIEW is not a confirmed FAIL.
+            diagnostics = report_path.with_suffix(".txt").read_text()
+            self.assertIn("operation=permissions.list", diagnostics)
+            self.assertNotIn("PRIVATE-TOKEN", diagnostics)
+            self.assertNotIn("operation=permissions.list", output.getvalue())
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())
