@@ -14,7 +14,6 @@ function fixture(): Inputs {
       sheet: {
         title: "Student sheet",
         type: "student_worksheet",
-        status: "published",
         published_url: "https://drive.google.com/file/d/" + FILE + "/view",
         publication: { drive_file_id: FILE },
       },
@@ -88,9 +87,9 @@ describe("semantic Print Pack CI impact", () => {
     })).toBe(true);
   });
 
-  it("detects resource type, status and availability changes", () => {
+  it("detects resource type and official-link availability changes", () => {
     expect(changed((input) => { input.registry.sheet.type = "teacher_companion"; })).toBe(true);
-    expect(changed((input) => { input.registry.sheet.status = "unpublished"; })).toBe(true);
+    expect(changed((input) => { input.registry.sheet.published_url = null; })).toBe(true);
   });
 
   it("detects quest navigation and lesson availability changes", () => {
