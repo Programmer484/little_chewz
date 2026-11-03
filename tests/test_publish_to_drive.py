@@ -13,6 +13,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import publish_to_drive as pub
 
 FILE_ID = "1w-es-VamWXMfCrr34pRbq59a3ASngEbL"
+LINK_ID = "1aBcDeFgHiJkLmNoPqRsTuVwXyZ01234"
+LINK_URL = f"https://drive.google.com/file/d/{LINK_ID}/view"
 def make_pdf(width=612, height=792):
     pdf = fitz.open()
     pdf.new_page(width=width, height=height)
@@ -29,18 +31,25 @@ class FakeRequest:
         self.result = result
 
     def execute(self):
+        if isinstance(self.result, Exception):
+            raise self.result
         return self.result
 
 
 class FakeFiles:
-    def __init__(self, meta, store_md5=True):
+    def __init__(self, meta, store_md5=True, linked=None):
         self.meta = meta
         self.store_md5 = store_md5
+        self.linked = linked or {}
+        self.requests = []
         self.updates = []
 
     def get(self, fileId, fields, supportsAllDrives):
-        assert fileId == self.meta["id"]
-        return FakeRequest(dict(self.meta))
+        self.requests.append(fileId)
+        if fileId == self.meta["id"]:
+            return FakeRequest(dict(self.meta))
+        value = self.linked.get(fileId, FileNotFoundError(fileId))
+        return FakeRequest(dict(value) if isinstance(value, dict) else value)
 
     def update(self, fileId, media_body, fields, supportsAllDrives):
         data = Path(media_body._filename).read_bytes()
@@ -51,14 +60,24 @@ class FakeFiles:
 
 
 class FakeService:
-    def __init__(self, **meta):
+    def __init__(self, linked=None, private_ids=None, **meta):
         base = {"id": FILE_ID, "name": "Quest_Overview.pdf", "mimeType": "application/pdf",
                 "md5Checksum": "old", "version": "7", "capabilities": {"canEdit": True}}
         base.update(meta)
-        self._files = FakeFiles(base)
+        self._files = FakeFiles(base, linked=linked)
+        self.private_ids = set(private_ids or [])
+        self.permission_checks = []
 
     def files(self):
         return self._files
+
+    def permissions(self):
+        return self
+
+    def list(self, fileId, **kwargs):
+        self.permission_checks.append(fileId)
+        return FakeRequest({"permissions": [{"type": "user" if fileId in self.private_ids
+                                             else "anyone", "role": "reader"}]})
 
 
 class FakeMedia:
@@ -180,6 +199,93 @@ class PublishTests(unittest.TestCase):
 
 
 
+
+
+    def test_prepublication_checks_referenced_drive_resource_and_target(self):
+        registry = json.loads(self.registry.read_text())
+        registry["worksheet"] = {"published_url": LINK_URL}
+        self.write(registry)
+        target = {"ccc-q01-welcome.pdf": {
+            "kind": "welcome", "data": {"navigation": [{"resource": "worksheet"}]}}}
+        service = FakeService(linked={LINK_ID: {"id": LINK_ID, "trashed": False}})
+        with (patch("select_builds.targets", return_value=target),
+              patch.object(pub, "current_revision", return_value="a" * 40)):
+            report = self.run_publish(service)
+        self.assertEqual(service._files.updates, [FILE_ID])
+        self.assertEqual(set(service.permission_checks), {FILE_ID, LINK_ID})
+        self.assertEqual(report["prepublication_inspection"],
+                         {"result": "PASS", "resource_ids": ["ccc-q01-welcome", "worksheet"]})
+
+    def test_prepublication_fails_closed_for_unpublished_references(self):
+        target = {"ccc-q01-welcome.pdf": {
+            "kind": "welcome", "data": {"navigation": [{"resource": "unpublished"}]}}}
+        service = FakeService()
+        with patch("select_builds.targets", return_value=target):
+            with self.assertRaisesRegex(pub.PublishError, "unpublished linked resources"):
+                self.run_publish(service)
+        self.assertEqual(service._files.updates, [])
+
+    def test_prepublication_blocks_private_reference_before_upload(self):
+        registry = json.loads(self.registry.read_text())
+        registry["worksheet"] = {"published_url": LINK_URL}
+        self.write(registry)
+        target = {"ccc-q01-welcome.pdf": {
+            "kind": "welcome", "data": {"navigation": [{"resource": "worksheet"}]}}}
+        service = FakeService(linked={LINK_ID: {"id": LINK_ID}},
+                              private_ids={LINK_ID})
+        with patch("select_builds.targets", return_value=target):
+            with self.assertRaisesRegex(pub.PublishError, "worksheet: FAIL"):
+                self.run_publish(service)
+        self.assertEqual(service._files.updates, [])
+        self.assertEqual(json.loads(self.registry.read_text())["ccc-q01-welcome"]["pdf"],
+                         self.entry["pdf"])
+
+    def test_prepublication_blocks_needs_review_even_in_dry_run(self):
+        registry = json.loads(self.registry.read_text())
+        registry["worksheet"] = {"published_url": LINK_URL}
+        self.write(registry)
+        target = {"ccc-q01-welcome.pdf": {
+            "kind": "welcome", "data": {"navigation": [{"resource": "worksheet"}]}}}
+        service = FakeService(linked={LINK_ID: PermissionError("private API details")})
+        with patch("select_builds.targets", return_value=target):
+            with self.assertRaisesRegex(pub.PublishError, "worksheet: NEEDS REVIEW"):
+                self.run_publish(service, dry_run=True)
+        self.assertEqual(service._files.updates, [])
+
+    def test_prepublication_blocks_unreviewed_external_url(self):
+        registry = json.loads(self.registry.read_text())
+        registry["video"] = {"published_url": "https://example.org/video"}
+        self.write(registry)
+        target = {"ccc-q01-welcome.pdf": {
+            "kind": "welcome", "data": {"navigation": [{"resource": "video"}]}}}
+        service = FakeService()
+        with patch("select_builds.targets", return_value=target):
+            with self.assertRaisesRegex(pub.PublishError, "video: NEEDS REVIEW"):
+                self.run_publish(service)
+            registry["video"]["human_reviewed_url"] = registry["video"]["published_url"]
+            self.write(registry)
+            report = self.run_publish(service, dry_run=True)
+        self.assertEqual(report["prepublication_inspection"]["result"], "PASS")
+        self.assertEqual(service._files.updates, [])
+
+    def test_prepublication_blocks_stale_generated_pdf_dependency(self):
+        registry = json.loads(self.registry.read_text())
+        registry["companion"] = {"published_url": LINK_URL,
+                                 "pdf": {"approved_md5": "a" * 32}}
+        self.write(registry)
+        target = {"ccc-q01-welcome.pdf": {
+            "kind": "welcome", "data": {"navigation": [{"resource": "companion"}]}}}
+        service = FakeService(linked={LINK_ID: {"id": LINK_ID, "md5Checksum": "b" * 32}})
+        with patch("select_builds.targets", return_value=target):
+            with self.assertRaisesRegex(pub.PublishError, "companion: FAIL"):
+                self.run_publish(service)
+        self.assertEqual(service._files.updates, [])
+
+    def test_prepublication_checks_public_access_to_target(self):
+        service = FakeService(private_ids={FILE_ID})
+        with self.assertRaisesRegex(pub.PublishError, "ccc-q01-welcome: FAIL"):
+            self.run_publish(service)
+        self.assertEqual(service._files.updates, [])
 
 
     def test_stale_accepted_revision_is_rejected_before_drive_upload(self):
