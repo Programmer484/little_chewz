@@ -21,7 +21,7 @@ Use this workflow when asked to **revise, fix, or replace an existing resource**
 1. Edit using the original creation tool; do not invent a Python renderer or separate per-resource branch.
 2. Replace the same holding Drive file in place where possible; otherwise stage a new review copy in the verified appropriate holding folder.
 3. Verify ID, MIME, size, URL, visuals, text and links. Slide-specific PDF/PPTX review checks are in [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md).
-4. Save catalogue bookkeeping on the shared lesson branch through its existing PR when available. Preserve the published file, verified `published_url`, compatibility `url` and current publication evidence; do not mark the new draft published.
+4. Save catalogue bookkeeping on the shared lesson branch through its existing PR when available. Preserve the published file, verified `published_url`, compatibility `url` and current publication evidence; a new holding URL distinct from the official URL derives a pending update; do not replace the official link.
 
 ## Finish
 
