@@ -1,6 +1,6 @@
 # Publication inspection — Drive sharing + human link review
 
-**Scope:** Published resources except classroom slide decks. Inspection does not publish, modify Drive, or alter catalogue statuses.
+**Scope:** All resources with an official `published_url`, **including pending replacements**, except classroom slide decks. The inspector validates the existing live destination and never publishes, modifies Drive or calculates resource delivery status.
 
 - **Standard Google Drive links** (even when human-reviewed): confirm the exact file is accessible to the service account, is not in Trash, and has `anyone` viewing permission. No folder placement, PDF bytes, checksums, or content correctness checks.
 - **Non-Google-Drive links:** human review only. No automated website probing.
@@ -11,6 +11,6 @@
 - **Classroom slides:** skip slide-deck links entirely. Published PPTX files are kept in the official slide folder; their source PDFs in `holding_url`/`pdf_url` are unpublished review copies. Neither is checked by the publication inspector.
 - **Fail fast within a resource** but continue through the catalogue to collect every other issue and review link.
 
-The GitHub Actions summary is one table with failures and URLs awaiting human review; successful resources are omitted. A run fails only for a confirmed FAIL. Outstanding human reviews remain visible but do not falsely fail the workflow.
+A separate generated-PDF checksum comparison derives pending publication when a current source PDF is built; link inspection does not determine source parity. The GitHub Actions summary is one table with failures and URLs awaiting human review; successful resources are omitted. A run fails only for a confirmed FAIL. Outstanding human reviews remain visible but do not falsely fail the workflow.
 
 Generated-PDF publication itself still performs its existing source checksum and Drive read-back checks in `publish_to_drive.py`. Those publishing safeguards are distinct from link inspection.
