@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from publish_to_drive import drive_service, load_registry
-from publication_state import has_official_version, publication_status
+from publication_state import has_official_version
 
 PASS = "PASS"
 FAIL = "FAIL"
@@ -108,7 +108,7 @@ def audit(registry: dict, folders=None, service=None, builder=None,
                 result = state
                 if state == FAIL:
                     break  # Fail fast for this resource; still report the other resources.
-        report.append({"resource_id": rid, "publication_status": publication_status(resource), "result": result, "issues": issues})
+        report.append({"resource_id": rid, "result": result, "issues": issues})
     overall = FAIL if any(r["result"] == FAIL for r in report) else (
         REVIEW if any(r["result"] == REVIEW for r in report) else PASS)
     return {"read_only": True, "result": overall, "resources": report}
