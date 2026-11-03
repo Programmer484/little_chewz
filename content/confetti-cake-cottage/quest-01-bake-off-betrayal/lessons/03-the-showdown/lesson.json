@@ -13,7 +13,8 @@
   ],
   "core": [
     {
-      "ref": "ccc-q01-showdown-slides"
+      "ref": "ccc-q01-showdown-slides",
+      "description": "Review slides"
     }
   ],
   "optional_prep": [
