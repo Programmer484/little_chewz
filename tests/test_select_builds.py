@@ -72,12 +72,11 @@ class SelectionTests(unittest.TestCase):
         path = 'catalog/resources.json'
         rid = 'ccc-q01-set-the-table-slides'
         previous = copy.deepcopy(sb.read_json(path))
-        previous[rid]['status'] = (
-            'unpublished' if previous[rid]['status'] != 'unpublished' else 'published')
+        previous[rid]['publication']['note'] = "A previous note only"
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), [])
 
-        previous[rid]['url'] = 'https://example.com/old-link'
+        previous[rid]['published_url'] = 'https://example.com/old-link'
         consumers = sorted(name for name, target in self.targets.items()
                            if rid in sb.resource_refs(target['data']))
         self.assertTrue(consumers)

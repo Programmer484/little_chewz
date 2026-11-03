@@ -1,18 +1,11 @@
-"""Resolve resource links from the catalogue.
-
-Published resources always use their official published_url, in previews and
-releases alike. Draft preview links may use a genuine holding file; a release
-never links to unpublished resources.
-"""
-
-
+"""Select official URLs for any released resource; draft links are preview-only."""
 def resolve_url(record: dict, release: bool = False) -> str | None:
-    if record.get("status") == "published":
-        # Never silently substitute a holding or legacy link for a published one.
-        return record.get("published_url")
+    if record.get("published_url"):
+        return record["published_url"]
     if release:
         return None
-    return record.get("holding_url") or record.get("published_url") or record.get("url")
+    # Legacy url preserves old draft pointers without making them "published".
+    return record.get("holding_url") or record.get("url")
 
 
 def resolved_registry(registry: dict, release: bool = False) -> dict:

@@ -14,7 +14,7 @@ python scripts/renderers/welcome.py \
 
 ## Navigation links
 
-`nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry is `pending_publish` or `published` with an HTTPS URL; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
+`nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry has an official HTTPS `published_url`; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
 
 ## Fonts
 

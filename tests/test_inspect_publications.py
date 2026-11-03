@@ -48,7 +48,7 @@ class Drive:
 
 
 def item(url=U, **kwargs):
-    return {"status": "published", "published_url": url, **kwargs}
+    return {"published_url": url, **kwargs}
 
 
 class InspectionTests(unittest.TestCase):
@@ -120,8 +120,14 @@ class InspectionTests(unittest.TestCase):
         self.assertNotIn("`pass`", summary)
         self.assertIn("`review`", summary)
 
+    def test_pending_external_release_still_inspected(self):
+        item_with_draft = item(holding_url=V, production_type="external")
+        report = audit.audit({"x": item_with_draft}, service=Drive())
+        self.assertEqual(len(report["resources"]), 1)
+        self.assertEqual(report["result"], audit.PASS)
+
     def test_unpublished_skipped(self):
-        self.assertEqual(audit.audit({"x": {"status": "unpublished", "published_url": VIDEO}})["resources"], [])
+        self.assertEqual(audit.audit({"x": {"published_url": None, "url": VIDEO}})["resources"], [])
 
 
 if __name__ == "__main__":

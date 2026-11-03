@@ -3,6 +3,7 @@
 from pathlib import Path
 import json,sys,re
 from select_builds import targets, resource_refs, read_json
+from publication_state import has_official_version
 R=Path(__file__).resolve().parents[1]
 def read_registry():
     duplicates = []
@@ -79,8 +80,6 @@ for ref,item in registry.items():
             errors.append(f'{ref}: missing explicit {role} (use null if unknown)')
         elif item[role] is not None and (not isinstance(item[role],str) or not item[role].startswith('https://')):
             errors.append(f'{ref}: {role} must be HTTPS or null')
-    if item.get('status') in {'pending_publish','published'} and not item.get('published_url'):
-        errors.append(f'{ref}: live or pending resource needs an established published_url')
     if item.get('review_mode') not in (None, 'human'):
         errors.append(f'{ref}: review_mode must be human when set')
     reviews = item.get('human_review')
@@ -93,7 +92,7 @@ for ref,item in registry.items():
                 if link not in destinations or state not in {'pending', 'reviewed'}:
                     errors.append(f'{ref}: human_review must refer to a current link with pending/reviewed status')
     public_url = item.get('published_url') or ''
-    if (item.get('status') == 'published' and public_url.startswith('https://')
+    if (has_official_version(item) and public_url.startswith('https://')
             and not public_url.startswith(('https://drive.google.com/', 'https://docs.google.com/'))
             and (not isinstance(reviews, dict) or public_url not in reviews)):
         errors.append(f'{ref}: non-Drive publication requires URL-bound human_review')
@@ -133,17 +132,15 @@ for ref,item in registry.items():
         errors.append(f'{ref}: redundant resource_id; the registry key is the stable ID')
     if 'legacy_alias' in item:
         errors.append(f'{ref}: legacy_alias belongs in archive/2026-10/resource-aliases.json')
-    if item.get('status', 'unpublished') not in STATUSES:
-        errors.append(f'{ref}: invalid status {item.get("status")}')
+    if 'status' in item:
+        errors.append(f'{ref}: obsolete stored resource status; derive from official link and checksum')
     if 'approved_link' in item:
-        errors.append(f'{ref}: obsolete approved_link field; use status')
+        errors.append(f'{ref}: obsolete approved_link field')
     if 'print' in item:
         printing = item['print'] if isinstance(item['print'], dict) else {}
         cards = printing.get('cards_per_sheet')
         if set(printing) != {'cards_per_sheet'} or type(cards) is not int or cards < 2:
             errors.append(f'{ref}: print must be {{"cards_per_sheet": <number of cutouts per sheet, at least 2>}}')
-    if item.get('status') in ('pending_publish','published') and not str(item.get('url','')).startswith('https://'):
-        errors.append(f'{ref}: live/pending resource has no HTTPS URL')
     if item.get('link_note'): warnings.append(f'{ref}: {item["link_note"]}')
 folders_path=R/'catalog/drive_folders.json'
 if not folders_path.is_file():
@@ -249,8 +246,8 @@ for path in R.glob('content/**/resources/**/*.json'):
     if not d.get('resource_id') or d.get('resource_id') not in registry:
         errors.append(f'{path}: companion missing registered resource ID')
     if 'review_status' in d or 'preview_enabled' in d:
-        errors.append(f'{path}: status belongs in catalog/resources.json')
-    if registry.get(d.get('resource_id'),{}).get('status','unpublished')=='unpublished':
+        errors.append(f'{path}: resource status is derived from publication evidence')
+    if not has_official_version(registry.get(d.get('resource_id'), {})):
         warnings.append(f'{path.name}: unpublished companion; preview only')
 for path in R.glob('content/**/story/*.md'):
     if STORY_INSTRUCTIONS not in path.read_text().split('---')[1]:
@@ -278,9 +275,9 @@ try:
     for name, target in registered.items():
         for ref in resource_refs(target['data']):
             record = registry.get(ref, {})
-            if not str(record.get('url', '')).startswith('https://'):
+            if not str(record.get('published_url') or record.get('holding_url') or record.get('url') or '').startswith('https://'):
                 errors.append(f'{name}: unresolved HTTPS destination for {ref}')
-            elif record.get('status','unpublished')!='published':
+            elif not has_official_version(record):
                 warnings.append(f'{name}: {ref} is not verified current on Drive; preview only')
 except (ValueError, KeyError, OSError) as exc:
     errors.append(f'PDF registration/eligibility: {exc}')

@@ -6,7 +6,7 @@ Prototype in chat, then follow the **independent workflow matching the action**.
 
 - **[Create](system/CREATE.md):** for genuinely **new** resources only; stage a review copy in holding and stop before publication.
 - **[Update](system/UPDATE.md):** for **existing** resources; revise on the shared lesson branch, validate, and preserve the live release.
-- **[Publish](system/PUBLISH.md):** after explicit human authorization, deliver the exact reviewed resource, verify the official Drive file, then record `published`. Existing generated PDFs use a guarded release-PR merge within this workflow.
+- **[Publish](system/PUBLISH.md):** after explicit human authorization, deliver the exact reviewed resource, verify the official Drive file, then save the official URL and approved checksum; resource status derives automatically. Existing generated PDFs use a guarded release-PR merge within this workflow.
 
 Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unless you explicitly request a separate task branch. No chat slash-command integration exists; ordinary GitHub merges and previews do not publish.
 
@@ -45,7 +45,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 
 Follow `catalog/quests.json` → the quest's `quest.json` (lesson status and folder) → `lessons/<stage>/lesson.json` when it exists. An optional short `stage.json` is historical provenance only, not a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
 
-Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Read lifecycle status before publishing: a folder or URL does not prove its latest source is live.
+Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Derive lifecycle status from official URL / holding URL or generated checksum before publishing: a folder or URL does not prove its latest source is live.
 
 ## Current capabilities
 

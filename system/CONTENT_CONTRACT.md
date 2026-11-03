@@ -14,9 +14,9 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
 | Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
 | Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
-| Companion blocks | `resources/teacher_companion/*.json` within the quest; status is in the resource registry |
+| Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
 | Raw stories and letters | `story/*.md` within the quest |
-| Stable IDs, production method, holding/published URLs, build records, and linked-resource delivery status | `catalog/resources.json` |
+| Stable IDs, production method, holding/published URLs, builds and publication evidence | `catalog/resources.json` |
 | Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/welcome/` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
@@ -58,27 +58,29 @@ Each catalogue resource has an explicit `production_type`, independent of its `t
 | `production_type` | Python-generated PDF or external creation |
 | `source` | GitHub path, known external original, or explicitly unknown provenance |
 | `build` | Required only for generated PDFs, resolved against `scripts/select_builds.py.targets()` |
-| `holding_url` | Optional temporary review file URL for unpublished/draft content. Clear it when a non-slide resource is published; retain only an actual separate slide-review asset when needed. Not proof of publication. |
+| `holding_url` | Optional staged replacement/draft URL. For non-generated resources, a distinct holding file means an update is pending. Clear it when the approved replacement goes live. Same Drive file ID is not a distinct draft. |
 | `published_url` | Verified official destination; may be the **same URL as the former holding URL** if the same file was moved without changing its Drive ID |
-| `url` | Backward-compatible link. **Any resource marked `published` always renders `published_url`**, even in review PDFs; draft previews may use `holding_url` or `url`. Published resources without `published_url` must not silently fall back to other links. |
+| `url` | Legacy compatibility link; never establishes publication. If `published_url` exists, **both preview and release** link only to it; otherwise a draft preview may use `holding_url` or `url`. |
 | `publication` | Explicit evidence/uncertainty: verification, method, confirmed revision/version, file ID, and generated-PDF MD5 only when actually checked |
 | `human_review` | Exact-URL map: `{"https://...": "pending"}` or `reviewed`. Required for published non-Drive links; optional for standard Drive or generated links. Approval is invalidated when the URL changes. |\n| `review_mode` | Optional `human` for externally owned Drive links, bypassing automated Drive checks. Human review does not bypass checks for ordinary Drive links. |\n| `print` | Optional, student worksheets only: `{"cards_per_sheet": N}` when each page holds N identical cards, counted from the actual file. Read by the [Print Pack Builder](../apps/AGENTS.md) to print sheets instead of one page per card. |
 
-When an externally published resource is converted to `generated_pdf`, keep its status, live URL and `external_agent` publication evidence unchanged; the validator accepts that evidence without a digest until the next verified generated release replaces the file in place. For legacy resources whose Drive history is uncertain, preserve existing links, notes and delivery status; record publication verification as `unverified` or `unknown` rather than inventing a digest or pretending a historic upload was confirmed.
+When an externally published resource is converted to `generated_pdf`, keep its live URL and `external_agent` publication evidence unchanged; the validator accepts that evidence without a digest until the next verified generated release replaces the file in place. For legacy resources whose Drive history is uncertain, preserve existing links, notes and delivery status; record publication verification as `unverified` or `unknown` rather than inventing a digest or pretending a historic upload was confirmed.
 
-Only three delivery states are valid:
+Resource delivery has **three derived states**; never store a separate resource `status` field:
 
-| Status | Python-generated PDF | External resource |
-| --- | --- | --- |
-| `unpublished` | No confirmed official version exists; holding-only copies remain drafts | In holding or not confirmed live |
-| `pending_publish` | A previously live PDF exists but accepted source update has not been checksum-verified at Drive | Older live version exists; agent-managed update is awaiting verification |
-| `published` | Exact accepted PDF bytes and intended Drive file ID have been verified | Agent has confirmed official destination and recorded publication |
+| Derived state | Rule |
+| --- | --- |
+| `unpublished` | No `published_url` |
+| `pending_publish` | An official URL exists **and** a distinct holding file exists (external resources), or the current GitHub-generated PDF MD5 differs from the approved `publication.artifact_md5` (generated PDFs) |
+| `published` | An official URL exists and no pending change was detected |
 
-Human approval is a decision, **not another status**. Editing a draft branch never changes a previously published resource. Merging an accepted generated-PDF change is not itself publication; only verified Drive read-back allows the publication record to advance. Subsequent generated-PDF publications persist the exact build MD5 and accepted Git revision. Externally made files have no repository build checksum; manual verification must not assert content parity without evidence.
+Compare holding and published **Drive file IDs**, not incidental sharing URL parameters. For generated PDFs, the current PDF must be built before comparing MD5. Run `python scripts/publication_state.py` (or `--resource-id <id>`) for a read-only, source-built status report. A missing approved/current checksum is **unknown parity**, not proof of a match; inspection and publication approval handle that separately. The official resource remains available while an update is pending.
 
-**One status owner:** lesson-source status lives in `quest.json.learning_sequence[].status`; linked-resource status and publication records live in `catalog/resources.json[<stable-id>]`. A lesson and a separately published Teacher Guide can legitimately have different status. Stable file URLs do not determine status; verified official placement does. No duplicate status in `lesson.json`, `stage.json` or companion JSON. Preserve established file IDs and slideshow pairing.
+**Human approval remains mandatory.** Staging or a checksum change never publishes a resource. The publisher retains the established official file ID, checks Drive read-back, then saves the new approved MD5. External publication records an official link only after verification; clear the holding link after release. For legacy uncertain records, retain explicit verification uncertainty, never invent approval.
 
-Publication procedures, release checks, and the timing of status updates belong exclusively to [PUBLISH.md](PUBLISH.md). For generated guides and companions, the publisher automatically blocks release while **any referenced catalogue item** is not `published` with an official URL. This contract defines identity and status, not a release authorization. On-demand inspection is read-only and checks Google Drive public permissions or requests human review of a specific external URL, as described in [INSPECTION.md](INSPECTION.md). There is no external auto-publisher, scripted `/create` engine, scheduled inspector or configured publishing slash command.
+**Separate lesson status:** `quest.json.learning_sequence[].status` is the editorial lesson lifecycle and remains stored. Resource publication state is calculated by `scripts/publication_state.py` from `catalog/resources.json`, not stored. A lesson and its Teacher Guide may have different states.
+
+Publishing and initial official-link authorization belong to [PUBLISH.md](PUBLISH.md). Generated guides/companions require every linked resource to have an official URL, even if its next version is pending. Inspection checks the existing published destination independently of whether a newer version is staged. There is no external auto-publisher or scheduled inspector.
 
 ## Source authority
 

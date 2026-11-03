@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 from publish_to_drive import drive_service, load_registry
+from publication_state import has_official_version
 
 PASS = "PASS"
 FAIL = "FAIL"
@@ -86,7 +87,7 @@ def audit(registry: dict, folders=None, service=None, builder=None,
     report = []
     credentials_checked = service is not None
     for rid, resource in registry.items():
-        if resource.get("status") != "published" or (only and rid != only):
+        if not has_official_version(resource) or (only and rid != only):
             continue
         # Classroom slide PPTX files are human approved; linked PDFs remain holding copies.
         if resource.get("type") == "slide_deck":
