@@ -25,7 +25,7 @@ const reg: RegistryLike = {
   bonus: { title: "Bonus", type: "student_material" },
   prep: { title: "Prep Only", type: "student_material" },
   slides: { title: "Slides", type: "classroom_slides" },
-  key: { title: "Answer Key", type: "teacher_companion" },
+  key: { title: "Answer Key", type: "teacher_resource" },
 };
 const guide: LessonSource = {
   core: [
