@@ -935,10 +935,10 @@
       "verification": "verified",
       "method": "generated_pdf",
       "drive_file_id": "17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5",
-      "release_revision": "29d157b1d0959e9645885da81e04a042ce93bf30",
-      "artifact_md5": "43e2504f7b1f9e2ab5b3b7c7b2154b99",
-      "confirmed_at": "2026-10-31T17:13:34+00:00",
-      "note": "Initial manual publication into official 01_TEACHER_GUIDES folder; PDF downloaded from approved GitHub Actions run 41223381285 and Drive readback MD5 matched exactly."
+      "release_revision": "0084238e7b3a5ba60839a1c0b3e64064038044db",
+      "artifact_md5": "08c490f2bfa8552c383a8d6d56e9b430",
+      "drive_version": "17",
+      "confirmed_at": "2026-11-03T03:21:34+00:00"
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
