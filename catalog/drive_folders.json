@@ -8,7 +8,7 @@
     "generated_pdf": {
       "folder_id": "1wPdelGnXWcE9IlF5y-qTfk84gzNDSIxY",
       "name": "PDF-generated resources",
-      "note": "Teacher Guides only; generated companions belong under 04_EXTRA_RESOURCES/Other resources."
+      "note": "Teacher Guides only; generated companions belong under 04_TEACHER_RESOURCES/Other resources."
     },
     "worksheets": {
       "folder_id": "1Vw5abDxMojq9IDQ7XXIkOb1ODU1HLtun",
@@ -41,9 +41,9 @@
         "folder_id": "1vCShrtxj38R3fnRe4mPGwfUZ8goVn5Jf",
         "name": "03_STUDENT_MATERIALS"
       },
-      "04_EXTRA_RESOURCES": {
+      "04_TEACHER_RESOURCES": {
         "folder_id": "1YEUMNc-MjAvd7CSIR6iRt4arGU6iX-Ic",
-        "name": "04_EXTRA_RESOURCES"
+        "name": "04_TEACHER_RESOURCES"
       }
     }
   },
