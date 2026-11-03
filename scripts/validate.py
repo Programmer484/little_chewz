@@ -220,7 +220,7 @@ for path in lesson_paths:
             for link in row.get('links',[]):check_ref(link['ref'],path)
     if ids!=list(range(1,len(ids)+1)): errors.append(f'{path}: step IDs not consecutive')
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
-ACTIVITY_SECTIONS=('Before class','How it runs','Choose one','If ','Look for')
+ACTIVITY_SECTIONS=('Before class','Choose one','How it runs','Tips')
 def activity_guide_errors(doc):
     """Sources with "template": "activity_guide" keep the shape of
     templates/activity_guide/TEMPLATE.json (see RESOURCE_GUIDELINES.md)."""
@@ -236,12 +236,12 @@ def activity_guide_errors(doc):
         if typ!='heading': continue
         seen_heading=True
         text=block.get('text','')
-        rank=next((i for i,name in enumerate(ACTIVITY_SECTIONS) if text==name or (name in ('Choose one','If ') and text.startswith(name))),None)
-        if rank is None: errs.append(f'activity guide section {text!r} is not one of Before class, How it runs, Choose one …, If …, Look for')
+        rank=next((i for i,name in enumerate(ACTIVITY_SECTIONS) if text==name or (name=='Choose one' and text.startswith(name))),None)
+        if rank is None: errs.append(f'activity guide section {text!r} is not one of Before class, Choose one …, How it runs, Tips')
         else: ranks.append(rank)
     if ranks!=sorted(ranks) or len(ranks)!=len(set(ranks)):
         errs.append('activity guide sections must appear once each, in template order')
-    for required in (1,4):
+    for required in (2,):
         if required not in ranks: errs.append(f'activity guide needs a {ACTIVITY_SECTIONS[required]!r} section')
     return errs
 for path in R.glob('content/**/resources/**/*.json'):

@@ -251,6 +251,12 @@
     "published_url": null,
     "holding_url": null
   },
+  "ccc-q01-showdown-overview": {
+    "title": "Showdown Challenges",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": null
+  },
   "ccc-q01-showdown-design-guide": {
     "title": "Design Challenge",
     "type": "teacher_resource",

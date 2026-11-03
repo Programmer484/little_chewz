@@ -665,12 +665,11 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 
 A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/activity_guide/TEMPLATE.json` (`"template": "activity_guide"`), which fixes the section names and order; `scripts/validate.py` checks the sections, their order and the absence of spacer blocks. Activity guides use the companion renderer (catalogue `pdf.renderer`: `teacher_companion`). Keep every activity guide in that shape so a teacher who has used one can scan the next:
 
-- **Sections, in this order, each only when needed:** `Before class` (materials and setup that need lead time) → `How it runs` (timed `steps` for the guide steps it expands, each `tag` naming that step) → `Look for` (two or three `check` items from the activity's success criteria). An option-specific choice, such as a list of twists, may sit before `Look for`.
-- **Write from what goes wrong.** Walk the activity step by step and note what is easiest to miss or most likely to fail: timing, supplies, logistics, safety. Put the preparation it needs in `Before class` and the fix in the step itself. Leave out generic classroom management, such as dominant voices or frustration; teachers already handle it.
-- **Tips are optional and rare.** Add a short `If …` section only for a situation specific to this activity whose fix is not obvious, in one or two lines. Most guides need none; generic classroom management never qualifies.
-- **Repeat nothing** from the Teacher Guide (launch, clean-up, debrief, printing, student-resource links, option totals) or from the student materials (missions on cards, recipe quantities). The meta line names the guide steps it expands and their time.
-- **One page by default.** Only activities with safety risks, such as food or ovens, go longer, and then to cover everything the teacher must check so they don't have to think of it themselves. Only these use a `callout`.
-- Apply the test from the Teacher Guide's Preparation rule to every line: would a teacher get this wrong, or have to improvise, without it?
+- **Where things live.** The lesson's overview one-pager holds each option's key restrictions, prep and notes for choosing. The Teacher Guide holds the launch, clean-up, debrief, cards and links. The activity guide holds only how to prepare and run its option.
+- **Sections, in this order:** `Before class` (what to buy, prepare or set up) → `Choose one …` (optional: a route or twist the teacher picks before class) → `How it runs` (timed `steps`, each saying only what happens) → `Tips` (optional `pairs`: the non-obvious fixes). A `Safety first` callout, only for food, ovens or hot equipment, comes before them all.
+- **Keep steps clean.** A step is one or two short sentences of what happens. Timing, logistics and other notes go in `Tips`, each in one line, and only when a teacher would otherwise get it wrong. Generic classroom management never qualifies.
+- **Repeat nothing** from the overview, the Teacher Guide or the student materials unless it is safety-critical. The meta line names the guide step it expands and its time.
+- **Essentials only.** One page by default; never add content to fill space. Activities with food or ovens may go longer to cover everything the teacher must check.
 
 ### Source and generation
 

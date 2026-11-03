@@ -5,8 +5,8 @@
   "kind": "instructions",
   "option": "C/D",
   "meta": [
-    "Expands Teacher Guide steps 2 and 3",
-    "About 45–50 min, plus each extra oven load"
+    "Expands Teacher Guide step 2",
+    "45–60 min"
   ],
   "blocks": [
     {
@@ -22,40 +22,11 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Book the oven and an adult for the whole session. Check how many pans fit at once: each extra load adds 20–25 min",
+        "Book the oven and an adult for the whole session; check how many pans fit at once",
         "Confirm whether students may eat what they bake, and when; cupcakes won’t be cool by the end of the session",
         "Shop from the recipe card: one recipe per team makes about 12–18 standard cupcakes",
-        "Give each team its own bowl, square pan (recipe step 3), measuring cups and spoons, fork and cupcake pan; shared tools cause most delays",
-        "Put liners in the pans and label each pan with its team’s name",
-        "Hand-washing and cleaning supplies, oven mitts, warm water, and a spot out of reach for hot pans to cool",
-        "Mystery: choose one twist (below) and set it out before class"
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "How it runs"
-    },
-    {
-      "type": "steps",
-      "items": [
-        {
-          "title": "Roles",
-          "tag": "Guide step 2",
-          "mins": "5 min",
-          "text": "An adult switches the oven to 350°F (175°C) now; it takes 10–15 min to heat. Teams pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew. Small teams combine roles. Everyone washes hands."
-        },
-        {
-          "title": "Measure and mix",
-          "tag": "Guide step 3 · C/D",
-          "mins": "20 min",
-          "text": "Mystery: reveal the twist first. Teams follow the recipe, level off dry measures, and fill liners about ¾ full. Finished teams wait at their station, not at the oven."
-        },
-        {
-          "title": "Bake",
-          "tag": "Guide step 3 · C/D",
-          "mins": "20–25 min",
-          "text": "An adult loads and unloads the oven and checks with a toothpick at 20 min. Teams wash up while they wait. Hot pans go straight to the cooling spot."
-        }
+        "Give each team its own labelled cupcake pan with liners, bowl, square pan, measuring cups and spoons, and fork",
+        "Hand-washing and cleaning supplies, oven mitts, and a safe spot for hot pans"
       ]
     },
     {
@@ -78,21 +49,50 @@
           "text": "Only after the allergy check above; set out one portion per team."
         },
         {
-          "term": "Icing colour or design rule",
+          "term": "Icing or design rule",
           "text": "Only if teams decorate in a later session, once the cupcakes are cool."
         }
       ]
     },
     {
       "type": "heading",
-      "text": "Look for"
+      "text": "How it runs"
     },
     {
-      "type": "checklist",
-      "style": "check",
+      "type": "steps",
       "items": [
-        "Students follow their roles and support each other.",
-        "Mystery: teams adapt to the twist without unapproved ingredients."
+        {
+          "title": "Roles",
+          "mins": "5 min",
+          "text": "Teams pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew. Everyone washes hands."
+        },
+        {
+          "title": "Measure and mix",
+          "mins": "20 min",
+          "text": "Mystery: reveal the twist. Teams follow the recipe and fill liners about ¾ full."
+        },
+        {
+          "title": "Bake",
+          "mins": "20–35 min",
+          "text": "An adult bakes each load for 20–25 min and checks with a toothpick."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Tips"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Preheat early",
+          "text": "Switch the oven to 350°F (175°C) at the start; it takes 10–15 min to heat."
+        },
+        {
+          "term": "Oven queue",
+          "text": "Each extra load adds 20–25 min. Teams wait and wash up at their station, not at the oven."
+        }
       ]
     }
   ],

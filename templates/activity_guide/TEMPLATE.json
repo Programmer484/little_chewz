@@ -7,8 +7,8 @@
   "kind": "instructions",
   "option": "A",
   "meta": [
-    "Expands Teacher Guide steps 2 and 3",
-    "About 25–35 min"
+    "Expands Teacher Guide step 2",
+    "20–30 min"
   ],
   "stage": "00-activate",
   "blocks": [
@@ -25,22 +25,7 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "What to buy, prepare or set up, with why it is easy to miss"
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "How it runs"
-    },
-    {
-      "type": "steps",
-      "items": [
-        {
-          "title": "Step title",
-          "tag": "Guide step 2",
-          "mins": "5 min",
-          "text": "What happens, then the timing or logistics note that keeps this step on track."
-        }
+        "What to buy, prepare or set up"
       ]
     },
     {
@@ -52,29 +37,37 @@
       "items": [
         {
           "term": "Choice",
-          "text": "What it needs or when to use it. Optional: only for an option-specific choice, such as a twist."
+          "text": "What it needs. Optional: only when the teacher picks a route or twist before class."
         }
       ]
     },
     {
       "type": "heading",
-      "text": "If …"
+      "text": "How it runs"
     },
     {
-      "type": "paragraph",
-      "text": "Optional and rare: one activity-specific situation whose fix is not obvious, in one or two lines."
+      "type": "steps",
+      "items": [
+        {
+          "title": "Step title",
+          "mins": "5 min",
+          "text": "What happens, in one or two short sentences. Notes go in Tips."
+        }
+      ]
     },
     {
       "type": "heading",
-      "text": "Look for"
+      "text": "Tips"
     },
     {
-      "type": "checklist",
-      "style": "check",
+      "type": "pairs",
       "items": [
-        "Two or three items from the activity's success criteria."
+        {
+          "term": "Situation",
+          "text": "The non-obvious fix, in one line. Optional; only what a teacher would otherwise get wrong."
+        }
       ]
     }
   ],
-  "source_note": "Activity guide skeleton; see the Activity guides section of system/RESOURCE_GUIDELINES.md. Keep the section names and order; delete the optional sections (Safety first, Choose one, If) when not needed. Do not add spacer blocks: the renderer spaces sections."
+  "source_note": "Activity guide skeleton; see the Activity guides section of system/RESOURCE_GUIDELINES.md. Keep the section names and order; delete optional sections (Safety first, Choose one, Tips) when not needed. The Showdown-style overview one-pager holds restrictions and choosing; the Teacher Guide holds launch, clean-up and debrief. Do not add spacer blocks: the renderer spaces sections."
 }

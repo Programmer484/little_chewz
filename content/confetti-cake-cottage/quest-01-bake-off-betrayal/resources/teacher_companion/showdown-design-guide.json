@@ -5,8 +5,8 @@
   "kind": "instructions",
   "option": "A",
   "meta": [
-    "Expands Teacher Guide steps 2 and 3",
-    "About 25–35 min"
+    "Expands Teacher Guide step 2",
+    "20–30 min"
   ],
   "blocks": [
     {
@@ -17,9 +17,8 @@
       "type": "checklist",
       "style": "box",
       "items": [
-        "Blank paper for each student’s solo sketch; the worksheet is one per team",
-        "One set of pencils, markers and coloured pencils per team, so no team waits to share",
-        "A timer everyone can see; the steps are short"
+        "Blank paper for each student",
+        "Pencils, markers and coloured pencils for each team"
       ]
     },
     {
@@ -31,42 +30,40 @@
       "items": [
         {
           "title": "Sketch alone",
-          "tag": "Guide step 2",
           "mins": "3–5 min",
-          "text": "Each student sketches one idea in silence, or tells you it. Say it’s a quick idea, not a finished drawing, and give a one-minute warning."
+          "text": "Each student sketches one idea, without talking."
         },
         {
           "title": "Share ideas",
-          "tag": "Guide step 3 · A",
           "mins": "5–8 min",
-          "text": "About a minute each: show the sketch, then teammates name one idea to keep. Time each turn, or the first speaker uses up the slot."
+          "text": "Each student shows their sketch; teammates name one idea to keep."
         },
         {
-          "title": "Agree and design",
-          "tag": "Guide step 3 · A",
-          "mins": "15–22 min",
-          "text": "The team draws ONE cupcake on its worksheet and labels three teamwork qualities. Keep the solo sketches on the table, and pass the worksheet so each student adds a part. At the halfway point every team should be drawing, not still debating."
+          "title": "Design together",
+          "mins": "12–17 min",
+          "text": "The team draws ONE cupcake on its worksheet and labels three teamwork qualities."
         }
       ]
     },
     {
       "type": "heading",
-      "text": "If a team can’t agree"
+      "text": "Tips"
     },
     {
-      "type": "paragraph",
-      "text": "Build one cupcake from parts: the base from one sketch, the frosting from another, a topping from a third."
-    },
-    {
-      "type": "heading",
-      "text": "Look for"
-    },
-    {
-      "type": "checklist",
-      "style": "check",
+      "type": "pairs",
       "items": [
-        "Every student’s idea shows up in the team cupcake.",
-        "Three teamwork qualities, such as communication, inclusion, creativity, trust or collaboration."
+        {
+          "term": "Quick sketches",
+          "text": "An idea, not a finished drawing. Give a one-minute warning."
+        },
+        {
+          "term": "Timed sharing",
+          "text": "About a minute each, or the first speaker uses up the slot."
+        },
+        {
+          "term": "No agreement",
+          "text": "Build one cupcake from parts: the base from one sketch, the frosting from another."
+        }
       ]
     }
   ],

@@ -5,9 +5,8 @@
   "kind": "instructions",
   "option": "B",
   "meta": [
-    "Expands Teacher Guide steps 2 and 3",
-    "About 35–50 min",
-    "No oven"
+    "Expands Teacher Guide step 2",
+    "30–45 min"
   ],
   "blocks": [
     {
@@ -15,27 +14,30 @@
       "text": "Before class"
     },
     {
-      "type": "pairs",
-      "items": [
-        {
-          "term": "Food route",
-          "text": "Premade cupcakes; frosting and decorations of your choice; spreading tools, plates and wipes."
-        },
-        {
-          "term": "Craft route (proposed)",
-          "text": "Paper liners, a card base, tissue paper or cotton balls for frosting, markers or stickers. Glue the base into the liner, add the frosting, then decorate."
-        }
-      ]
-    },
-    {
       "type": "checklist",
       "style": "box",
       "items": [
         "Food: buy cupcakes no more than a day ahead, one per student plus a few spares",
-        "Food: bring frosting to room temperature; cold frosting tears the cupcake tops",
-        "Portion decorations into a cup or plate per team, so teams don’t crowd one supply",
-        "Craft: pre-cut the card bases and use glue sticks or tape; liquid glue won’t dry in time",
-        "Decide before class whether students eat, take home or display their cupcakes"
+        "Food: bring frosting to room temperature; cold frosting tears the tops",
+        "Portion decorations into a cup or plate per team",
+        "Decide whether students eat, take home or display their cupcakes"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Choose one route"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Food",
+          "text": "Premade cupcakes; frosting and decorations of your choice; spreading tools, plates and wipes."
+        },
+        {
+          "term": "Craft (proposed)",
+          "text": "Paper liners, pre-cut card bases, tissue paper or cotton balls for frosting, markers or stickers, glue sticks or tape."
+        }
       ]
     },
     {
@@ -46,35 +48,37 @@
       "type": "steps",
       "items": [
         {
-          "title": "Everyone adds an idea",
-          "tag": "Guide step 2",
+          "title": "Share ideas",
           "mins": "5 min",
-          "text": "Each student names or sketches one idea on scrap paper before the team talks."
+          "text": "Each student names or sketches one decorating idea."
         },
         {
           "title": "Plan and roles",
-          "tag": "Guide step 3 · B",
           "mins": "10 min",
-          "text": "The team agrees one design that uses part of each idea, and picks roles: Leader, Supply Manager, Timekeeper, Clean-Up Crew. Decorations stay closed until you have checked the plan."
+          "text": "The team agrees one design that uses part of each idea, and picks roles: Leader, Supply Manager, Timekeeper, Clean-Up Crew."
         },
         {
           "title": "Decorate together",
-          "tag": "Guide step 3 · B",
-          "mins": "20–35 min",
-          "text": "Food route: hands washed before decorations go out. Call time five minutes early; frosting takes longer to clean up than teams expect."
+          "mins": "15–30 min",
+          "text": "Food: everyone washes hands. Teams decorate to their plan."
         }
       ]
     },
     {
       "type": "heading",
-      "text": "Look for"
+      "text": "Tips"
     },
     {
-      "type": "checklist",
-      "style": "check",
+      "type": "pairs",
       "items": [
-        "A shared plan before decorating.",
-        "Cupcakes that show part of every member’s idea."
+        {
+          "term": "Plan first",
+          "text": "Keep decorations closed until you have checked the team’s plan."
+        },
+        {
+          "term": "Clean-up",
+          "text": "Call time five minutes early; frosting takes longer to clean up than teams expect."
+        }
       ]
     }
   ],
