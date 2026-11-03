@@ -179,14 +179,14 @@ describe("the real Teacher Guides", () => {
       const record = registry[id];
       expect(record.type).toBe("student_worksheet");
       const served = catalog.lookup(id, "drive");
-      if (record.status === "published") expect(served?.source).toEqual({ kind: "drive", fileId: (trustedDriveFile(record) as { fileId: string }).fileId });
+      if (record.published_url) expect(served?.source).toEqual({ kind: "drive", fileId: (trustedDriveFile(record) as { fileId: string }).fileId });
       else expect(served).toBeNull();
     }
   });
 
   it("refuses unpublished, mismatched or non-student resources", () => {
     expect(trustedDriveFile(registry["ccc-q01-set-the-table-school-song-activity"])).toMatchObject({ fileId: "1GB56BLfq6Av-KWtwxE1kKiFQjmWBIJl1" });
-    expect(trustedDriveFile({ ...registry["ccc-q01-set-the-table-school-song-activity"], status: "unpublished" })).toEqual({ problem: "status is unpublished, not published" });
+    expect(trustedDriveFile({ ...registry["ccc-q01-set-the-table-school-song-activity"], published_url: null })).toEqual({ problem: "published_url is not a Drive file URL" });
     expect(trustedDriveFile(registry["ccc-q01-set-the-table-kwls-starter"])).toMatchObject({ fileId: "1O6VRLTguA3Cb76k3U5refPd4Hiz7sBoK" });
     expect(trustedDriveFile(registry["ccc-q01-secret-ingredients-teacher-guide"])).toHaveProperty("problem");
     expect(trustedDriveFile(undefined)).toHaveProperty("problem");
