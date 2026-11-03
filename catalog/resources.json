@@ -8,7 +8,6 @@
       "activate",
       "slides"
     ],
-    "status": "published",
     "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
     "pdf_url": "https://drive.google.com/file/d/1l_QwHQPRvKCL_n43xlvTyDHFxQy8poE_/view",
     "powerpoint_file_id": "1ShiqFB8Ac4QiVU3qUOXmQxu14s1UgCom",
@@ -39,7 +38,6 @@
       "activate",
       "read-aloud"
     ],
-    "status": "published",
     "production_type": "external",
     "source": {
       "kind": "github",
@@ -65,7 +63,6 @@
       "passport",
       "print-instructions"
     ],
-    "status": "published",
     "link_note": "This points to School_Pass_Instructions.pdf, not the printable passport pages. Link label/chooser needs editorial review.",
     "production_type": "external",
     "source": {
@@ -91,7 +88,6 @@
       "mascot",
       "display"
     ],
-    "status": "published",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -116,7 +112,6 @@
       "activate",
       "video"
     ],
-    "status": "published",
     "production_type": "external",
     "source": {
       "kind": "external_original",
@@ -141,7 +136,6 @@
       "activate",
       "video"
     ],
-    "status": "published",
     "production_type": "external",
     "source": {
       "kind": "external_original",
@@ -166,7 +160,6 @@
       "activate",
       "historic-log"
     ],
-    "status": "published",
     "production_type": "external",
     "source": {
       "kind": "github",
@@ -192,7 +185,6 @@
       "activate",
       "questions"
     ],
-    "status": "published",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -220,7 +212,6 @@
       "activate",
       "questions"
     ],
-    "status": "published",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -248,8 +239,6 @@
       "activate",
       "guide"
     ],
-    "status": "published",
-    "status_note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -260,7 +249,8 @@
     },
     "publication": {
       "verification": "unverified",
-      "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux"
+      "drive_file_id": "1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux",
+      "note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1hdLHX22__7o8cy0U6zDA3wxfW_9O69Ux/view",
@@ -277,7 +267,6 @@
       "set-the-table",
       "slides"
     ],
-    "status": "published",
     "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
     "powerpoint_file_id": "1PQnFI3ryAvTj70NNKmlWqfbdkOcDUPkd",
     "powerpoint_filename": "01_Set_the_Table_Slides.pptx",
@@ -309,7 +298,6 @@
       "optional",
       "school-song"
     ],
-    "status": "published",
     "link_note": "Published Songwriting Extension companion. Verified existing PDF in the official 04_EXTRA_RESOURCES/01_Set_the_Table folder on 2026-10-31, with anyone-reader sharing; current PDF text matches the editable companion source. No Drive file replacement performed in this update.",
     "production_type": "generated_pdf",
     "source": {
@@ -342,7 +330,6 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "published",
     "link_note": "Standalone two-page KWLS Starter extracted unchanged from pages 7–8 of Quest 1 Student Booklet and uploaded to Set the Table Drive folder. Editorial/access approval not independently verified.",
     "production_type": "external",
     "source": {
@@ -369,7 +356,6 @@
       "preparation",
       "print-pack"
     ],
-    "status": "published",
     "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
@@ -397,7 +383,6 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "published",
     "link_note": "Standalone student-only School Song Activity PDF, existing Drive file confirmed accessible.",
     "production_type": "external",
     "source": {
@@ -422,7 +407,6 @@
       "set-the-table",
       "preparation"
     ],
-    "status": "published",
     "link_note": "Published one-page Our Vocabulary worksheet with 15 words. Renamed from Mission Vocabulary on 2026-11-02; original Drive file ID preserved.",
     "production_type": "external",
     "source": {
@@ -447,7 +431,6 @@
       "set-the-table",
       "teacher-guide"
     ],
-    "status": "published",
     "link_note": "Drive teacher guide was replaced in place; it currently differs from this seven-slide/Which Word Fits? editable draft.",
     "production_type": "generated_pdf",
     "source": {
@@ -459,11 +442,11 @@
     },
     "publication": {
       "verification": "unverified",
-      "drive_file_id": "1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4"
+      "drive_file_id": "1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4",
+      "note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified."
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view",
-    "status_note": "Owner designated this existing Drive guide published on 2026-11-02; link accessible. Match with latest GitHub-generated content is not yet verified.",
     "human_review": {
       "https://drive.google.com/file/d/1jZTCYXENkkc_Ldk4MvGXvx9KLnedV6h4/view": "reviewed"
     }
@@ -478,7 +461,6 @@
       "vocabulary",
       "optional"
     ],
-    "status": "published",
     "link_note": "Two-page printable word cards. The current GitHub teaching flow uses Which Word Fits? instead of cards.",
     "production_type": "external",
     "source": {
@@ -506,7 +488,6 @@
       "teamwork",
       "vocabulary"
     ],
-    "status": "published",
     "link_note": "Student-facing Team Builder Word Sorting Worksheet in the Set the Table Drive folder. Partners sort words that help or challenge teams, choose their top three, and explain why.",
     "production_type": "external",
     "source": {
@@ -534,7 +515,6 @@
       "audio",
       "preview"
     ],
-    "status": "published",
     "link_note": "User-provided direct audio link; file verified as Triple C. mp3 (audio/mpeg). External sharing not separately verified.",
     "production_type": "external",
     "source": {
@@ -561,12 +541,10 @@
       "overview",
       "navigation"
     ],
-    "status": "published",
     "build": {
       "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json"
     },
-    "status_note": "2026-10-26: production acceptance tested via authorized PRs #65, #67, and #68. A changed Welcome PDF was replaced in place and then the exact original source and published PDF bytes were restored. Final confirmed PDF MD5: f580361687172d6b0da5dbae7cc67414; existing Drive file ID preserved, final Drive version 38.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -579,7 +557,8 @@
       "release_revision": "685df51222da6f50e726e4229b39a8b5f948a0ca",
       "artifact_md5": "f580361687172d6b0da5dbae7cc67414",
       "drive_version": "38",
-      "confirmed_at": "2026-10-27T03:32:39+00:00"
+      "confirmed_at": "2026-10-27T03:32:39+00:00",
+      "note": "2026-10-26: production acceptance tested via authorized PRs #65, #67, and #68. A changed Welcome PDF was replaced in place and then the exact original source and published PDF bytes were restored. Final confirmed PDF MD5: f580361687172d6b0da5dbae7cc67414; existing Drive file ID preserved, final Drive version 38."
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1w-es-VamWXMfCrr34pRbq59a3ASngEbL/view",
@@ -596,7 +575,6 @@
       "secret-ingredients",
       "investigation"
     ],
-    "status": "published",
     "link_note": "Historical direct-video link; lesson-specific slides are not yet verified.",
     "production_type": "external",
     "source": {
@@ -622,7 +600,6 @@
       "secret-ingredients",
       "chapter-one"
     ],
-    "status": "published",
     "link_note": "Chapter download link from original Guide page 42; permissions unverified.",
     "production_type": "external",
     "source": {
@@ -649,7 +626,6 @@
       "secret-ingredients",
       "audio"
     ],
-    "status": "published",
     "link_note": "Legacy audio folder link from original Guide page 42; specific recording and permissions unverified.",
     "production_type": "external",
     "source": {
@@ -675,7 +651,6 @@
       "core",
       "clue-hunt"
     ],
-    "status": "published",
     "link_note": "Core follow-up to independent clue observations. Original Clue Tracker page 1, questions 1–5, preserved without edits; hand out after the 3-minute scene and initial clue share. Published in official student materials.",
     "production_type": "external",
     "source": {
@@ -707,7 +682,6 @@
       "extension",
       "inference"
     ],
-    "status": "published",
     "link_note": "Extension +10–15 min. Original Clue Tracker page 2, questions 6–8 including the drawing box, preserved without edits; follows the core page. Published in official student materials.",
     "production_type": "external",
     "source": {
@@ -738,7 +712,6 @@
       "secret-ingredients",
       "answer-key"
     ],
-    "status": "published",
     "link_note": "Standalone answer key with Core (1–5) and Extension (6–8) answers, in teacher-resource styling. 2026-10-31: converted to a generated companion source with the shared resource masthead. The live file below is the earlier external release; the next authorized generated release replaces it in place.",
     "production_type": "generated_pdf",
     "source": {
@@ -771,7 +744,6 @@
       "secret-ingredients",
       "chapter-notes"
     ],
-    "status": "published",
     "link_note": "Standalone Chapter Notes worksheet, original prediction prompt and open notes/drawing area. Published in official student materials; 2–3-detail scaffold appears in teaching directions.",
     "production_type": "external",
     "source": {
@@ -802,7 +774,6 @@
       "preparation",
       "print-pack"
     ],
-    "status": "published",
     "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
@@ -831,7 +802,6 @@
       "optional",
       "extension"
     ],
-    "status": "published",
     "link_note": "Original full Character Profile, separated unchanged from legacy Day Two guide page 12. Advanced extension (+15–20 min), published in official student materials.",
     "production_type": "external",
     "source": {
@@ -861,7 +831,6 @@
       "core",
       "character-analysis"
     ],
-    "status": "published",
     "link_note": "One-page evidence-first Character Profile, now published as a US Letter PDF converted from the supplied worksheet image. Teacher Guide links to this PDF.",
     "production_type": "external",
     "source": {
@@ -891,7 +860,6 @@
       "secret-ingredients",
       "slides"
     ],
-    "status": "published",
     "link_note": "Published PowerPoint: Classroom Slides folder. PDF source is an unpublished holding copy, not subject to publication inspection.",
     "pdf_url": "https://drive.google.com/file/d/1G5xRfBaqu3GSkgQf3XPozuI6I5CEE747/view",
     "powerpoint_file_id": "1ENvg9yCzZDE0ujRQ8aNosfz3afAKWffK",
@@ -921,8 +889,6 @@
       "secret-ingredients",
       "teacher-guide"
     ],
-    "status": "published",
-    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification.",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -938,7 +904,7 @@
       "release_revision": "29d157b1d0959e9645885da81e04a042ce93bf30",
       "artifact_md5": "43e2504f7b1f9e2ab5b3b7c7b2154b99",
       "confirmed_at": "2026-10-31T17:13:34+00:00",
-      "note": "Initial manual publication into official 01_TEACHER_GUIDES folder; PDF downloaded from approved GitHub Actions run 41223381285 and Drive readback MD5 matched exactly."
+      "note": "Initial manual publication into official 01_TEACHER_GUIDES folder; PDF downloaded from approved GitHub Actions run 41223381285 and Drive readback MD5 matched exactly. Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
     },
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/17Rre95B3gMZqY02rgmxYO23uo_PRQ3x5/view",
@@ -956,7 +922,6 @@
       "showdown",
       "slides"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -977,7 +942,6 @@
       "showdown",
       "design"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -998,7 +962,6 @@
       "showdown",
       "decorate"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1020,7 +983,6 @@
       "bake",
       "mystery"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1041,7 +1003,6 @@
       "showdown",
       "design"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1062,7 +1023,6 @@
       "showdown",
       "reflection"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1083,7 +1043,6 @@
       "showdown",
       "guide"
     ],
-    "status": "unpublished",
     "production_type": "generated_pdf",
     "source": {
       "kind": "github",
@@ -1093,12 +1052,12 @@
       "output": "03-the-showdown-teacher-guide.pdf"
     },
     "publication": {
-      "verification": "unknown"
+      "verification": "unknown",
+      "note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
     },
     "holding_url": null,
     "published_url": null,
-    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists.",
-    "status_note": "Human authorized publication on 2026-11-02 of this guide with the deployed Print Pack Builder link and consolidated branch revisions. Authorization is recorded; publication remains subject to linked-resource checks and official Drive verification."
+    "link_note": "First draft in review; URL is an intentional Drive-homepage placeholder until a verified holding copy exists."
   },
   "ccc-q01-showdown-design-card": {
     "title": "Design Challenge Card",
@@ -1109,7 +1068,6 @@
       "showdown",
       "design"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1133,7 +1091,6 @@
       "showdown",
       "decorate"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1157,7 +1114,6 @@
       "showdown",
       "bake"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1181,7 +1137,6 @@
       "showdown",
       "mystery"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1206,7 +1161,6 @@
       "bake",
       "mystery"
     ],
-    "status": "unpublished",
     "production_type": "external",
     "source": {
       "kind": "unknown"
@@ -1228,7 +1182,6 @@
       "preparation",
       "print-pack"
     ],
-    "status": "published",
     "link_note": "Direct lesson link in the Print Pack Builder (lesson-specific route).",
     "production_type": "external",
     "source": {
@@ -1257,7 +1210,6 @@
       "preparation",
       "print-pack"
     ],
-    "status": "published",
     "link_note": "User-supplied deployed Print Pack Builder homepage; choose the lesson in the app.",
     "production_type": "external",
     "source": {
