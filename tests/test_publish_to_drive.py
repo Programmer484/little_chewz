@@ -97,7 +97,8 @@ class PublishTests(unittest.TestCase):
                       "pdf": {"template": "welcome", "source": "x.json",
                               "approved_md5": "0" * 32, "revision": "b" * 40}}
         self.write({"ccc-q01-welcome": self.entry})
-        self.patches = [patch.object(pub, "REGISTRY", self.registry)]
+        self.patches = [patch.object(pub, "REGISTRY", self.registry),
+                        patch("select_builds.targets", return_value={})]
         try:
             import googleapiclient.http  # noqa: F401
             self.patches.append(patch("googleapiclient.http.MediaFileUpload", FakeMedia))
