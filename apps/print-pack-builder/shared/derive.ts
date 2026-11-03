@@ -2,7 +2,7 @@
  * Read a lesson's print options straight from its Teacher Guide source
  * (lesson.json) and the resource catalogue (catalog/resources.json).
  *
- * A link is printable when the catalogue says its `type` is `student_worksheet`.
+ * A link is printable when the catalogue says its `type` is `student_material`.
  * Where it appears in the guide decides how the teacher sees it:
  *
  * | lesson.json                                   | Print Pack Builder                     |
@@ -48,7 +48,7 @@ export interface LessonSource {
   steps?: LessonStep[];
 }
 
-export const PRINTABLE_TYPE = "student_worksheet";
+export const PRINTABLE_TYPE = "student_material";
 
 const clean = (text?: string) => text?.replace(/^\s*[—–-]\s*/, "").trim() || undefined;
 
