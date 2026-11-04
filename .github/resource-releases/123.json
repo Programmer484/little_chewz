@@ -1,0 +1,11 @@
+{
+  "signal": "authorized-resource-merge",
+  "pr_number": 123,
+  "resource_ids": [
+    "ccc-q01-showdown-overview",
+    "ccc-q01-showdown-design-guide",
+    "ccc-q01-showdown-decorate-guide",
+    "ccc-q01-showdown-bake-mystery-guide",
+    "ccc-q01-showdown-teacher-guide"
+  ]
+}
