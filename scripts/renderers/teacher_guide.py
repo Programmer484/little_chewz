@@ -410,7 +410,7 @@ def bonuses(p,items,cap_top,reg,title):
 
 def bonus_actions(p,rows,cap_top,reg,title,accent):
     """Optional extension with the normal SHOW / DO / MORE action-row grid."""
-    b=at(p,title,L,cap_to_base(cap_top,11.2),11.2,'bold',accent)
+    b=at(p,title,L,cap_to_base(cap_top,11.2),11.2,'bold')
     for i,row in enumerate(grouped_more_rows(rows)):
         b=draw_row(p,row,b+(25 if i==0 else ROW_STEP),reg,accent)
     return b
