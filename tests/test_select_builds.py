@@ -64,6 +64,21 @@ class SelectionTests(unittest.TestCase):
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
 
+    def test_templates_are_starters_and_assets_are_scoped(self):
+        cases = {
+            'templates/teacher_guide/TEMPLATE.json': set(),
+            'templates/teacher_companion/TEMPLATE.json': set(),
+            'templates/welcome/TEMPLATE.json': set(),
+            'templates/fonts/Lato-Regular.ttf': {'teacher_guide', 'teacher_companion'},
+            'templates/welcome/assets/crest.png': {'welcome', 'teacher_companion'},
+            'templates/welcome/assets/little-chewz-logo.png': {'welcome'},
+            'templates/welcome/assets/fonts/Outfit-Regular.ttf': {'welcome'},
+        }
+        for path, kinds in cases.items():
+            with self.subTest(path=path):
+                expected = sorted(n for n, t in self.targets.items() if t['kind'] in kinds)
+                self.assertEqual(sb.select([path]), expected)
+
     def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
         records=sb.read_json('catalog/resources.json')
         mapping=sb.generated_outputs(records)
