@@ -1,5 +1,4 @@
 {
-  "$instructions": "Before editing, read templates/welcome/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Publication state is derived from catalog/resources.json, not stored here. Save and preview per system/WORKFLOW.md.",
   "template": "welcome",
   "id": "ccc-q01-welcome",
   "title": "Confetti Cake Cottage School: Restore the Sparkle",
