@@ -257,10 +257,9 @@ class PairRow(Flowable):
 # drives every mark, so nothing here is specific to one lesson:
 #   "A · Name" first cell   -> accent letter badge and a larger bold name
 #   Low / Medium / High     -> three-dot meter, explained once in a key under the table
-#   "No" / "None"           -> muted, so the options that need something stand out
 #   "encouraged": true      -> ENCOURAGED tag under the name
 #   "food": true            -> safety mark after the Food cell, repeated on the callout
-#   same "group" as the row above -> badges joined by a line; repeated cells muted
+# Cell text is always ink; only notes are grey.
 TABLE_LABEL = 7.4                             # column label size (tracked grey caps)
 TABLE_HEAD_RULE = 11.0                        # header labels -> hairline -> first row
 TABLE_NAME = 12.4                             # option name
@@ -272,7 +271,6 @@ TABLE_ROW_GAP = 22.0                          # whitespace between rows; no divi
 TAG = "ENCOURAGED"
 TAG_SIZE_T, TAG_TRACK = 6.6, 0.9
 LEVELS = {"low": 1, "medium": 2, "high": 3}
-MUTED = {"no", "none"}
 DOT_R, DOT_STEP = 3.0, 8.6                    # meter dot radius and pitch
 METER_W = 2 * DOT_R + 2 * DOT_STEP
 MARK_R = 5.2                                  # safety mark radius
@@ -331,11 +329,11 @@ def safety_mark(c, cx, cy, accent):
     c.drawCentredString(cx, cy - 0.72 * 7.6 / 2, "!")
 
 
-def meter(c, x, mid, level, accent, muted=False):
+def meter(c, x, mid, level, accent):
     for n in range(3):
         cx = x + DOT_R + n * DOT_STEP
         if n < level:
-            c.setFillColor(tint(accent, 0.5) if muted else accent)
+            c.setFillColor(accent)
             c.circle(cx, mid, DOT_R, stroke=0, fill=1)
         else:
             c.setStrokeColor(tint(accent, 0.45)); c.setLineWidth(0.8)
@@ -367,13 +365,9 @@ class TableHeader(Flowable):
 class TableRow(Flowable):
     """One `table` row: badge and name, comparable cells on the grid, then an optional note."""
 
-    def __init__(self, row, xs, accent, food_col=None, previous=None, following=None, separator=None):
+    def __init__(self, row, xs, accent, food_col=None, separator=None):
         super().__init__()
         self.row, self.xs, self.accent, self.food_col, self.separator = row, xs, accent, food_col, separator
-        group = row.get("group")
-        self.join_prev = bool(group and previous and previous.get("group") == group)
-        self.join_next = bool(group and following and following.get("group") == group)
-        self.prev_cells = previous["cells"] if self.join_prev else None
 
     def wrap(self, avail_w, avail_h):
         self.width_avail = avail_w
@@ -394,12 +388,6 @@ class TableRow(Flowable):
         base = self.body - 0.72 * TABLE_NAME
         mid = base + 0.36 * TABLE_NAME
         if self.letter:
-            line = tint(self.accent, 0.45)
-            c.setStrokeColor(line); c.setLineWidth(1.4)
-            if self.join_prev:
-                c.line(TABLE_BADGE, mid + TABLE_BADGE, TABLE_BADGE, self.height)
-            if self.join_next:
-                c.line(TABLE_BADGE, mid - TABLE_BADGE, TABLE_BADGE, 0)
             c.setFillColor(self.accent)
             c.circle(TABLE_BADGE, mid, TABLE_BADGE, stroke=0, fill=1)
             c.setFillColor(PAPER); c.setFont("LC-Heavy", 10)
@@ -411,13 +399,11 @@ class TableRow(Flowable):
             tracked(c, name_x, base - TABLE_NOTE_DROP, TAG, "LC-Heavy", TAG_SIZE_T, self.accent, TAG_TRACK)
         for i, (x, cell) in enumerate(zip(self.xs[1:], cells[1:]), 1):
             value = str(cell).strip()
-            repeated = self.prev_cells is not None and str(self.prev_cells[i]).strip() == value
             level = LEVELS.get(value.lower())
             if level:
-                meter(c, x, mid, level, self.accent, muted=repeated)
+                meter(c, x, mid, level, self.accent)
                 continue
-            muted = repeated or value.lower() in MUTED
-            c.setFont("LC-Regular", SIZE); c.setFillColor(MID if muted else INK)
+            c.setFont("LC-Regular", SIZE); c.setFillColor(INK)
             c.drawString(x, base, value)
             if i == self.food_col and self.row.get("food"):
                 cx = x + pdfmetrics.stringWidth(value, "LC-Regular", SIZE) + MARK_GAP + MARK_R
@@ -657,10 +643,7 @@ def generator(data, output, registry=None):
             heading = [story.pop()] if story and isinstance(story[-1], GroupLabel) else []
             parts = heading + [TableHeader(columns, xs, indent)]
             for i, row in enumerate(rows):
-                parts.append(TableRow(row, xs, accent, food_col,
-                                      previous=rows[i - 1] if i else None,
-                                      following=rows[i + 1] if i + 1 < len(rows) else None,
-                                      separator=None if i == 0 else "space"))
+                parts.append(TableRow(row, xs, accent, food_col, separator=None if i == 0 else "space"))
             has_levels = any(str(c).strip().lower() in LEVELS for r in rows for c in r["cells"][1:])
             has_food = food_col is not None and any(r.get("food") for r in rows)
             table_food = table_food or has_food

@@ -45,8 +45,7 @@
           ],
           "encouraged": true,
           "food": true,
-          "group": "bake",
-          "note": "Delete encouraged, food and group when they do not apply."
+          "note": "Delete encouraged and food when they do not apply."
         },
         {
           "cells": [
@@ -59,8 +58,7 @@
           ],
           "encouraged": true,
           "food": true,
-          "group": "bake",
-          "note": "Rows sharing a group are joined, and cells repeated from the row above are muted."
+          "note": "The main preparation step, in one line."
         }
       ]
     },
