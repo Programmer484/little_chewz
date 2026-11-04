@@ -6,7 +6,7 @@
   "option": "C/D",
   "meta": [
     "Expands Teacher Guide step 2",
-    "25–30 min",
+    "30–45 min",
     "Prep about 30 min plus shopping",
     "Teams of 3–5"
   ],
@@ -64,19 +64,19 @@
       "type": "steps",
       "items": [
         {
-          "title": "Preheat",
-          "mins": "Start",
-          "text": "Switch the oven to 350°F (175°C) as the lesson begins."
+          "title": "Preheat and roles",
+          "mins": "Tune-In",
+          "text": "Switch the oven to 350°F (175°C). Teams pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew; small teams double up."
         },
         {
-          "title": "Cutoff, roles and twist",
+          "title": "Cutoff and twist",
           "mins": "5–10 min",
-          "text": "Announce the pans-in time (25 min away, 30 for Mystery) and any twist. Teams wash hands and pick roles: Leader, Reader, Ingredient Manager, Mixer, Timekeeper, Clean-Up Crew; small teams double up."
+          "text": "Announce the pans-in time (30 min away, 40 for Mystery) and any twist. Teams wash hands."
         },
         {
           "title": "Mix and fill",
-          "mins": "20 min",
-          "text": "Teams follow the recipe and fill their liners. Circulate: dry mix done by 5 min, batter smooth by 15."
+          "mins": "25 min",
+          "text": "Teams follow the recipe and fill their liners. Circulate: dry mix done by 10 min, batter smooth by 20."
         },
         {
           "title": "Pans in",
@@ -86,7 +86,7 @@
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. Built backwards from one constraint: every tin goes in the oven at a fixed cutoff so baking overlaps the Teacher Guide's clean-up and TASTE reflection (human decision 2026-11-03). Assumes a standard foods room with a station per team. Recipe scaled to a half batch (6 standard cupcakes) from the Day 3 card, which matches the established wacky-cake recipe yielding 12 standard cupcakes; human decisions 2026-11-03: one standard size, no test bake, scale proportionally, no pre-measuring. Twists: Reader only, Hands-off Leader and Quiet kitchen are newly written and approved 2026-11-03; Mystery mix-in from Day 3 Level 4. Sources: Day 3 The Showdown (v0) Level 3 and 4 pages (roles, mystery ingredient, 'not perfection, but adaptability') and recipe page (350°F, 20–25 min bake). Newly written: checklist wording, prep estimate, step timings, pans-in cutoff, pacing checks and timer. Repeats nothing on the recipe card, the overview or the Teacher Guide.",
+  "source_note": "DRAFT 2026-11-03, needs human review. Built backwards from one constraint: every tin goes in the oven at a fixed cutoff so baking overlaps the Teacher Guide's clean-up and TASTE reflection (human decision 2026-11-03). Assumes a standard foods room with a station per team. Recipe scaled to a half batch (6 standard cupcakes) from the Day 3 card, which matches the established wacky-cake recipe yielding 12 standard cupcakes; human decisions 2026-11-03: one standard size, no test bake, scale proportionally, no pre-measuring. Twists: Reader only, Hands-off Leader and Quiet kitchen are newly written and approved 2026-11-03; Mystery mix-in from Day 3 Level 4. Sources: Day 3 The Showdown (v0) Level 3 and 4 pages (roles, mystery ingredient, 'not perfection, but adaptability') and recipe page (350°F, 20–25 min bake). Times revised 2026-11-04 to realistic Grade 4–6 estimates (human decision): roles picked during Tune-In; hand-washing 5 min; mixing and filling 25 min; Mystery twist +10. Newly written: checklist wording, prep estimate, step timings, pans-in cutoff, pacing checks and timer. Repeats nothing on the recipe card, the overview or the Teacher Guide.",
   "resource_id": "ccc-q01-showdown-bake-mystery-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
