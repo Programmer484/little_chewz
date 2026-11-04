@@ -197,7 +197,7 @@ def annotate(p,rec,rect):
         return
 
 def resource_line(p,item,reg,x,baseline,w,size=10.5,strict=False,description_size=None,lh=None,show_description=True):
-    """Linked resource name (underlined) + ' — description'. Returns the last baseline.
+    """Underlined resource title + muted-gray ' — description'. Returns last baseline.
 
     Strict rows (overview) must fit one line. Flow rows may wrap the description,
     never leaving an em dash alone; continuations return to the content edge.
