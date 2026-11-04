@@ -464,7 +464,7 @@ def build(content:Path,registry:dict,output:Path|None=None):
         at(p,counter,R-tw(counter,9.1,'semibold'),HDR_EYEBROW,9.1,'semibold',MID)
     doc.set_metadata({'title':'Little Chewz | '+d['title'],'creator':'Little Chewz reusable PyMuPDF teacher template'})
     doc.subset_fonts()
-    doc.save(out,garbage=4,deflate=True)
+    doc.save(out,garbage=4,deflate=True,no_new_id=True)  # Do not generate a run-specific PDF ID.
     # Verify all relative-file destinations exist. External URLs are copied, not fetched.
     with fitz.open(out) as check:
         for p in check:
