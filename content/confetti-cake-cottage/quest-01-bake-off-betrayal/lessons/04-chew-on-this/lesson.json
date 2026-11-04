@@ -45,7 +45,7 @@
         {
           "kind": "DO",
           "ref": "ccc-q01-chew-on-this-team-talk-questions",
-          "description": "Select up to three prompts and display them."
+          "description": "Select three prompts and display them."
         },
         {
           "kind": "DO",
