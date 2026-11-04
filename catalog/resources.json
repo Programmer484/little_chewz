@@ -254,6 +254,13 @@
       "revision": "0084238e7b3a5ba60839a1c0b3e64064038044db"
     }
   },
+  "ccc-q01-chew-on-this-slides": {
+    "title": "Chew On This Classroom Slides",
+    "type": "classroom_slides",
+    "pdf_url": "https://drive.google.com/file/d/1n1g9Mip8SJSHGLV1kvM6JTc_I6jR6zr8/view?usp=drivesdk",
+    "holding_url": null,
+    "published_url": "https://docs.google.com/presentation/d/1NPjoaNyrP-BwYwbG0GnlHLnMwTnYw9J0/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
+  },
   "ccc-q01-showdown-slides": {
     "title": "Showdown Slides",
     "type": "classroom_slides",
