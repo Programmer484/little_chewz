@@ -675,7 +675,11 @@ A Teacher Guide that offers lettered activity options (such as the Showdown's A�
 
 ### Option overviews
 
-A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing: an optional `intro` on the option we encourage and why; one `table` comparing the options at a glance (time, team size, food, oven, and prep effort and clean-up as Low / Medium / High), each row followed by a one-line note on its main preparation step; and a `Safety first` callout when any option involves food, ovens or hot equipment. It holds nothing about running an option; that lives in the activity guides.
+A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing, in this order: an optional `intro` on the option we encourage and why; one `table` comparing the options at a glance; a `How to choose` heading with short `pairs` matching a classroom situation to the options that fit it; and a `Safety first` callout when any option involves food, ovens or hot equipment. It holds nothing about running an option; that lives in the activity guides.
+
+- **Columns:** challenge, time, team size, food, prep and clean-up. Give prep as minutes (`20 min + shopping`), not a rating; clean-up is `Low` / `Medium` / `High`. Fold anything implied by another column into it (`Baked · oven`, not a separate Oven column).
+- **Notes** hold only what the columns cannot: the main preparation step, in one line, without repeating the prep time.
+- **Row flags:** `encouraged: true` on the options the intro encourages; `food: true` on every option involving food, which ties it to the safety callout; the same `group` on consecutive options that share most of their set-up, such as a variant of the option above it.
 
 ### Source and generation
 
@@ -689,7 +693,7 @@ Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optio
 | `steps` | Ordered teacher actions; items take `title`, `text`, and optionally `mins`, `tag`, `prompts` | Numbered rows; `mins` right-aligned, `tag` in grey caps after the title (e.g. `Guide step 3`), `prompts` as italic teacher lines beside an accent rule, without quotation marks |
 | `questions`, `answers` | Question banks and answer keys | Numbered rows with hairline dividers |
 | `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`) | Bold term column with the explanation beside it, hairline dividers |
-| `table` | Comparing options at a glance (`columns`, then `rows` of `cells` and an optional one-line `note`) | Grey column labels over one hairline; columns sized to their content; an `A · Name` first cell gets an accent letter badge; `Low` / `Medium` / `High` cells show a three-dot meter beside the word; `No` and `None` are muted; each note in grey under the detail columns; whitespace, not dividers, between rows; kept on one page |
+| `table` | Comparing options at a glance (`columns`, then `rows` of `cells`, an optional one-line `note`, and optional `encouraged`, `food` and `group` flags) | Grey column labels over one hairline; columns sized to their content; an `A · Name` first cell gets an accent letter badge; `Low` / `Medium` / `High` cells show a three-dot meter, explained once in a key under the table; `No` and `None` are muted; `encouraged` adds a tag under the name; `food` adds a safety mark after the Food cell and on the following callout; rows sharing a `group` have joined badges and mute cells repeated from the row above; notes in grey under the detail columns; whitespace, not dividers, between rows; kept on one page |
 | `bullets`, `paragraph`, `note` | Plain lists, body text, small grey notes | Body or grey text |
 | `links` | Registry resources by `ref`, with a short `description` | Bold underlined title and grey description |
 | `image`, `spacer` | A comprehension-aiding illustration; a rare extra gap. Sections space themselves, so never use `spacer` for layout | |
