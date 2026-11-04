@@ -1,5 +1,4 @@
 {
-  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Publication state is derived from catalog/resources.json, not stored here. Save and preview per system/WORKFLOW.md.",
   "template": "activity_guide",
   "title": "Decorate Challenge",
   "kind": "instructions",

@@ -1,5 +1,4 @@
 {
-  "$instructions": "Owns quest metadata and lesson order only; lesson publication state derives from each Teacher Guide resource in catalog/resources.json. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.",
   "id": "ccc-q01",
   "product": "Little Chewz",
   "program": "Chewlandia Academy",
