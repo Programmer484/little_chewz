@@ -63,7 +63,7 @@
         {
           "kind": "GIVE",
           "ref": "ccc-q01-showdown-taste-reflection",
-          "description": "One per student; fill in Tune-In now, then collect",
+          "description": "One per student; fill in Tune-In now, then set aside",
           "quantity": "per_student"
         },
         {
@@ -174,7 +174,7 @@
         },
         {
           "kind": "DO",
-          "text": "Return the sheets. TASTE is the quest's reflection cycle; Tune-In is done, so spend 10–15 min walking students through Act, Share, Think Back and Extend, one box at a time."
+          "text": "TASTE is the quest's reflection cycle; Tune-In is done, so spend 10–15 min walking students through Act, Share, Think Back and Extend, one box at a time."
         },
         {
           "kind": "ASK",
@@ -182,7 +182,7 @@
         },
         {
           "kind": "DO",
-          "text": "Collect the sheets; any unfinished boxes can wait until the next lesson."
+          "text": "Students keep their sheets; any unfinished boxes can wait until the next lesson."
         }
       ]
     }
