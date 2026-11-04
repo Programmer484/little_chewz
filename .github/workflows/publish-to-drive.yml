@@ -1,4 +1,4 @@
-name: Internal Drive replacement
+name: Publish Directly
 
 # Temporary internal fallback until merge-trigger publication exists.
 # Builds one live/pending registry entry from main and replaces its
