@@ -449,7 +449,23 @@
     "published_url": null,
     "holding_url": null,
     "print": {
-      "cards_per_sheet": 4
+      "cards_per_sheet": 6
+    }
+  },
+  "ccc-q01-chew-on-this-print-pack": {
+    "title": "Build Print Pack",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": null
+  },
+  "ccc-q01-chew-on-this-role-play-extension": {
+    "title": "Role-play Extension",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": null,
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "role-play-extension.pdf"
     }
   }
 }
