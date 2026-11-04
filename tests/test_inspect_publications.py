@@ -77,7 +77,7 @@ class InspectionTests(unittest.TestCase):
     def test_nonpublic_drive_fails(self):
         result = audit.audit({"x": item()}, service=Drive(public=False))
         self.assertEqual(result["result"], audit.FAIL)
-        self.assertIn("permission", result["resources"][0]["issues"][0]["reason"])
+        self.assertIn("not shared", result["resources"][0]["issues"][0]["reason"])
 
     def test_inaccessible_drive_is_review_not_false_missing(self):
         result = audit.audit({"x": item()}, service=Drive(missing=True))
@@ -115,6 +115,17 @@ class InspectionTests(unittest.TestCase):
                                 "permissions": [{"type": "anyone", "role": "reader"}]})
         drive = InlinePublicDrive(permissions_error=PermissionError())
         self.assertEqual(audit.audit({"audio": item()}, service=drive)["result"], audit.PASS)
+
+    def test_permission_fields_error_falls_back_to_minimal_metadata(self):
+        class LimitedDrive(Drive):
+            def get(self, fileId, **kwargs):
+                if "permissions(" in kwargs.get("fields", ""):
+                    return Request(PermissionError("permission fields unavailable"))
+                return super().get(fileId, **kwargs)
+        drive = LimitedDrive(permissions_error=PermissionError())
+        report = audit.audit({"x": item()}, service=drive)
+        self.assertEqual(report["result"], audit.REVIEW)
+        self.assertIn("files.get.permissions", report["diagnostics"][0])
 
     def test_external_urls_get_human_review_without_network(self):
         result = audit.audit({"video": item(VIDEO)})
@@ -195,13 +206,14 @@ class InspectionTests(unittest.TestCase):
             self.assertIn("operation=permissions.list", diagnostics)
             self.assertNotIn("PRIVATE-TOKEN", diagnostics)
             self.assertNotIn("operation=permissions.list", output.getvalue())
-            self.assertIn("NEEDS REVIEW", summary_path.read_text())\n            self.assertIn("What happened / next step", summary_path.read_text())
+            self.assertIn("NEEDS REVIEW", summary_path.read_text())
+            self.assertIn("What happened / next step", summary_path.read_text())
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())
         summary = audit.summary_table(report)
         self.assertNotIn("`pass`", summary)
-        self.assertIn("`review`", summary)
+        self.assertIn("| review |", summary)
 
     def test_pending_external_release_still_inspected(self):
         item_with_draft = item(holding_url=V)
