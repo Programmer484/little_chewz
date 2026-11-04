@@ -172,7 +172,7 @@ def changed_pdf_config_ids(base_ref):
 
 
 def select(changed, base_ref=None):
-    changed = {p.replace('\\\\', '/').removeprefix('./') for p in changed}
+    changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
     registered = targets()
     renderer_files = {f"scripts/renderers/{t['kind']}.py" for t in registered.values()}
 
