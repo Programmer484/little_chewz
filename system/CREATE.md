@@ -13,7 +13,7 @@
 1. Confirm school, lesson, resource type, **unused stable ID**, source path, and supported build renderer/output.
 2. Author editable JSON and required separate versioned assets on the lesson branch; use the repository renderer, validate, test, and inspect pages and working hyperlinks.
 3. Upload a new **Teacher Guide** PDF under `01_TEACHER_GUIDES/PDF-generated resources`; a generated **companion** belongs under `04_TEACHER_RESOURCES/Other resources`. Use the configured existing holding folder ID, then read back the Drive ID and URL. The special Welcome material retains its established folder routing.
-4. Register `pdf` with the template and its output/source mapping, `holding_url`, and `published_url: null` in `catalog/resources.json`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
+4. In `catalog/resources.json`, register `pdf.renderer` with its `output` or `source` mapping, `holding_url`, and `published_url: null`. The editable source JSON separately declares its `template`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
 5. Push the lesson branch, open/update its review PR and share the Actions review and holding link. **Stop without publication.**
 
 ## New external worksheet, artwork, slide or media

@@ -61,7 +61,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
    | Resource names, links, status, publishing | [catalog/AGENTS.md](catalog/AGENTS.md) | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) (data), [PUBLISH.md](system/PUBLISH.md) (actions) |
    | Lesson slide PDFs and PPTX | | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
    | Templates and their artwork | [templates/AGENTS.md](templates/AGENTS.md) | Asset rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets) |
-   | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
+   | Renderers, build selection, validation, publishing scripts | [scripts/AGENTS.md](scripts/AGENTS.md) | [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews) |
    | Teacher web apps (Print Pack Builder) | [apps/AGENTS.md](apps/AGENTS.md) | App README; registry rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
    | The instructions themselves | [system/AGENTS.md](system/AGENTS.md) | [Maintaining instructions](#maintaining-instructions) |
 
@@ -74,7 +74,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
 - Edit the owning source; do not duplicate resources inside Teacher Guides. Keep required PDF images versioned in GitHub, as separate asset files rather than pre-rendered pages.
 - Keep content, visual changes, and publishing actions distinct. Preserve the published seven-slide Activate asset; historical quest-wide slide numbers are not current lesson numbers.
 - Work on the **shared lesson branch** by default (`lesson/<quest-id>-<two-digit-stage>-<stage-slug>`), across all lesson resources and chats. Create separate task branches only on explicit user instruction. Reconcile with the remote head and `main`, never force-push, and preserve unrelated work. External files use their original creation tool and lesson catalogue bookkeeping.
-- For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup); do not use a preview-branch or PR Files link as the primary review link.
+- For PDF previews, give the verified **GitHub Actions run URL first**, preferably the post-merge `main` run. Follow [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews); do not use a preview-branch or PR Files link as the primary review link.
 
 ### Maintaining instructions
 
@@ -149,7 +149,7 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 - Use Create, Update, and Publish workflow documents directly; no chat slash commands are configured.
 
 - Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
-- Every existing valid source can generate a preview; five lessons without a `lesson.json` are not renderable. Previews do not publish.
+- Every existing valid source can generate a preview; stages without a `lesson.json` are not renderable. Previews do not publish.
 - Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
 - The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or prove external content parity. An on-demand read-only inspection workflow is available.
 
@@ -169,7 +169,7 @@ Lato and the other fonts are bundled under `templates/`, so renders match CI. `s
 
 ### GitHub previews
 
-Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs as permanent browser previews; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
+Every PR update and push to `main` runs validation and tests. The selector renders affected registered PDFs, with a safe full-build fallback when impact is uncertain; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
 
 The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.
 
@@ -192,7 +192,7 @@ The original inventories and superseded slideshow decisions are in [archive/2026
 1. Confirm school, lesson, resource type, **unused stable ID**, source path, and supported build renderer/output.
 2. Author editable JSON and required separate versioned assets on the lesson branch; use the repository renderer, validate, test, and inspect pages and working hyperlinks.
 3. Upload a new **Teacher Guide** PDF under `01_TEACHER_GUIDES/PDF-generated resources`; a generated **companion** belongs under `04_TEACHER_RESOURCES/Other resources`. Use the configured existing holding folder ID, then read back the Drive ID and URL. The special Welcome material retains its established folder routing.
-4. Register `pdf` with the template and its output/source mapping, `holding_url`, and `published_url: null` in `catalog/resources.json`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
+4. In `catalog/resources.json`, register `pdf.renderer` with its `output` or `source` mapping, `holding_url`, and `published_url: null`. The editable source JSON separately declares its `template`. Review PDFs can link to unpublished resources using their existing permanent Drive IDs.
 5. Push the lesson branch, open/update its review PR and share the Actions review and holding link. **Stop without publication.**
 
 ### New external worksheet, artwork, slide or media
@@ -734,7 +734,7 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ### Status and builds
 
-A document using this style is registered in `catalog/resources.json` with `"build": {"renderer": "welcome", "source": "<path to its JSON>"}`. That makes it a PR preview target named `<resource-id>.pdf`, rebuilt when its JSON, anything in its folder, these assets, or the renderer changes. The same build feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)). Rendering does not publish anything.
+A document using this style is registered in `catalog/resources.json` with `"pdf": {"renderer": "welcome", "source": "<path to its JSON>"}`; its editable JSON declares `"template": "welcome"`. The preview output is `<resource-id>.pdf`. The selector finds local file references in the JSON automatically, rebuilds for renderer/shared-asset changes, and safely rebuilds when an input cannot be attributed. The same renderer feeds **Publish to Drive** ([PUBLISH.md](system/PUBLISH.md)); rendering alone never publishes.
 
 Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
 
@@ -921,7 +921,7 @@ After editing, run `python scripts/validate.py` and save through a PR per [WORKF
 ## Editing the catalogue
 
 - `resources.json` owns stable linked-resource IDs, production type, provenance, holding and official URLs, build mapping, publication evidence (resource status is derived, never stored). See [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states).
-- Only Python-rendered PDFs have a `pdf` object with `template` and `output` or `source`. Externally authored PDFs, slide decks and visual assets do not have `pdf`.
+- Only Python-generated PDFs have a `pdf` object with `renderer` and `output` or `source`. Editable source JSON declares its `template` separately; several templates may use the same renderer. Externally authored PDFs, slide decks and visual assets do not have `pdf`.
 - `drive_folders.json` owns four holding category folder IDs mirroring the official Drive layout; existing nested subfolders retain their IDs. Legacy Slide PDF originals remain separate. Never invent file or folder IDs. A holding file is not published **even when its permanent URL will be unchanged**.
 - [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) owns stable resource IDs, the five delivery-folder types, pending/published state and minimal metadata. [PUBLISH.md](system/PUBLISH.md) owns verification and human authorization. For non-Drive published links, record `human_reviewed_url` only after a person verifies the exact current URL; otherwise inspection automatically reports NEEDS REVIEW. All published Drive links undergo public-permission checks, including slides and externally owned files. Generated PDF checksums remain absent until verified against exact published bytes.
 - Published resources always render their `published_url`, in both review and release PDFs. Any external resource (including slides) may have a **distinct newly staged** holding link indicating `pending_publish`; a link to the same Drive file ID is not pending. Existing slide PDF source/reference files stay in `pdf_url`, **not** `holding_url`. The inspector checks published slide decks like other Drive files. Draft previews may use holding links; release builds require every referenced resource to have an official URL. Generated PDFs use approved/current MD5 parity, not holding links.
@@ -952,18 +952,18 @@ Templates are starting structures for supported source types, one folder each: `
 | `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) |
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md#presentation) |
 | `renderers/welcome.py` | Welcome page style | [templates/welcome/README.md](templates/welcome/README.md) |
-| `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup) |
+| `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews) |
 | `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](system/AI_RULES.md#maintaining-instructions) |
 | `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
 | `publication_state.py` | One derived publication-state rule and read-only resource/lesson reports (`python scripts/publication_state.py --lessons`) | [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) |
 | `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](system/PUBLISH.md) |
 | `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](system/PUBLISH.md) |
-| `inspect_publications.py` | Read-only Drive permission / exact-URL human-review audit of published resources | [PUBLISH.md](system/PUBLISH.md#on-demand-inspection) |
+| `inspect_publications.py` | Read-only Drive permission / exact-URL human-review audit of published resources | [INSPECTION.md](system/INSPECTION.md) |
 | `pdf_to_linked_slides.py` | Human-reviewed slide PDF to linked PPTX | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) |
 
 PDF previews and releases use official `published_url` whenever present, and draft previews use holding links otherwise. `publication_checks.py` rejects release dependencies without an official URL; the shared `publish_to_drive.py` publisher live-inspects those dependencies plus the existing target link before uploading and blocks both FAIL and NEEDS REVIEW. `publication_state.py` derives resource status from distinct external holding URLs or generated-PDF MD5 parity. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
-New PDF blocks require no dependency-list edits: `select_builds.py` discovers local file references from their JSON values. Keep source paths in JSON and run `python scripts/validate.py` plus relevant checks after tooling changes.
+New PDF blocks still need rendering logic, but no dependency registration: `select_builds.py` discovers existing local file paths from nested JSON values and conservatively rebuilds for unknown potential inputs. Keep asset paths in source JSON and run `python scripts/validate.py` plus relevant checks after tooling changes.
 
 ---
 

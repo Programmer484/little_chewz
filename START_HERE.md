@@ -55,7 +55,7 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 - Use Create, Update, and Publish workflow documents directly; no chat slash commands are configured.
 
 - Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
-- Every existing valid source can generate a preview; five lessons without a `lesson.json` are not renderable. Previews do not publish.
+- Every existing valid source can generate a preview; stages without a `lesson.json` are not renderable. Previews do not publish.
 - Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
 - The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or prove external content parity. An on-demand read-only inspection workflow is available.
 
@@ -75,6 +75,6 @@ Lato and the other fonts are bundled under `templates/`, so renders match CI. `s
 
 ## GitHub previews
 
-Relevant PR updates **and merges to `main`** run validation and tests, then render only affected registered PDFs as permanent browser previews; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
+Every PR update and push to `main` runs validation and tests. The selector renders affected registered PDFs, with a safe full-build fallback when impact is uncertain; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
 
 The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.
