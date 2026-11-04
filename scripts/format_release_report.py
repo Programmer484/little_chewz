@@ -48,7 +48,7 @@ def format_report(report: dict) -> str:
         for status, name, why in blocked_rows(
             row.get("resource_id", "Release"), row.get("reason", "Unknown error")
         ):
-            clean = why.replace("|", "\\\\|").replace("\\n", " ")
+            clean = why.replace("|", r"\|").replace("\n", " ")
             lines.append(f"| {status} | {name} | {clean} |")
     if not blocked and not published:
         lines.append("| No change | — | No resources were published |")
