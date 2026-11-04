@@ -127,7 +127,9 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: resource-release-${{ github.event.pull_request.number }}
-          path: |\n            release-report.json\n            release-summary.txt
+          path: |
+            release-report.json
+            release-summary.txt
           if-no-files-found: ignore
           retention-days: 30
 

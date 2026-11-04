@@ -96,10 +96,18 @@ def inspect_link(url: str | None, resource: dict, service,
         metadata = service.files().get(
             fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum,permissions(type,role)").execute()
     except Exception as exc:
-        # Drive's 404 can mean either missing or inaccessible to this service account.
+        # Restricted viewers may read basic metadata but not permission fields.
+        # Retry basic existence before reporting unverifiable access.
         if diagnostics is not None:
-            diagnostics.append(diagnostic_line(resource_id, url, "files.get", exc))
-        return REVIEW, "Service account cannot access Drive file"
+            diagnostics.append(diagnostic_line(resource_id, url, "files.get.permissions", exc))
+        try:
+            metadata = service.files().get(
+                fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum").execute()
+        except Exception as basic_exc:
+            # A 404 may mean missing OR inaccessible, not proof of deletion.
+            if diagnostics is not None:
+                diagnostics.append(diagnostic_line(resource_id, url, "files.get", basic_exc))
+            return REVIEW, "Service account cannot access Drive file"
     if metadata.get("id") != file_id or metadata.get("trashed") is True:
         return FAIL, "Wrong Drive file or file in Trash"
 
@@ -217,17 +225,15 @@ def summary_table(report: dict) -> str:
         for issue in item["issues"]:
             url = issue["url"] or ""
             link = f"[Open]({url})" if url.startswith("https://") else "—"
-            title = item.get("title") or item["resource_id"]
-            reason = friendly_reason(issue["reason"]).replace("|", "\\|").replace("\\n", " ")
+            title = (item.get("title") or item["resource_id"]).replace("|", r"\|")
+            reason = friendly_reason(issue["reason"]).replace("|", r"\|").replace("\n", " ")
             rows.append(f"| {issue['status']} | {title} | {reason} | {link} |")
     if problems == 0:
         rows.append("| PASS | All checked resources | No action needed | — |")
-    header = f"### Publication inspection — {problems} need attention out of {total} checked\\n\\n"
-    footer = ("\\n**Technical details:** Download `inspection-report.txt` and "
-              "`inspection-report.json` from the workflow artifacts. "
-              "NEEDS REVIEW is not proof that the link is broken.\\n")
-    return header.replace("\\n", "\n") + "\n".join(rows) + "\n" + footer.replace("\\n", "\n")
-
+    header = f"### Publication inspection — {problems} need attention out of {total} checked\n\n"
+    footer = ("\n**Technical details:** Download the TXT and JSON inspection reports "
+              "from the workflow artifacts. NEEDS REVIEW does not mean the link is broken.\n")
+    return header + "\n".join(rows) + "\n" + footer
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
