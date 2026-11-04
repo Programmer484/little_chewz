@@ -96,6 +96,23 @@ jobs:
                   print(f"SONGWRITING_LIVE_SIZE={len(live)}; BUILT_SIZE={len(generated)}")
                   print(f"SONGWRITING_LIVE_MD5={actual}; BUILT_MD5={built}")
                   print(f"SONGWRITING_MATCH={actual==built}")
+                  import fitz
+                  with fitz.open(stream=live, filetype="pdf") as published, fitz.open(stream=generated, filetype="pdf") as current:
+                      same_pages=len(published)==len(current)
+                      same_text=same_pages and all(
+                          published[i].get_text()==current[i].get_text() for i in range(len(current))
+                      )
+                      same_links=same_pages and all(
+                          sorted(link.get("uri","") for link in published[i].get_links()) ==
+                          sorted(link.get("uri","") for link in current[i].get_links())
+                          for i in range(len(current))
+                      )
+                      same_pixels=same_pages and all(
+                          hashlib.sha256(published[i].get_pixmap().samples).digest() ==
+                          hashlib.sha256(current[i].get_pixmap().samples).digest()
+                          for i in range(len(current))
+                      )
+                      print(f"SONGWRITING_PAGES={len(published)}; SAME_TEXT={same_text}; SAME_LINK_URLS={same_links}; SAME_RENDER_PIXELS={same_pixels}")
           except Exception as exc:
               print(f"SONGWRITING_CHECK_ERROR={type(exc).__name__}")
           PY
