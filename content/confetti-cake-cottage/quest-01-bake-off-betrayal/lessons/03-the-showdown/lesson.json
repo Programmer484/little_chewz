@@ -4,7 +4,7 @@
   "key": "p3",
   "title": "PART 3 / THE SHOWDOWN",
   "grade": "4–6",
-  "duration": "50–80 min by challenge",
+  "duration": "45–80 min by challenge",
   "print_note": "PRINT ONLY YOUR CHOICE",
   "goal": "Put learning into action through a shared challenge that develops communication, collaboration, and creative problem-solving.",
   "outcomes": [
@@ -22,18 +22,6 @@
     {
       "ref": "ccc-q01-showdown-overview",
       "description": "Choose your challenge"
-    },
-    {
-      "ref": "ccc-q01-showdown-design-guide",
-      "description": "Prepare A"
-    },
-    {
-      "ref": "ccc-q01-showdown-decorate-guide",
-      "description": "Prepare B"
-    },
-    {
-      "ref": "ccc-q01-showdown-bake-mystery-guide",
-      "description": "Prepare C or D"
     },
     {
       "ref": "ccc-q01-showdown-print-pack",
@@ -75,12 +63,12 @@
     {
       "id": 2,
       "title": "Run One Showdown Challenge",
-      "mins": "20–45",
+      "mins": "25–55",
       "rows": [],
       "options": [
         {
           "label": "A",
-          "title": "Design · 20–30 min",
+          "title": "Design · 25–35 min",
           "group_size": 3,
           "rows": [
             {
@@ -97,12 +85,21 @@
                   "quantity": "per_group"
                 }
               ]
+            },
+            {
+              "kind": "MORE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-design-guide",
+                  "description": "How to prepare and run A"
+                }
+              ]
             }
           ]
         },
         {
           "label": "B",
-          "title": "Decorate · 35–40 min",
+          "title": "Decorate · 45–50 min",
           "group_size": 3,
           "rows": [
             {
@@ -114,12 +111,25 @@
                   "quantity": "per_group"
                 }
               ]
+            },
+            {
+              "kind": "DO",
+              "text": "Teams clean their stations (10 min)."
+            },
+            {
+              "kind": "MORE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-decorate-guide",
+                  "description": "How to prepare and run B"
+                }
+              ]
             }
           ]
         },
         {
           "label": "C",
-          "title": "Bake · 30–35 min",
+          "title": "Bake · 40–45 min",
           "group_size": 4,
           "rows": [
             {
@@ -136,12 +146,25 @@
                   "quantity": "per_group"
                 }
               ]
+            },
+            {
+              "kind": "DO",
+              "text": "Teams clean their stations while the cupcakes bake (10 min)."
+            },
+            {
+              "kind": "MORE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-bake-mystery-guide",
+                  "description": "How to prepare and run C or D"
+                }
+              ]
             }
           ]
         },
         {
           "label": "D",
-          "title": "Mystery · 35–45 min",
+          "title": "Mystery · 45–55 min",
           "group_size": 4,
           "rows": [
             {
@@ -158,6 +181,19 @@
                   "quantity": "per_group"
                 }
               ]
+            },
+            {
+              "kind": "DO",
+              "text": "Teams clean their stations while the cupcakes bake (10 min)."
+            },
+            {
+              "kind": "MORE",
+              "links": [
+                {
+                  "ref": "ccc-q01-showdown-bake-mystery-guide",
+                  "description": "How to prepare and run C or D"
+                }
+              ]
             }
           ]
         }
@@ -165,28 +201,16 @@
     },
     {
       "id": 3,
-      "title": "Clean Up and TASTE Reflection",
-      "mins": "20–25",
+      "title": "TASTE Reflection",
+      "mins": "10–15",
       "rows": [
         {
           "kind": "DO",
-          "text": "Teams clean their stations; any team that finishes early starts its TASTE sheet. For Bake or Mystery, an adult takes the cupcakes out when ready."
+          "text": "Walk students through their TASTE sheets, one box at a time: Act, Share, Think Back, Extend. Teams that finish cleaning early can start."
         },
         {
           "kind": "DO",
-          "text": "Short period? Stop after clean-up; run TASTE next class while students eat the cupcakes."
-        },
-        {
-          "kind": "DO",
-          "text": "TASTE is the quest's reflection cycle; Tune-In is done, so spend 10–15 min walking students through Act, Share, Think Back and Extend, one box at a time."
-        },
-        {
-          "kind": "ASK",
-          "text": "What decision helped your team, and what would you try next?"
-        },
-        {
-          "kind": "DO",
-          "text": "Students keep their sheets; any unfinished boxes can wait until the next lesson."
+          "text": "Short period? Finish next class; students keep their sheets, and Bake or Mystery teams eat their cupcakes then."
         }
       ]
     }
@@ -195,6 +219,6 @@
   "migration_review": {
     "basis": "05_The_Showdown.pdf (7 pages), Full Guide Revised.pdf pp. 14–17, Full Guide.pdf v0 pp. 46–62",
     "not_yet_verified": "All linked option guides, handouts, recipe, slides, and TASTE sheet are draft-only placeholders pointing to the Drive homepage; replace with verified resources before publication.",
-    "timing": "2026-11-03 human decisions: challenge times: Design 20–30, Decorate 35–40, Bake 30–35, Mystery 35–45 min; intro 10 and clean-up/TASTE 20–25 (realistic Grade 4–6 estimates, human decision 2026-11-04); Bake and Mystery pans go in by a fixed cutoff and bake during step 3. The Showdown overview (Preparation) holds each option's restrictions and prep for choosing; each option's activity guide holds its planning, roles and tips. This guide links the overview and activity guides once, in Preparation, and keeps only the flow and cards. TASTE Reflection (2026-11-03): handed out at Tune-In, then a fixed 10–15 min guided walk-through after clean-up; early finishers clean their station, then start their sheet. Team sizes (2026-11-03 human decision): Design and Decorate 2–3, Bake and Mystery 3–5 depending on oven space; group_size gives the Print Pack Builder's default (3 and 4)."
+    "timing": "2026-11-03 human decisions: challenge times: Design 20–30, Decorate 35–40, Bake 30–35, Mystery 35–45 min; intro 10 and clean-up/TASTE 20–25 (realistic Grade 4–6 estimates, human decision 2026-11-04); Bake and Mystery pans go in by a fixed cutoff and bake during step 3. The Showdown overview (Preparation) holds each option's restrictions and prep for choosing; each option's activity guide holds its planning, roles and tips. This guide links the overview and activity guides once, in Preparation, and keeps only the flow and cards. TASTE Reflection (2026-11-03): handed out at Tune-In, then a fixed 10–15 min guided walk-through after clean-up; early finishers clean their station, then start their sheet. Team sizes (2026-11-03 human decision): Design and Decorate 2–3, Bake and Mystery 3–5 depending on oven space; group_size gives the Print Pack Builder's default (3 and 4). Revised 2026-11-04 (human decisions): Preparation links only the overview and print pack; each activity guide is linked at its option; clean-up is timed per challenge inside step 2 (Decorate, Bake and Mystery 10 min; Design's quick tidy-up is folded into its 25–35 min); step 3 is the shared TASTE walk-through (10–15 min), continued next class in a short period; lesson 45–80 min, so Design fits one 45-min period."
   }
 }

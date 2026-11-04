@@ -366,7 +366,7 @@
   "ccc-q01-showdown-print-pack": {
     "title": "Build Print Pack",
     "type": "teacher_resource",
-    "published_url": "https://little-chewz-print-pack-builder.littlechewz.workers.dev/",
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-the-showdown",
     "holding_url": null
   }
 }

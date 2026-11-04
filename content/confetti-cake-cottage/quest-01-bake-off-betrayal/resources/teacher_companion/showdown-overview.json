@@ -23,7 +23,7 @@
         {
           "cells": [
             "A · Design",
-            "20–30 min",
+            "25–35 min",
             "2–3",
             "None",
             "10 min",
@@ -34,7 +34,7 @@
         {
           "cells": [
             "B · Decorate",
-            "35–40 min",
+            "45–50 min",
             "2–3",
             "Premade",
             "20 min + shopping",
@@ -47,7 +47,7 @@
         {
           "cells": [
             "C · Bake",
-            "30–35 min",
+            "40–45 min",
             "3–5",
             "Baked · oven",
             "30 min + shopping",
@@ -55,12 +55,12 @@
           ],
           "encouraged": true,
           "food": true,
-          "note": "Book the foods room and oven; one small batch per team makes 6 cupcakes. It bakes during clean-up and reflection."
+          "note": "Book the foods room and oven; one small batch per team makes 6 cupcakes."
         },
         {
           "cells": [
             "D · Mystery",
-            "35–45 min",
+            "45–55 min",
             "3–5",
             "Baked · oven",
             "30 min + shopping",
@@ -68,7 +68,7 @@
           ],
           "encouraged": true,
           "food": true,
-          "note": "Bake, plus one twist you choose: a mystery mix-in or a teamwork twist, such as only one student reading the recipe."
+          "note": "Bake, plus one twist: a mystery mix-in or a teamwork twist."
         }
       ]
     },
@@ -89,7 +89,11 @@
         },
         {
           "term": "Food and an oven",
-          "text": "C · Bake, or D · Mystery to add a twist. In a 45-min period, these take two classes."
+          "text": "C · Bake, or D · Mystery to add a twist."
+        },
+        {
+          "term": "A 45-min period",
+          "text": "A · Design fits one class; the others take two, with TASTE finished next class."
         }
       ]
     },
