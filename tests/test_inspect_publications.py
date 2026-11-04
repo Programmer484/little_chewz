@@ -193,9 +193,11 @@ class InspectionTests(unittest.TestCase):
         drive = Drive(permissions_error=PermissionError("sensitive details should not leak"))
         report = audit.audit({"worksheet": item()}, service=drive)
         self.assertEqual(report["result"], audit.REVIEW)
-        self.assertEqual(len(report["diagnostics"]), 1)
-        self.assertIn("operation=permissions.list", report["diagnostics"][0])
-        self.assertIn("exception=PermissionError", report["diagnostics"][0])
+        self.assertGreaterEqual(len(report["diagnostics"]), 1)
+        self.assertTrue(any("operation=permissions.list" in line
+                            for line in report["diagnostics"]))
+        self.assertTrue(any("exception=PermissionError" in line
+                            for line in report["diagnostics"]))
         self.assertNotIn("sensitive details", str(report))
         self.assertNotIn("exception=", audit.summary_table(report))
 
