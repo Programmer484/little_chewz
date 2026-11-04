@@ -95,7 +95,7 @@ def targets():
         if name in result:
             raise ValueError(f'Duplicate output: {name}')
         result[name] = dict(
-            source=source.as_posix(), kind=build['template'],
+            source=source.as_posix(), kind=build['renderer'],
             data=data,
             cover=(source.parent / data['cover']).as_posix() if data.get('cover') else None,
             folder=source.parent.as_posix()
@@ -108,6 +108,44 @@ def targets():
     for output, rid in mapping.items():
         result[output]['resource_id'] = rid
     return result
+
+
+def input_paths(target):
+    """Discover files and directories referenced by any JSON block."""
+    source = Path(target['source'])
+    files, folders = {source.as_posix()}, set()
+
+    # Companions also read their enclosing quest.json for stage headings.
+    for parent in (ROOT / source).parents:
+        quest = parent / 'quest.json'
+        if quest.is_file():
+            files.add(quest.relative_to(ROOT).as_posix())
+            break
+        if parent == ROOT:
+            break
+
+    def scan(value):
+        if isinstance(value, dict):
+            for item in value.values():
+                scan(item)
+        elif isinstance(value, list):
+            for item in value:
+                scan(item)
+        elif isinstance(value, str) and 0 < len(value) < 240 and '\n' not in value and '://' not in value:
+            # Any block can refer to a local file; no block names or asset keys.
+            try:
+                path = (ROOT / source.parent / value).resolve()
+                if not path.is_relative_to(ROOT.resolve()):
+                    return
+                if path.is_file():
+                    files.add(path.relative_to(ROOT).as_posix())
+                elif path.is_dir():
+                    folders.add(path.relative_to(ROOT).as_posix().rstrip('/') + '/')
+            except (OSError, ValueError):
+                pass
+
+    scan(target['data'])
+    return files, folders
 
 
 def changed_registry_ids(base_ref, fields=('title', 'holding_url', 'published_url')):
@@ -128,7 +166,7 @@ def changed_pdf_config_ids(base_ref):
     old = json.loads(previous('catalog/resources.json', base_ref))
     def config(resource):
         pdf = (resource or {}).get('pdf') or {}
-        return {key: pdf.get(key) for key in ('template','output','source')}
+        return {key: pdf.get(key) for key in ('renderer','output','source')}
     return {rid for rid in old.keys() | current.keys()
             if config(old.get(rid)) != config(current.get(rid))}
 
@@ -136,34 +174,37 @@ def changed_pdf_config_ids(base_ref):
 def select(changed, base_ref=None):
     changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
     registered = targets()
-    selected = set()
+    renderer_files = {f"scripts/renderers/{t['kind']}.py" for t in registered.values()}
+
+    # Shared code/assets may affect any output. An extra preview is safer than
+    # having to register every future helper, font or template by hand.
+    if any(p in {'requirements.txt', 'catalog/quests.json'}
+           or p.startswith(('templates/', '.github/actions/pdf-setup/'))
+           or (p.startswith('scripts/') and p.endswith('.py') and p not in renderer_files)
+           for p in changed):
+        return sorted(registered)
+
     registry_changed = 'catalog/resources.json' in changed
     refs = changed_registry_ids(base_ref) if registry_changed else set()
-    # Navigation resolves current official links, not a second stored status.
-    nav_changed = changed_registry_ids(base_ref, ('title', 'published_url')) if registry_changed else set()
     builds_changed = changed_pdf_config_ids(base_ref) if registry_changed else set()
-    # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
-    # This may create extra previews, but cannot miss a new rendering dependency.
-    shared = bool(changed & {
-        'scripts/build_selected.py', 'requirements.txt',
-        '.github/workflows/build-resources.yml', '.github/actions/pdf-setup/action.yml',
-    })
+    selected, recognized = set(), set()
     for name, target in registered.items():
-        kind = target['kind']
-        dependencies = {target['source'], target.get('cover'), f'scripts/renderers/{kind}.py'}
-        prefixes = [f'templates/{kind}/assets/']
-        if kind in ('teacher_guide', 'teacher_companion'):
-            prefixes.append('templates/fonts/')  # bundled Lato
-        if kind == 'teacher_companion':
-            dependencies.add('templates/welcome/assets/crest.png')  # shared masthead crest
-        if target.get('folder'):
-            prefixes.append(target['folder'] + '/')
-        affected = bool(changed & dependencies) or any(
-            path.startswith(prefix) for path in changed for prefix in prefixes)
-        if (shared or affected or target.get('resource_id') in builds_changed
-                or refs & resource_refs(target['data'])
-                or nav_changed & nav_refs(target['data'])):
+        files, folders = input_paths(target)
+        files.add(f"scripts/renderers/{target['kind']}.py")
+        hits = {p for p in changed if p in files or any(p.startswith(folder) for folder in folders)}
+        recognized.update(hits)
+        if (hits or target['resource_id'] in builds_changed
+                or refs & (resource_refs(target['data']) | nav_refs(target['data']))):
             selected.add(name)
+
+    # Shortcut: when a changed potential input cannot be attributed to a PDF,
+    # rebuild all rather than risk a stale preview. Upgrade only if overbuilds hurt.
+    unknown = changed - recognized - {'catalog/resources.json'}
+    if any(p.startswith('content/')
+           or (not p.startswith(('apps/', 'tests/', 'system/', 'catalog/', '.github/'))
+               and not p.endswith('.md'))
+           for p in unknown):
+        return sorted(registered)
     return sorted(selected)
 
 

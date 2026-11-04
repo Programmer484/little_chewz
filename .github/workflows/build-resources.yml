@@ -2,32 +2,11 @@ name: PDF previews
 
 # PR updates and main merges validate; main runs show consolidated AI edits.
 # Each PDF run gets a permanent directory on one shared preview-history branch.
+# Every change is considered; selection happens in Python, not path filters.
 on:
   pull_request:
-    paths:
-      - ".github/workflows/build-resources.yml"
-      - ".github/actions/**"
-      - "content/**"
-      - "scripts/**"
-      - "tests/**"
-      - "templates/**"
-      - "system/**"
-      - "catalog/**"
-      - "requirements.txt"
-      - "*.md"
   push:
     branches: [main]
-    paths:
-      - ".github/workflows/build-resources.yml"
-      - ".github/actions/**"
-      - "content/**"
-      - "scripts/**"
-      - "tests/**"
-      - "templates/**"
-      - "system/**"
-      - "catalog/**"
-      - "requirements.txt"
-      - "*.md"
   workflow_dispatch:
     inputs:
       document:
@@ -59,19 +38,32 @@ jobs:
         id: select
         env:
           EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
           DOCUMENT: ${{ inputs.document }}
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          BEFORE_SHA: ${{ github.event.before }}
         shell: bash
         run: |
           if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
             python scripts/select_builds.py --document "$DOCUMENT" --output build-selection.json
           else
-            # Explicit base SHA allows precise comparisons even when a PR has
-            # multiple commits; fail rather than silently skipping changes.
-            git fetch --no-tags --depth=1 origin "$BASE_SHA"
-            git diff --name-only "$BASE_SHA" HEAD > /tmp/changed-files.txt
+            # A new PR previews the entire diff. Subsequent PR pushes preview
+            # only changed inputs; earlier run previews remain in history.
+            # If the old head is unreachable (e.g. force-push), safely fall
+            # back to the full PR diff instead of silently missing outputs.
+            compare_sha="$BASE_SHA"
+            if [[ "$EVENT_NAME" == "pull_request" && "$EVENT_ACTION" == "synchronize" \
+                  && "$BEFORE_SHA" =~ ^[0-9a-f]{40}$ && "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]]; then
+              if git fetch --no-tags --depth=1 origin "$BEFORE_SHA"; then
+                compare_sha="$BEFORE_SHA"
+              else
+                echo "Previous PR head unavailable; comparing against PR base."
+              fi
+            fi
+            git fetch --no-tags --depth=1 origin "$compare_sha"
+            git diff --name-only "$compare_sha" HEAD > /tmp/changed-files.txt
             mapfile -t changed < /tmp/changed-files.txt
-            python scripts/select_builds.py --base-ref "$BASE_SHA" --changed "${changed[@]}" --output build-selection.json
+            python scripts/select_builds.py --base-ref "$compare_sha" --changed "${changed[@]}" --output build-selection.json
           fi
           python - <<'PY'
           import json, os

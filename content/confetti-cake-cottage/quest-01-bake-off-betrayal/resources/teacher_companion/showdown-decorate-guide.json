@@ -1,0 +1,75 @@
+{
+  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
+  "template": "activity_guide",
+  "title": "Decorate Challenge",
+  "kind": "instructions",
+  "option": "B",
+  "meta": [
+    "Expands Teacher Guide step 2",
+    "30–35 min",
+    "Prep about 20 min plus shopping",
+    "Teams of 2–3"
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Before class"
+    },
+    {
+      "type": "checklist",
+      "style": "box",
+      "items": [
+        "Food: buy cupcakes no more than a day ahead, one per student or one per team, plus a few spares",
+        "Food: bring frosting to room temperature; cold frosting is hard to spread",
+        "Portion decorations into a cup or plate per team",
+        "Decide whether students eat, take home or display their cupcakes"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Choose one route"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Food",
+          "text": "Premade cupcakes; frosting and decorations of your choice; spreading tools, plates and wipes."
+        },
+        {
+          "term": "Craft (backup)",
+          "text": "If food isn’t possible: paper liners on a paper-cup base, cotton balls or tissue paper for frosting, and pom-poms, stickers or markers to decorate."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How it runs"
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "title": "Share ideas",
+          "mins": "5 min",
+          "text": "Each student names or sketches one decorating idea."
+        },
+        {
+          "title": "Plan and roles",
+          "mins": "10 min",
+          "text": "The team agrees one design that uses part of each idea, and picks roles: Leader, Supply Manager, Timekeeper, Clean-Up Crew. In smaller teams, students take more than one role."
+        },
+        {
+          "title": "Decorate together",
+          "mins": "15–20 min",
+          "text": "Hand out decorations once you’ve seen the team’s plan. Food: everyone washes hands. Teams decorate to their plan."
+        }
+      ]
+    }
+  ],
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, food-safety check, clean-up, debrief, printing, card link and option totals stay there). Covers guide step 2 (5 min) and step 2 · B (30–35 min; human decision 2026-11-04 capped decorating at 15–20 min, down from Day 3's 30–45). Sources: Day 3 The Showdown (v0) Level 2 page (p. 6: premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria); the task spec (both routes, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. Craft backup materials are newly suggested; food-route spreading tools, plates, napkins and wipes; roles (adapted from the Day 3 Level 3 list); the 5 / 10 / 15–20 min split; logistics notes (purchase timing, frosting temperature, portioning). Decorations are handed out only after the team's plan is checked, enforcing Day 3's 'shared plan before decorating' criterion (human decision 2026-11-04); Tips removed as redundant.",
+  "resource_id": "ccc-q01-showdown-decorate-guide",
+  "resource_type": "teacher_companion",
+  "audience": "teacher",
+  "stage": "03-the-showdown"
+}

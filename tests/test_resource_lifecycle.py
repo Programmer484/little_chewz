@@ -38,11 +38,11 @@ class ResourceLifecycleTests(unittest.TestCase):
 
     def test_generated_pdf_pending_only_when_current_md5_differs(self):
         record = {"published_url": OFFICIAL, "holding_url": HOLDING,
-                  "pdf": {"template": "teacher_guide", "output": "guide.pdf", "approved_md5": "a" * 32}}
+                  "pdf": {"renderer": "teacher_guide", "output": "guide.pdf", "approved_md5": "a" * 32}}
         self.assertEqual(publication_status(record, "b" * 32), "pending_publish")
         self.assertEqual(publication_status(record, "a" * 32), "published")
         self.assertEqual(publication_status(record), "published")
-        self.assertEqual(publication_status({**record, "pdf": {"template": "teacher_guide", "output": "guide.pdf"}}, "b" * 32),
+        self.assertEqual(publication_status({**record, "pdf": {"renderer": "teacher_guide", "output": "guide.pdf"}}, "b" * 32),
                          "published")  # Missing baseline is inspection's NEEDS REVIEW.
         self.assertEqual(publication_status({**record, "published_url": None}, "b" * 32),
                          "unpublished")
@@ -53,7 +53,7 @@ class ResourceLifecycleTests(unittest.TestCase):
             pdf.write_bytes(b"first build")
             approved = hashlib.md5(b"first build").hexdigest()
             record = {"published_url": OFFICIAL,
-                      "pdf": {"template": "teacher_guide", "output": "guide.pdf", "approved_md5": approved}}
+                      "pdf": {"renderer": "teacher_guide", "output": "guide.pdf", "approved_md5": approved}}
             build = lambda *_: pdf
             self.assertEqual(status_report({"guide": record}, builder=build)[0]["status"],
                              "published")
@@ -73,11 +73,11 @@ class ResourceLifecycleTests(unittest.TestCase):
             approved = hashlib.md5(pdf.read_bytes()).hexdigest()
             registry = {
                 "q-activate-teacher-guide": {
-                    "pdf": {"template": "teacher_guide", "output": "00-activate-teacher-guide.pdf", "approved_md5": approved},
+                    "pdf": {"renderer": "teacher_guide", "output": "00-activate-teacher-guide.pdf", "approved_md5": approved},
                     "published_url": OFFICIAL,
                 },
                 "q-table-teacher-guide": {
-                    "pdf": {"template": "teacher_guide", "output": "01-set-the-table-teacher-guide.pdf"},
+                    "pdf": {"renderer": "teacher_guide", "output": "01-set-the-table-teacher-guide.pdf"},
                     "published_url": None,
                 },
             }

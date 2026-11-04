@@ -16,4 +16,4 @@
 
 PDF previews and releases use official `published_url` whenever present, and draft previews use holding links otherwise. `publication_checks.py` rejects release dependencies without an official URL; the shared `publish_to_drive.py` publisher live-inspects those dependencies plus the existing target link before uploading and blocks both FAIL and NEEDS REVIEW. `publication_state.py` derives resource status from distinct external holding URLs or generated-PDF MD5 parity. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
-When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
+New PDF blocks require no dependency-list edits: `select_builds.py` discovers local file references from their JSON values. Keep source paths in JSON and run `python scripts/validate.py` plus relevant checks after tooling changes.

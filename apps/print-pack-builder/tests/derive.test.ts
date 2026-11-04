@@ -49,7 +49,7 @@ const guide: LessonSource = {
       title: "Choose One",
       rows: [],
       options: [
-        { label: "A", title: "Cards", rows: [{ kind: "GIVE", links: [{ ref: "group", quantity: "per_group", description: "One per team" }] }] },
+        { label: "A", title: "Cards", group_size: 3, rows: [{ kind: "GIVE", links: [{ ref: "group", quantity: "per_group", description: "One per team" }] }] },
         { label: "B", title: "Talk", rows: [{ kind: "DO", text: "Discuss." } as never] },
       ],
     },
@@ -80,6 +80,7 @@ describe("deriveManifest", () => {
     expect(more).toMatchObject({ items: [{ title: "Extension", summary: "+10 min", materials: [{ resourceId: "ext" }] }] });
     if (choice.kind !== "choice") throw new Error("expected a choice");
     expect(choice.options.map((o) => o.label)).toEqual(["A", "B"]);
+    expect(choice.options.map((o) => o.groupSize)).toEqual([3, undefined]);
     expect(choice.options[0].materials).toEqual([{ resourceId: "group", rule: "per_group", cardsPerSheet: 4, note: "One per group of 3–4" }]);
     expect(choice.options[1]).toMatchObject({ summary: "Nothing to print.", materials: [] });
   });

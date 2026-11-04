@@ -1,0 +1,69 @@
+{
+  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
+  "template": "activity_guide",
+  "title": "Design Challenge",
+  "kind": "instructions",
+  "option": "A",
+  "meta": [
+    "Expands Teacher Guide step 2",
+    "20–30 min",
+    "Prep about 10 min",
+    "Teams of 2–3"
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Before class"
+    },
+    {
+      "type": "checklist",
+      "style": "box",
+      "items": [
+        "Blank paper for each student",
+        "Pencils, markers and coloured pencils for each team"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How it runs"
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "title": "Sketch alone",
+          "mins": "5–10 min",
+          "text": "Each student sketches one idea, without talking."
+        },
+        {
+          "title": "Share ideas",
+          "mins": "5 min",
+          "text": "Each student shows their sketch; teammates name one idea to keep."
+        },
+        {
+          "title": "Design together",
+          "mins": "10–15 min",
+          "text": "The team draws ONE cupcake on its worksheet and labels three teamwork qualities."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Tips"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "Team can’t agree",
+          "text": "Build one cupcake from parts: the base from one sketch, the frosting from another."
+        }
+      ]
+    }
+  ],
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, clean-up, debrief, printing, student-resource links and option totals stay there). Covers guide step 2 (5 min) and step 3 · A (20–30 min). Sources: Day 3 The Showdown (v0) Level 1 page (p. 6: purpose, teamwork-quality examples, materials, success criteria); the user's task spec (3–5 min solo sketch, one team design, three teamwork qualities, verbal or drawn responses). 'Level 1' renamed Design. A teacher summary with light notes on the trickiest moments. Teams of 3–4 and the timing and logistics notes are newly written.",
+  "resource_id": "ccc-q01-showdown-design-guide",
+  "resource_type": "teacher_companion",
+  "audience": "teacher",
+  "stage": "03-the-showdown"
+}

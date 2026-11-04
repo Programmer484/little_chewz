@@ -42,7 +42,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](CREATE.md).
 
-The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"template":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"template":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
+The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"renderer":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
 
 ## Pre-publication dependency inspection
 

@@ -1,5 +1,6 @@
 """Inspector tests: Drive permissions and URL-specific human approval."""
 import io
+import os
 import sys
 import tempfile
 import unittest
@@ -64,11 +65,11 @@ class InspectionTests(unittest.TestCase):
 
     def test_generated_pdf_uses_live_drive_checksum(self):
         digest = "a" * 32
-        pdf = {"template": "teacher_guide", "approved_md5": digest}
+        pdf = {"renderer": "teacher_guide", "approved_md5": digest}
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(md5=digest))["result"], audit.PASS)
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(md5="b" * 32))["result"], audit.FAIL)
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive())["result"], audit.REVIEW)
-        self.assertEqual(audit.audit({"guide": item(pdf={"template": "teacher_guide"})},
+        self.assertEqual(audit.audit({"guide": item(pdf={"renderer": "teacher_guide"})},
                                      service=Drive(md5=digest))["result"], audit.REVIEW)
         # Confirmed private access still fails even when a checksum is missing.
         self.assertEqual(audit.audit({"guide": item(pdf=pdf)}, service=Drive(public=False))["result"], audit.FAIL)
@@ -153,10 +154,14 @@ class InspectionTests(unittest.TestCase):
         drive = Drive(permissions_error=PermissionError("PRIVATE-TOKEN"))
         with tempfile.TemporaryDirectory() as temp:
             report_path = Path(temp) / "inspection-report.json"
+            # Keep this deliberately failing permission check out of the real
+            # GitHub Actions step summary when tests run in CI.
+            summary_path = Path(temp) / "test-step-summary.md"
             output = io.StringIO()
             with (patch.object(audit, "load_registry", return_value={"x": item()}),
                   patch.object(audit, "drive_service", return_value=drive),
                   patch.object(sys, "argv", ["inspector", "--report", str(report_path)]),
+                  patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(summary_path)}),
                   redirect_stdout(output)):
                 with self.assertRaises(SystemExit) as stopped:
                     audit.main()
@@ -165,6 +170,7 @@ class InspectionTests(unittest.TestCase):
             self.assertIn("operation=permissions.list", diagnostics)
             self.assertNotIn("PRIVATE-TOKEN", diagnostics)
             self.assertNotIn("operation=permissions.list", output.getvalue())
+            self.assertIn("NEEDS REVIEW", summary_path.read_text())
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())

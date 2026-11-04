@@ -82,7 +82,7 @@ For IDs, URLs and statuses read [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md
 - Find the rule's owner in `START_HERE.md`. Update it there; replace superseded wording and link from other documents instead of copying the rule.
 - State the scope, required behavior, and any necessary exception. Use direct instructions and keep examples only when they clarify a decision.
 - Search for conflicts and stale references. Update affected templates or behavior within the authorized scope; record remaining work explicitly.
-- Keep agents routed: a new source type gets a `$instructions` pointer (defined in `scripts/validate.py`) and a template carrying it; a new folder of editable files gets an `AGENTS.md`, a row in the table above, and an entry in `scripts/build_agents_md.py`.
+- Keep agents routed: a new source type gets a `$instructions` pointer (defined in `scripts/validate.py`) and a `templates/<name>/TEMPLATE.json` carrying it and `"template": "<name>"`, with its renderer added to `TEMPLATE_RENDERER` in `scripts/validate.py`; a new folder of editable files gets an `AGENTS.md`, a row in the table above, and an entry in `scripts/build_agents_md.py`.
 - Never edit the root `AGENTS.md`; it is generated. After editing any instruction file, run `python scripts/build_agents_md.py`; `scripts/validate.py` fails while `AGENTS.md` is stale. A new instruction file is added to `SOURCES` in that script.
 - Keep editorial judgment in prose, shared values in their existing data files, and objective checks in `scripts/validate.py`. Do not add unused enforcement files or speculative tooling.
 - Apply explicit user decisions within their scope. If conflicting instructions would change human review scope, publication, or content meaning and intent is unclear, flag the conflict and continue independent work.
@@ -125,7 +125,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
 | [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
-| `templates/` | Templates for supported lesson and companion sources, plus the `welcome` page style (clean pages and quest navigation) |
+| `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `option_overview`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
@@ -293,7 +293,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
 
-The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"template":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"template":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
+The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"renderer":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
 
 ### Pre-publication dependency inspection
 
@@ -337,7 +337,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
 | Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, builds and publication evidence | `catalog/resources.json` |
-| Shared starting structures | `templates/teacher_guide/`, `templates/teacher_companion/`, `templates/welcome/` (clean page style and quest navigation) |
+| Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides), `option_overview` (choosing between options) and `welcome` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -363,13 +363,13 @@ The folder category is the only audience/content classification. No `audience`, 
 ### Production workflows and delivery states
 
 Generation is inferred from the presence of `pdf` in `catalog/resources.json` (no redundant `production_type`, `pdf_template`, `source`, `build` or `url`). The object contains:
-- `template`: `teacher_guide`, `teacher_companion` or `welcome`.
+- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. It is not the *template*. Every generated-PDF source declares its template (the content structure it follows) as its second key, `"template": "<name>"`, copied from `templates/<name>/TEMPLATE.json`. One renderer can serve several templates: `teacher_companion` builds both `teacher_companion` and `activity_guide` sources. `scripts/validate.py` (`TEMPLATE_RENDERER`) checks each source's template against its `pdf.renderer`.
 - `output`: registered PDF filename for guide/companion; alternatively `source`: explicit editable GitHub JSON path for the standalone Welcome renderer.
 - `approved_md5` and `revision`: written only after verified Drive read-back of the exact generated PDF. Missing checksum is **unknown parity**; never infer equality.
 
 Every resource retains its stable catalogue key, `title`, folder-aligned `type`, `published_url` and nullable `holding_url`. Optional extras are `pdf_url` (original classroom-slide source PDF), `print.cards_per_sheet` (student-material cutouts) and `human_reviewed_url` (the exact approved non-Drive URL). Non-Drive links without approval automatically report NEEDS REVIEW; `review_mode` and URL-keyed `human_review` maps do not exist. All published Drive files, regardless of owner or category, undergo Drive existence/permission inspection.
 
-`catalog/drive_folders.json` keeps verified staging and official folder IDs. Files published externally are managed manually and have no generated PDF template or source checksum. Stage a distinct `holding_url` while revising; clear it on release. The official URL may remain unchanged when the same file is moved to an approved folder. An existing permanent URL is never evidence of public access without a real inspection.
+`catalog/drive_folders.json` keeps verified staging and official folder IDs. Files published externally are managed manually and have no PDF renderer or source checksum. Stage a distinct `holding_url` while revising; clear it on release. The official URL may remain unchanged when the same file is moved to an approved folder. An existing permanent URL is never evidence of public access without a real inspection.
 
 Resource delivery has **three derived states**; never store a separate resource `status` field:
 
@@ -425,7 +425,9 @@ Use alongside the independent [Create](system/CREATE.md) and [Update](system/UPD
 
 - Run `python scripts/validate.py` for content changes and relevant tests for tooling changes. Render generated PDFs with the repository renderer; inspect layout, content and links, and verify the review file in its holding folder.
 - `scripts/select_builds.py` and `scripts/build_selected.py` are the supported Python preview path. Valid authored sources can be previewed regardless of delivery status; absent lesson sources produce no placeholders. Manual selection accepts an exact output filename or `all`.
-- PR updates and `main` pushes validate and rebuild affected PDFs. Changes to sources, used assets, renderers, referenced resource links or shared dependencies rebuild their consumers. Documentation-only and publication-evidence-only changes generally do not rebuild PDFs; changing an official resource URL rebuilds linked PDFs.
+- Every PR and `main` push runs validation; `scripts/select_builds.py` renders only affected PDFs. The first PR run compares with the base; subsequent pushes compare with the previous head when available. Existing preview history is preserved.
+- Dependencies come directly from each PDF's source JSON: the selector discovers local file/directory references in any nested block, without block-specific dependency rules. Source and renderer changes rebuild their consumers; shared code/assets and unrecognized potential inputs conservatively rebuild all. No dependency manifest or cache needs maintenance.
+- Renderers generate deterministic PDFs with pinned library versions. Drive publication still verifies the actual PDF bytes with MD5 and requires existing approval safeguards.
 - Give the verified **GitHub Actions run URL first** for PDF reviews (prefer the successful post-merge `main` run). Previews remain under `pdf-preview-history/previews/<run-id>/`; workflow artifacts expire sooner. Never automatically merge or delete historical preview branches.
 
 ### Report and stop
@@ -652,9 +654,9 @@ Companions (question banks, extensions, answer keys and other teacher pages) sup
 
 Every companion uses the shared resource masthead and footer, rendered by `scripts/renderers/teacher_companion.py`; do not restyle individual documents.
 
-- **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header.
+- **Masthead (page 1):** school crest, `CONFETTI CAKE COTTAGE · QUEST 01`, the section label in its accent colour (`PART 2 · SECRET INGREDIENTS`), a resource-type tag at the top right, the title, one grey meta line, then a full-width accent rule. Later pages carry a one-line running header. A guide for one lettered lesson option sets `option` (`"A"`), which adds `· OPTION A` to the section label.
 - **Section and colour** come from the companion's `stage` and `quest.json`, using the Teacher Guide's section palette. Never set them by hand; colour always appears with the section name.
-- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions` or `reference`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
+- **Resource-type tag** comes from `kind`: `questions`, `extension`, `answer_key`, `instructions`, `reference` or `overview`. Add a new kind to `RESOURCE_TAGS` in the renderer only when a real resource needs it.
 - **Title:** short and matching the resource's catalogue title, so the Teacher Guide link and the document agree. No section names or dashes in the title.
 - **Meta line:** two or three short facts in `meta`: whether it is optional, added time, and when or with what to use it (`Optional · Adds about 15–25 minutes · Follows Small Bite 1: School Song`).
 - **Footer:** `LITTLE CHEWZ · CHEWLANDIA ACADEMY` and `page / total` on every page.
@@ -663,9 +665,44 @@ Every companion uses the shared resource masthead and footer, rendered by `scrip
 - No other decorative headers, badges or boxes. Use illustrations or setup photos only when they aid comprehension.
 - For multiple resource variants, link the Teacher Guide to one instruction/chooser PDF that links to the separate versions.
 
+### Activity guides
+
+A Teacher Guide that offers lettered activity options (such as the Showdown's A–D) links one short activity guide per option (`kind: instructions`, `option` set to its letter). It is a teacher's summary with light notes on the trickiest parts to run, not a lesson plan. Start from `templates/activity_guide/TEMPLATE.json` (`"template": "activity_guide"`), which fixes the section names and order; `scripts/validate.py` checks the sections, their order and the absence of spacer blocks. Activity guides use the companion renderer (catalogue `pdf.renderer`: `teacher_companion`). Keep every activity guide in that shape so a teacher who has used one can scan the next:
+
+- **Where things live.** The lesson's overview one-pager holds each option's key restrictions, prep and notes for choosing. The Teacher Guide holds the launch, clean-up, debrief, cards and links. The activity guide holds only how to prepare and run its option.
+- **Sections, in this order:** `Before class` (what to buy, prepare or set up) → `Choose one …` (optional: a route or twist the teacher picks before class) → `How it runs` (timed `steps`, each saying only what happens) → `Tips` (optional `pairs`: the non-obvious fixes). A `Safety first` callout, only for food, ovens or hot equipment, comes before them all.
+- **Keep steps clean.** A step is one or two short sentences of what happens. Give times as ranges rounded to 5 or 10 minutes where that makes sense; count only lesson time, and say which Teacher Guide step any waiting (such as baking) overlaps.
+- **Design around the hard constraint.** Where timing is critical, build the steps backwards from it: put essential set-up (such as preheating) in its own step, state the cutoff, and give the check the teacher makes while circulating to keep every team on pace.
+- **Tips name a problem, then the fix.** Each tip's term is the situation a teacher would recognise (`Team can't agree`, `Oven not hot yet`), not a topic, and its fix is one line. Include only the foreseeable problems specific to this activity; one tip is fine. Generic classroom management never qualifies.
+- **Repeat nothing** from the overview, the Teacher Guide or the student materials unless it is safety-critical. The meta line names the guide step it expands and its time.
+- **Essentials only.** One page by default; never add content to fill space. Activities with food or ovens may go longer to cover everything the teacher must check.
+
+### Option overviews
+
+A lesson with lettered options links one overview in its Teacher Guide's Preparation (`kind: overview`, from `templates/option_overview/TEMPLATE.json`). It is a one-page aid for choosing, in this order: an optional `intro` on the option we encourage and why; one `table` comparing the options at a glance; a `How to choose` heading with short `pairs` matching a classroom situation to the options that fit it; and a `Safety first` callout when any option involves food, ovens or hot equipment. It holds nothing about running an option; that lives in the activity guides.
+
+- **Columns:** challenge, time, team size, food, prep and clean-up. Give prep as minutes (`20 min + shopping`), not a rating; clean-up is `Low` / `Medium` / `High`. Fold anything implied by another column into it (`Baked · oven`, not a separate Oven column).
+- **Notes** hold only what the columns cannot: the main preparation step, in one line, without repeating the prep time.
+- **Row flags:** `encouraged: true` on the options the intro encourages; `food: true` on every option involving food, which ties it to the safety callout.
+
 ### Source and generation
 
-Companions use JSON with required `title`, `kind`, `stage` and `meta`, an optional `intro`, and optional `paragraph`, `steps`, `questions`, `answers`, `bullets`, `heading`, `note`, `image`, `links`, and `spacer` blocks. List blocks number continuously across a document; set `start` on a block to restart. No fixed block order, minimum count, one-page requirement, or decorative filler. Start from `templates/teacher_companion/TEMPLATE.json`.
+Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optional `option` and `intro`. Start from `templates/teacher_companion/TEMPLATE.json` (`"template": "teacher_companion"`), which shows every block; delete the ones you do not use. Blocks mix in any order, with no minimum count, one-page requirement or decorative filler.
+
+| Block | Use for | Renders as |
+| --- | --- | --- |
+| `heading` | Group label (`Before class`, `Core · Clue Tracker page 1`) | Small tracked caps in the section colour |
+| `callout` | Safety warnings only: allergies, food rules, ovens, hot equipment (`title`, `text`) | Tinted panel with an accent rule; omit it when nothing can hurt anyone |
+| `checklist` | `style: "box"` for prep and materials; `style: "check"` for success criteria or look-fors | Unnumbered rows with a box or tick in the number column |
+| `steps` | Ordered teacher actions; items take `title`, `text`, and optionally `mins`, `tag`, `prompts` | Numbered rows; `mins` right-aligned, `tag` in grey caps after the title (e.g. `Guide step 3`), `prompts` as italic teacher lines beside an accent rule, without quotation marks |
+| `questions`, `answers` | Question banks and answer keys | Numbered rows with hairline dividers |
+| `pairs` | Short term–explanation tables: look-fors, troubleshooting, roles (`term`, `text`) | Bold term column with the explanation beside it, hairline dividers |
+| `table` | Comparing options at a glance (`columns`, then `rows` of `cells`, an optional one-line `note`, and optional `encouraged` and `food` flags) | Grey column labels over one hairline; columns sized to their content; an `A · Name` first cell gets an accent letter badge; `Low` / `Medium` / `High` cells show a three-dot meter, explained once in a key under the table; cell text in ink, notes in grey; `encouraged` adds a tag under the name; `food` adds a safety mark after the Food cell and on the following callout; notes under the detail columns; whitespace, not dividers, between rows; kept on one page |
+| `bullets`, `paragraph`, `note` | Plain lists, body text, small grey notes | Body or grey text |
+| `links` | Registry resources by `ref`, with a short `description` | Bold underlined title and grey description |
+| `image`, `spacer` | A comprehension-aiding illustration; a rare extra gap. Sections space themselves, so never use `spacer` for layout | |
+
+Numbered blocks (`steps`, `questions`, `answers`) number continuously across a document; set `start` on a block to restart. A step's `tag` may point to the Teacher Guide step it expands; keep the guide's step structure rather than repeating its Teaching Flow. Add a new block type to `scripts/renderers/teacher_companion.py` only when real content needs it.
 
 Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Layout implementation lives in `scripts/renderers/teacher_companion.py`; follow [WORKFLOW.md](system/WORKFLOW.md) for checking, previews, and publication. See [START_HERE.md](START_HERE.md#local-checks-and-approved-previews) for current commands.
 
@@ -873,7 +910,7 @@ Every source file in this folder opens with a `$instructions` key (stories: an `
 
 Linked resource names, URLs, and publication evidence (including each lesson's Teacher Guide) live in [catalog/resources.json](catalog/AGENTS.md); all publication states are derived, never stored.
 
-**Student worksheets print from the guide.** The [Print Pack Builder](apps/AGENTS.md) reads each `lesson.json`: a `student_material` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per group of 3–4`).
+**Student worksheets print from the guide.** The [Print Pack Builder](apps/AGENTS.md) reads each `lesson.json`: a `student_material` under `GIVE` is printed for everyone, under `MORE` it is an optional checkbox, and inside `step.options` it follows the A/B/C choice. Adding a worksheet to a guide, and publishing it in the catalogue, makes it printable with no other step. Keep each worksheet's description stating its copies (`One per student`, `One per team of 2–3`). An option may set `group_size` (students per group) as the builder's default for its per-group materials; otherwise the builder uses 4.
 
 After editing, run `python scripts/validate.py` and save through a PR per [WORKFLOW.md](system/WORKFLOW.md).
 
@@ -898,10 +935,10 @@ Follow [CREATE.md](system/CREATE.md) for new drafts, [UPDATE.md](system/UPDATE.m
 
 ## Editing templates
 
-Templates are starting structures for supported source types: `teacher_guide/` (lesson.json), `teacher_companion/`, and the `welcome/` page style with its assets. `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
+Templates are starting structures for supported source types, one folder each: `teacher_guide/` (lesson.json), `teacher_companion/` (question banks, extensions, answer keys), `activity_guide/` (one guide per lettered lesson option), `option_overview/` (one page for choosing between them) and the `welcome/` page style with its assets. A template is the content structure; the renderer that builds it is separate and recorded in the catalogue as `pdf.renderer` ([CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states)). `fonts/` holds the bundled Lato (OFL) used by the Teacher Guide and companion renderers; it is the same Lato 2.015 CI used before it was bundled. Add a template only for a source type with a working authoring workflow.
 
 - **Build templates from individual assets.** Logos, crests, icons, and illustrations go in the template's `assets/` folder as separate image files that the renderer places around live text. Never generate or rasterize a whole page as one image. Full rule: [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md#resources-slides-and-assets).
-- Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need, so copies inherit it. `scripts/validate.py` checks this.
+- Each `TEMPLATE.json` opens with the same `$instructions` pointer its sources need, then `"template": "<folder name>"`, so copies inherit both. `scripts/validate.py` checks both, and that each source's template matches its catalogue renderer. A new template folder also needs its renderer added to `TEMPLATE_RENDERER` in `scripts/validate.py`.
 - Renderers live in `scripts/renderers/`, not here ([scripts/AGENTS.md](scripts/AGENTS.md)).
 
 ---
@@ -926,7 +963,7 @@ Templates are starting structures for supported source types: `teacher_guide/` (
 
 PDF previews and releases use official `published_url` whenever present, and draft previews use holding links otherwise. `publication_checks.py` rejects release dependencies without an official URL; the shared `publish_to_drive.py` publisher live-inspects those dependencies plus the existing target link before uploading and blocks both FAIL and NEEDS REVIEW. `publication_state.py` derives resource status from distinct external holding URLs or generated-PDF MD5 parity. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
-When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
+New PDF blocks require no dependency-list edits: `select_builds.py` discovers local file references from their JSON values. Keep source paths in JSON and run `python scripts/validate.py` plus relevant checks after tooling changes.
 
 ---
 
@@ -941,7 +978,7 @@ When changing renderer inputs or build selection, update `select_builds.py` and 
 | `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
 
 - **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_material` links count. A worksheet becomes downloadable when its catalogue entry has a valid official `published_url`. Never add per-lesson lists, allowlists or Drive IDs to the app.
-- **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF.
+- **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF. An option in `step.options` may set `"group_size": N`, the default students per group for that option; teachers can still change it.
 - The site runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because published student worksheets are shared publicly on Drive. Require the login before publishing a worksheet that must stay private.
 - Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).
 - Use a dedicated non-lesson branch for app work. After editing, run `npm run check` in the app folder; CI runs the same in `.github/workflows/print-pack-builder.yml`.

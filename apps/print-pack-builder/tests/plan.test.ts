@@ -81,6 +81,18 @@ describe("per-activity quantities", () => {
     expect(pick(edited, "group-sheet")).toMatchObject({ groups: 6, needed: 6, defaultCopies: 6 });
   });
 
+  it("uses an option's own default group size until the teacher changes it", () => {
+    const lesson = testLesson();
+    const choice = lesson.sections.find((s) => s.kind === "choice")!;
+    if (choice.kind !== "choice") throw new Error("expected a choice");
+    choice.options.find((o) => o.id === "b")!.groupSize = 3;
+    const plan = computePlan(lesson, { options: { b: true }, extensions: { "group-sheet": true } }, { studentCount: 25 });
+    expect(pick(plan, "team-cards")).toMatchObject({ groups: 9, defaultGroupSize: 3, defaultCopies: 3 });
+    expect(pick(plan, "group-sheet")).toMatchObject({ groups: 7, defaultGroupSize: 4 });
+    const changed = computePlan(lesson, { options: { b: true }, extensions: {} }, { studentCount: 25, groupSizes: { b: 5 } });
+    expect(pick(changed, "team-cards").groups).toBe(5);
+  });
+
   it("calculates each activity from its own students-per-group input", () => {
     const sel = { options: { b: true }, extensions: { "group-sheet": true } };
     const plan = computePlan(testLesson(), sel, {

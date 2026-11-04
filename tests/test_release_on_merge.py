@@ -51,9 +51,9 @@ class ReleaseTests(unittest.TestCase):
         marker = self.marker(ids=ids)
         entries = {
             guide: {"published_url": "https://drive.google.com/file/d/example/view",
-                    "pdf": {"template": "teacher_guide", "output": "02-secret-ingredients-teacher-guide.pdf"}},
+                    "pdf": {"renderer": "teacher_guide", "output": "02-secret-ingredients-teacher-guide.pdf"}},
             companion: {"published_url": "https://drive.google.com/file/d/example/view",
-                        "pdf": {"template": "teacher_companion", "output": "questions.pdf"}},
+                        "pdf": {"renderer": "teacher_companion", "output": "questions.pdf"}},
         }
         selected = ["02-secret-ingredients-teacher-guide.pdf", "questions.pdf"]
         targets = {
@@ -96,7 +96,7 @@ class ReleaseTests(unittest.TestCase):
     def test_failed_release_leaves_registry_evidence_untouched(self):
         registry = {"ccc-q01-welcome": {
             "published_url": "https://drive.google.com/file/d/existing/view",
-            "pdf": {"template": "welcome", "source": "x.json", "approved_md5": "a" * 32},
+            "pdf": {"renderer": "welcome", "source": "x.json", "approved_md5": "a" * 32},
         }}
         plan = {"generated": [],
                 "blocked": [{"resource_id": "ccc-q01-welcome", "reason": "superseded"}]}

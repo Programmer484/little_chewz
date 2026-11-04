@@ -31,7 +31,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
 | [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
 | [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
-| `templates/` | Templates for supported lesson and companion sources, plus the `welcome` page style (clean pages and quest navigation) |
+| `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `option_overview`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
 | `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |

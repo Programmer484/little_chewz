@@ -94,7 +94,7 @@ class PublishTests(unittest.TestCase):
         self.entry = {"title": "Quest Overview", "type": "welcome",
                       "published_url": f"https://drive.google.com/file/d/{FILE_ID}/view",
                       "holding_url": None,
-                      "pdf": {"template": "welcome", "source": "x.json",
+                      "pdf": {"renderer": "welcome", "source": "x.json",
                               "approved_md5": "0" * 32, "revision": "b" * 40}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry),
@@ -139,7 +139,7 @@ class PublishTests(unittest.TestCase):
         self.assertEqual(self.status(), "published")
         self.assertEqual(self.registry.read_text(), saved)
         pdf = json.loads(saved)["ccc-q01-welcome"]["pdf"]
-        self.assertEqual(pdf["template"], "welcome")
+        self.assertEqual(pdf["renderer"], "welcome")
         self.assertEqual(pdf["source"], "x.json")
         self.assertEqual(pdf["revision"], revision)
         self.assertEqual(pdf["approved_md5"], hashlib.md5(PDF).hexdigest())
@@ -147,7 +147,7 @@ class PublishTests(unittest.TestCase):
         self.assertEqual(report["pdf"], pdf)
 
     def test_first_verified_replacement_records_missing_baseline(self):
-        entry = {**self.entry, "pdf": {"template": "welcome", "source": "x.json"}}
+        entry = {**self.entry, "pdf": {"renderer": "welcome", "source": "x.json"}}
         self.write({"ccc-q01-welcome": entry})
         with patch.object(pub, "current_revision", return_value="a" * 40):
             report = self.run_publish(FakeService(md5Checksum=hashlib.md5(PDF).hexdigest()))

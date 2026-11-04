@@ -25,6 +25,8 @@ export interface SelectedPick {
   material: ResolvedMaterial;
   source: string;
   activityId: string;
+  /** The chosen option's default students per group, if it sets one. */
+  groupSize?: number;
 }
 
 /** Ticked worksheets, in lesson order. */
@@ -40,7 +42,8 @@ export function selectedMaterials(lesson: ResolvedLesson, sel: Selection): Selec
     if (s.kind === "choice") for (const option of s.options) {
       if (!sel.options[option.id]) continue;
       const label = `${option.label} · ${option.title}`;
-      for (const m of option.materials) picks.push({ material: m, source: label, activityId: option.id });
+      for (const m of option.materials)
+        picks.push({ material: m, source: label, activityId: option.id, ...(option.groupSize ? { groupSize: option.groupSize } : {}) });
       extras(option.extensions, `${label} · `);
     }
     if (s.kind === "optional") extras(s.items);
@@ -55,7 +58,7 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
   if (lesson.status !== "ready") problems.push("This lesson has no downloadable student materials yet.");
   const lines = new Map<string, PlanLine>();
   const unavailable = new Map<string, Plan["unavailable"][number]>();
-  for (const { material: m, source, activityId } of selectedMaterials(lesson, sel)) {
+  for (const { material: m, source, activityId, groupSize } of selectedMaterials(lesson, sel)) {
     if (!m.resource.available) {
       const item = unavailable.get(m.resourceId);
       if (item) { if (!item.sources.includes(source)) item.sources.push(source); }
@@ -65,8 +68,9 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
       });
       continue;
     }
+    const defaultGroupSize = groupSize ?? lesson.defaults.groupSize;
     const groups = m.rule === "per_group"
-      ? (q.groups?.[activityId] ?? groupCount(q.studentCount, q.groupSizes?.[activityId] ?? lesson.defaults.groupSize))
+      ? (q.groups?.[activityId] ?? groupCount(q.studentCount, q.groupSizes?.[activityId] ?? defaultGroupSize))
       : undefined;
     const needed = numberProblems.length ? 0 : m.rule === "per_student" ? q.studentCount : groups!;
     const id = `${m.resourceId}:${m.rule}${m.rule === "per_group" ? `:${activityId}` : ""}`;
@@ -78,7 +82,7 @@ export function computePlan(lesson: ResolvedLesson, sel: Selection, q: Quantitie
     const defaultCopies = copiesFor(needed, m.cardsPerSheet);
     const override = q.copies?.[id];
     lines.set(id, {
-      id, activityId, resourceId: m.resourceId, title: m.resource.title, rule: m.rule,
+      id, activityId, ...(m.rule === "per_group" ? { defaultGroupSize } : {}), resourceId: m.resourceId, title: m.resource.title, rule: m.rule,
       ...(groups !== undefined ? { groups } : {}),
       needed, cardsPerSheet: m.cardsPerSheet, defaultCopies,
       copies: override ?? defaultCopies, edited: override !== undefined && override !== defaultCopies,

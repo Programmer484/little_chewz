@@ -4,8 +4,8 @@
 The registry entry in catalog/resources.json names the Drive destination
 (`published_url`) and the generated PDF details (`pdf`):
 
-    "pdf": {"template": "welcome", "source": "content/.../welcome.json"}
-    "pdf": {"template": "teacher_guide", "output": "00-activate-teacher-guide.pdf"}   # select_builds target
+    "pdf": {"renderer": "welcome", "source": "content/.../welcome.json"}
+    "pdf": {"renderer": "teacher_guide", "output": "00-activate-teacher-guide.pdf"}   # select_builds target
 
 Publishing replaces the file's contents through the Drive API, so the file
 ID, link, name, folder, and sharing stay the same and Drive keeps the old
@@ -65,7 +65,7 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     if not entry.get("published_url"):
         raise PublishError(f"{resource_id} has no established official destination; initial publication is agent-managed")
     pdf = entry.get("pdf")
-    if not isinstance(pdf, dict) or pdf.get("template") not in {"teacher_guide", "teacher_companion", "welcome"}:
+    if not isinstance(pdf, dict) or pdf.get("renderer") not in {"teacher_guide", "teacher_companion", "welcome"}:
         raise PublishError(f"{resource_id} is external or lacks PDF generation metadata")
     if not (pdf.get("source") or pdf.get("output")):
         raise PublishError(f"{resource_id} has no PDF build source/output")
