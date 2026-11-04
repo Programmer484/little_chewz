@@ -1,4 +1,4 @@
-name: Print Pack Builder
+name: Update Print Pack Builder
 
 # Checks the teacher web app only. Independent of the Teacher Guide PDF pipeline:
 # app changes do not rebuild PDFs, and this workflow never deploys.
