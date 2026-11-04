@@ -1,0 +1,7 @@
+{
+  "signal": "authorized-resource-merge",
+  "pr_number": 122,
+  "resource_ids": [
+    "ccc-q01-set-the-table-teacher-guide"
+  ]
+}
