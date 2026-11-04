@@ -28,7 +28,10 @@ RENDERER_ASSETS = {
 }
 # Real build inputs shared by every output; the workflow and validation code
 # are deliberately not on this list.
-SHARED_BUILD_INPUTS = frozenset({\n    "scripts/build_selected.py", "requirements.txt",\n    ".github/actions/pdf-setup/action.yml",\n})
+SHARED_BUILD_INPUTS = frozenset({
+    "scripts/build_selected.py", "requirements.txt",
+    ".github/actions/pdf-setup/action.yml",
+})
 
 
 @dataclass(frozen=True)
