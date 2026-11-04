@@ -400,7 +400,7 @@
     "title": "Chew On This Teacher Guide",
     "type": "teacher_guide",
     "published_url": null,
-    "holding_url": null,
+    "holding_url": "https://drive.google.com/file/d/17AA9YPJ48Bzkst6QfseOGTIVKP3gA21e/view?usp=drivesdk",
     "pdf": {
       "renderer": "teacher_guide",
       "output": "04-chew-on-this-teacher-guide.pdf"
@@ -410,7 +410,7 @@
     "title": "Team Talk Questions",
     "type": "teacher_resource",
     "published_url": null,
-    "holding_url": null,
+    "holding_url": "https://drive.google.com/file/d/1J6cOCs_wkZuwc3OKoT3cZaJYr-MuFuFO/view?usp=drivesdk",
     "pdf": {
       "renderer": "teacher_companion",
       "output": "team-talk-questions.pdf"
@@ -462,7 +462,7 @@
     "title": "Role-play Extension",
     "type": "teacher_resource",
     "published_url": null,
-    "holding_url": null,
+    "holding_url": "https://drive.google.com/file/d/1C8CUewj5Gi9ye8AQfzoohZTVEVmfGipg/view?usp=drivesdk",
     "pdf": {
       "renderer": "teacher_companion",
       "output": "role-play-extension.pdf"
@@ -472,7 +472,7 @@
     "title": "Graffiti Wall",
     "type": "teacher_resource",
     "published_url": null,
-    "holding_url": null,
+    "holding_url": "https://drive.google.com/file/d/1BK4xqEReQ0NBoxC40YV7IOGd9p_D5ARE/view?usp=drivesdk",
     "pdf": {
       "renderer": "teacher_companion",
       "output": "graffiti-wall.pdf"
