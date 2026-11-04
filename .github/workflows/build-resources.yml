@@ -2,32 +2,11 @@ name: PDF previews
 
 # PR updates and main merges validate; main runs show consolidated AI edits.
 # Each PDF run gets a permanent directory on one shared preview-history branch.
+# Every change is considered; selection happens in Python, not path filters.
 on:
   pull_request:
-    paths:
-      - ".github/workflows/build-resources.yml"
-      - ".github/actions/**"
-      - "content/**"
-      - "scripts/**"
-      - "tests/**"
-      - "templates/**"
-      - "system/**"
-      - "catalog/**"
-      - "requirements.txt"
-      - "*.md"
   push:
     branches: [main]
-    paths:
-      - ".github/workflows/build-resources.yml"
-      - ".github/actions/**"
-      - "content/**"
-      - "scripts/**"
-      - "tests/**"
-      - "templates/**"
-      - "system/**"
-      - "catalog/**"
-      - "requirements.txt"
-      - "*.md"
   workflow_dispatch:
     inputs:
       document:

@@ -5,8 +5,6 @@ import json
 import subprocess
 from pathlib import Path
 
-from pdf_dependencies import inputs_for
-
 ROOT = Path(__file__).resolve().parents[1]
 def read_json(path):
     return json.loads((ROOT / path).read_text())
@@ -112,6 +110,44 @@ def targets():
     return result
 
 
+def input_paths(target):
+    """Discover files and directories referenced by any JSON block."""
+    source = Path(target['source'])
+    files, folders = {source.as_posix()}, set()
+
+    # Companions also read their enclosing quest.json for stage headings.
+    for parent in (ROOT / source).parents:
+        quest = parent / 'quest.json'
+        if quest.is_file():
+            files.add(quest.relative_to(ROOT).as_posix())
+            break
+        if parent == ROOT:
+            break
+
+    def scan(value):
+        if isinstance(value, dict):
+            for item in value.values():
+                scan(item)
+        elif isinstance(value, list):
+            for item in value:
+                scan(item)
+        elif isinstance(value, str) and 0 < len(value) < 240 and '\n' not in value and '://' not in value:
+            # Any block can refer to a local file; no block names or asset keys.
+            try:
+                path = (ROOT / source.parent / value).resolve()
+                if not path.is_relative_to(ROOT.resolve()):
+                    return
+                if path.is_file():
+                    files.add(path.relative_to(ROOT).as_posix())
+                elif path.is_dir():
+                    folders.add(path.relative_to(ROOT).as_posix().rstrip('/') + '/')
+            except (OSError, ValueError):
+                pass
+
+    scan(target['data'])
+    return files, folders
+
+
 def changed_registry_ids(base_ref, fields=('title', 'holding_url', 'published_url')):
     current = read_json('catalog/resources.json')
     if not base_ref:
@@ -136,23 +172,39 @@ def changed_pdf_config_ids(base_ref):
 
 
 def select(changed, base_ref=None):
-    changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
+    changed = {p.replace('\\\\', '/').removeprefix('./') for p in changed}
     registered = targets()
-    selected = set()
+    renderer_files = {f"scripts/renderers/{t['kind']}.py" for t in registered.values()}
+
+    # Shared code/assets may affect any output. An extra preview is safer than
+    # having to register every future helper, font or template by hand.
+    if any(p in {'requirements.txt', 'catalog/quests.json'}
+           or p.startswith(('templates/', '.github/actions/pdf-setup/'))
+           or (p.startswith('scripts/') and p.endswith('.py') and p not in renderer_files)
+           for p in changed):
+        return sorted(registered)
+
     registry_changed = 'catalog/resources.json' in changed
     refs = changed_registry_ids(base_ref) if registry_changed else set()
-    # Navigation resolves current official links, not a second stored status.
-    nav_changed = changed_registry_ids(base_ref, ('title', 'holding_url', 'published_url')) if registry_changed else set()
     builds_changed = changed_pdf_config_ids(base_ref) if registry_changed else set()
+    selected, recognized = set(), set()
     for name, target in registered.items():
-        # Renderer code and its local imports, authored assets (including nested
-        # new block types), and implicit font/crest assets are scoped per PDF.
-        # Editing CI, validator code or a template skeleton is not a PDF change.
-        affected = inputs_for(target).affected_by(changed)
-        if (affected or target["resource_id"] in builds_changed
-                or refs & resource_refs(target["data"])
-                or nav_changed & nav_refs(target["data"])):
+        files, folders = input_paths(target)
+        files.add(f"scripts/renderers/{target['kind']}.py")
+        hits = {p for p in changed if p in files or any(p.startswith(folder) for folder in folders)}
+        recognized.update(hits)
+        if (hits or target['resource_id'] in builds_changed
+                or refs & (resource_refs(target['data']) | nav_refs(target['data']))):
             selected.add(name)
+
+    # Shortcut: when a changed potential input cannot be attributed to a PDF,
+    # rebuild all rather than risk a stale preview. Upgrade only if overbuilds hurt.
+    unknown = changed - recognized - {'catalog/resources.json'}
+    if any(p.startswith('content/')
+           or (not p.startswith(('apps/', 'tests/', 'system/', 'catalog/', '.github/'))
+               and not p.endswith('.md'))
+           for p in unknown):
+        return sorted(registered)
     return sorted(selected)
 
 
