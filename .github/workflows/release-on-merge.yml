@@ -1,4 +1,4 @@
-name: Authorized resource release
+name: Publish on Merge
 
 # Only an explicitly authorized generated-PDF release marker can publish.
 # Never trigger from ordinary pushes, documentation changes, or publication commits.
