@@ -16,17 +16,24 @@ FRIENDLY = {
         "The publisher cannot confirm that this file exists. Check access for the publisher account.",
 }
 
-def explanation(reason: str) -> str:
+def blocked_rows(resource_id: str, reason: str) -> list[tuple[str, str, str]]:
+    """Split dependency failures into independent, actionable table rows."""
     if "pre-publication inspection blocked:" in reason:
         issues = reason.split("pre-publication inspection blocked:", 1)[1].strip()
-        parts = []
+        rows = []
         for issue in issues.split("; "):
-            resource, _, detail = issue.partition(": ")
-            status, _, message = detail.partition(" (")
+            name, separator, detail = issue.partition(": ")
+            if not separator:
+                rows.append(("Blocked", resource_id, issue))
+                continue
+            status, marker, message = detail.partition(" (")
+            if not marker:
+                rows.append((status, name, detail))
+                continue
             message = message.removesuffix(")")
-            parts.append(f"{resource}: {FRIENDLY.get(message, message)}")
-        return " ".join(parts)
-    return reason
+            rows.append((status, name, FRIENDLY.get(message, message)))
+        return rows
+    return [("Blocked", resource_id, reason)]
 
 def format_report(report: dict) -> str:
     blocked = report.get("blocked", [])
