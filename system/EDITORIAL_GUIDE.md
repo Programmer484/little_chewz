@@ -91,7 +91,7 @@ Avoid `NOTE`, `WATCH`, `CHECK`, `TIME`, `USE`, `OR`, `CHOICE`, `CHOOSE`, and `PL
 
 ## 5. How to write a Teaching Flow step
 
-- Use the established **number, title, duration**, then brief labelled action rows.
+- Use the established **number, title, duration**, then brief labelled action rows. Give each duration as one best estimate rounded to 5 or 10 minutes; use a range only for a step whose options differ, spanning their times.
 - Start with the **action**. Prefer compact imperatives over explanations: `DO Pair-share for two minutes.`
 - Give **one meaningful instruction per row**; avoid long paragraphs unless the paragraph itself is an approved READ excerpt.
 - Follow the classroom sequence. Do not introduce the task twice (once in the title and again in the first row).

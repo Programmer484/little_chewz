@@ -5,8 +5,8 @@
   "option": "B",
   "meta": [
     "Expands Teacher Guide step 2",
-    "30–35 min",
-    "Prep about 20 min plus shopping",
+    "30 min",
+    "Prep 20 min + shopping",
     "Teams of 2–3"
   ],
   "blocks": [
@@ -55,18 +55,23 @@
         },
         {
           "title": "Plan and roles",
-          "mins": "10 min",
+          "mins": "5 min",
           "text": "The team agrees one design that uses part of each idea, and picks roles: Leader, Supply Manager, Timekeeper, Clean-Up Crew. In smaller teams, students take more than one role."
         },
         {
           "title": "Decorate together",
-          "mins": "15–20 min",
+          "mins": "15 min",
           "text": "Hand out decorations once you’ve seen the team’s plan. Food: everyone washes hands. Teams decorate to their plan."
+        },
+        {
+          "title": "Clean up",
+          "mins": "5 min",
+          "text": "Teams bin their plates and wipe their tables."
         }
       ]
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, food-safety check, clean-up, debrief, printing, card link and option totals stay there). Covers guide step 2 (5 min) and step 2 · B (30–35 min; human decision 2026-11-04 capped decorating at 15–20 min, down from Day 3's 30–45). Sources: Day 3 The Showdown (v0) Level 2 page (p. 6: premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria); the task spec (both routes, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. Craft backup materials are newly suggested; food-route spreading tools, plates, napkins and wipes; roles (adapted from the Day 3 Level 3 list); the 5 / 10 / 15–20 min split; logistics notes (purchase timing, frosting temperature, portioning). Decorations are handed out only after the team's plan is checked, enforcing Day 3's 'shared plan before decorating' criterion (human decision 2026-11-04); Tips removed as redundant.",
+  "source_note": "DRAFT 2026-11-03, needs human review. One page; repeats nothing in the Showdown Teacher Guide (launch, food-safety check, clean-up, debrief, printing, card link and option totals stay there). Covers guide step 2 (5 min) and step 2 · B (30 min so the lesson fits one 45-min period: decorating 15 min, human decision 2026-11-04). Sources: Day 3 The Showdown (v0) Level 2 page (p. 6: premade cupcakes, frosting and decorations of teacher choice, craft alternative if food is unavailable, success criteria); the task spec (both routes, every student contributes before a shared plan and roles). 'Level 2' renamed Decorate. Craft backup materials are newly suggested; food-route spreading tools, plates, napkins and wipes; roles (adapted from the Day 3 Level 3 list); the 5 / 5 / 15 / 5 min split; logistics notes (purchase timing, frosting temperature, portioning). Decorations are handed out only after the team's plan is checked, enforcing Day 3's 'shared plan before decorating' criterion (human decision 2026-11-04); Tips removed as redundant.",
   "resource_id": "ccc-q01-showdown-decorate-guide",
   "resource_type": "teacher_companion",
   "audience": "teacher",
