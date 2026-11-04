@@ -1,0 +1,106 @@
+{
+  "template": "teacher_guide",
+  "key": "p4",
+  "title": "PART 4 / CHEW ON THIS",
+  "grade": "4–6",
+  "duration": "about 45 minutes",
+  "print_note": "PRINT ONLY SELECTED CARDS",
+  "goal": "Use story evidence and shared experiences to explore different perspectives, respond to conflict, and strengthen teamwork.",
+  "outcomes": [
+    "Support ideas with story evidence.",
+    "Compare perspectives and responses to conflict.",
+    "Identify qualities of a strong teammate."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-chew-on-this-slides",
+      "description": "Review slides 1–8"
+    }
+  ],
+  "optional_prep": [],
+  "focus": "Encourage students to consider different perspectives and support their thinking with evidence.",
+  "assessment": "Team Talk: Listen for ideas supported by the story. Conflict Scenarios: Look for respectful responses that consider more than one perspective.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Critical Thinking"
+  ],
+  "cover": "cover.pdf",
+  "output": "04-chew-on-this-teacher-guide.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Team Talk",
+      "mins": "20",
+      "rows": [
+        {
+          "kind": "DO",
+          "ref": "ccc-q01-chew-on-this-team-talk-questions",
+          "description": "Select up to three prompts and display them."
+        },
+        {
+          "kind": "DO",
+          "text": "Students discuss in pairs or small groups, using story evidence to support their ideas."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Conflict Scenarios",
+      "mins": "20",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slides 2–6 — Assign one of the four scenarios to each group."
+        },
+        {
+          "kind": "DO",
+          "text": "Groups consider different perspectives, agree on a respectful response, and share briefly."
+        },
+        {
+          "kind": "ASK",
+          "text": "What would an assertive response sound like?"
+        },
+        {
+          "kind": "SHOW",
+          "text": "Slide 7 — Revisit Maddie’s changing perspective on Leila."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-chew-on-this-scenario-cards",
+          "description": "Optional group cards",
+          "quantity": "per_group"
+        },
+        {
+          "kind": "DO",
+          "text": "Optional role-play extension: rehearse and perform a selected scenario, then compare responses. Add 15–25 minutes."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Wrap-Up",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Share one takeaway about friendship or teamwork to carry into Part 5."
+        }
+      ]
+    }
+  ],
+  "bonuses": [
+    {
+      "ref": "ccc-q01-chew-on-this-bulletin-large",
+      "description": "Bulletin Board — 5–10 min. Show Slide 8. Complete “A strong teammate is someone who…” and display responses. Print large slips (two per page).",
+      "quantity": "per_student"
+    },
+    {
+      "ref": "ccc-q01-chew-on-this-bulletin-small",
+      "description": "— Small slips (four per page). Print one size only.",
+      "quantity": "per_student"
+    }
+  ],
+  "flow_style": "compact",
+  "source_note": "Approved user feedback 2026-11-04: no Zenix Case Check; Team Talk opens lesson, role-play extends Conflict Scenarios, Bulletin Board is optional. Slides are lesson-local 1–8."
+}
