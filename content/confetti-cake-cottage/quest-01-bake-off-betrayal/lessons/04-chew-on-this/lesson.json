@@ -3,8 +3,8 @@
   "key": "p4",
   "title": "PART 4 / CHEW ON THIS",
   "grade": "4–6",
-  "duration": "about 45 minutes",
-  "print_note": "PRINT ONLY SELECTED CARDS",
+  "duration": "about 40 minutes",
+  "print_note": "PRINT ONLY CHOSEN ACTIVITIES",
   "goal": "Use story evidence and shared experiences to explore different perspectives, respond to conflict, and strengthen teamwork.",
   "outcomes": [
     "Support ideas with story evidence.",
@@ -17,7 +17,12 @@
       "description": "Review slides 1–8"
     }
   ],
-  "optional_prep": [],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-chew-on-this-print-pack",
+      "description": "Choose activities, print once"
+    }
+  ],
   "focus": "Encourage students to consider different perspectives and support their thinking with evidence.",
   "assessment": "Team Talk: Listen for ideas supported by the story. Conflict Scenarios: Look for respectful responses that consider more than one perspective.",
   "curriculum": [
@@ -33,6 +38,10 @@
       "title": "Team Talk",
       "mins": "20",
       "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 1 — Introduce the lesson."
+        },
         {
           "kind": "DO",
           "ref": "ccc-q01-chew-on-this-team-talk-questions",
@@ -51,7 +60,7 @@
       "rows": [
         {
           "kind": "SHOW",
-          "text": "Slides 2–6 — Assign one of the four scenarios to each group."
+          "text": "Slides 2–6 — Introduce the four scenarios and assign one to each group."
         },
         {
           "kind": "DO",
@@ -67,40 +76,49 @@
         },
         {
           "kind": "MORE",
-          "ref": "ccc-q01-chew-on-this-scenario-cards",
-          "description": "Optional group cards",
-          "quantity": "per_group"
-        },
-        {
-          "kind": "DO",
-          "text": "Optional role-play extension: rehearse and perform a selected scenario, then compare responses. Add 15–25 minutes."
+          "links": [
+            {
+              "ref": "ccc-q01-chew-on-this-scenario-cards",
+              "description": "Optional group cards",
+              "quantity": "per_group"
+            },
+            {
+              "ref": "ccc-q01-chew-on-this-role-play-extension",
+              "description": "Role-play extension · Add 15–25 min"
+            }
+          ]
         }
       ]
-    },
-    {
-      "id": 3,
-      "title": "Wrap-Up",
-      "mins": "5",
-      "rows": [
-        {
-          "kind": "DO",
-          "text": "Share one takeaway about friendship or teamwork to carry into Part 5."
-        }
-      ]
-    }
-  ],
-  "bonuses": [
-    {
-      "ref": "ccc-q01-chew-on-this-bulletin-large",
-      "description": "Bulletin Board — 5–10 min. Show Slide 8. Complete “A strong teammate is someone who…” and display responses. Print large slips (two per page).",
-      "quantity": "per_student"
-    },
-    {
-      "ref": "ccc-q01-chew-on-this-bulletin-small",
-      "description": "— Small slips (four per page). Print one size only.",
-      "quantity": "per_student"
     }
   ],
   "flow_style": "compact",
-  "source_note": "Approved user feedback 2026-11-04: no Zenix Case Check; Team Talk opens lesson, role-play extends Conflict Scenarios, Bulletin Board is optional. Slides are lesson-local 1–8."
+  "source_note": "Draft revision 2026-11-04: Team Talk opens with Slide 1, no Wrap-Up; print-pack in Preparation; role-play separate MORE resource; Bulletin Board as optional SHOW/DO/MORE; small slips six per page. All slides numbered locally 1–8.",
+  "prep_heading": "PRINT YOUR CHOICES",
+  "colored_section_titles": true,
+  "bonus_heading": "MORE TIME? YOU CHEWZ!",
+  "bonus_rows": [
+    {
+      "kind": "SHOW",
+      "text": "Slide 8 — Introduce the Graffiti Wall (5–10 min)."
+    },
+    {
+      "kind": "DO",
+      "text": "Students complete “A strong teammate is someone who…” and display their responses together."
+    },
+    {
+      "kind": "MORE",
+      "links": [
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-large",
+          "description": "Large slips · 2 per page",
+          "quantity": "per_student"
+        },
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-small",
+          "description": "Small slips · 6 per page",
+          "quantity": "per_student"
+        }
+      ]
+    }
+  ]
 }
