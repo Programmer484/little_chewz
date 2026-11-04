@@ -6,8 +6,7 @@
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](../system/RESOURCE_GUIDELINES.md#presentation) |
 | `renderers/welcome.py` | Welcome page style | [templates/welcome/README.md](../templates/welcome/README.md) |
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [WORKFLOW.md](../system/WORKFLOW.md#validation-and-previews) |
-| `validate.py` | Objective source/registry checks and instructions freshness | [AI_RULES.md](../system/AI_RULES.md#maintaining-instructions) |
-| `build_agents_md.py` | Regenerate root `AGENTS.md` | Run after any instruction edit |
+| `validate.py` | Objective source, template, and registry checks | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) |
 | `publication_state.py` | One derived publication-state rule and read-only resource/lesson reports (`python scripts/publication_state.py --lessons`) | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) |
 | `publish_to_drive.py` | Generated-PDF in-place Drive replacement/checksum | [PUBLISH.md](../system/PUBLISH.md) |
 | `release_on_merge.py` | Single authorized generated-PDF merge selection and release | [PUBLISH.md](../system/PUBLISH.md) |

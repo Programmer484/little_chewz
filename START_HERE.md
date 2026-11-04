@@ -1,11 +1,10 @@
 # Little Chewz — start here
 
-Prototype in chat, then follow the **independent workflow matching the action**. [AGENTS.md](AGENTS.md) is the generated AI entry point. Shared definitions and checks are in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [WORKFLOW.md](system/WORKFLOW.md).
+Prototype in chat, then follow the **independent workflow matching the action**. [AGENTS.md](AGENTS.md) is the short AI entry point. Shared definitions and checks are in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [WORKFLOW.md](system/WORKFLOW.md).
 
 ## Choose a workflow
 
-- **[Create](system/CREATE.md):** for genuinely **new** resources only; stage a review copy in holding and stop before publication.
-- **[Update](system/UPDATE.md):** for **existing** resources; revise on the shared lesson branch, validate, and preserve the live release.
+- **[Edit](system/EDIT.md):** for new or existing resources. Check for an existing stable ID, edit the source, stage a review copy in holding and preserve the live release. Do not publish.
 - **[Publish](system/PUBLISH.md):** after explicit human authorization, deliver the exact reviewed resource, verify the official Drive file, then save the official URL and approved checksum; resource status derives automatically. Existing generated PDFs use a guarded release-PR merge within this workflow.
 
 Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unless you explicitly request a separate task branch. No chat slash-command integration exists; ordinary GitHub merges and previews do not publish.
@@ -14,8 +13,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 
 | Location | Owns |
 | --- | --- |
-| [AI_RULES.md](system/AI_RULES.md) | AI routing, non-negotiable boundaries, and how instructions are maintained |
-| [AGENTS.md](AGENTS.md) | **Generated** from every instruction file (`scripts/build_agents_md.py`); auto-loaded by agents and pasteable into chats. Never edit directly. |
+| [AGENTS.md](AGENTS.md) | Small agent entry point: universal safeguards and task routing; edited directly. |
 | Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
 | `content/` | Lesson order, source notes, wording, companions, stories and artwork (no stored lesson publication status) |
 | `catalog/quests.json` | Navigation to quest manifests |
@@ -29,8 +27,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
 | [PUBLISH.md](system/PUBLISH.md) | Single publication owner for generated PDFs and external resources, checks and verification |
 | [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| [UPDATE.md](system/UPDATE.md) | Standalone resource revision workflow |
-| [CREATE.md](system/CREATE.md) | Standalone draft creation and holding-folder staging |
+| [EDIT.md](system/EDIT.md) | New and existing resource editing, holding staging, and review |
 | `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `option_overview`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
 | `scripts/validate.py` | Implemented automatic content checks |
 | `scripts/renderers/` | Shared PDF layout and generation code |
@@ -52,7 +49,7 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 - Only resources with a `pdf` object (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub branches and an authorized release-PR merge/checksum pipeline. First release needs manual destination setup.
 - Resources without `pdf` (including externally authored PDFs, posters, images, worksheets and slides) stay in holding until an agent manually publishes and verifies them. No automatic external release or checksum tracking.
 - [Drive holding](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) now mirrors the official four categories: `01_TEACHER_GUIDES`, `02_CLASSROOM_SLIDES`, `03_STUDENT_MATERIALS`, `04_TEACHER_RESOURCES`. Existing subfolders retain their Drive IDs; legacy Slide PDF originals remain in their separate review folder. Holding is not publication.
-- Use Create, Update, and Publish workflow documents directly; no chat slash commands are configured.
+- Use Edit and Publish workflow documents directly; no chat slash commands are configured.
 
 - Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
 - Every existing valid source can generate a preview; stages without a `lesson.json` are not renderable. Previews do not publish.
