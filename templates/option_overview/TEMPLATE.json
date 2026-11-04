@@ -19,7 +19,6 @@
         "Time",
         "Team",
         "Food",
-        "Oven",
         "Prep",
         "Clean-up"
       ],
@@ -30,11 +29,49 @@
             "20–30 min",
             "2–3",
             "None",
-            "No",
-            "Low",
+            "10 min",
             "Low"
           ],
           "note": "The main preparation step, in one line."
+        },
+        {
+          "cells": [
+            "B · Name",
+            "30 min",
+            "3–5",
+            "Baked · oven",
+            "30 min + shopping",
+            "High"
+          ],
+          "encouraged": true,
+          "food": true,
+          "note": "Delete encouraged and food when they do not apply."
+        },
+        {
+          "cells": [
+            "C · Name",
+            "30 min",
+            "3–5",
+            "Baked · oven",
+            "30 min + shopping",
+            "High"
+          ],
+          "encouraged": true,
+          "food": true,
+          "note": "The main preparation step, in one line."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How to choose"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "A situation",
+          "text": "The option or options that fit it."
         }
       ]
     },
