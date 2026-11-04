@@ -289,7 +289,7 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ### Manual fallback and review copies
 
-**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
+**Actions → Internal Drive replacement** is a controlled fallback for Python-generated PDF resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
 
 For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](system/CREATE.md).
 
@@ -704,7 +704,7 @@ Companions use JSON with required `title`, `kind`, `stage` and `meta`, and optio
 
 Numbered blocks (`steps`, `questions`, `answers`) number continuously across a document; set `start` on a block to restart. A step's `tag` may point to the Teacher Guide step it expands; keep the guide's step structure rather than repeating its Teaching Flow. Add a new block type to `scripts/renderers/teacher_companion.py` only when real content needs it.
 
-Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Layout implementation lives in `scripts/renderers/teacher_companion.py`; follow [WORKFLOW.md](system/WORKFLOW.md) for checking, previews, and publication. See [START_HERE.md](START_HERE.md#local-checks-and-approved-previews) for current commands.
+Use the ownership and approved-link rules in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Layout implementation lives in `scripts/renderers/teacher_companion.py`; follow [WORKFLOW.md](system/WORKFLOW.md) for checking, previews, and publication. See [START_HERE.md](START_HERE.md#local-checks-and-previews) for current commands.
 
 ---
 
@@ -885,7 +885,7 @@ The [Print Pack Builder](apps/AGENTS.md) prefills each group activity's **Groups
 
 ### Previously implemented
 
-- Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#previews-and-cleanup).
+- Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews).
 - Human-reviewed slide PDF to linked PPTX conversion: [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
 - Historical backlog: [archive/2026-10/](archive/2026-10/README.md).
 
@@ -977,7 +977,7 @@ New PDF blocks still need rendering logic, but no dependency registration: `sele
 | --- | --- | --- |
 | `print-pack-builder/` | Teachers pick lesson activities and class numbers and download one combined student-worksheet PDF | [print-pack-builder/README.md](apps/print-pack-builder/README.md) |
 
-- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#where-lessons-come-from)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_material` links count. A worksheet becomes downloadable when its catalogue entry has a valid official `published_url`. Never add per-lesson lists, allowlists or Drive IDs to the app.
+- **No separate print configuration.** The Print Pack Builder reads every `lesson.json` and `catalog/resources.json` at build time ([how guides map to the builder](apps/print-pack-builder/README.md#how-it-works)): `GIVE` worksheets are included, `MORE` worksheets are checkboxes, `step.options` are pick-one choices, and only `type: student_material` links count. A worksheet becomes downloadable when its catalogue entry has a valid official `published_url`. Never add per-lesson lists, allowlists or Drive IDs to the app.
 - **Editing a guide edits the builder.** When you add, move or remove a student worksheet in a `lesson.json`, the builder changes with it; describe its copies in the guide ("One per student", "One per group of 3–4"). For cards printed several to a page, add `"print": {"cards_per_sheet": N}` to the catalogue entry, counted from the actual PDF. An option in `step.options` may set `"group_size": N`, the default students per group for that option; teachers can still change it.
 - The site runs without a login (`REQUIRE_ACCESS: "false"`), which is only acceptable because published student worksheets are shared publicly on Drive. Require the login before publishing a worksheet that must stay private.
 - Do not commit real worksheets, credentials or `.dev.vars`; demo files are synthetic (`npm run fixtures`).

@@ -4,7 +4,7 @@ A small web app for Grade 4–6 teachers: choose a lesson, pick the activities y
 
 **Open → tick activities → check copies → download**, all on one page.
 
-**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#where-lessons-come-from)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline. Its lesson labels (`ready`, `no_student_printing`, `in_progress`) describe **printing readiness**, not publication status; lesson publication is derived separately from each Teacher Guide using `python scripts/publication_state.py --lessons`.
+**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#how-it-works)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline. Its lesson labels (`ready`, `no_student_printing`, `in_progress`) describe **printing readiness**, not publication status; lesson publication is derived separately from each Teacher Guide using `python scripts/publication_state.py --lessons`.
 
 | Part | Technology | Where |
 | --- | --- | --- |
