@@ -1,5 +1,5 @@
 {
-  "$instructions": "Provenance only; never add status or teaching content here. To convert this lesson, create lesson.json from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.",
+  "$instructions": "Provenance only; never add status or teaching content here. If lesson.json is absent, create it from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.",
   "source_reference": "Revised Guide pages 9–13; slideshow pages 14–18 in older continuous deck.",
   "cover_source": "Full_Guide_v1.pdf page 9"
 }
