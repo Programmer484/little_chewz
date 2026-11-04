@@ -204,6 +204,15 @@ for path in lesson_paths:
             if k not in allowed: errors.append(f'{path}: unsupported action label {k}')
             if row.get('ref'):check_ref(row['ref'],path)
             for link in row.get('links',[]):check_ref(link['ref'],path)
+    if d.get('bonus_rows') and d.get('bonuses'):
+        errors.append(f'{path}: choose bonus_rows or bonuses, not both')
+    for row in d.get('bonus_rows',[]):
+        check_quantity(row)
+        for link in row.get('links',[]): check_quantity(link)
+        k=row.get('kind','').upper()
+        if k not in allowed: errors.append(f'{path}: unsupported bonus action label {k}')
+        if row.get('ref'): check_ref(row['ref'],path)
+        for link in row.get('links',[]): check_ref(link['ref'],path)
     if ids!=list(range(1,len(ids)+1)): errors.append(f'{path}: step IDs not consecutive')
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
 ACTIVITY_SECTIONS=('Before class','Choose one','How it runs','Tips')
