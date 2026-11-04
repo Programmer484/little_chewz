@@ -1,4 +1,4 @@
-name: Inspect published resources
+name: Inspect
 
 # Read-only, manually triggered. Unpublished material is intentionally skipped.
 on:
