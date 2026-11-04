@@ -6,7 +6,7 @@
   "option": "B",
   "meta": [
     "Expands Teacher Guide step 2",
-    "35–40 min",
+    "45–50 min",
     "Prep about 20 min plus shopping",
     "Teams of 2–3"
   ],
@@ -63,6 +63,11 @@
           "title": "Decorate together",
           "mins": "20–25 min",
           "text": "Hand out decorations once you’ve seen the team’s plan. Food: everyone washes hands. Teams decorate to their plan."
+        },
+        {
+          "title": "Clean up",
+          "mins": "10 min",
+          "text": "Teams clean their stations and wipe their tables."
         }
       ]
     }

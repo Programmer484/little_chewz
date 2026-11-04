@@ -6,7 +6,7 @@
   "option": "A",
   "meta": [
     "Expands Teacher Guide step 2",
-    "20–30 min",
+    "25–35 min",
     "Prep about 10 min",
     "Teams of 2–3"
   ],
@@ -44,6 +44,11 @@
           "title": "Design together",
           "mins": "10–15 min",
           "text": "The team draws ONE cupcake on its worksheet and labels three teamwork qualities."
+        },
+        {
+          "title": "Tidy up",
+          "mins": "5 min",
+          "text": "Teams put their supplies away."
         }
       ]
     },
