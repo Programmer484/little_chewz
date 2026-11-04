@@ -45,8 +45,11 @@ def format_report(report: dict) -> str:
     for row in published:
         lines.append(f"| Published | {row['resource_id']} | Drive file replaced and verified |")
     for row in blocked:
-        reason = explanation(row.get("reason", "Unknown error")).replace("|", "\\|").replace("\n", " ")
-        lines.append(f"| Blocked | {row.get('resource_id', 'Release')} | {reason} |")
+        for status, name, why in blocked_rows(
+            row.get("resource_id", "Release"), row.get("reason", "Unknown error")
+        ):
+            clean = why.replace("|", "\\\\|").replace("\\n", " ")
+            lines.append(f"| {status} | {name} | {clean} |")
     if not blocked and not published:
         lines.append("| No change | — | No resources were published |")
     lines.extend(["", "**Technical details:** See `release-report.json` in the downloadable workflow artifact.",
