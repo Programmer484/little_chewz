@@ -64,6 +64,42 @@ jobs:
               print("ANONYMOUS MP3 ACCESS NOT CONFIRMED")
           PY
 
+      - name: Check existing Songwriting PDF against generated source (read-only)
+        if: github.event_name == 'pull_request'
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          Path("/tmp/songwriting-check.json").write_text(
+              json.dumps({"outputs": ["songwriting-extension.pdf"]})
+          )
+          PY
+          python scripts/build_selected.py --manifest /tmp/songwriting-check.json
+          python - <<'PY'
+          import hashlib
+          import urllib.request
+          from pathlib import Path
+          generated=Path("exports/songwriting-extension.pdf").read_bytes()
+          file_id="1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM"
+          url=f"https://drive.usercontent.google.com/download?id={file_id}&export=download"
+          try:
+              with urllib.request.urlopen(
+                  urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0"}), timeout=20
+              ) as response:
+                  live=response.read(2_000_000)
+                  print(f"SONGWRITING_HTTP={response.status}; TYPE={response.headers.get('Content-Type')}")
+              if not live.startswith(b"%PDF"):
+                  print("SONGWRITING_LIVE_PDF_NOT_VERIFIED")
+              else:
+                  actual=hashlib.md5(live).hexdigest()
+                  built=hashlib.md5(generated).hexdigest()
+                  print(f"SONGWRITING_LIVE_SIZE={len(live)}; BUILT_SIZE={len(generated)}")
+                  print(f"SONGWRITING_LIVE_MD5={actual}; BUILT_MD5={built}")
+                  print(f"SONGWRITING_MATCH={actual==built}")
+          except Exception as exc:
+              print(f"SONGWRITING_CHECK_ERROR={type(exc).__name__}")
+          PY
+
       - name: Determine affected PDF outputs
         id: select
         env:
