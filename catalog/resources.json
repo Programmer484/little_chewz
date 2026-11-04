@@ -395,5 +395,61 @@
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-the-showdown",
     "holding_url": null,
     "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-the-showdown"
+  },
+  "ccc-q01-chew-on-this-teacher-guide": {
+    "title": "Chew On This Teacher Guide",
+    "type": "teacher_guide",
+    "published_url": null,
+    "holding_url": null,
+    "pdf": {
+      "renderer": "teacher_guide",
+      "output": "04-chew-on-this-teacher-guide.pdf"
+    }
+  },
+  "ccc-q01-chew-on-this-team-talk-questions": {
+    "title": "Team Talk Questions",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": null,
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "team-talk-questions.pdf"
+    }
+  },
+  "ccc-q01-chew-on-this-team-talk-cards": {
+    "title": "Team Talk Cards",
+    "type": "student_material",
+    "published_url": null,
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 4
+    }
+  },
+  "ccc-q01-chew-on-this-scenario-cards": {
+    "title": "Conflict Scenario Cards",
+    "type": "student_material",
+    "published_url": null,
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 4
+    }
+  },
+  "ccc-q01-chew-on-this-bulletin-large": {
+    "title": "Bulletin Board Slips — Large",
+    "type": "student_material",
+    "published_url": null,
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 2
+    }
+  },
+  "ccc-q01-chew-on-this-bulletin-small": {
+    "title": "Bulletin Board Slips — Small",
+    "type": "student_material",
+    "published_url": null,
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 4
+    }
   }
 }
