@@ -92,32 +92,13 @@
     }
   ],
   "flow_style": "compact",
-  "source_note": "Draft revision 2026-11-04: Team Talk opens with Slide 1, no Wrap-Up; print-pack in Preparation; role-play separate MORE resource; Bulletin Board as optional SHOW/DO/MORE; small slips six per page. All slides numbered locally 1–8.",
+  "source_note": "Draft revision 2026-11-04: Team Talk opens with Slide 1; no Wrap-Up; Print Pack in Preparation; role-play is a linked MORE extension; optional Graffiti Wall details live in a one-page companion. Slides are lesson-local 1–8.",
   "prep_heading": "PRINT YOUR CHOICES",
   "bonus_heading": "MORE TIME? YOU CHEWZ!",
-  "bonus_rows": [
+  "bonuses": [
     {
-      "kind": "SHOW",
-      "text": "Slide 8 — Introduce the Graffiti Wall (5–10 min)."
-    },
-    {
-      "kind": "DO",
-      "text": "Students complete “A strong teammate is someone who…” and display their responses together."
-    },
-    {
-      "kind": "MORE",
-      "links": [
-        {
-          "ref": "ccc-q01-chew-on-this-bulletin-large",
-          "description": "2 per page",
-          "quantity": "per_student"
-        },
-        {
-          "ref": "ccc-q01-chew-on-this-bulletin-small",
-          "description": "6 per page",
-          "quantity": "per_student"
-        }
-      ]
+      "ref": "ccc-q01-chew-on-this-graffiti-wall",
+      "description": "Optional teamwork display. Adds 5–10 minutes."
     }
   ]
 }

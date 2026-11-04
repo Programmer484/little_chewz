@@ -467,5 +467,15 @@
       "renderer": "teacher_companion",
       "output": "role-play-extension.pdf"
     }
+  },
+  "ccc-q01-chew-on-this-graffiti-wall": {
+    "title": "Graffiti Wall",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": null,
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "graffiti-wall.pdf"
+    }
   }
 }
