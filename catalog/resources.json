@@ -51,7 +51,9 @@
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
-      "output": "mission-video-questions.pdf"
+      "output": "mission-video-questions.pdf",
+      "approved_md5": "ece491366dce84b9a7f7585cd585a68f",
+      "revision": "a9dc15419b6f05ff90e52e64e751e0bb756d35e7"
     }
   },
   "ccc-q01-activate-confetti-questions": {
@@ -61,7 +63,9 @@
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
-      "output": "confetti-file-questions.pdf"
+      "output": "confetti-file-questions.pdf",
+      "approved_md5": "f5dbaf523e270840ada2e5d505d765bc",
+      "revision": "a9dc15419b6f05ff90e52e64e751e0bb756d35e7"
     }
   },
   "ccc-q01-activate-teacher-guide": {
@@ -200,7 +204,9 @@
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
-      "output": "clue-tracker-answer-key.pdf"
+      "output": "clue-tracker-answer-key.pdf",
+      "approved_md5": "d73f0993cbb411cb44391f30ab1d9d2c",
+      "revision": "a9dc15419b6f05ff90e52e64e751e0bb756d35e7"
     }
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
