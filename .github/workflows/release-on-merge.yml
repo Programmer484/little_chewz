@@ -116,7 +116,6 @@ jobs:
             echo "- Combined preview: see the [PDF previews workflow](https://github.com/${GITHUB_REPOSITORY}/actions/workflows/build-resources.yml) for the corresponding main run."
             if [[ -f release-report.json ]]; then
               python scripts/format_release_report.py release-report.json --output release-summary.txt
-              cat release-summary.txt
             else
               echo 'Publication report unavailable. Inspect workflow steps before assuming success.'
             fi
