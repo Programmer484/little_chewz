@@ -43,7 +43,7 @@ The folder category is the only audience/content classification. No `audience`, 
 ## Production workflows and delivery states
 
 Generation is inferred from the presence of `pdf` in `catalog/resources.json` (no redundant `production_type`, `pdf_template`, `source`, `build` or `url`). The object contains:
-- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. It is not the *template*. Every generated-PDF source declares its template (the content structure it follows) as its second key, `"template": "<name>"`, copied from `templates/<name>/TEMPLATE.json`. One renderer can serve several templates: `teacher_companion` builds both `teacher_companion` and `activity_guide` sources. `scripts/validate.py` (`TEMPLATE_RENDERER`) checks each source's template against its `pdf.renderer`.
+- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. It is not the *template*. Every generated-PDF source declares its template (the content structure it follows) as its first key, `"template": "<name>"`, copied from `templates/<name>/TEMPLATE.json`. One renderer can serve several templates: `teacher_companion` builds both `teacher_companion` and `activity_guide` sources. `scripts/validate.py` (`TEMPLATE_RENDERER`) checks each source's template against its `pdf.renderer`.
 - `output`: registered PDF filename for guide/companion; alternatively `source`: explicit editable GitHub JSON path for the standalone Welcome renderer.
 - `approved_md5` and `revision`: written only after verified Drive read-back of the exact generated PDF. Missing checksum is **unknown parity**; never infer equality.
 

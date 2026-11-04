@@ -1,5 +1,4 @@
 {
-  "$instructions": "Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.",
   "template": "activity_guide",
   "title": "Design Challenge",
   "kind": "instructions",

@@ -1,6 +1,6 @@
 name: PDF previews
 
-# PR updates and main merges validate; main runs show consolidated AI edits.
+# Every PR update and main push validates; the selector decides which PDF previews to build.
 # Each PDF run gets a permanent directory on one shared preview-history branch.
 # Every change is considered; selection happens in Python, not path filters.
 on:

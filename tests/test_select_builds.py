@@ -64,21 +64,6 @@ class SelectionTests(unittest.TestCase):
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)
             self.assertEqual(sb.select([f'scripts/renderers/{kind}.py']), expected)
 
-    def test_templates_are_starters_and_assets_are_scoped(self):
-        cases = {
-            'templates/teacher_guide/TEMPLATE.json': set(),
-            'templates/teacher_companion/TEMPLATE.json': set(),
-            'templates/welcome/TEMPLATE.json': set(),
-            'templates/fonts/Lato-Regular.ttf': {'teacher_guide', 'teacher_companion'},
-            'templates/welcome/assets/crest.png': {'welcome', 'teacher_companion'},
-            'templates/welcome/assets/little-chewz-logo.png': {'welcome'},
-            'templates/welcome/assets/fonts/Outfit-Regular.ttf': {'welcome'},
-        }
-        for path, kinds in cases.items():
-            with self.subTest(path=path):
-                expected = sorted(n for n, t in self.targets.items() if t['kind'] in kinds)
-                self.assertEqual(sb.select([path]), expected)
-
     def test_every_generated_pdf_has_explicit_registered_build_and_source(self):
         records=sb.read_json('catalog/resources.json')
         mapping=sb.generated_outputs(records)
@@ -104,6 +89,21 @@ class SelectionTests(unittest.TestCase):
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), consumers)
 
+    def test_templates_are_starters_and_assets_are_scoped(self):
+        cases = {
+            'templates/teacher_guide/TEMPLATE.json': set(),
+            'templates/teacher_companion/TEMPLATE.json': set(),
+            'templates/welcome/TEMPLATE.json': set(),
+            'templates/fonts/Lato-Regular.ttf': {'teacher_guide', 'teacher_companion'},
+            'templates/welcome/assets/crest.png': {'welcome', 'teacher_companion'},
+            'templates/welcome/assets/little-chewz-logo.png': {'welcome'},
+            'templates/welcome/assets/fonts/Outfit-Regular.ttf': {'welcome'},
+        }
+        for path, kinds in cases.items():
+            with self.subTest(path=path):
+                expected = sorted(n for n, t in self.targets.items() if t['kind'] in kinds)
+                self.assertEqual(sb.select([path]), expected)
+
     def test_draft_validation_catches_invalid_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)
@@ -115,7 +115,7 @@ class SelectionTests(unittest.TestCase):
             data['steps'][0]['id']=99
             data['steps'][0]['rows'][0]['kind']='INVALID'
             data['core'][0]['ref']='missing-resource'
-            del data['$instructions']
+            data['template'] = 'missing-template'
             source.write_text(json.dumps(data))
             quest_path=root/'content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json'
             quest=json.loads(quest_path.read_text())
@@ -126,7 +126,7 @@ class SelectionTests(unittest.TestCase):
             self.assertNotEqual(run.returncode,0)
             for error in ['missing visual cover','step IDs not consecutive',
                           'unsupported action label','missing catalog resource ref',
-                          'first key must be "$instructions"',
+                          'must declare "template"',
                           'redundant publication fields']:
                 self.assertIn(error,run.stdout)
 

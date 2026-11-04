@@ -1,5 +1,5 @@
-# Editing instructions
+# Editing system rules
 
-The files here own the repository's rules; each states what it owns in its opening lines, and [START_HERE.md](../START_HERE.md#where-things-belong) maps every rule to its owner. Follow [AI_RULES.md: maintaining instructions](AI_RULES.md#maintaining-instructions): change a rule only in its owner, replace superseded wording, and link instead of copying.
+Each guide owns one subject: [EDIT.md](EDIT.md) (draft/revision), [PUBLISH.md](PUBLISH.md) (official delivery), [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) (data/status), [WORKFLOW.md](WORKFLOW.md) (review/CI), and the specialized editorial/slide/transfer guides.
 
-After editing any instruction file, run `python scripts/build_agents_md.py` to regenerate the root `AGENTS.md`; `scripts/validate.py` fails while it is stale. Never edit the root `AGENTS.md` itself. `action_labels.json` is data read by the validator.
+Update the owning guide once; link to it instead of copying its rules. Check nearby references and templates for contradictions. Root [AGENTS.md](../AGENTS.md) owns only universal agent boundaries and routing; edit it directly when those change. Keep objective checks in `scripts/validate.py`, not duplicate prompt text in data files.

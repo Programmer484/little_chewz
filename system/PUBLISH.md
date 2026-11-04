@@ -1,6 +1,6 @@
 # Publishing resources to Google Drive
 
-**Single authoritative publication procedure** for Python-generated PDFs and externally authored resources. Creating belongs to [CREATE.md](CREATE.md), revising to [UPDATE.md](UPDATE.md), shared review checks to [WORKFLOW.md](WORKFLOW.md), and field and derived-status definitions to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Creating, revising, ordinary PR merges and previewing do not publish.
+**Single authoritative publication procedure** for Python-generated PDFs and externally authored resources. Creating belongs to [EDIT.md](EDIT.md), revising to [EDIT.md](EDIT.md), shared review checks to [WORKFLOW.md](WORKFLOW.md), and field and derived-status definitions to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md). Creating, revising, ordinary PR merges and previewing do not publish.
 
 ## Publication prerequisites and release gate
 
@@ -38,9 +38,9 @@ Move the exact approved generated PDF from holding to the verified official teac
 
 ## Manual fallback and review copies
 
-**Actions → Internal Drive replacement** is a controlled fallback for `generated_pdf` resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
+**Actions → Internal Drive replacement** is a controlled fallback for Python-generated PDF resources with verified existing official destinations. Use dry run first and the same read-back verification. It is not an external-resource publisher or a user-facing publishing command.
 
-For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [CREATE.md](CREATE.md).
+For draft creation, stage a Teacher Guide PDF under the configured `01_TEACHER_GUIDES` holding folder, or a generated companion under `04_TEACHER_RESOURCES`; use the verified folder IDs in `catalog/drive_folders.json`. This is never publication. `holding_url` is a draft pointer, `published_url` the official pointer. The holder may be the same original file before initial release; never treat it as a second version by string inequality alone. Do not change an established Drive ID for housekeeping. Draft procedure: [EDIT.md](EDIT.md).
 
 The publisher resolves only recorded official targets. Generated PDF metadata examples: `{"pdf":{"renderer":"welcome","source":"content/.../welcome.json"}}` or `{"pdf":{"renderer":"teacher_guide","output":"00-activate-teacher-guide.pdf"}}`. `scripts/select_builds.py` resolves these. A non-generated resource has no `pdf` object.
 

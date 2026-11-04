@@ -1,6 +1,6 @@
 # Editing teaching content
 
-Every source file in this folder opens with a `$instructions` key (stories: an `instructions:` frontmatter line) naming the guides to read before editing it. `scripts/validate.py` requires it, and the templates carry it, so new files get it too.
+Follow the relevant guide below for the file being edited. Source JSON carries content, not embedded agent instructions; `scripts/validate.py` checks its data structure and resource references.
 
 | Editing | Read first |
 | --- | --- |
