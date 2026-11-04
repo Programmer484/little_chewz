@@ -80,6 +80,17 @@ jobs:
           import urllib.request
           from pathlib import Path
           generated=Path("exports/songwriting-extension.pdf").read_bytes()
+          import subprocess, sys
+          subprocess.run([sys.executable, "scripts/build_selected.py",
+                          "--manifest", "/tmp/songwriting-check.json"], check=True)
+          generated_again=Path("exports/songwriting-extension.pdf").read_bytes()
+          print(f"SONGWRITING_REPEAT_BUILD_MATCH={generated == generated_again}")
+          if generated != generated_again:
+              offset=next((i for i,(a,b) in enumerate(zip(generated, generated_again))
+                           if a!=b),min(len(generated),len(generated_again)))
+              print(f"SONGWRITING_FIRST_DIFF_AT={offset}; LENGTHS={len(generated)},{len(generated_again)}")
+              print("SONGWRITING_DIFF_OLD=",repr(generated[max(0,offset-30):offset+85]))
+              print("SONGWRITING_DIFF_NEW=",repr(generated_again[max(0,offset-30):offset+85]))
           file_id="1i-sqJBoH2NfMXY0z01dUrYH9BwJ9FFKM"
           url=f"https://drive.usercontent.google.com/download?id={file_id}&export=download"
           try:
