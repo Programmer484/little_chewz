@@ -18,7 +18,20 @@
     },
     {
       "type": "paragraph",
-      "text": "In the Print Pack, choose large Bulletin Board slips (2 per page) or small slips (6 per page). Print one slip per student."
+      "text": "Choose one slip size and print one slip per student. These printouts are separate from the Print Pack."
+    },
+    {
+      "type": "links",
+      "items": [
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-large",
+          "description": "2 slips per page"
+        },
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-small",
+          "description": "6 slips per page"
+        }
+      ]
     },
     {
       "type": "heading",

@@ -50,6 +50,12 @@
         {
           "kind": "DO",
           "text": "Students discuss in pairs or small groups, using story evidence to support their ideas."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-chew-on-this-team-talk-cards",
+          "description": "Optional printed discussion prompts",
+          "quantity": "per_group"
         }
       ]
     },

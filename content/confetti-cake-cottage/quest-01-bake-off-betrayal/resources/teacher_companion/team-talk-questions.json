@@ -37,6 +37,19 @@
         "What makes a team successful besides talent or skill?",
         "What clue from this quest do you think might help restore the sparkle later in the mission?"
       ]
+    },
+    {
+      "type": "heading",
+      "text": "Optional printout"
+    },
+    {
+      "type": "links",
+      "items": [
+        {
+          "ref": "ccc-q01-chew-on-this-team-talk-cards",
+          "description": "Discussion prompt cards, 4 per page"
+        }
+      ]
     }
   ],
   "source_note": "One-page question bank. Canonical shared teacher-companion template: crest, Part 04 accent, QUESTIONS tag, meta line, and numbered prompts. Display guidance stays here, not in the Teacher Guide.",
