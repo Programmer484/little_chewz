@@ -128,6 +128,30 @@ jobs:
               print(f"SONGWRITING_CHECK_ERROR={type(exc).__name__}")
           PY
 
+      - name: Check approved companion checksum impact (read-only)
+        if: github.event_name == 'pull_request'
+        run: |
+          python - <<'PY'
+          import hashlib,json,subprocess,sys
+          from pathlib import Path
+          registry=json.loads(Path("catalog/resources.json").read_text())
+          eligible=[(rid,item["pdf"]["output"],item["pdf"]["approved_md5"])
+                    for rid,item in registry.items()
+                    if item.get("pdf",{}).get("renderer")=="teacher_companion"
+                    and item.get("pdf",{}).get("approved_md5")]
+          Path("/tmp/approved-companions.json").write_text(
+              json.dumps({"outputs":[output for _,output,_ in eligible]})
+          )
+          try:
+              subprocess.run([sys.executable,"scripts/build_selected.py","--manifest",
+                              "/tmp/approved-companions.json"],check=True)
+              for rid,output,approved in eligible:
+                  actual=hashlib.md5((Path("exports")/output).read_bytes()).hexdigest()
+                  print(f"APPROVED_COMPANION {rid}: MATCH={actual==approved}; APPROVED={approved}; BUILT={actual}")
+          except Exception as exc:
+              print(f"APPROVED_COMPANION_CHECK_ERROR={type(exc).__name__}")
+          PY
+
       - name: Determine affected PDF outputs
         id: select
         env:
