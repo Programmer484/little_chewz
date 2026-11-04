@@ -84,7 +84,7 @@
             },
             {
               "ref": "ccc-q01-chew-on-this-role-play-extension",
-              "description": "Role-play extension · Add 15–25 min"
+              "description": "Add 15–25 min"
             }
           ]
         }
@@ -110,12 +110,12 @@
       "links": [
         {
           "ref": "ccc-q01-chew-on-this-bulletin-large",
-          "description": "Large slips · 2 per page",
+          "description": "2 per page",
           "quantity": "per_student"
         },
         {
           "ref": "ccc-q01-chew-on-this-bulletin-small",
-          "description": "Small slips · 6 per page",
+          "description": "6 per page",
           "quantity": "per_student"
         }
       ]
