@@ -59,6 +59,19 @@ def diagnostic_line(resource_id: str, url: str, operation: str, exc: Exception) 
     return "\t".join(fields)
 
 
+def unknown_sharing(resource: dict, url: str, checksum_problem) -> tuple[str, str]:
+    """Existence is verified; permission visibility is unknown, not private.
+
+    Human approval is tied to the exact official URL and cannot suppress a
+    detected checksum problem. Confirmed private results never reach here.
+    """
+    if checksum_problem:
+        return checksum_problem
+    if resource.get("human_reviewed_url") == url:
+        return PASS, "Sharing manually approved for this exact Drive link"
+    return REVIEW, "Sharing could not be checked automatically; review the link and approve its exact URL"
+
+
 def inspect_link(url: str | None, resource: dict, service,
                  diagnostics: list[str] | None = None, resource_id: str = "") -> tuple[str, str]:
     if not url:
@@ -81,7 +94,7 @@ def inspect_link(url: str | None, resource: dict, service,
         return REVIEW, "Service account unavailable"
     try:
         metadata = service.files().get(
-            fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum").execute()
+            fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum,permissions(type,role)").execute()
     except Exception as exc:
         # Drive's 404 can mean either missing or inaccessible to this service account.
         if diagnostics is not None:
@@ -100,6 +113,15 @@ def inspect_link(url: str | None, resource: dict, service,
             checksum_problem = (REVIEW, "Drive did not return PDF checksum")
         elif approved.lower() != str(actual).lower():
             checksum_problem = (FAIL, "Published PDF checksum differs from approved version")
+    # files.get may expose public permissions even when permissions.list is
+    # forbidden for an externally owned file. This requires no extra request.
+    inline_permissions = metadata.get("permissions")
+    if isinstance(inline_permissions, list) and any(
+        p.get("type") == "anyone" and p.get("role") in
+        {"reader", "commenter", "writer", "owner"} for p in inline_permissions
+    ):
+        return checksum_problem or (PASS, "Public sharing verified")
+
     try:
         token = None
         while True:
@@ -111,19 +133,19 @@ def inspect_link(url: str | None, resource: dict, service,
             permissions = result.get("permissions")
             if not isinstance(permissions, list):
                 if diagnostics is not None:
-                    diagnostics.append(f"resource_id={resource_id}\toperation=permissions.list"
-                                       f"\tfile_id={file_id}\tapi_reason=permissions_not_returned")
-                return REVIEW, "Drive did not return permission information"
+                    diagnostics.append(f"resource_id={resource_id}\\toperation=permissions.list"
+                                       f"\\tfile_id={file_id}\\tapi_reason=permissions_not_returned")
+                return unknown_sharing(resource, url, checksum_problem)
             if any(p.get("type") == "anyone" and p.get("role") in
                    {"reader", "commenter", "writer", "owner"} for p in permissions):
-                return checksum_problem or (PASS, "Public sharing enabled")
+                return checksum_problem or (PASS, "Public sharing verified")
             token = result.get("nextPageToken")
             if not token:
-                return FAIL, "Anyone-with-the-link permission is missing"
+                return FAIL, "File is not shared with anyone who has the link"
     except Exception as exc:
         if diagnostics is not None:
             diagnostics.append(diagnostic_line(resource_id, url, "permissions.list", exc))
-        return REVIEW, "Cannot read Drive sharing permissions"
+        return unknown_sharing(resource, url, checksum_problem)
 
 
 def audit(registry: dict, folders=None, service=None, builder=None,
@@ -154,24 +176,57 @@ def audit(registry: dict, folders=None, service=None, builder=None,
                 result = state
                 if state == FAIL:
                     break  # Fail fast for this resource; still report the other resources.
-        report.append({"resource_id": rid, "result": result, "issues": issues})
+        report.append({"resource_id": rid, "title": resource.get("title", rid), "result": result, "issues": issues})
     overall = FAIL if any(r["result"] == FAIL for r in report) else (
         REVIEW if any(r["result"] == REVIEW for r in report) else PASS)
     return {"read_only": True, "result": overall, "resources": report,
             "diagnostics": diagnostics}
 
 
+def friendly_reason(reason: str) -> str:
+    """Plain-language explanation and next step for the Actions summary."""
+    replacements = {
+        "No published URL": "No live link is recorded. Add the verified official link.",
+        "Invalid HTTPS URL": "The link is invalid. Check and correct the saved URL.",
+        "Invalid Google Drive file URL": "The Drive file ID could not be read. Correct the link.",
+        "Service account unavailable": "Drive verification is unavailable. Check the publisher account.",
+        "Service account cannot access Drive file":
+            "The publisher cannot open the file. Check its access; existence is not confirmed.",
+        "Wrong Drive file or file in Trash": "The linked file is missing, mismatched, or in Trash.",
+        "Approved PDF checksum not recorded":
+            "No approved PDF checksum is on record. Verify the existing PDF before recording a baseline.",
+        "Drive did not return PDF checksum":
+            "Drive did not provide a checksum. Confirm the file type and retry.",
+        "Published PDF checksum differs from approved version":
+            "The live PDF differs from the approved version. Review the change before publishing.",
+        "Human review required": "Review this external website and approve the exact URL.",
+        "Sharing could not be checked automatically; review the link and approve its exact URL":
+            "Drive confirmed the file exists, but could not confirm public sharing. Open it as a viewer, then record approval for this exact URL.",
+        "File is not shared with anyone who has the link":
+            "Public link access is not enabled. Update sharing or replace the link.",
+    }
+    return replacements.get(reason, reason)
+
+
 def summary_table(report: dict) -> str:
-    rows = ["| Status | Resource | Link | Reason |", "|---|---|---|---|"]
+    total = len(report["resources"])
+    problems = sum(bool(x["issues"]) for x in report["resources"])
+    rows = ["| Status | Resource | What happened / next step | Link |",
+            "|---|---|---|---|"]
     for item in report["resources"]:
         for issue in item["issues"]:
             url = issue["url"] or ""
-            link = f"[Open resource]({url})" if url.startswith("https://") else "—"
-            reason = issue["reason"].replace("|", "\\|").replace("\n", " ")
-            rows.append(f"| {issue['status']} | `{item['resource_id']}` | {link} | {reason} |")
-    if len(rows) == 2:
-        rows.append("| PASS | All published resources | — | No action needed |")
-    return "### Publication inspection\n\n" + "\n".join(rows) + "\n"
+            link = f"[Open]({url})" if url.startswith("https://") else "—"
+            title = item.get("title") or item["resource_id"]
+            reason = friendly_reason(issue["reason"]).replace("|", "\\|").replace("\\n", " ")
+            rows.append(f"| {issue['status']} | {title} | {reason} | {link} |")
+    if problems == 0:
+        rows.append("| PASS | All checked resources | No action needed | — |")
+    header = f"### Publication inspection — {problems} need attention out of {total} checked\\n\\n"
+    footer = ("\\n**Technical details:** Download `inspection-report.txt` and "
+              "`inspection-report.json` from the workflow artifacts. "
+              "NEEDS REVIEW is not proof that the link is broken.\\n")
+    return header.replace("\\n", "\n") + "\n".join(rows) + "\n" + footer.replace("\\n", "\n")
 
 
 def main() -> None:

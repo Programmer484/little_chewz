@@ -115,12 +115,10 @@ jobs:
             echo "- Accepted revision: \`${MERGE_SHA}\`"
             echo "- Combined preview: see the [PDF previews workflow](https://github.com/${GITHUB_REPOSITORY}/actions/workflows/build-resources.yml) for the corresponding main run."
             if [[ -f release-report.json ]]; then
-              echo '#### Drive results and blockers'
-              echo '\`\`\`json'
-              cat release-report.json
-              echo '\`\`\`'
+              python scripts/format_release_report.py release-report.json --output release-summary.txt
+              cat release-summary.txt
             else
-              echo 'Release validation did not produce a report.'
+              echo 'Publication report unavailable. Inspect workflow steps before assuming success.'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -129,7 +127,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: resource-release-${{ github.event.pull_request.number }}
-          path: release-report.json
+          path: |\n            release-report.json\n            release-summary.txt
           if-no-files-found: ignore
           retention-days: 30
 

@@ -90,11 +90,36 @@ class InspectionTests(unittest.TestCase):
     def test_permission_api_unavailable_requires_review(self):
         result = audit.audit({"x": item()}, service=Drive(permissions_error=PermissionError()))
         self.assertEqual(result["result"], audit.REVIEW)
+        self.assertIn("review the link", result["resources"][0]["issues"][0]["reason"])
+
+    def test_exact_url_human_approval_when_sharing_api_unavailable(self):
+        record = item(human_reviewed_url=U)
+        self.assertEqual(audit.audit({"audio": record}, service=Drive(
+            permissions_error=PermissionError()))["result"], audit.PASS)
+        record["published_url"] = V
+        self.assertEqual(audit.audit({"audio": record}, service=Drive(
+            permissions_error=PermissionError()))["result"], audit.REVIEW)
+
+    def test_manual_approval_never_overrides_missing_existence_or_bad_checksum(self):
+        record = item(human_reviewed_url=U)
+        self.assertEqual(audit.audit({"x": record}, service=Drive(
+            missing=True, permissions_error=PermissionError()))["result"], audit.REVIEW)
+        record["pdf"] = {"renderer": "teacher_companion", "approved_md5": "a" * 32}
+        self.assertEqual(audit.audit({"x": record}, service=Drive(
+            md5="b" * 32, permissions_error=PermissionError()))["result"], audit.FAIL)
+
+    def test_inline_public_permission_when_list_is_unavailable(self):
+        class InlinePublicDrive(Drive):
+            def get(self, fileId, **kwargs):
+                return Request({"id": fileId, "trashed": False,
+                                "permissions": [{"type": "anyone", "role": "reader"}]})
+        drive = InlinePublicDrive(permissions_error=PermissionError())
+        self.assertEqual(audit.audit({"audio": item()}, service=drive)["result"], audit.PASS)
 
     def test_external_urls_get_human_review_without_network(self):
         result = audit.audit({"video": item(VIDEO)})
         self.assertEqual(result["result"], audit.REVIEW)
-        self.assertIn(f"[Open resource]({VIDEO})", audit.summary_table(result))
+        self.assertIn(f"[Open]({VIDEO})", audit.summary_table(result))
 
     def test_approval_is_bound_to_exact_url(self):
         external = item(VIDEO, human_reviewed_url=VIDEO)
@@ -170,7 +195,7 @@ class InspectionTests(unittest.TestCase):
             self.assertIn("operation=permissions.list", diagnostics)
             self.assertNotIn("PRIVATE-TOKEN", diagnostics)
             self.assertNotIn("operation=permissions.list", output.getvalue())
-            self.assertIn("NEEDS REVIEW", summary_path.read_text())
+            self.assertIn("NEEDS REVIEW", summary_path.read_text())\n            self.assertIn("What happened / next step", summary_path.read_text())
 
     def test_summary_only_issues(self):
         report = audit.audit({"pass": item(), "review": item(VIDEO)}, service=Drive())

@@ -94,8 +94,6 @@ for ref,item in registry.items():
     if reviewed is not None:
         if not isinstance(reviewed,str) or reviewed!=item.get('published_url'):
             errors.append(f'{ref}: human approval must match current published URL exactly')
-        elif reviewed.startswith(('https://drive.google.com/', 'https://docs.google.com/')):
-            errors.append(f'{ref}: Drive files always use automatic API inspection')
     if 'pdf_url' in item:
         if category!='classroom_slides' or not isinstance(item['pdf_url'],str) or not item['pdf_url'].startswith('https://'):
             errors.append(f'{ref}: pdf_url is only for classroom-slide source PDFs')
