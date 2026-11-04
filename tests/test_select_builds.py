@@ -100,7 +100,7 @@ class SelectionTests(unittest.TestCase):
             data['steps'][0]['id']=99
             data['steps'][0]['rows'][0]['kind']='INVALID'
             data['core'][0]['ref']='missing-resource'
-            del data['$instructions']
+            data['template'] = 'missing-template'
             source.write_text(json.dumps(data))
             quest_path=root/'content/confetti-cake-cottage/quest-01-bake-off-betrayal/quest.json'
             quest=json.loads(quest_path.read_text())
@@ -111,7 +111,7 @@ class SelectionTests(unittest.TestCase):
             self.assertNotEqual(run.returncode,0)
             for error in ['missing visual cover','step IDs not consecutive',
                           'unsupported action label','missing catalog resource ref',
-                          'first key must be "$instructions"',
+                          'must declare "template"',
                           'redundant publication fields']:
                 self.assertIn(error,run.stdout)
 
