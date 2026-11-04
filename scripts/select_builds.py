@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Select registered, eligible review PDFs from their actual inputs."""
 import argparse
+import ast
 import json
 import subprocess
 from pathlib import Path
@@ -148,6 +149,25 @@ def input_paths(target):
     return files, folders
 
 
+
+def renderer_assets(kind):
+    """Discover bundled assets from the renderer's own path expressions."""
+    source = ROOT / 'scripts/renderers' / f'{kind}.py'
+    paths = set()
+    for node in ast.walk(ast.parse(source.read_text())):
+        parts = []
+        while (isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div)
+               and isinstance(node.right, ast.Constant) and isinstance(node.right.value, str)):
+            parts.insert(0, node.right.value)
+            node = node.left
+        if len(parts) > 1 and parts[0] == 'templates':
+            paths.add(Path(*parts))
+    # Drop intermediate directories when a renderer names a more specific asset.
+    used = {p for p in paths if not any(p != other and p in other.parents for other in paths)}
+    files = {p.as_posix() for p in used if (ROOT / p).is_file()}
+    folders = {p.as_posix().rstrip('/') + '/' for p in used if (ROOT / p).is_dir()}
+    return files, folders
+
 def changed_registry_ids(base_ref, fields=('title', 'holding_url', 'published_url')):
     current = read_json('catalog/resources.json')
     if not base_ref:
@@ -173,13 +193,16 @@ def changed_pdf_config_ids(base_ref):
 
 def select(changed, base_ref=None):
     changed = {p.replace('\\', '/').removeprefix('./') for p in changed}
+    # Starter JSON and template documentation are not runtime PDF inputs.
+    changed = {p for p in changed if not (p.startswith('templates/') and
+               (p.endswith('/TEMPLATE.json') or p.endswith('.md')))}
     registered = targets()
     renderer_files = {f"scripts/renderers/{t['kind']}.py" for t in registered.values()}
+    assets_by_kind = {kind: renderer_assets(kind) for kind in {t['kind'] for t in registered.values()}}
 
-    # Shared code/assets may affect any output. An extra preview is safer than
-    # having to register every future helper, font or template by hand.
+    # Shared code may affect any output; assets are scoped by renderer below.
     if any(p in {'requirements.txt', 'catalog/quests.json'}
-           or p.startswith(('templates/', '.github/actions/pdf-setup/'))
+           or p.startswith('.github/actions/pdf-setup/')
            or (p.startswith('scripts/') and p.endswith('.py') and p not in renderer_files)
            for p in changed):
         return sorted(registered)
@@ -190,6 +213,9 @@ def select(changed, base_ref=None):
     selected, recognized = set(), set()
     for name, target in registered.items():
         files, folders = input_paths(target)
+        asset_files, asset_folders = assets_by_kind[target['kind']]
+        files.update(asset_files)
+        folders.update(asset_folders)
         files.add(f"scripts/renderers/{target['kind']}.py")
         hits = {p for p in changed if p in files or any(p.startswith(folder) for folder in folders)}
         recognized.update(hits)

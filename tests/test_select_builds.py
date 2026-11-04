@@ -89,6 +89,21 @@ class SelectionTests(unittest.TestCase):
         with patch.object(sb, 'previous', return_value=json.dumps(previous)):
             self.assertEqual(sb.select([path], 'base'), consumers)
 
+    def test_templates_are_starters_and_assets_are_scoped(self):
+        cases = {
+            'templates/teacher_guide/TEMPLATE.json': set(),
+            'templates/teacher_companion/TEMPLATE.json': set(),
+            'templates/welcome/TEMPLATE.json': set(),
+            'templates/fonts/Lato-Regular.ttf': {'teacher_guide', 'teacher_companion'},
+            'templates/welcome/assets/crest.png': {'welcome', 'teacher_companion'},
+            'templates/welcome/assets/little-chewz-logo.png': {'welcome'},
+            'templates/welcome/assets/fonts/Outfit-Regular.ttf': {'welcome'},
+        }
+        for path, kinds in cases.items():
+            with self.subTest(path=path):
+                expected = sorted(n for n, t in self.targets.items() if t['kind'] in kinds)
+                self.assertEqual(sb.select([path]), expected)
+
     def test_draft_validation_catches_invalid_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)
