@@ -265,7 +265,7 @@
   "ccc-q01-showdown-design-guide": {
     "title": "Design Challenge",
     "type": "teacher_resource",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1c-5EsO-SaP-6mWJwIC9Pl0bmRurOZ3VX/view?usp=drivesdk",
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
@@ -275,7 +275,7 @@
   "ccc-q01-showdown-decorate-guide": {
     "title": "Decorate Challenge",
     "type": "teacher_resource",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1Comv-gBY6Db-cF4GZnSoth6eewB6B8xD/view?usp=drivesdk",
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
@@ -285,7 +285,7 @@
   "ccc-q01-showdown-bake-mystery-guide": {
     "title": "Bake & Mystery Challenge",
     "type": "teacher_resource",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1g4cM8jGWG-7HftRwwrAdJKTawCnY005H/view?usp=drivesdk",
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
@@ -295,19 +295,19 @@
   "ccc-q01-showdown-design-sheet": {
     "title": "Design Your Cupcake Worksheet",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1OsGJVUuAmx3e2rgeHwwWYYFF7zY9lbxM/view?usp=drivesdk",
     "holding_url": null
   },
   "ccc-q01-showdown-taste-reflection": {
     "title": "TASTE Reflection",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/17TOLxKwNjvjWSxrhoq2Z2ZfmSWUOvDsL/view?usp=drivesdk",
     "holding_url": null
   },
   "ccc-q01-showdown-teacher-guide": {
     "title": "The Showdown Teacher Guide",
     "type": "teacher_guide",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/117FjhPoH4GUOTEi9aGeBbZcs2eWkYm27/view?usp=drivesdk",
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_guide",
@@ -317,43 +317,43 @@
   "ccc-q01-showdown-design-card": {
     "title": "Design Challenge Card",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1bheUTYFXxfI8-pEC5rVFWW879R3bC06j/view?usp=drivesdk",
     "holding_url": null,
     "print": {
-      "cards_per_sheet": 4
+      "cards_per_sheet": 2
     }
   },
   "ccc-q01-showdown-decorate-card": {
     "title": "Decorate Challenge Card",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1Gz2d5RJakzmariCaHWzV2i3xD5J4GOct/view?usp=drivesdk",
     "holding_url": null,
     "print": {
-      "cards_per_sheet": 4
+      "cards_per_sheet": 2
     }
   },
   "ccc-q01-showdown-bake-card": {
     "title": "Bake Challenge Card",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1oQ8shpB3FGCfRCxpDw_m-qPgReOYMkcM/view?usp=drivesdk",
     "holding_url": null,
     "print": {
-      "cards_per_sheet": 4
+      "cards_per_sheet": 2
     }
   },
   "ccc-q01-showdown-mystery-card": {
     "title": "Mystery Challenge Card",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1KK3kG-hnXavIgAeZE84zsEfdUUJ55GHb/view?usp=drivesdk",
     "holding_url": null,
     "print": {
-      "cards_per_sheet": 4
+      "cards_per_sheet": 2
     }
   },
   "ccc-q01-showdown-recipe": {
     "title": "Chocolate Cupcake Recipe",
     "type": "student_material",
-    "published_url": null,
+    "published_url": "https://drive.google.com/file/d/1W0IUIFHIicxkUyRU7nxpsoH-TPnE0iop/view?usp=drivesdk",
     "holding_url": null
   },
   "ccc-q01-activate-print-pack": {
