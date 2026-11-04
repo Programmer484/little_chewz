@@ -359,7 +359,7 @@ def draw_blocks(c, page, top, flex, registry) -> float:
 def fit_flex(page, top, registry) -> float:
     """Pick the extra gap that spreads the blocks down to BOTTOM (capped)."""
     def bottom_at(flex):
-        scratch = canvas.Canvas(io.BytesIO(), pagesize=(PAGE_W, PAGE_H))
+        scratch = canvas.Canvas(io.BytesIO(), pagesize=(PAGE_W, PAGE_H), invariant=1)
         return draw_blocks(scratch, page, top, flex, registry)
 
     b0, b1 = bottom_at(0), bottom_at(1)
@@ -379,7 +379,7 @@ def render(doc_path: Path, output: Path) -> Path:
     registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
 
     body = io.BytesIO()
-    c = canvas.Canvas(body, pagesize=(PAGE_W, PAGE_H))
+    c = canvas.Canvas(body, pagesize=(PAGE_W, PAGE_H), invariant=1)
     first_number = 2 if doc.get("cover") else 1
     for n, page in enumerate(doc["pages"], start=first_number):
         c.setFillColor(CREAM)
