@@ -67,7 +67,6 @@ CHECK_GAP = 9.0                               # whitespace between checklist row
 MARK_W = 12.0                                 # marker column: checklist text aligns with 2-digit numbers
 TERM_W = 128.0                                # `pairs` term column; text starts TERM_GAP after it
 TERM_GAP = 14.0
-TABLE_FIRST_W = 100.0                         # `table` first column (row names)
 TABLE_NOTE_GAP = 3.0                          # `table` space between a row's cells and its note line
 TAG_SIZE = 6.8                                # grey tracked-caps tag after a step title
 PROMPT_RULE = 1.6                             # accent rule beside teacher prompts
@@ -253,79 +252,214 @@ class PairRow(Flowable):
                 base -= LEAD
 
 
-class TableHeader(Flowable):
-    """Column labels for a `table` block: tracked grey caps on the column grid."""
+# `table` block: a calm comparison grid for choosing between lettered options.
+# Columns size to their content and share the leftover width as gutters. Row data
+# drives every mark, so nothing here is specific to one lesson:
+#   "A · Name" first cell   -> accent letter badge and a larger bold name
+#   Low / Medium / High     -> three-dot meter, explained once in a key under the table
+#   "encouraged": true      -> ENCOURAGED tag under the name
+#   "food": true            -> safety mark after the Food cell, repeated on the callout
+# Cell text is always ink; only notes are grey.
+TABLE_LABEL = 7.4                             # column label size (tracked grey caps)
+TABLE_HEAD_RULE = 11.0                        # header labels -> hairline -> first row
+TABLE_NAME = 12.4                             # option name
+TABLE_BADGE = 9.5                             # letter badge radius
+TABLE_NAME_X = 2 * TABLE_BADGE + 8            # row name (and its tag) start after the badge
+TABLE_NOTE, TABLE_NOTE_LEAD = 10.0, 14.6      # note type, one step below the cells
+TABLE_NOTE_DROP = 19.0                        # cell baseline -> first note baseline
+TABLE_ROW_GAP = 22.0                          # whitespace between rows; no dividers
+TAG = "ENCOURAGED"
+TAG_SIZE_T, TAG_TRACK = 6.6, 0.9
+LEVELS = {"low": 1, "medium": 2, "high": 3}
+DOT_R, DOT_STEP = 3.0, 8.6                    # meter dot radius and pitch
+METER_W = 2 * DOT_R + 2 * DOT_STEP
+MARK_R = 5.2                                  # safety mark radius
+MARK_GAP = 6.0
 
-    def __init__(self, columns):
+
+def badge_parts(cell):
+    """Split 'A · Design' into ('A', 'Design'); other first cells have no badge."""
+    head, sep, rest = str(cell).partition("·")
+    head = head.strip()
+    return (head, rest.strip()) if sep and len(head) == 1 and rest.strip() else (None, str(cell))
+
+
+def tag_width():
+    return pdfmetrics.stringWidth(TAG, "LC-Heavy", TAG_SIZE_T) + TAG_TRACK * (len(TAG) - 1)
+
+
+def food_column(columns):
+    return next((i for i, c in enumerate(columns) if c.strip().lower() == "food"), None)
+
+
+def cell_width(i, cell, row, food_col):
+    if i == 0:
+        letter, name = badge_parts(cell)
+        indent = TABLE_NAME_X if letter else 0
+        w = pdfmetrics.stringWidth(name, "LC-Bold", TABLE_NAME)
+        return indent + max(w, tag_width() if row.get("encouraged") else 0)
+    if str(cell).strip().lower() in LEVELS:
+        return METER_W
+    w = pdfmetrics.stringWidth(str(cell), "LC-Regular", SIZE)
+    return w + (MARK_GAP + 2 * MARK_R if i == food_col and row.get("food") else 0)
+
+
+def table_xs(columns, rows, avail_w):
+    """Each column as wide as its widest label or cell; leftover width becomes equal gutters."""
+    food_col = food_column(columns)
+    widths = []
+    for i, name in enumerate(columns):
+        label_w = pdfmetrics.stringWidth(name.upper(), "LC-Bold", TABLE_LABEL) + 0.8 * (len(name) - 1)
+        if i == 0 and any(badge_parts(r["cells"][0])[0] for r in rows):
+            label_w += TABLE_NAME_X
+        widths.append(max([label_w] + [cell_width(i, r["cells"][i], r, food_col) for r in rows]))
+    gutter = (avail_w - sum(widths)) / max(1, len(widths) - 1)
+    if gutter < 10:
+        raise ValueError("Table is too wide: shorten its cells or drop a column")
+    xs, x = [], 0.0
+    for w in widths:
+        xs.append(x); x += w + gutter
+    return xs
+
+
+def safety_mark(c, cx, cy, accent):
+    """Small filled accent circle with '!': ties food rows to the safety callout."""
+    c.setFillColor(accent); c.circle(cx, cy, MARK_R, stroke=0, fill=1)
+    c.setFillColor(PAPER); c.setFont("LC-Heavy", 7.6)
+    c.drawCentredString(cx, cy - 0.72 * 7.6 / 2, "!")
+
+
+def meter(c, x, mid, level, accent):
+    for n in range(3):
+        cx = x + DOT_R + n * DOT_STEP
+        if n < level:
+            c.setFillColor(accent)
+            c.circle(cx, mid, DOT_R, stroke=0, fill=1)
+        else:
+            c.setStrokeColor(tint(accent, 0.45)); c.setLineWidth(0.8)
+            c.circle(cx, mid, DOT_R - 0.4, stroke=1, fill=0)
+
+
+class TableHeader(Flowable):
+    """Column labels for a `table` block: tracked grey caps over one hairline."""
+
+    def __init__(self, columns, xs, indent):
         super().__init__()
-        self.columns = columns
+        self.columns, self.xs, self.indent = columns, xs, indent
 
     def wrap(self, avail_w, avail_h):
-        self.xs = table_xs(len(self.columns), avail_w)
-        return avail_w, LABEL_TO_ROW
+        self.width_avail = avail_w
+        self.height = 0.72 * TABLE_LABEL + TABLE_HEAD_RULE + 18
+        return avail_w, self.height
 
     def draw(self):
-        for x, name in zip(self.xs, self.columns):
-            tracked(self.canv, x, LABEL_TO_ROW - 0.72 * 7.4, name.upper(), "LC-Bold", 7.4, MID, 0.8)
-
-
-def table_xs(count, avail_w):
-    """First column fixed for row names; the rest share the remaining width equally."""
-    rest = (avail_w - TABLE_FIRST_W) / max(1, count - 1)
-    return [0.0] + [TABLE_FIRST_W + i * rest for i in range(count - 1)]
+        c = self.canv
+        base = self.height - 0.72 * TABLE_LABEL
+        for i, (x, name) in enumerate(zip(self.xs, self.columns)):
+            x += self.indent if i == 0 else 0
+            tracked(c, x, base, name.upper(), "LC-Bold", TABLE_LABEL, MID, 0.8)
+        c.setStrokeColor(HAIR); c.setLineWidth(0.6)
+        c.line(0, base - TABLE_HEAD_RULE, self.width_avail, base - TABLE_HEAD_RULE)
 
 
 class TableRow(Flowable):
-    """One `table` row: bold name, comparable cells on the grid, then an optional note line."""
+    """One `table` row: badge and name, comparable cells on the grid, then an optional note."""
 
-    def __init__(self, cells, note=None, separator=None):
+    def __init__(self, row, xs, accent, food_col=None, separator=None):
         super().__init__()
-        self.cells, self.note, self.separator = cells, note, separator
+        self.row, self.xs, self.accent, self.food_col, self.separator = row, xs, accent, food_col, separator
 
     def wrap(self, avail_w, avail_h):
         self.width_avail = avail_w
         at_top = getattr(getattr(self, "_frame", None), "_atTop", False)
-        self.lead_in = 0 if (at_top or not self.separator) else 2 * RULE_GAP
-        self.xs = table_xs(len(self.cells), avail_w)
-        widths = [b - a - 8 for a, b in zip(self.xs, self.xs[1:] + [avail_w + 8])]
-        self.cell_lines = [simpleSplit(str(c), "LC-Bold" if i == 0 else "LC-Regular", SIZE, w)
-                           for i, (c, w) in enumerate(zip(self.cells, widths))]
-        self.note_lines = simpleSplit(self.note, "LC-Regular", SIZE, avail_w - self.xs[1]) if self.note else []
-        rows = max(len(lines) for lines in self.cell_lines)
-        self.body = CAP + (rows - 1) * LEAD + DESC
-        if self.note_lines:
-            self.body += TABLE_NOTE_GAP + len(self.note_lines) * LEAD
+        self.lead_in = 0 if (at_top or not self.separator) else TABLE_ROW_GAP
+        self.letter, self.name = badge_parts(self.row["cells"][0])
+        note = self.row.get("note")
+        self.note_lines = simpleSplit(note, "LC-Regular", TABLE_NOTE, avail_w - self.xs[1]) if note else []
+        tag_drop = TABLE_NOTE_DROP if self.row.get("encouraged") else 0
+        note_drop = TABLE_NOTE_DROP + (len(self.note_lines) - 1) * TABLE_NOTE_LEAD if self.note_lines else 0
+        self.body = 0.72 * TABLE_NAME + max(tag_drop, note_drop, TABLE_BADGE - 0.36 * TABLE_NAME) + DESC
         self.height = self.lead_in + self.body
         return avail_w, self.height
 
     def draw(self):
         c = self.canv
-        if self.lead_in:
-            c.setStrokeColor(HAIR); c.setLineWidth(0.6)
-            c.line(0, self.body + RULE_GAP, self.width_avail, self.body + RULE_GAP)
-        top = self.body - CAP
-        for i, (x, lines) in enumerate(zip(self.xs, self.cell_lines)):
-            c.setFont("LC-Bold" if i == 0 else "LC-Regular", SIZE); c.setFillColor(INK)
-            for n, line in enumerate(lines):
-                c.drawString(x, top - n * LEAD, line)
-        base = top - max(len(lines) for lines in self.cell_lines) * LEAD - TABLE_NOTE_GAP
-        c.setFont("LC-Regular", SIZE); c.setFillColor(MID)
+        cells = self.row["cells"]
+        base = self.body - 0.72 * TABLE_NAME
+        mid = base + 0.36 * TABLE_NAME
+        if self.letter:
+            c.setFillColor(self.accent)
+            c.circle(TABLE_BADGE, mid, TABLE_BADGE, stroke=0, fill=1)
+            c.setFillColor(PAPER); c.setFont("LC-Heavy", 10)
+            c.drawCentredString(TABLE_BADGE, mid - 0.72 * 10 / 2, self.letter)
+        name_x = TABLE_NAME_X if self.letter else 0
+        c.setFont("LC-Bold", TABLE_NAME); c.setFillColor(INK)
+        c.drawString(name_x, base, self.name)
+        if self.row.get("encouraged"):
+            tracked(c, name_x, base - TABLE_NOTE_DROP, TAG, "LC-Heavy", TAG_SIZE_T, self.accent, TAG_TRACK)
+        for i, (x, cell) in enumerate(zip(self.xs[1:], cells[1:]), 1):
+            value = str(cell).strip()
+            level = LEVELS.get(value.lower())
+            if level:
+                meter(c, x, mid, level, self.accent)
+                continue
+            c.setFont("LC-Regular", SIZE); c.setFillColor(INK)
+            c.drawString(x, base, value)
+            if i == self.food_col and self.row.get("food"):
+                cx = x + pdfmetrics.stringWidth(value, "LC-Regular", SIZE) + MARK_GAP + MARK_R
+                safety_mark(c, cx, base + 0.72 * SIZE / 2, self.accent)
+        note_base = base - TABLE_NOTE_DROP
+        c.setFont("LC-Regular", TABLE_NOTE); c.setFillColor(MID)
         for line in self.note_lines:
-            c.drawString(self.xs[1], base, line)
-            base -= LEAD
+            c.drawString(self.xs[1], note_base, line)
+            note_base -= TABLE_NOTE_LEAD
+
+
+class TableKey(Flowable):
+    """One quiet line under a table explaining its dot meters and safety mark."""
+
+    def __init__(self, accent, levels, safety):
+        super().__init__()
+        self.accent, self.levels, self.safety = accent, levels, safety
+
+    def wrap(self, avail_w, avail_h):
+        self.width_avail = avail_w
+        self.height = 20 + 0.72 * 8.4
+        return avail_w, self.height
+
+    def draw(self):
+        c = self.canv
+        size, base = 8.4, 0
+        mid = base + 0.72 * size / 2
+        parts = []
+        if self.levels:
+            parts += [("meter", n, word) for n, word in ((1, "Low"), (2, "Medium"), (3, "High"))]
+        if self.safety:
+            parts.append(("mark", 0, "Involves food: see below"))
+        widths = [(METER_W if kind == "meter" else 2 * MARK_R) + 5 + pdfmetrics.stringWidth(word, "LC-Regular", size)
+                  for kind, _, word in parts]
+        x = self.width_avail - sum(widths) - 16 * (len(parts) - 1)
+        for (kind, level, word), w in zip(parts, widths):
+            if kind == "meter":
+                meter(c, x, mid, level, self.accent); x += METER_W + 5
+            else:
+                safety_mark(c, x + MARK_R, mid, self.accent); x += 2 * MARK_R + 5
+            c.setFont("LC-Regular", size); c.setFillColor(MID); c.drawString(x, base, word)
+            x += pdfmetrics.stringWidth(word, "LC-Regular", size) + 16
 
 
 class Callout(Flowable):
     """Tinted panel with an accent rule on its left: optional bold title, then text."""
 
-    def __init__(self, title, text, accent):
+    def __init__(self, title, text, accent, marked=False):
         super().__init__()
-        self.title, self.text, self.accent = title, text, accent
+        self.title, self.text, self.accent, self.marked = title, text, accent, marked
 
     def wrap(self, avail_w, avail_h):
         self.width_avail = avail_w
         inner = avail_w - 2 * CALLOUT_PAD - 3
-        self.title_lines = simpleSplit(self.title, "LC-Heavy", 14, inner) if self.title else []
+        title_w = inner - (2 * MARK_R + 7 if self.marked else 0)
+        self.title_lines = simpleSplit(self.title, "LC-Heavy", 14, title_w) if self.title else []
         self.lines = simpleSplit(self.text, "LC-Regular", 11, inner) if self.text else []
         h = len(self.title_lines) * 19 + len(self.lines) * 16.5
         self.height = 2 * CALLOUT_PAD + h - 6
@@ -339,8 +473,12 @@ class Callout(Flowable):
         c.rect(0, 0, 3, self.height, stroke=0, fill=1)
         x, base = 3 + CALLOUT_PAD, self.height - CALLOUT_PAD - 0.72 * 14
         c.setFillColor(INK)
-        for line in self.title_lines:
-            c.setFont("LC-Heavy", 14); c.drawString(x, base, line); base -= 19
+        for n, line in enumerate(self.title_lines):
+            lx = x
+            if self.marked and n == 0:
+                safety_mark(c, x + MARK_R, base + 0.72 * 14 / 2, self.accent); lx += 2 * MARK_R + 7
+                c.setFillColor(INK)
+            c.setFont("LC-Heavy", 14); c.drawString(lx, base, line); base -= 19
         if self.title_lines:
             base += 19 - 17
         for line in self.lines:
@@ -441,6 +579,7 @@ def generator(data, output, registry=None):
         story.append(Paragraph(safe(data["intro"]), styles["intro"]))
 
     number = 0
+    table_food = False  # a callout after a table with food rows carries the same safety mark
 
     def numbered(items, divided, start=None):
         nonlocal number
@@ -494,16 +633,26 @@ def generator(data, output, registry=None):
             columns = block.get("columns", [])
             if len(columns) < 2:
                 raise ValueError("A table needs at least two columns")
-            heading = [story.pop()] if story and isinstance(story[-1], GroupLabel) else []
-            parts = heading + [TableHeader(columns)]
-            for i, row in enumerate(block.get("rows", [])):
+            rows = block.get("rows", [])
+            for row in rows:
                 if len(row.get("cells", [])) != len(columns):
                     raise ValueError(f"Table row needs {len(columns)} cells: {row}")
-                parts.append(TableRow(row["cells"], row.get("note"), separator=None if i == 0 else "rule"))
+            xs = table_xs(columns, rows, TEXT_W)
+            food_col = food_column(columns)
+            indent = TABLE_NAME_X if any(badge_parts(r["cells"][0])[0] for r in rows) else 0
+            heading = [story.pop()] if story and isinstance(story[-1], GroupLabel) else []
+            parts = heading + [TableHeader(columns, xs, indent)]
+            for i, row in enumerate(rows):
+                parts.append(TableRow(row, xs, accent, food_col, separator=None if i == 0 else "space"))
+            has_levels = any(str(c).strip().lower() in LEVELS for r in rows for c in r["cells"][1:])
+            has_food = food_col is not None and any(r.get("food") for r in rows)
+            table_food = table_food or has_food
+            if has_levels or has_food:
+                parts.append(TableKey(accent, has_levels, has_food))
             story.append(KeepTogether(parts))
-            story.append(Gap(1, 26))
+            story.append(Gap(1, 34))
         elif typ == "callout":
-            story.append(Callout(block.get("title"), block.get("text"), accent))
+            story.append(Callout(block.get("title"), block.get("text"), accent, marked=table_food))
             story.append(Gap(1, 24))
         elif typ == "bullets":
             for item in block.get("items", []):

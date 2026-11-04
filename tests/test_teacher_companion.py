@@ -53,6 +53,18 @@ class TeacherCompanionRendererTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.render(data)
 
+    def test_table_row_flags_render_and_width_is_checked(self):
+        data = self.template()
+        rows = [{'cells': ['A · Design', '20 min', 'None', 'Low']},
+                {'cells': ['B · Bake', '25 min', 'Baked · oven', 'High'], 'encouraged': True, 'food': True},
+                {'cells': ['C · Mystery', '30 min', 'Baked · oven', 'High'], 'food': True, 'note': 'Twist.'}]
+        data['blocks'] = [{'type': 'table', 'columns': ['Challenge', 'Time', 'Food', 'Clean-up'], 'rows': rows},
+                          {'type': 'callout', 'title': 'Before any food challenge', 'text': 'Check allergies.'}]
+        self.assertTrue(self.render(data).startswith(b'%PDF'))
+        rows[0]['cells'][1] = 'A very long cell that leaves no room for the other columns at all'
+        with self.assertRaises(ValueError):
+            self.render(data)
+
     def test_option_overview_template_renders(self):
         data = json.loads((ROOT / 'templates/option_overview/TEMPLATE.json').read_text())
         data['_base'] = str(QUEST / 'resources/teacher_companion')

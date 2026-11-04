@@ -16,7 +16,6 @@
         "Time",
         "Team",
         "Food",
-        "Oven",
         "Prep",
         "Clean-up"
       ],
@@ -27,11 +26,10 @@
             "20–30 min",
             "2–3",
             "None",
-            "No",
-            "Low",
+            "10 min",
             "Low"
           ],
-          "note": "About 10 min prep: print the cards and worksheets; gather paper and colouring supplies."
+          "note": "Print the cards and worksheets; gather paper and colouring supplies."
         },
         {
           "cells": [
@@ -39,35 +37,59 @@
             "30–45 min",
             "2–3",
             "Premade",
-            "No",
-            "Medium",
+            "20 min + shopping",
             "Medium"
           ],
-          "note": "About 20 min prep plus shopping: buy cupcakes and frosting the day before; a craft version works if food isn’t possible."
+          "encouraged": true,
+          "food": true,
+          "note": "Buy cupcakes and frosting the day before; a craft version works if food isn’t possible."
         },
         {
           "cells": [
             "C · Bake",
             "25 min",
             "3–5",
-            "Baked",
-            "Yes",
-            "High",
+            "Baked · oven",
+            "30 min + shopping",
             "High"
           ],
-          "note": "About 30 min prep plus shopping: book the oven and an adult; one small batch per team makes 6 cupcakes. It bakes during clean-up and reflection."
+          "encouraged": true,
+          "food": true,
+          "note": "Book the oven and an adult; one small batch per team makes 6 cupcakes. It bakes during clean-up and reflection."
         },
         {
           "cells": [
             "D · Mystery",
             "30 min",
             "3–5",
-            "Baked",
-            "Yes",
-            "High",
+            "Baked · oven",
+            "30 min + shopping",
             "High"
           ],
-          "note": "As Bake, plus one twist you choose: a mystery mix-in or a teamwork twist, such as only one student reading the recipe."
+          "encouraged": true,
+          "food": true,
+          "note": "Bake, plus one twist you choose: a mystery mix-in or a teamwork twist, such as only one student reading the recipe."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How to choose"
+    },
+    {
+      "type": "pairs",
+      "items": [
+        {
+          "term": "No food allowed",
+          "text": "A · Design, or B · Decorate as its craft version."
+        },
+        {
+          "term": "Food, but no oven",
+          "text": "B · Decorate with premade cupcakes."
+        },
+        {
+          "term": "An oven and an adult",
+          "text": "C · Bake, or D · Mystery to add a twist."
         }
       ]
     },
@@ -77,7 +99,7 @@
       "text": "Check your school’s food rules and every student’s allergies and dietary needs against each label, including cocoa and any mystery ingredient. The recipe has no eggs or dairy but contains wheat flour."
     }
   ],
-  "source_note": "DRAFT 2026-11-03, needs human review. Sources: Day 3 The Showdown (v0) teacher pages (pp. 4–7: same learning outcomes across levels, levels by materials and complexity, Level 2 craft alternative, Level 3/4 recipe and twist); the Showdown Teacher Guide and activity guides (times, prep); the food-check note formerly in the Teacher Guide's Preparation; and the user's note that food options are encouraged because students enjoy them most and we want to learn how they shape the experience (wording newly written). Allergen line derived from the Day 3 recipe ingredient list (no eggs or dairy; wheat flour); whole-lesson times add the Teacher Guide's 5 min launch and 10 min clean-up and debrief.",
+  "source_note": "DRAFT 2026-11-03, needs human review. Sources: Day 3 The Showdown (v0) teacher pages (pp. 4–7: same learning outcomes across levels, levels by materials and complexity, Level 2 craft alternative, Level 3/4 recipe and twist); the Showdown Teacher Guide and activity guides (times, prep); the food-check note formerly in the Teacher Guide's Preparation; and the user's note that food options are encouraged because students enjoy them most and we want to learn how they shape the experience (wording newly written). Allergen line derived from the Day 3 recipe ingredient list (no eggs or dairy; wheat flour); whole-lesson times add the Teacher Guide's 5 min launch and 10 min clean-up and debrief. Layout revision 2026-11-04: the Oven column merged into Food (Baked always means the oven); prep minutes moved from each note into the Prep column, replacing its Low/Medium/High rating; Encouraged flags follow the intro; the How to choose rows are newly written from the table and notes and need human review.",
   "resource_id": "ccc-q01-showdown-overview",
   "resource_type": "teacher_companion",
   "stage": "03-the-showdown"
