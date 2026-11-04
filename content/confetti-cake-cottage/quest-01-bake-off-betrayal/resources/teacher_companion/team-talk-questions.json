@@ -13,15 +13,11 @@
   "blocks": [
     {
       "type": "heading",
-      "text": "Before the discussion"
+      "text": "Display and discuss"
     },
     {
       "type": "paragraph",
-      "text": "Select up to three prompts. Copy your chosen questions into a Google Doc and project them, or display the selected questions another way."
-    },
-    {
-      "type": "paragraph",
-      "text": "Give pairs or small groups one prompt to discuss, then invite sharing or rotate questions if time allows. Encourage story evidence and different perspectives."
+      "text": "Copy your chosen questions into a Google Doc and project it, or share printed prompts with pairs or small groups. Invite students to discuss and support their ideas with story evidence."
     },
     {
       "type": "heading",
@@ -43,5 +39,6 @@
       ]
     }
   ],
-  "source_note": "One-page teacher companion, ten original Part 04 prompts. Sharing instructions moved from Teacher Guide as requested."
+  "source_note": "One-page question bank. Canonical shared teacher-companion template: crest, Part 04 accent, QUESTIONS tag, meta line, and numbered prompts. Display guidance stays here, not in the Teacher Guide.",
+  "intro": "Choose three questions to support a short discussion about friendship and teamwork."
 }
