@@ -12,6 +12,7 @@ from urllib.parse import urlsplit
 
 from publish_to_drive import drive_service, load_registry
 from publication_state import has_official_version
+from public_drive_access import anonymous_media_access
 
 PASS = "PASS"
 FAIL = "FAIL"
@@ -59,14 +60,22 @@ def diagnostic_line(resource_id: str, url: str, operation: str, exc: Exception) 
     return "\t".join(fields)
 
 
-def unknown_sharing(resource: dict, url: str, checksum_problem) -> tuple[str, str]:
-    """Existence is verified; permission visibility is unknown, not private.
-
-    Human approval is tied to the exact official URL and cannot suppress a
-    detected checksum problem. Confirmed private results never reach here.
-    """
+def unknown_sharing(resource: dict, url: str, checksum_problem,
+                    metadata: dict, diagnostics: list[str] | None,
+                    resource_id: str) -> tuple[str, str]:
+    """Unknown permissions: prove anonymous access, or require exact-URL review."""
     if checksum_problem:
         return checksum_problem
+    verified, detail = anonymous_media_access(
+        drive_id(url), metadata.get("mimeType")
+    )
+    if verified:
+        return PASS, "Actual file bytes accessible without any Google login"
+    if diagnostics is not None:
+        diagnostics.append(
+            f"resource_id={resource_id}\toperation=anonymous_media_access"
+            f"\tfile_id={drive_id(url)}\tresult={detail}"
+        )
     if resource.get("human_reviewed_url") == url:
         return PASS, "Sharing manually approved for this exact Drive link"
     return REVIEW, "Sharing could not be checked automatically; review the link and approve its exact URL"
@@ -81,8 +90,8 @@ def inspect_link(url: str | None, resource: dict, service,
         return FAIL, "Invalid HTTPS URL"
 
     # Non-Drive links require explicit human approval of the exact current URL.
-    # Every published Drive resource (including externally owned files and slides)
-    # must pass live API checks; human review is not a bypass.
+    # Drive links require real metadata, verified public permissions, or direct
+    # anonymous-media proof. Unknown sharing may use exact-URL human review.
     if parsed.hostname not in DRIVE_HOSTS:
         return (PASS, "Human reviewed this URL") if resource.get("human_reviewed_url") == url else (
             REVIEW, "Human review required")
@@ -94,7 +103,7 @@ def inspect_link(url: str | None, resource: dict, service,
         return REVIEW, "Service account unavailable"
     try:
         metadata = service.files().get(
-            fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum,permissions(type,role)").execute()
+            fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum,mimeType,permissions(type,role)").execute()
     except Exception as exc:
         # Restricted viewers may read basic metadata but not permission fields.
         # Retry basic existence before reporting unverifiable access.
@@ -102,7 +111,7 @@ def inspect_link(url: str | None, resource: dict, service,
             diagnostics.append(diagnostic_line(resource_id, url, "files.get.permissions", exc))
         try:
             metadata = service.files().get(
-                fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum").execute()
+                fileId=file_id, supportsAllDrives=True, fields="id,trashed,md5Checksum,mimeType").execute()
         except Exception as basic_exc:
             # A 404 may mean missing OR inaccessible, not proof of deletion.
             if diagnostics is not None:
@@ -143,7 +152,7 @@ def inspect_link(url: str | None, resource: dict, service,
                 if diagnostics is not None:
                     diagnostics.append(f"resource_id={resource_id}\\toperation=permissions.list"
                                        f"\\tfile_id={file_id}\\tapi_reason=permissions_not_returned")
-                return unknown_sharing(resource, url, checksum_problem)
+                return unknown_sharing(resource, url, checksum_problem, metadata, diagnostics, resource_id)
             if any(p.get("type") == "anyone" and p.get("role") in
                    {"reader", "commenter", "writer", "owner"} for p in permissions):
                 return checksum_problem or (PASS, "Public sharing verified")
@@ -153,7 +162,7 @@ def inspect_link(url: str | None, resource: dict, service,
     except Exception as exc:
         if diagnostics is not None:
             diagnostics.append(diagnostic_line(resource_id, url, "permissions.list", exc))
-        return unknown_sharing(resource, url, checksum_problem)
+        return unknown_sharing(resource, url, checksum_problem, metadata, diagnostics, resource_id)
 
 
 def audit(registry: dict, folders=None, service=None, builder=None,
