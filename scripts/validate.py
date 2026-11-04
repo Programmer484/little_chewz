@@ -27,11 +27,11 @@ allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
 # this pointer as soon as they open the file. Templates carry it so new files do too.
 INSTRUCTIONS={
     'lesson':'Before editing, read system/EDITORIAL_GUIDE.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Publication state derives from the registered Teacher Guide, not lesson.json. Save and preview per system/WORKFLOW.md.',
-    'stage':'Provenance only; never add status or teaching content here. To convert this lesson, create lesson.json from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.',
-    'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Status lives in catalog/resources.json, not here. Save and preview per system/WORKFLOW.md.',
+    'stage':'Provenance only; never add status or teaching content here. If lesson.json is absent, create it from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.',
+    'companion':'Before editing, read system/RESOURCE_GUIDELINES.md (writing) and system/CONTENT_CONTRACT.md (ownership, assets). Publication state is derived from catalog/resources.json, not stored here. Save and preview per system/WORKFLOW.md.',
     'quest':'Owns quest metadata and lesson order only; lesson publication state derives from each Teacher Guide resource in catalog/resources.json. Rules: system/CONTENT_CONTRACT.md; workflow: system/WORKFLOW.md.',
     'quest_catalog':'Navigation index only. Start at the root AGENTS.md. Each quest.json owns lesson sequence; catalog/resources.json owns resource links and publication evidence (system/CONTENT_CONTRACT.md).',
-    'welcome':'Before editing, read templates/welcome/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Status lives in catalog/resources.json. Save and preview per system/WORKFLOW.md.',
+    'welcome':'Before editing, read templates/welcome/README.md (blocks, navigation) and system/CONTENT_CONTRACT.md (artwork as separate asset files, never a pre-rendered page). Publication state is derived from catalog/resources.json, not stored here. Save and preview per system/WORKFLOW.md.',
 }
 STORY_INSTRUCTIONS='instructions: Approved raw story text only; preserve wording, names, and dialogue. Rules in system/CONTENT_CONTRACT.md.'
 def check_instructions(path,data,kind):
