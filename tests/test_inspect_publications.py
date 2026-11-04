@@ -127,6 +127,28 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(report["result"], audit.REVIEW)
         self.assertIn("files.get.permissions", report["diagnostics"][0])
 
+    def test_anonymous_byte_proof_passes_when_permission_list_is_unavailable(self):
+        class MediaDrive(Drive):
+            def get(self, fileId, **kwargs):
+                data = {"id": fileId, "trashed": False, "mimeType": "audio/mpeg"}
+                return Request(data)
+        drive = MediaDrive(permissions_error=PermissionError())
+        with patch.object(audit, "anonymous_media_access",
+                          return_value=(True, "Anonymous media bytes verified")) as probe:
+            report = audit.audit({"audio": item()}, service=drive)
+        self.assertEqual(report["result"], audit.PASS)
+        probe.assert_called_once_with(A, "audio/mpeg")
+
+    def test_inconclusive_anonymous_download_still_requires_review(self):
+        class MediaDrive(Drive):
+            def get(self, fileId, **kwargs):
+                return Request({"id": fileId, "mimeType": "audio/mpeg"})
+        with patch.object(audit, "anonymous_media_access",
+                          return_value=(False, "No media bytes")):
+            report = audit.audit({"audio": item()}, service=MediaDrive(
+                permissions_error=PermissionError()))
+        self.assertEqual(report["result"], audit.REVIEW)
+
     def test_external_urls_get_human_review_without_network(self):
         result = audit.audit({"video": item(VIDEO)})
         self.assertEqual(result["result"], audit.REVIEW)
