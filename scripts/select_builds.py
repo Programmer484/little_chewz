@@ -5,6 +5,8 @@ import json
 import subprocess
 from pathlib import Path
 
+from pdf_dependencies import inputs_for
+
 ROOT = Path(__file__).resolve().parents[1]
 def read_json(path):
     return json.loads((ROOT / path).read_text())
@@ -140,29 +142,16 @@ def select(changed, base_ref=None):
     registry_changed = 'catalog/resources.json' in changed
     refs = changed_registry_ids(base_ref) if registry_changed else set()
     # Navigation resolves current official links, not a second stored status.
-    nav_changed = changed_registry_ids(base_ref, ('title', 'published_url')) if registry_changed else set()
+    nav_changed = changed_registry_ids(base_ref, ('title', 'holding_url', 'published_url')) if registry_changed else set()
     builds_changed = changed_pdf_config_ids(base_ref) if registry_changed else set()
-    # Conservative and simple: shared build/CI/dependency changes rebuild eligible PDFs.
-    # This may create extra previews, but cannot miss a new rendering dependency.
-    shared = bool(changed & {
-        'scripts/build_selected.py', 'requirements.txt',
-        '.github/workflows/build-resources.yml', '.github/actions/pdf-setup/action.yml',
-    })
     for name, target in registered.items():
-        kind = target['kind']
-        dependencies = {target['source'], target.get('cover'), f'scripts/renderers/{kind}.py'}
-        prefixes = [f'templates/{kind}/assets/']
-        if kind in ('teacher_guide', 'teacher_companion'):
-            prefixes.append('templates/fonts/')  # bundled Lato
-        if kind == 'teacher_companion':
-            dependencies.add('templates/welcome/assets/crest.png')  # shared masthead crest
-        if target.get('folder'):
-            prefixes.append(target['folder'] + '/')
-        affected = bool(changed & dependencies) or any(
-            path.startswith(prefix) for path in changed for prefix in prefixes)
-        if (shared or affected or target.get('resource_id') in builds_changed
-                or refs & resource_refs(target['data'])
-                or nav_changed & nav_refs(target['data'])):
+        # Renderer code and its local imports, authored assets (including nested
+        # new block types), and implicit font/crest assets are scoped per PDF.
+        # Editing CI, validator code or a template skeleton is not a PDF change.
+        affected = inputs_for(target).affected_by(changed)
+        if (affected or target["resource_id"] in builds_changed
+                or refs & resource_refs(target["data"])
+                or nav_changed & nav_refs(target["data"])):
             selected.add(name)
     return sorted(selected)
 
