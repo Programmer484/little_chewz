@@ -55,7 +55,7 @@
           ],
           "encouraged": true,
           "food": true,
-          "note": "Book the oven and an adult; one small batch per team makes 6 cupcakes. It bakes during clean-up and reflection."
+          "note": "Book the foods room and oven; one small batch per team makes 6 cupcakes. It bakes during clean-up and reflection."
         },
         {
           "cells": [
@@ -88,7 +88,7 @@
           "text": "B · Decorate with premade cupcakes."
         },
         {
-          "term": "An oven and an adult",
+          "term": "Food and an oven",
           "text": "C · Bake, or D · Mystery to add a twist."
         }
       ]
