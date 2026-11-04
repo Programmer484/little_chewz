@@ -262,8 +262,8 @@
     "pdf": {
       "renderer": "teacher_companion",
       "output": "showdown-overview.pdf",
-      "approved_md5": "77aa688b2dc4c1b336dd105989d3a324",
-      "revision": "fbe34a47326f3a495bf3db3e704c7255b091f67f"
+      "approved_md5": "0c2801c6f551ea381bda9fd349f3cdfc",
+      "revision": "11c728b0dcb66839e03f55868fb1b8b2d21dd717"
     }
   },
   "ccc-q01-showdown-design-guide": {
@@ -274,8 +274,8 @@
     "pdf": {
       "renderer": "teacher_companion",
       "output": "showdown-design-guide.pdf",
-      "approved_md5": "dd634d8d366bee2c24593881dc6c5ea3",
-      "revision": "fbe34a47326f3a495bf3db3e704c7255b091f67f"
+      "approved_md5": "0a8dd8d2d4cd34a1d9bfd51500d42d60",
+      "revision": "11c728b0dcb66839e03f55868fb1b8b2d21dd717"
     }
   },
   "ccc-q01-showdown-decorate-guide": {
@@ -286,8 +286,8 @@
     "pdf": {
       "renderer": "teacher_companion",
       "output": "showdown-decorate-guide.pdf",
-      "approved_md5": "fb4868f4bda2f0bea11410b3618ef619",
-      "revision": "fbe34a47326f3a495bf3db3e704c7255b091f67f"
+      "approved_md5": "871ceeff5a135a817585454d50beccb4",
+      "revision": "11c728b0dcb66839e03f55868fb1b8b2d21dd717"
     }
   },
   "ccc-q01-showdown-bake-mystery-guide": {
@@ -298,8 +298,8 @@
     "pdf": {
       "renderer": "teacher_companion",
       "output": "showdown-bake-mystery-guide.pdf",
-      "approved_md5": "4055cb07614eb4e831a0e1a95f20e14b",
-      "revision": "fbe34a47326f3a495bf3db3e704c7255b091f67f"
+      "approved_md5": "a29691a99bb6ca85b07c980b0ef1a691",
+      "revision": "11c728b0dcb66839e03f55868fb1b8b2d21dd717"
     }
   },
   "ccc-q01-showdown-design-sheet": {
