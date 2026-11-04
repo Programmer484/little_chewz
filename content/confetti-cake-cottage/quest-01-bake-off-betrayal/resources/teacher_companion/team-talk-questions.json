@@ -1,0 +1,47 @@
+{
+  "template": "teacher_companion",
+  "resource_id": "ccc-q01-chew-on-this-team-talk-questions",
+  "resource_type": "teacher_companion",
+  "title": "Team Talk Questions",
+  "kind": "questions",
+  "stage": "04-chew-on-this",
+  "meta": [
+    "Core activity",
+    "About 20 minutes",
+    "Teacher Guide step 01"
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Before the discussion"
+    },
+    {
+      "type": "paragraph",
+      "text": "Select up to three prompts. Copy your chosen questions into a Google Doc and project them, or display the selected questions another way."
+    },
+    {
+      "type": "paragraph",
+      "text": "Give pairs or small groups one prompt to discuss, then invite sharing or rotate questions if time allows. Encourage story evidence and different perspectives."
+    },
+    {
+      "type": "heading",
+      "text": "Discussion questions"
+    },
+    {
+      "type": "questions",
+      "items": [
+        "Why do you think Zoe decided to switch teams?",
+        "Do you think Zoe should have spoken to Maddie before changing the team arrangement? Why or why not?",
+        "Which character do you understand the most? Explain.",
+        "Have you ever been left out of a group, team, or activity? How did it feel?",
+        "Can a friendship still be strong when plans suddenly change?",
+        "What is the difference between choosing what is popular and choosing what is right?",
+        "When someone feels disappointed, what are healthy ways to respond?",
+        "What do you think lies ahead for Maddie and Zoe?",
+        "What makes a team successful besides talent or skill?",
+        "What clue from this quest do you think might help restore the sparkle later in the mission?"
+      ]
+    }
+  ],
+  "source_note": "One-page teacher companion, ten original Part 04 prompts. Sharing instructions moved from Teacher Guide as requested."
+}
