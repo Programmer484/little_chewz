@@ -90,7 +90,9 @@
     "holding_url": null,
     "pdf": {
       "renderer": "teacher_companion",
-      "output": "songwriting-extension.pdf"
+      "output": "songwriting-extension.pdf",
+      "approved_md5": "c97b3f9d56bead651a248b337382a65e",
+      "revision": "a0524b09f6c5bffd5e28649b42790829b93c306f"
     }
   },
   "ccc-q01-set-the-table-kwls-starter": {
@@ -126,8 +128,8 @@
     "pdf": {
       "renderer": "teacher_guide",
       "output": "01-set-the-table-teacher-guide.pdf",
-      "approved_md5": "c949c145b815e1d1665aecc35368a87f",
-      "revision": "6bef77a75f3706a55c22c9aaeaea8d09f4e5c1bc"
+      "approved_md5": "83031ba2d95036fafa6e9648ac487be8",
+      "revision": "a0524b09f6c5bffd5e28649b42790829b93c306f"
     }
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
