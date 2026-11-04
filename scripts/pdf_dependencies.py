@@ -112,6 +112,8 @@ def python_imports(entry: str) -> frozenset[str]:
                 modules = ([node.module] if node.module else [])
                 if node.module:
                     modules += [node.module + "." + alias.name for alias in node.names]
+                elif node.level:
+                    modules = [alias.name for alias in node.names]
                 if node.level:
                     base = src.parent
                     for _ in range(node.level - 1):
@@ -130,9 +132,11 @@ def python_imports(entry: str) -> frozenset[str]:
                     ROOT / "scripts" / stem,
                     ROOT / stem,
                 ):
-                    file = candidate.with_suffix(".py")
-                    if file.is_file():
-                        rel = file.relative_to(ROOT).as_posix()
+                    found = next((file for file in
+                                  (candidate.with_suffix(".py"), candidate / "__init__.py")
+                                  if file.is_file()), None)
+                    if found is not None:
+                        rel = found.relative_to(ROOT).as_posix()
                         if rel not in files:
                             pending.append(rel)
                         break
