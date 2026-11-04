@@ -513,10 +513,7 @@ def counted_canvas(header):
 
     class Counted(rl_canvas.Canvas):
         def __init__(self, *args, **kwargs):
-            # BaseDocTemplate explicitly supplies invariant=None; setdefault
-            # leaves that value untouched and creates a new random /ID each build.
-            if kwargs.get("invariant") is None:
-                kwargs["invariant"] = 1
+            kwargs.setdefault("invariant", 1)  # Stable PDF timestamps and document ID.
             super().__init__(*args, **kwargs)
             self._pages = []
 
