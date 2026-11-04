@@ -423,9 +423,9 @@ Use alongside the independent [Create](system/CREATE.md) and [Update](system/UPD
 
 - Run `python scripts/validate.py` for content changes and relevant tests for tooling changes. Render generated PDFs with the repository renderer; inspect layout, content and links, and verify the review file in its holding folder.
 - `scripts/select_builds.py` and `scripts/build_selected.py` are the supported Python preview path. Valid authored sources can be previewed regardless of delivery status; absent lesson sources produce no placeholders. Manual selection accepts an exact output filename or `all`.
-- PR updates and `main` pushes validate and rebuild affected PDFs. An initial PR run compares against the base; subsequent pushes compare against the preceding PR head when available (falling back to the full PR diff). Older preview links remain available. Documentation-only and publication-evidence-only changes do not rebuild PDFs.
-- `scripts/pdf_dependencies.py` maps each output to its source, nested asset paths, transitive local renderer imports, fonts and shared build inputs. New content block types use `path`, `asset`, `assets` or `dependencies` for local files; link blocks use `ref` or `resource` for catalogue IDs. The selector follows these conventions without a block-type allowlist. Templates are authoring skeletons, not runtime PDF inputs; their shared artwork is tracked separately.
-- Renderers use deterministic PDF IDs/metadata and pinned PDF library versions. Keep byte-level MD5 comparisons for Drive publication verification; never substitute a visual or textual comparison for published-file parity.
+- Every PR and `main` push runs validation; `scripts/select_builds.py` renders only affected PDFs. The first PR run compares with the base; subsequent pushes compare with the previous head when available. Existing preview history is preserved.
+- Dependencies come directly from each PDF's source JSON: the selector discovers local file/directory references in any nested block, without block-specific dependency rules. Source and renderer changes rebuild their consumers; shared code/assets and unrecognized potential inputs conservatively rebuild all. No dependency manifest or cache needs maintenance.
+- Renderers generate deterministic PDFs with pinned library versions. Drive publication still verifies the actual PDF bytes with MD5 and requires existing approval safeguards.
 - Give the verified **GitHub Actions run URL first** for PDF reviews (prefer the successful post-merge `main` run). Previews remain under `pdf-preview-history/previews/<run-id>/`; workflow artifacts expire sooner. Never automatically merge or delete historical preview branches.
 
 ### Report and stop
@@ -961,7 +961,7 @@ Templates are starting structures for supported source types, one folder each: `
 
 PDF previews and releases use official `published_url` whenever present, and draft previews use holding links otherwise. `publication_checks.py` rejects release dependencies without an official URL; `publication_state.py` derives resource status from distinct external holding URLs or generated-PDF MD5 parity. Only Python-generated PDFs enter the build-and-publish pipeline. External resources have no automatic GitHub merge publisher or source-generation engine; agents handle Drive holding and official publication directly.
 
-When changing renderer inputs or build selection, update `select_builds.py` and relevant tests. Run `python scripts/validate.py` and `python -m unittest discover -s tests` after edits.
+New PDF blocks require no dependency-list edits: `select_builds.py` discovers local file references from their JSON values. Keep source paths in JSON and run `python scripts/validate.py` plus relevant checks after tooling changes.
 
 ---
 

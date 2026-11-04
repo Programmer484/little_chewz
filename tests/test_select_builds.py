@@ -35,6 +35,12 @@ class SelectionTests(unittest.TestCase):
                     with self.subTest(path=path):
                         self.assertEqual(sb.select([path]), [name])
 
+        source = self.targets[DRAFT]['source']
+        cover = self.targets[DRAFT]['cover']
+        files, _ = sb.input_paths({'source': source, 'data': {'new_block': {
+            'any_field_name': Path(cover).name}}})
+        self.assertIn(cover, files)
+
     def test_lesson_targets_match_existing_sources(self):
         # Preview eligibility is based on an authored lesson.json, never
         # duplicated lesson publication status in quest.json or a build manifest.
