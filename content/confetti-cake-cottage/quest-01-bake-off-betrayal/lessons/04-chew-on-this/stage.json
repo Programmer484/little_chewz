@@ -1,5 +1,4 @@
 {
-  "$instructions": "Provenance only; never add status or teaching content here. If lesson.json is absent, create it from templates/teacher_guide/TEMPLATE.json and follow system/EDITORIAL_GUIDE.md.",
   "source_reference": "Revised Guide pages 18–21; slideshow pages 22–29 in older continuous deck.",
   "cover_source": "Full_Guide_v1.pdf page 18"
 }
