@@ -1,10 +1,8 @@
 {
   "template": "welcome",
-  "id": "REPLACE-WITH-STABLE-ID",
   "title": "Untitled Document",
   "footer": "CONFETTI FILE  •  CCC-2025",
   "cover": "cover.pdf",
-  "source_note": "Populate only from verified material. 'cover' is an optional one-page PDF beside this file, cut losslessly from the source. Nav rows link only to registry resources that are approved or published.",
   "pages": [
     {
       "mark": "crest",

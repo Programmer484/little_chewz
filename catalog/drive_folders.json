@@ -6,8 +6,7 @@
     },
     "generated_pdf": {
       "folder_id": "1wPdelGnXWcE9IlF5y-qTfk84gzNDSIxY",
-      "name": "PDF-generated resources",
-      "note": "Teacher Guides only; generated companions belong under 04_TEACHER_RESOURCES/Other resources."
+      "name": "PDF-generated resources"
     },
     "worksheets": {
       "folder_id": "1Vw5abDxMojq9IDQ7XXIkOb1ODU1HLtun",
@@ -19,13 +18,11 @@
     },
     "other": {
       "folder_id": "1nuGsEPQi30Nv-FkxOuxCLo6RwynKwpCo",
-      "name": "Other resources",
-      "note": "External extras and generated teacher companions; verified files remain unpublished until official move."
+      "name": "Other resources"
     },
     "slide_pdfs": {
       "folder_id": "1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g",
-      "name": "Existing Slide PDFs holding folder",
-      "note": "Existing separately reviewed Slide PDFs folder remains in its original location; do not move approved originals without explicit request."
+      "name": "Existing Slide PDFs holding folder"
     },
     "categories": {
       "01_TEACHER_GUIDES": {
@@ -72,7 +69,6 @@
       "ccc-q01-showdown-decorate-guide": "1ugtWtHkkT1ECo_pQfs-Lou5IBqS7WeoR",
       "ccc-q01-showdown-bake-mystery-guide": "1ugtWtHkkT1ECo_pQfs-Lou5IBqS7WeoR",
       "ccc-q01-showdown-teacher-guide": "1loTttZ1bqmmGgZtP035p0nuVh7sPaNsY"
-    },
-    "note": "Approved official folder IDs, recorded separately from the file's current location; missing baseline means NEEDS REVIEW. Slide decks require both main and PDF entries. Never auto-approve the folder from inspection results."
+    }
   }
 }

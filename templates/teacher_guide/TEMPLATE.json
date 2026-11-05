@@ -13,6 +13,5 @@
   "curriculum": [],
   "cover": "cover.pdf",
   "output": "Teacher_Guide.pdf",
-  "steps": [],
-  "note": "A valid lesson.json can be previewed on a resource branch; authorized merge and verified Drive delivery are required for publication."
+  "steps": []
 }

@@ -16,56 +16,31 @@
   "learning_sequence": [
     {
       "folder": "00-activate",
-      "title": "Activate",
-      "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf.",
-      "cover": {
-        "source": "Existing committed cover.pdf artwork",
-        "method": "lossless one-page PDF extraction (qpdf); vector text and original artwork preserved",
-        "target_filename": "cover.pdf",
-        "status": "committed",
-        "repository_path": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/lessons/00-activate/cover.pdf"
-      }
+      "title": "Activate"
     },
     {
       "folder": "01-set-the-table",
-      "title": "Set the Table",
-      "source_note": "slideshow pages 8–13 in older continuous deck."
+      "title": "Set the Table"
     },
     {
       "folder": "02-secret-ingredients",
-      "title": "Secret Ingredients",
-      "source_note": "Revised Secret Ingredients guide published 2026-10-31; lesson-local five-slide deck and linked resources verified or manually approved."
+      "title": "Secret Ingredients"
     },
     {
       "folder": "03-the-showdown",
-      "title": "The Showdown",
-      "source_note": "slideshow pages 19–21 in older continuous deck."
+      "title": "The Showdown"
     },
     {
       "folder": "04-chew-on-this",
-      "title": "Chew On This",
-      "source_note": "slideshow pages 22–29 in older continuous deck."
+      "title": "Chew On This"
     },
     {
       "folder": "05-plate-it-forward",
-      "title": "Plate It Forward",
-      "source_note": "slideshow pages 30–32 in older continuous deck."
+      "title": "Plate It Forward"
     },
     {
       "folder": "06-celebrate",
-      "title": "Celebrate",
-      "source_note": "slideshow pages 33–44 in older continuous deck."
+      "title": "Celebrate"
     }
-  ],
-  "slide_conflict_note": "2026-10-19: future slides are generated and maintained per lesson, not as a full quest deck. The approved seven-slide Activate asset is unchanged; the old 44-slide global ranges are historical only.",
-  "slideshow_policy": {
-    "scope": "lesson",
-    "structure": "independent_slide_sets",
-    "slide_numbering": "lesson_local",
-    "generation_unit": "changed_slide_or_affected_lesson",
-    "current_approved_segment": "Activate slides 1–7 (published lesson-specific asset)",
-    "full_deck_status": "not_planned",
-    "implementation_status": "policy_only_no_slide_renderer_or_build_target",
-    "warning": "Old continuous-deck slide positions are not verified current lesson-local numbers; do not infer links or numbering for unapproved lessons."
-  }
+  ]
 }
