@@ -119,7 +119,7 @@ describe("deriveManifest", () => {
 
   it("uses bonus print_materials for separate slip sizes while keeping the teacher bonus link hidden", () => {
     const resources: RegistryLike = {
-      wall: { title: "Strong Teammate Wall", type: "teacher_resource" },
+      wall: { title: "Graffiti Wall", type: "teacher_resource" },
       large: { title: "Large slips", type: "student_material", print: { cards_per_sheet: 2 } },
       small: { title: "Small slips", type: "student_material", print: { cards_per_sheet: 6 } },
     };
@@ -216,7 +216,7 @@ describe("the real Teacher Guides", () => {
     ]);
   });
 
-  it("offers both Strong Teammate Wall slip sizes as Extras in Chew On This", () => {
+  it("offers both Graffiti Wall slip sizes as Extras in Chew On This", () => {
     const chew = byId.get("ccc-q01-chew-on-this")!;
     const extra = chew.sections.find((section) => section.kind === "optional" && section.id === "extras");
     expect(extra).toMatchObject({

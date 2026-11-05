@@ -108,12 +108,12 @@
         {
           "ref": "ccc-q01-chew-on-this-bulletin-large",
           "quantity": "per_student",
-          "description": "Strong Teammate Wall · Large slips (2 per page)"
+          "description": "Graffiti Wall · Large slips (2 per page)"
         },
         {
           "ref": "ccc-q01-chew-on-this-bulletin-small",
           "quantity": "per_student",
-          "description": "Strong Teammate Wall · Small slips (6 per page)"
+          "description": "Graffiti Wall · Small slips (6 per page)"
         }
       ]
     }
