@@ -187,6 +187,13 @@ describe("the real Teacher Guides", () => {
     ]);
   });
 
+  it("does not add Plate It Forward's reused KWLS Starter to the print pack", () => {
+    const plate = byId.get("ccc-q01-plate-it-forward")!;
+    const ids = allMaterials(plate).map((material) => material.resourceId);
+    expect(ids).toContain("ccc-q01-plate-it-forward-investigation-notes");
+    expect(ids).not.toContain("ccc-q01-set-the-table-kwls-starter");
+  });
+
   it("marks what can and cannot be downloaded", () => {
     const lessons = new Map(catalog.lessons("drive").map((l) => [l.lessonId, l]));
     expect(lessons.get("ccc-q01-activate")).toMatchObject({ status: "no_student_printing", printable: false });
