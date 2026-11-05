@@ -9,9 +9,16 @@
   "outcomes": [],
   "core": [],
   "optional_prep": [],
+  "prep_heading": "OPTIONAL PREPARATION",
+  "prep_note": "",
   "focus": "",
+  "assessment": [],
   "curriculum": [],
+  "colored_section_titles": false,
   "cover": "cover.pdf",
-  "output": "Teacher_Guide.pdf",
-  "steps": []
+  "flow_style": "compact",
+  "steps": [],
+  "bonuses": [],
+  "bonus_heading": "MORE TIME?  YOU CHEWZ!",
+  "bonus_rows": []
 }
