@@ -14,7 +14,8 @@
   "core": [
     {
       "ref": "ccc-q01-plate-it-forward-slides",
-      "description": "Review slides 1–3"
+      "description": "Slides 1–3",
+      "title": "Classroom Slideshow"
     },
     {
       "ref": "ccc-q01-plate-it-forward-investigation-notes",
