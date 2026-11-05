@@ -47,7 +47,7 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 ## How it works
 
 1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only `student_material` resources with trusted official `published_url` Drive file URLs can be fetched in drive mode.
-2. **Everything is a checkbox, with the guide's defaults pre-ticked.** `GIVE` and unreferenced preparation `core` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
+2. **Everything is a checkbox, with the guide's defaults pre-ticked.** Only `GIVE` and `MORE` Teaching Flow rows create print entries, including within A/B options; linked `DO`, `SHOW`, `ASK` and other rows are instructions, not print requests. Unused `optional_prep` and `bonuses` still appear under Extras. `GIVE` and unreferenced preparation `core` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
 3. Steps whose worksheets and optional extras would otherwise appear twice share one heading.
 4. The teacher enters the class size once. Each printable resource shows its calculated quantity and a **Change** button. Per-student resources default to one copy per student; per-group resources use the chosen option's `group_size` from `lesson.json` when it sets one, otherwise the lesson's default students-per-group size (4 unless configured otherwise). Inside **Change**, teachers can enter any valid whole number for **Students per group**, or switch that resource to **Custom copy count** (including 0). Changing a group's size recalculates copies and clears previous custom quantities for that activity. Custom quantities stay fixed when class size changes; choosing Automatic again restores calculation. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
 5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size and the double-sided preference are saved only in the browser.
@@ -68,10 +68,14 @@ The print builder reads only `lesson.json` worksheet links and `catalog/resource
 | --- | --- |
 | `GIVE` row or unreferenced preparation `core` | Ticked by default; can be unticked |
 | `MORE` row, optional preparation or bonus | Optional checkbox |
+| `bonuses[].print_materials` | Optional checkbox for each linked worksheet, even if the visible bonus is a teacher companion |
+| `DO`, `SHOW`, `ASK` and other flow links | No print entry |
 | `step.options` A/B/C/D | Unticked; any combination, soft warning when none |
 | `MORE` inside an option | Optional extension when that option is selected |
 | No guide source yet | Materials coming soon |
 | Guide without student worksheets | No student printing |
+
+A bonus can keep its teacher-facing `ref` and optionally expose different printable resources through hidden `print_materials` metadata. Each entry is a registered `student_material` `ref` with its own `quantity` (and an optional description). These appear as separate **Extras** checkboxes; the bonus's visible Teacher Guide link remains unchanged. For instance, a display activity can link to its companion while offering 2-per-page and 6-per-page slips. This metadata does not require `GIVE` or `MORE` flow rows.
 
 Every link to a `student_material`, including `row.links` entries, must have explicit `"quantity": "per_student"` or `"quantity": "per_group"`. A whole class is one group, **not** a third quantity type. Descriptions do not determine copy counts. Missing/invalid quantities fail `python scripts/validate.py`; the builder also fails closed if malformed metadata reaches it.
 

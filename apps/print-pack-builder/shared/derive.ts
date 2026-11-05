@@ -12,8 +12,10 @@
  * | step.options (A, B, C...)                     | choose one                             |
  * | GIVE row inside an option                     | printed when that option is chosen     |
  * | MORE row inside an option                     | checkbox shown when that option is chosen |
+ * | DO/SHOW/ASK etc. inside an option             | no print entry                         |
  * | Preparation `core`, not used in any step      | included automatically                 |
  * | `optional_prep` / `bonuses`, not used in a step | checkbox under "Extras"              |
+ * | `bonuses[].print_materials`                  | extra printouts, even if bonus link is teacher-only |
  *
  * Copy rules come only from each worksheet link's explicit quantity.\n * Multi-card sheets are defined in catalog/resources.json.\n */
 import type { ExtensionSpec, LessonManifest, MaterialSpec, OptionSpec, QuantityRule, SectionSpec } from "./types.ts";
@@ -30,6 +32,10 @@ interface LinkRef {
   description?: string;
   quantity?: QuantityRule;
 }
+/** An optional bonus link can expose separate printable resources without a flow action. */
+interface BonusSpec extends LinkRef {
+  print_materials?: LinkRef[];
+}
 interface Row extends LinkRef {
   kind?: string;
   links?: LinkRef[];
@@ -44,7 +50,7 @@ interface LessonStep {
 export interface LessonSource {
   core?: LinkRef[];
   optional_prep?: LinkRef[];
-  bonuses?: LinkRef[];
+  bonuses?: BonusSpec[];
   steps?: LessonStep[];
 }
 
@@ -148,7 +154,7 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
           for (const link of links(row).filter((l) => isStudent(l.ref))) {
             mentioned.add(link.ref!);
             if (row.kind === "MORE") extensions.push(extension(`${optionId}-more-${link.ref}`, link));
-            else materials.push(material(link));
+            else if (row.kind === "GIVE") materials.push(material(link));
           }
         return {
           id: optionId,
@@ -178,6 +184,17 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
     if (isStudent(item.ref) && !seen.has(item.ref)) {
       seen.add(item.ref);
       extras.push(extension(`extras-${item.ref}`, item));
+    }
+  // Hidden print metadata for a teacher-facing bonus may offer multiple sheet sizes.
+  // The visible bonus link still points to the teacher companion, not to the print files.
+  for (const bonus of lesson.bonuses ?? [])
+    for (const link of bonus.print_materials ?? []) {
+      if (!isStudent(link.ref))
+        throw new Error(`Bonus ${bonus.ref ?? "(unnamed)"} print_materials must reference student_material: ${link.ref ?? "(missing)"}`);
+      if (!seen.has(link.ref)) {
+        seen.add(link.ref);
+        extras.push(extension(`extras-${link.ref}`, link));
+      }
     }
   if (extras.length) sections.push({ kind: "optional", id: "extras", title: "Extras", items: extras });
 
