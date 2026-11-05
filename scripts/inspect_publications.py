@@ -12,6 +12,7 @@ from urllib.parse import urlsplit
 
 from publish_to_drive import drive_service, load_registry
 from publication_state import has_official_version
+from publication_checks import unpublished_dependencies
 from public_drive_access import anonymous_media_access
 
 PASS = "PASS"
@@ -172,11 +173,24 @@ def audit(registry: dict, folders=None, service=None, builder=None,
     report = []
     diagnostics: list[str] = []
     credentials_checked = service is not None
+    # Resolve authored sources only for *published* audit targets. Unpublished
+    # dependencies are reported against their parent, never audited as targets.
     for rid, resource in registry.items():
         if not has_official_version(resource) or (only and rid != only):
             continue
         result = PASS
         issues = []
+        try:
+            blocked = unpublished_dependencies(rid, registry, source_targets)
+            for dep in blocked:
+                issues.append({"status": FAIL, "url": None,
+                               "reason": f"Unpublished dependency: {dep}"})
+            if blocked:
+                result = FAIL
+        except (ValueError, OSError, KeyError) as exc:
+            issues.append({"status": REVIEW, "url": None,
+                           "reason": f"Dependency resolution uncertain: {exc}"})
+            result = REVIEW
         for url in links(resource):
             if url and drive_id(url):
                 if not credentials_checked:
@@ -190,9 +204,8 @@ def audit(registry: dict, folders=None, service=None, builder=None,
             state, reason = inspect_link(url, resource, service, diagnostics, rid)
             if state != PASS:
                 issues.append({"status": state, "url": url, "reason": reason})
-                result = state
-                if state == FAIL:
-                    break  # Fail fast for this resource; still report the other resources.
+                if state == FAIL or result != FAIL:
+                    result = state
         report.append({"resource_id": rid, "title": resource.get("title", rid), "result": result, "issues": issues})
     overall = FAIL if any(r["result"] == FAIL for r in report) else (
         REVIEW if any(r["result"] == REVIEW for r in report) else PASS)

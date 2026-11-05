@@ -17,6 +17,14 @@ def render(manifest, release=False):
     registered = targets()
     if set(names) - set(registered):
         raise ValueError(f"Unknown outputs: {set(names) - set(registered)}")
+    if release:
+        from publication_checks import unpublished_dependencies
+        registry = json.loads((ROOT / "catalog/resources.json").read_text())
+        for name in names:
+            rid = registered[name]["resource_id"]
+            blocked = unpublished_dependencies(rid, registry, registered)
+            if blocked:
+                raise ValueError(f"{rid}: unpublished release dependencies: {', '.join(blocked)}")
     OUT.mkdir(exist_ok=True)
     for old in OUT.glob("*.pdf"):
         old.unlink()  # Avoid stale PDFs appearing in review artifacts.

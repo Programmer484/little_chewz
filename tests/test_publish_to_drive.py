@@ -98,7 +98,10 @@ class PublishTests(unittest.TestCase):
                               "approved_md5": "0" * 32, "revision": "b" * 40}}
         self.write({"ccc-q01-welcome": self.entry})
         self.patches = [patch.object(pub, "REGISTRY", self.registry),
-                        patch("select_builds.targets", return_value={})]
+                        patch("select_builds.targets", return_value={
+                            "ccc-q01-welcome.pdf": {
+                                "kind": "welcome", "data": {},
+                                "resource_id": "ccc-q01-welcome"}})]
         try:
             import googleapiclient.http  # noqa: F401
             self.patches.append(patch("googleapiclient.http.MediaFileUpload", FakeMedia))
@@ -202,22 +205,21 @@ class PublishTests(unittest.TestCase):
 
 
 
-    def test_prepublication_checks_referenced_drive_resource_and_target(self):
+    def test_published_dependency_does_not_trigger_audit_gate(self):
         registry = json.loads(self.registry.read_text())
         registry["worksheet"] = {"published_url": LINK_URL}
         self.write(registry)
         target = {"ccc-q01-welcome.pdf": {
             "kind": "welcome", "data": {"navigation": [{"resource": "worksheet"}]}}}
-        service = FakeService(linked={LINK_ID: {"id": LINK_ID, "trashed": False}})
+        service = FakeService(private_ids={LINK_ID, FILE_ID})
         with (patch("select_builds.targets", return_value=target),
               patch.object(pub, "current_revision", return_value="a" * 40)):
             report = self.run_publish(service)
         self.assertEqual(service._files.updates, [FILE_ID])
-        self.assertEqual(set(service.permission_checks), {FILE_ID, LINK_ID})
-        self.assertEqual(report["prepublication_inspection"],
-                         {"result": "PASS", "resource_ids": ["ccc-q01-welcome", "worksheet"]})
+        self.assertEqual(service.permission_checks, [])  # Audit is never a release gate.
+        self.assertNotIn("prepublication_inspection", report)
 
-    def test_prepublication_fails_closed_for_unpublished_references(self):
+    def test_unpublished_source_dependency_blocks_before_upload(self):
         target = {"ccc-q01-welcome.pdf": {
             "kind": "welcome", "data": {"navigation": [{"resource": "unpublished"}]}}}
         service = FakeService()
@@ -226,68 +228,20 @@ class PublishTests(unittest.TestCase):
                 self.run_publish(service)
         self.assertEqual(service._files.updates, [])
 
-    def test_prepublication_blocks_private_reference_before_upload(self):
+    def test_explicit_unpublished_dependency_blocks_before_upload(self):
         registry = json.loads(self.registry.read_text())
-        registry["worksheet"] = {"published_url": LINK_URL}
+        registry["ccc-q01-welcome"]["dependencies"] = ["worksheet"]
+        registry["worksheet"] = {"holding_url": LINK_URL, "published_url": None}
         self.write(registry)
-        target = {"ccc-q01-welcome.pdf": {
-            "kind": "welcome", "data": {"navigation": [{"resource": "worksheet"}]}}}
-        service = FakeService(linked={LINK_ID: {"id": LINK_ID}},
-                              private_ids={LINK_ID})
-        with patch("select_builds.targets", return_value=target):
-            with self.assertRaisesRegex(pub.PublishError, "worksheet: FAIL"):
-                self.run_publish(service)
-        self.assertEqual(service._files.updates, [])
-        self.assertEqual(json.loads(self.registry.read_text())["ccc-q01-welcome"]["pdf"],
-                         self.entry["pdf"])
-
-    def test_prepublication_blocks_needs_review_even_in_dry_run(self):
-        registry = json.loads(self.registry.read_text())
-        registry["worksheet"] = {"published_url": LINK_URL}
-        self.write(registry)
-        target = {"ccc-q01-welcome.pdf": {
-            "kind": "welcome", "data": {"navigation": [{"resource": "worksheet"}]}}}
-        service = FakeService(linked={LINK_ID: PermissionError("private API details")})
-        with patch("select_builds.targets", return_value=target):
-            with self.assertRaisesRegex(pub.PublishError, "worksheet: NEEDS REVIEW"):
-                self.run_publish(service, dry_run=True)
-        self.assertEqual(service._files.updates, [])
-
-    def test_prepublication_blocks_unreviewed_external_url(self):
-        registry = json.loads(self.registry.read_text())
-        registry["video"] = {"published_url": "https://example.org/video"}
-        self.write(registry)
-        target = {"ccc-q01-welcome.pdf": {
-            "kind": "welcome", "data": {"navigation": [{"resource": "video"}]}}}
         service = FakeService()
-        with patch("select_builds.targets", return_value=target):
-            with self.assertRaisesRegex(pub.PublishError, "video: NEEDS REVIEW"):
-                self.run_publish(service)
-            registry["video"]["human_reviewed_url"] = registry["video"]["published_url"]
-            self.write(registry)
-            report = self.run_publish(service, dry_run=True)
-        self.assertEqual(report["prepublication_inspection"]["result"], "PASS")
-        self.assertEqual(service._files.updates, [])
-
-    def test_prepublication_blocks_stale_generated_pdf_dependency(self):
-        registry = json.loads(self.registry.read_text())
-        registry["companion"] = {"published_url": LINK_URL,
-                                 "pdf": {"approved_md5": "a" * 32}}
-        self.write(registry)
-        target = {"ccc-q01-welcome.pdf": {
-            "kind": "welcome", "data": {"navigation": [{"resource": "companion"}]}}}
-        service = FakeService(linked={LINK_ID: {"id": LINK_ID, "md5Checksum": "b" * 32}})
-        with patch("select_builds.targets", return_value=target):
-            with self.assertRaisesRegex(pub.PublishError, "companion: FAIL"):
-                self.run_publish(service)
-        self.assertEqual(service._files.updates, [])
-
-    def test_prepublication_checks_public_access_to_target(self):
-        service = FakeService(private_ids={FILE_ID})
-        with self.assertRaisesRegex(pub.PublishError, "ccc-q01-welcome: FAIL"):
+        with self.assertRaisesRegex(pub.PublishError, "worksheet"):
             self.run_publish(service)
         self.assertEqual(service._files.updates, [])
 
+    def test_missing_source_mapping_fails_closed(self):
+        with patch("select_builds.targets", return_value={}):
+            with self.assertRaisesRegex(ValueError, "source mapping missing"):
+                self.run_publish(FakeService())
 
     def test_stale_accepted_revision_is_rejected_before_drive_upload(self):
         service = FakeService()

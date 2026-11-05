@@ -10,7 +10,7 @@ sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(SCRIPTS / "renderers"))
 from publication_state import identity, publication_status, status_report, lesson_status_report
 from resource_links import resolve_url
-from publication_checks import referenced_resources, unpublished_references
+from publication_checks import referenced_resources, unpublished_references, dependency_ids, unpublished_dependencies
 
 HOLDING = "https://drive.google.com/file/d/123456789012345678901234/view"
 OFFICIAL = "https://drive.google.com/file/d/abcdefghijklmnopqrstuvwx/view"
@@ -30,7 +30,8 @@ class ResourceLifecycleTests(unittest.TestCase):
 
         revised = {**live, "holding_url": HOLDING}
         self.assertEqual(publication_status(revised), "pending_publish")
-        self.assertEqual(resolve_url(revised), OFFICIAL)
+        self.assertEqual(resolve_url(revised), HOLDING)
+        self.assertEqual(resolve_url(revised, release=True), OFFICIAL)
 
         same_file = {**live, "holding_url": OFFICIAL.replace("/view", "/view?usp=sharing")}
         self.assertEqual(publication_status(same_file), "published")
@@ -40,10 +41,10 @@ class ResourceLifecycleTests(unittest.TestCase):
         record = {"published_url": OFFICIAL, "holding_url": HOLDING,
                   "pdf": {"renderer": "teacher_guide", "output": "guide.pdf", "approved_md5": "a" * 32}}
         self.assertEqual(publication_status(record, "b" * 32), "pending_publish")
-        self.assertEqual(publication_status(record, "a" * 32), "published")
-        self.assertEqual(publication_status(record), "published")
+        self.assertEqual(publication_status(record, "a" * 32), "pending_publish")
+        self.assertEqual(publication_status(record), "pending_publish")
         self.assertEqual(publication_status({**record, "pdf": {"renderer": "teacher_guide", "output": "guide.pdf"}}, "b" * 32),
-                         "published")  # Missing baseline is inspection's NEEDS REVIEW.
+                         "pending_publish")  # A distinct Holding candidate is pending even without an MD5.
         self.assertEqual(publication_status({**record, "published_url": None}, "b" * 32),
                          "unpublished")
 
@@ -98,6 +99,21 @@ class ResourceLifecycleTests(unittest.TestCase):
             self.assertEqual(report()[0]["status"], "pending_publish")
             registry["q-activate-teacher-guide"]["pdf"].pop("approved_md5")
             self.assertIn("NEEDS REVIEW", report()[0]["checksum_evidence"])
+
+    def test_source_and_explicit_dependency_resolution(self):
+        registry = {
+            "guide": {"published_url": OFFICIAL,
+                      "pdf": {"renderer": "teacher_guide", "output": "guide.pdf"},
+                      "dependencies": ["external"]},
+            "external": {"published_url": OFFICIAL},
+            "draft": {"published_url": None, "holding_url": HOLDING},
+        }
+        targets = {"guide.pdf": {"kind": "teacher_guide",
+                                "data": {"steps": [{"ref": "draft"}]}}}
+        self.assertEqual(dependency_ids("guide", registry, targets), {"external", "draft"})
+        self.assertEqual(unpublished_dependencies("guide", registry, targets), ["draft"])
+        registry["draft"]["published_url"] = OFFICIAL
+        self.assertEqual(unpublished_dependencies("guide", registry, targets), [])
 
     def test_welcome_navigation_is_a_publication_dependency(self):
         target = {"kind": "welcome", "data": {"nav": [

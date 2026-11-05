@@ -1,23 +1,13 @@
 # Little Chewz — agent guide
 
-Read the nearest folder `AGENTS.md` for changed files, then only guides relevant to the task. [Project map](START_HERE.md).
+Read the nearest folder `AGENTS.md` and task-relevant guides only. [Start here](START_HERE.md).
 
-## Guardrails
+- **Create → Edit → Publish**: every new Drive-managed file gets a Holding file and catalogue entry (externally hosted URLs are registered without a fake Drive file) ([Create](system/CREATE.md)); draft updates and GitHub previews never change live resources ([Edit](system/EDIT.md)); only the **explicit resource IDs named by the human** may be published after approval ([Publish](system/PUBLISH.md)).
+- `catalog/resources.json` owns stable IDs, Holding and Public URLs, generation mapping and publication evidence. Status is derived, not stored ([Content contract](system/CONTENT_CONTRACT.md)).
+- Preserve approved story content, working links and authoring assets; never invent Drive IDs, URLs, approvals or verified checksums. A released resource cannot depend on an unpublished one. Public content uses only published links.
+- Reuse the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch for lessons; use a review branch for system work. No force-push, unrelated edits, secrets or silent live replacement.
+- **Audit:** existing [Inspect](system/INSPECTION.md) runs manually on **published resources only** and reports unpublished dependencies as FAIL. It is not an automatic publisher, separate auditor or release gate.
 
-- Edit authoritative JSON, text and assets—not generated PDFs. Preserve verified canon, approved stories and working links; never invent facts, file IDs, Drive URLs or approvals.
-- `catalog/resources.json` owns resource identities, URLs and publication evidence. Status is **derived**, not stored ([contract](system/CONTENT_CONTRACT.md)).
-- **Editing, holding uploads, previews and ordinary merges never publish.** Review generated PDFs in GitHub, without mandatory holding copies. After explicit approval, use direct official upload or in-place version replacement under [PUBLISH.md](system/PUBLISH.md). Never replace live files while editing.
-- Reuse the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch unless told otherwise. Reconcile remote work; never force-push, overwrite unrelated edits, expose secrets or upload unapproved content.
+Routes: [content](content/AGENTS.md), [catalog](catalog/AGENTS.md), [scripts](scripts/AGENTS.md), [templates](templates/AGENTS.md), [apps](apps/AGENTS.md), [Teacher Guide](system/EDITORIAL_GUIDE.md), [Companions](system/RESOURCE_GUIDELINES.md), [Slides](system/SLIDE_CONVERSION.md), [Binary transfer](system/BINARY_TRANSFER.md).
 
-## Read for the task
-
-- **Create/revise:** [EDIT.md](system/EDIT.md) and [WORKFLOW.md](system/WORKFLOW.md).
-- **Publish/Drive access:** [PUBLISH.md](system/PUBLISH.md), [INSPECTION.md](system/INSPECTION.md).
-- **Lessons, stories, companions:** [content/AGENTS.md](content/AGENTS.md); **catalogue:** [catalog/AGENTS.md](catalog/AGENTS.md).
-- **Code/renderers:** [scripts/AGENTS.md](scripts/AGENTS.md); **templates:** [templates/AGENTS.md](templates/AGENTS.md); **apps:** [apps/AGENTS.md](apps/AGENTS.md).
-- **Editorial:** [Teacher Guide](system/EDITORIAL_GUIDE.md), [companions](system/RESOURCE_GUIDELINES.md), [slides](system/SLIDE_CONVERSION.md).
-- **File transfers:** [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md).
-
-## Complete the task
-
-Check the owning source and latest branch; run `python scripts/validate.py` and relevant checks. Inspect affected PDFs and links. Keep each rule in one owning guide rather than duplicating it in JSON or other guides. Report changes, verified Actions run, blockers and whether publication occurred; lead PDF reviews with the Actions URL.
+Run `python scripts/validate.py` and relevant tests; review affected PDFs and human-facing destinations. Report checks, exact file IDs and URLs, unresolved blockers, and whether publication actually occurred. For generated-PDF review give the verified Actions preview link first.

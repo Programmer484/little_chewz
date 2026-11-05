@@ -1,76 +1,31 @@
 # Little Chewz — start here
 
-Prototype in chat, then follow the **independent workflow matching the action**. [AGENTS.md](AGENTS.md) is the short AI entry point. Shared definitions and checks are in [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) and [WORKFLOW.md](system/WORKFLOW.md).
+The resource lifecycle has **three explicit actions**: [Create](system/CREATE.md) → [Edit](system/EDIT.md) → [Publish](system/PUBLISH.md). [AGENTS.md](AGENTS.md) is the short entrypoint; [Content contract](system/CONTENT_CONTRACT.md) owns identities, catalogue fields and derived publication states.
 
-## Choose a workflow
+**Create:** register a real Holding Drive file of the right format and its stable catalogue ID; contents may be a prototype. Externally hosted URLs (YouTube/web apps) have catalogue identities but no Drive file to stage or move.
 
-- **[Edit](system/EDIT.md):** create or revise a resource in GitHub, using Actions previews to inspect generated PDFs. Holding remains useful for externally authored worksheets/slides, not generated PDFs.
-- **[Publish](system/PUBLISH.md):** after approval, upload a generated PDF directly into the official Drive folder, record its URL, then inspect. For revisions, replace the existing file in place; guarded release-PR automation is optional.
+**Edit:** iterate generated PDFs from editable JSON in GitHub Actions previews; other files in chat/native tools. Stage the final exact candidate back in Holding and have a human review content/links. Don't modify live resources while editing.
 
-Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unless you explicitly request a separate task branch. No chat slash-command integration exists; ordinary GitHub merges and previews do not publish.
+**Publish:** only when the human explicitly names exact IDs. First-time Drive files move Holding → Public **with the same Drive ID and URL**; external URLs are recorded only after exact-link approval. Revisions replace the established public file in place. Publish all dependencies first; never publish a PDF that references an unpublished resource. No automatic merges, scheduling, or catalogue-based publication.
 
-## Where things belong
+**Audit:** the existing [Inspect Action](https://github.com/Programmer484/little_chewz/actions/workflows/inspect-publications.yml) is on demand and read-only. It checks published resources only, rejecting unpublished dependencies of a published parent. It does not replace human destination review or gate publication.
 
-| Location | Owns |
-| --- | --- |
-| [AGENTS.md](AGENTS.md) | Small agent entry point: universal safeguards and task routing; edited directly. |
-| Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
-| `content/` | Lesson order, wording, companions, stories and artwork (no stored lesson publication status) |
-| `catalog/quests.json` | Navigation to quest manifests |
-| `catalog/resources.json` | Stable IDs, production classification, holding/published URLs, builds and publication records |
-| `catalog/drive_folders.json` | Verified holding folders (including separate Slide PDFs) and official folder configuration |
-| [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md) | Types, paths, version authority, statuses, source/output boundaries, and asset rules (including asset-first templates) |
-| [EDITORIAL_GUIDE.md](system/EDITORIAL_GUIDE.md) | Teacher Guide writing and presentation requirements |
-| [RESOURCE_GUIDELINES.md](system/RESOURCE_GUIDELINES.md) | Companion writing and presentation requirements |
-| [action_labels.json](system/action_labels.json) | Allowed action labels and internal row types |
-| [WORKFLOW.md](system/WORKFLOW.md) | Shared validation, preview, and review/reporting conventions |
-| [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md) | Slide PDF review, approval, linked-PowerPoint conversion, and in-place Drive replacement |
-| [PUBLISH.md](system/PUBLISH.md) | Single publication owner for generated PDFs and external resources, checks and verification |
-| [CHAT_FILE_CREATION.md](system/CHAT_FILE_CREATION.md) | Creating source files and transferring binary assets |
-| [EDIT.md](system/EDIT.md) | New and existing resource editing, holding staging, and review |
-| `templates/` | One folder per content template (`teacher_guide`, `teacher_companion`, `activity_guide`, `option_overview`, `welcome`); each `TEMPLATE.json` is copied to start a source, which keeps its `"template"` field |
-| `scripts/validate.py` | Implemented automatic content checks |
-| `scripts/renderers/` | Shared PDF layout and generation code |
-| `scripts/select_builds.py`, `scripts/build_selected.py` | Select and build affected eligible PDF previews |
-| `tests/` | Checks for the tools |
-| `.github/workflows/` | Automated validation and retained PDF previews after PR updates and `main` merges |
-| `exports/` | Generated PDFs; never the editable source |
-| `apps/` | Standalone teacher web apps, such as the [Print Pack Builder](apps/print-pack-builder/README.md); read-only consumers of the catalogue, never publishers |
-| [SYSTEM_IMPROVEMENTS.md](SYSTEM_IMPROVEMENTS.md) | Tooling backlog; each entry records its implementation status |
+## References
 
-## Find a lesson
+- `catalog/resources.json`: IDs, Holding/Public URLs, optional explicit dependency IDs, generated-PDF checksum/revision.
+- `catalog/drive_folders.json`: verified permitted Holding/Public folder destinations.
+- `catalog/quests.json` → quest manifest → lesson JSON: lesson content and order.
+- `templates/`, `scripts/renderers/`: shared generated-PDF source and layout.
+- [Editorial](system/EDITORIAL_GUIDE.md), [Companions](system/RESOURCE_GUIDELINES.md), [Slides](system/SLIDE_CONVERSION.md), [Binary transfer](system/BINARY_TRANSFER.md): specialist runbooks.
 
-Follow `catalog/quests.json` → the quest's `quest.json` (lesson order and folder) → `lessons/<stage>/lesson.json` when it exists. Derive each lesson's publication state from its registered Teacher Guide in `catalog/resources.json`, using `python scripts/publication_state.py --lessons`. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
-
-Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Derive lifecycle status from official URL / holding URL or generated checksum before publishing: a folder or URL does not prove its latest source is live.
-
-## Current capabilities
-
-- Resources with a `pdf` object (Teacher Guides, Python-rendered companions, Welcome) are created and previewed through GitHub. First publication is a direct official upload; subsequent replacements may be manual or use the optional guarded merge Action.
-- Resources without `pdf` (worksheets, posters, images and slides) are authored externally. Holding is useful for in-progress external work; approved files may upload directly to official Drive. No automatic external release or checksum tracking.
-- [Drive holding](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) now mirrors the official four categories: `01_TEACHER_GUIDES`, `02_CLASSROOM_SLIDES`, `03_STUDENT_MATERIALS`, `04_TEACHER_RESOURCES`. Existing subfolders retain their Drive IDs; legacy Slide PDF originals remain in their separate review folder. Holding is not publication.
-- Use Edit and Publish workflow documents directly; no chat slash commands are configured.
-
-- Automated builds discover authored lessons and companions through the quest catalog and registry. All valid existing sources can be previewed; registry-built documents (including Welcome) are handled the same way.
-- Every existing valid source can generate a preview; stages without a `lesson.json` are not renderable. Previews do not publish.
-- Slides are maintained per lesson under the content contract. Editable slide generation is not implemented; the **approved-PDF-to-linked-PPTX converter** is available separately (`scripts/pdf_to_linked_slides.py`). [Slide conversion standard](system/SLIDE_CONVERSION.md).
-- The validator checks selected required fields, resource references, registry IDs/HTTPS destinations, covers, action labels, and step order. It checks `lesson.json`, but does not fully validate every content structure, test Drive access, or prove external content parity. An on-demand read-only inspection workflow is available.
-
-## Local checks and previews
-
-From the repository root, with Python 3.10+:
+Use the shared lesson branch for its resources. `exports/` contains generated files, not editable source. GitHub PRs and main updates run validation and affected PDF previews, **never publish**.
 
 ```bash
 python scripts/validate.py
 python -m unittest discover -s tests -v
 python -m pip install -r requirements.txt
-python scripts/select_builds.py --all --output /tmp/little-chewz-build-selection.json
-python scripts/build_selected.py --manifest /tmp/little-chewz-build-selection.json
+python scripts/select_builds.py --all --output /tmp/selection.json
+python scripts/build_selected.py --manifest /tmp/selection.json
 ```
 
-Lato and the other fonts are bundled under `templates/`, so renders match CI. `scripts/build_selected.py` is the supported batch builder; it replaces PDFs in `exports/`, so keep review copies elsewhere. For direct iteration on a single PDF, invoke its renderer in `scripts/renderers/`.
-
-## GitHub previews
-
-Every PR update and push to `main` runs validation and tests. The selector renders affected registered PDFs, with a safe full-build fallback when impact is uncertain; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
-
+[PDF preview Action](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml). `scripts/publish_to_drive.py` is a manual, explicit-ID helper for already-published generated PDFs only.
