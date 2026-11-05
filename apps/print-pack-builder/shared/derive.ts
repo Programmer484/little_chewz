@@ -12,6 +12,7 @@
  * | step.options (A, B, C...)                     | choose one                             |
  * | GIVE row inside an option                     | printed when that option is chosen     |
  * | MORE row inside an option                     | checkbox shown when that option is chosen |
+ * | DO/SHOW/ASK etc. inside an option             | no print entry                         |
  * | Preparation `core`, not used in any step      | included automatically                 |
  * | `optional_prep` / `bonuses`, not used in a step | checkbox under "Extras"              |
  *
@@ -148,7 +149,7 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
           for (const link of links(row).filter((l) => isStudent(l.ref))) {
             mentioned.add(link.ref!);
             if (row.kind === "MORE") extensions.push(extension(`${optionId}-more-${link.ref}`, link));
-            else materials.push(material(link));
+            else if (row.kind === "GIVE") materials.push(material(link));
           }
         return {
           id: optionId,
