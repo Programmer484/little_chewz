@@ -18,13 +18,15 @@
     },
     {
       "ref": "ccc-q01-plate-it-forward-investigation-notes",
-      "description": "One per student"
+      "description": "One per student",
+      "quantity": "per_student"
     }
   ],
   "optional_prep": [
     {
       "ref": "ccc-q01-set-the-table-kwls-starter",
-      "description": "Reuse Part 1 pages if choosing KWLS"
+      "description": "Reuse Part 1 pages if choosing KWLS",
+      "quantity": "per_student"
     },
     {
       "ref": "ccc-q01-plate-it-forward-mission-log",
@@ -105,7 +107,8 @@
             {
               "kind": "DO",
               "ref": "ccc-q01-set-the-table-kwls-starter",
-              "description": "Return to Part 1 K and W responses; complete L and S. Compare what has changed."
+              "description": "Return to Part 1 K and W responses; complete L and S. Compare what has changed.",
+              "quantity": "per_student"
             }
           ]
         },
@@ -116,8 +119,7 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-plate-it-forward-mission-log",
-              "description": "One per student",
-              "quantity": "per_student"
+              "description": "One per student"
             },
             {
               "kind": "DO",
