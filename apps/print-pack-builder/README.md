@@ -68,10 +68,14 @@ The print builder reads only `lesson.json` worksheet links and `catalog/resource
 | --- | --- |
 | `GIVE` row or unreferenced preparation `core` | Ticked by default; can be unticked |
 | `MORE` row, optional preparation or bonus | Optional checkbox |
+| `bonuses[].print_materials` | Optional checkbox for each linked worksheet, even if the visible bonus is a teacher companion |
+| `DO`, `SHOW`, `ASK` and other flow links | No print entry |
 | `step.options` A/B/C/D | Unticked; any combination, soft warning when none |
 | `MORE` inside an option | Optional extension when that option is selected |
 | No guide source yet | Materials coming soon |
 | Guide without student worksheets | No student printing |
+
+A bonus can keep its teacher-facing `ref` and optionally expose different printable resources through hidden `print_materials` metadata. Each entry is a registered `student_material` `ref` with its own `quantity` (and an optional description). These appear as separate **Extras** checkboxes; the bonus's visible Teacher Guide link remains unchanged. For instance, a display activity can link to its companion while offering 2-per-page and 6-per-page slips. This metadata does not require `GIVE` or `MORE` flow rows.
 
 Every link to a `student_material`, including `row.links` entries, must have explicit `"quantity": "per_student"` or `"quantity": "per_group"`. A whole class is one group, **not** a third quantity type. Descriptions do not determine copy counts. Missing/invalid quantities fail `python scripts/validate.py`; the builder also fails closed if malformed metadata reaches it.
 
