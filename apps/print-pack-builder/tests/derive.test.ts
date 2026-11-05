@@ -117,6 +117,35 @@ describe("deriveManifest", () => {
     expect(m.sections.at(-1)).toMatchObject({ kind: "optional", id: "extras", title: "Extras", items: [{ id: "extras-bonus", summary: "Word wall" }] });
   });
 
+  it("uses bonus print_materials for separate slip sizes while keeping the teacher bonus link hidden", () => {
+    const resources: RegistryLike = {
+      wall: { title: "Strong Teammate Wall", type: "teacher_resource" },
+      large: { title: "Large slips", type: "student_material", print: { cards_per_sheet: 2 } },
+      small: { title: "Small slips", type: "student_material", print: { cards_per_sheet: 6 } },
+    };
+    const source: LessonSource = {
+      bonuses: [{
+        ref: "wall",
+        description: "Optional teamwork display",
+        print_materials: [
+          { ref: "large", quantity: "per_student", description: "Two slips per sheet" },
+          { ref: "small", quantity: "per_student", description: "Six slips per sheet" },
+        ],
+      }],
+      steps: [],
+    };
+    const result = deriveManifest({ questId: "q", folder: "04-test", title: "Test", order: 4, source }, resources);
+    expect(result.sections).toHaveLength(1);
+    expect(result.sections[0]).toMatchObject({
+      kind: "optional", id: "extras", title: "Extras",
+      items: [
+        { title: "Large slips", summary: "Two slips per sheet", materials: [{ resourceId: "large", rule: "per_student", cardsPerSheet: 2 }] },
+        { title: "Small slips", summary: "Six slips per sheet", materials: [{ resourceId: "small", rule: "per_student", cardsPerSheet: 6 }] },
+      ],
+    });
+    expect(allMaterials(result).map((material) => material.resourceId)).toEqual(["large", "small"]);
+  });
+
   it("handles lessons without worksheets or without a guide yet", () => {
     expect(deriveManifest({ questId: "q", folder: "00-a", title: "A", order: 0, source: { steps: [] } }, reg).status).toBe("no_student_printing");
     expect(deriveManifest({ questId: "q", folder: "03-b", title: "B", order: 0, source: null }, reg).status).toBe("in_progress");
@@ -185,6 +214,19 @@ describe("the real Teacher Guides", () => {
       ["A", [], []],
       ["B", ["ccc-q01-secret-ingredients-character-profile-core"], ["ccc-q01-secret-ingredients-character-profile"]],
     ]);
+  });
+
+  it("offers both Strong Teammate Wall slip sizes as Extras in Chew On This", () => {
+    const chew = byId.get("ccc-q01-chew-on-this")!;
+    const extra = chew.sections.find((section) => section.kind === "optional" && section.id === "extras");
+    expect(extra).toMatchObject({
+      kind: "optional", id: "extras",
+      items: [
+        { title: "Bulletin Board Slips — Large", materials: [{ resourceId: "ccc-q01-chew-on-this-bulletin-large", rule: "per_student", cardsPerSheet: 2 }] },
+        { title: "Bulletin Board Slips — Small", materials: [{ resourceId: "ccc-q01-chew-on-this-bulletin-small", rule: "per_student", cardsPerSheet: 6 }] },
+      ],
+    });
+    expect(allMaterials(chew).map((material) => material.resourceId)).not.toContain("ccc-q01-chew-on-this-graffiti-wall");
   });
 
   it("does not add Plate It Forward's reused KWLS Starter to the print pack", () => {
