@@ -127,7 +127,7 @@ class SelectionTests(unittest.TestCase):
             for error in ['missing visual cover','step IDs not consecutive',
                           'unsupported action label','missing catalog resource ref',
                           'must declare "template"',
-                          'redundant publication fields']:
+                          'unexpected metadata fields']:
                 self.assertIn(error,run.stdout)
 
 if __name__=='__main__':
