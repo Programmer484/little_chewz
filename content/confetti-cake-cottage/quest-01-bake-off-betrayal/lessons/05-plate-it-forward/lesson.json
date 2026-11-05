@@ -1,0 +1,151 @@
+{
+  "template": "teacher_guide",
+  "key": "p5",
+  "title": "PART 5 / PLATE IT FORWARD",
+  "grade": "4–6",
+  "duration": "about 45 minutes",
+  "print_note": "PRINT SELECTED PAGES",
+  "goal": "Revisit story evidence and the shared challenge, recognize growth, and identify learning to carry into future teamwork.",
+  "outcomes": [
+    "Reflect on the story and investigation using evidence.",
+    "Identify personal and team growth from the shared challenge.",
+    "Name a friendship or teamwork choice to carry forward."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-plate-it-forward-slides",
+      "description": "Slides 1–3",
+      "title": "Classroom Slideshow"
+    },
+    {
+      "ref": "ccc-q01-plate-it-forward-investigation-notes",
+      "description": "One per student",
+      "quantity": "per_student"
+    }
+  ],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-set-the-table-kwls-starter",
+      "description": "Reuse Part 1 pages if choosing KWLS",
+      "quantity": "per_student"
+    },
+    {
+      "ref": "ccc-q01-plate-it-forward-mission-log",
+      "description": "Print one per student if chosen"
+    }
+  ],
+  "prep_heading": "PREPARE ONE REFLECTION",
+  "focus": "Look for thoughtful reflections linked to story evidence and the teamwork choices students made during the challenge.",
+  "assessment": "Investigation Notes: Look for considered perspectives and examples from the story or challenge. Chosen reflection: Look for a specific contribution, team success, and next step. Formative only; no right answers.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Critical Thinking"
+  ],
+  "cover": "cover.pdf",
+  "output": "05-plate-it-forward-teacher-guide.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Zenix Debrief + Clue Check",
+      "mins": "10",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slides 1–3 — Discuss the reflection prompts and revisit the clue tracker image."
+        },
+        {
+          "kind": "ASK",
+          "text": "Could Maddie and Zoe’s friendship recover? Why or why not?"
+        },
+        {
+          "kind": "DO",
+          "text": "Compare the clues students found with the displayed tracker. Invite different perspectives; note clues they missed or reconsidered."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-secret-ingredients-clue-answer-key",
+          "description": "Teacher reference for the earlier clue hunt"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Zenix Investigation Notes",
+      "mins": "15",
+      "rows": [
+        {
+          "kind": "GIVE",
+          "ref": "ccc-q01-plate-it-forward-investigation-notes",
+          "description": "One per student",
+          "quantity": "per_student"
+        },
+        {
+          "kind": "DO",
+          "text": "Students reflect on friendship recovery, team successes and struggles, and responses to mistakes, pressure, or different opinions."
+        },
+        {
+          "kind": "ASK",
+          "text": "Which teamwork skill mattered most during your challenge?"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Choose One Reflection",
+      "mins": "15",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Complete one focused reflection, not every worksheet. Mission Keepsake may replace this choice only in the full four-quest mission."
+        }
+      ],
+      "options": [
+        {
+          "label": "A",
+          "title": "KWLS: Learned + Share",
+          "rows": [
+            {
+              "kind": "DO",
+              "ref": "ccc-q01-set-the-table-kwls-starter",
+              "description": "Return to Part 1 K and W responses; complete L and S. Compare what has changed.",
+              "quantity": "per_student"
+            }
+          ]
+        },
+        {
+          "label": "B",
+          "title": "Mission Log",
+          "rows": [
+            {
+              "kind": "GIVE",
+              "ref": "ccc-q01-plate-it-forward-mission-log",
+              "description": "One per student"
+            },
+            {
+              "kind": "DO",
+              "text": "Record what the team did and learned, how members contributed, one big win, and next steps. Keep it brief and low-pressure."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Carry It Forward",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "ASK",
+          "text": "What is one teamwork choice you will carry into your next challenge?"
+        },
+        {
+          "kind": "DO",
+          "text": "Invite a brief share or written exit response; celebrate effort and growth. A separate celebration is optional."
+        }
+      ]
+    }
+  ],
+  "flow_style": "compact",
+  "bonuses": []
+}
