@@ -187,6 +187,28 @@ for path in lesson_paths:
         for item in d.get(section,[]):
             check_ref(item['ref'],path)
             check_quantity(item)
+    # Bonus printouts can differ from the linked teacher-facing companion.
+    # Metadata stays invisible in the guide; only the Print Pack Builder consumes it.
+    for item in d.get('bonuses',[]):
+        print_materials = item.get('print_materials', [])
+        if not isinstance(print_materials, list):
+            errors.append(f'{path}: bonus print_materials must be a list')
+            continue
+        listed = set()
+        for material in print_materials:
+            if not isinstance(material, dict) or not isinstance(material.get('ref'), str):
+                errors.append(f'{path}: bonus print_materials needs resource objects with ref')
+                continue
+            ref = material['ref']
+            if set(material) - {'ref', 'quantity', 'description'}:
+                errors.append(f'{path}: bonus print_materials has unsupported metadata for {ref}')
+            if ref in listed:
+                errors.append(f'{path}: duplicate bonus print material {ref}')
+            listed.add(ref)
+            if registry.get(ref, {}).get('type') != 'student_material':
+                errors.append(f'{path}: bonus print material {ref} must be student_material')
+            check_ref(ref, path)
+            check_quantity(material)
     for st in d.get('steps',[]):
         ids.append(st.get('id'))
         options=st.get('options',[])
