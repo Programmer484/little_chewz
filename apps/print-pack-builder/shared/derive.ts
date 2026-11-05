@@ -13,7 +13,7 @@
  * | GIVE row inside an option                     | printed when that option is chosen     |
  * | MORE row inside an option                     | checkbox shown when that option is chosen |
  * | DO/SHOW/ASK etc. inside an option             | no print entry                         |
- * | Preparation `core`, not used in any step      | included automatically                 |
+ * | Preparation `core`                           | ignored for printing                   |
  * | `optional_prep` / `bonuses`, not used in a step | checkbox under "Extras"              |
  * | `bonuses[].print_materials`                  | extra printouts, even if bonus link is teacher-only |
  *
@@ -48,6 +48,7 @@ interface LessonStep {
 }
 /** The parts of a lesson.json this app reads. */
 export interface LessonSource {
+  /** Teacher preparation resources are not Print Pack entries. */
   core?: LinkRef[];
   optional_prep?: LinkRef[];
   bonuses?: BonusSpec[];
@@ -105,7 +106,7 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
   const isStudent = (ref?: string): ref is string =>
     Boolean(ref && Object.hasOwn(registry, ref) && registry[ref].type === PRINTABLE_TYPE);
   const prepText = new Map<string, string>();
-  for (const item of [...(lesson.core ?? []), ...(lesson.optional_prep ?? []), ...(lesson.bonuses ?? [])])
+  for (const item of [...(lesson.optional_prep ?? []), ...(lesson.bonuses ?? [])])
     if (item.ref && item.description && !prepText.has(item.ref)) prepText.set(item.ref, clean(item.description)!);
 
   const material = (link: LinkRef): MaterialSpec => {
@@ -171,14 +172,9 @@ export function deriveManifest(input: LessonInput, registry: RegistryLike): Less
     }
   }
 
-  // Preparation core stays mandatory unless already covered by an unconditional GIVE.
-  const unconditional = new Set((lesson.steps ?? []).flatMap((step) => (step.rows ?? [])
-    .filter((row) => row.kind === "GIVE").flatMap(links).map((link) => `${link.ref}:${link.quantity}`)));
-  const prepOnly = (lesson.core ?? []).filter((c) => isStudent(c.ref) && !unconditional.has(`${c.ref}:${c.quantity}`));
-  if (prepOnly.length)
-    sections.unshift({ kind: "core", id: "preparation", title: "Preparation", materials: prepOnly.map(material) });
-  // Optional preparation and bonus worksheets not used in the flow become extras.
-  const seen = new Set([...mentioned, ...prepOnly.map((c) => c.ref!)]);
+  // Preparation core is teacher-facing context, never an automatic print entry.
+  // Optional preparation and bonus worksheets not used in the flow remain Extras.
+  const seen = new Set(mentioned);
   const extras: ExtensionSpec[] = [];
   for (const item of [...(lesson.optional_prep ?? []), ...(lesson.bonuses ?? [])])
     if (isStudent(item.ref) && !seen.has(item.ref)) {

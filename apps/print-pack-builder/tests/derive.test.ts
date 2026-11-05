@@ -65,7 +65,6 @@ describe("deriveManifest", () => {
     expect(m.status).toBe("ready");
     expect(validateManifest(m, new Set(Object.keys(reg)), new Set(["q1"]))).toEqual([]);
     expect(m.sections.map((s) => `${s.kind}:${s.id}`)).toEqual([
-      "core:preparation",
       "core:step-1",
       "optional:step-1-more",
       "choice:step-2-choice",
@@ -73,9 +72,9 @@ describe("deriveManifest", () => {
     ]);
   });
 
-  it("includes GIVE and Preparation core worksheets, and makes MORE worksheets checkboxes", () => {
-    const [prep, step1, more, choice] = m.sections;
-    expect(prep).toMatchObject({ title: "Preparation", materials: [{ resourceId: "prep", rule: "per_student" }] });
+  it("includes GIVE and MORE worksheets but never auto-includes Preparation core", () => {
+    const [step1, more, choice] = m.sections;
+    expect(allMaterials(m).map((material) => material.resourceId)).not.toContain("prep");
     expect(step1).toMatchObject({ title: "Step 1 · Hook", materials: [{ resourceId: "sheet", rule: "per_student", note: "One per student" }] });
     expect(more).toMatchObject({ items: [{ title: "Extension", summary: "+10 min", materials: [{ resourceId: "ext" }] }] });
     if (choice.kind !== "choice") throw new Error("expected a choice");
@@ -151,23 +150,23 @@ describe("deriveManifest", () => {
     expect(deriveManifest({ questId: "q", folder: "03-b", title: "B", order: 0, source: null }, reg).status).toBe("in_progress");
   });
 
-  it("keeps Preparation core mandatory even when it also appears as optional in the flow", () => {
+  it("ignores Preparation core even when a worksheet appears in a MORE row", () => {
     const source: LessonSource = {
       core: [{ ref: "sheet", quantity: "per_student", description: "One per student" }],
       steps: [{ id: 1, title: "Optional reuse", rows: [{ kind: "MORE", ref: "sheet", quantity: "per_group" }] }],
     };
     const m = deriveManifest({ questId: "q", folder: "00-test", title: "Test", order: 0, source }, reg);
-    expect(m.sections.map((x) => x.kind)).toEqual(["core", "optional"]);
-    expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_student", "per_group"]);
+    expect(m.sections.map((x) => x.kind)).toEqual(["optional"]);
+    expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_group"]);
   });
 
-  it("retains separate core quantities for the same resource in different placements", () => {
+  it("only uses the GIVE quantity when a worksheet also appears in Preparation core", () => {
     const source: LessonSource = {
       core: [{ ref: "sheet", quantity: "per_student" }],
       steps: [{ id: 1, title: "Group reuse", rows: [{ kind: "GIVE", ref: "sheet", quantity: "per_group" }] }],
     };
     const m = deriveManifest({ questId: "q", folder: "00-test", title: "Test", order: 0, source }, reg);
-    expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_student", "per_group"]);
+    expect(allMaterials(m).map((x) => x.rule)).toEqual(["per_group"]);
   });
 
   it("uses explicit quantities and rejects missing metadata", () => {
