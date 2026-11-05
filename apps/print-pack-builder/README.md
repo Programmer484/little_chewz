@@ -4,7 +4,7 @@ A small web app for Grade 4–6 teachers: choose a lesson, pick the activities y
 
 **Open → tick activities → check copies → download**, all on one page.
 
-**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet added to a guide and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#how-it-works)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline. Its lesson labels (`ready`, `no_student_printing`, `in_progress`) describe **printing readiness**, not publication status; lesson publication is derived separately from each Teacher Guide using `python scripts/publication_state.py --lessons`.
+**There is no separate print configuration.** The builder reads each lesson's Teacher Guide source (`lesson.json`) and `catalog/resources.json` at build time, so a worksheet referenced by a printable guide action and published in the catalogue becomes printable on the next deploy ([Where lessons come from](#how-it-works)). It never edits lesson sources and never publishes anything. It is independent of the Python Teacher Guide pipeline. Its lesson labels (`ready`, `no_student_printing`, `in_progress`) describe **printing readiness**, not publication status; lesson publication is derived separately from each Teacher Guide using `python scripts/publication_state.py --lessons`.
 
 | Part | Technology | Where |
 | --- | --- | --- |
@@ -47,7 +47,7 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 ## How it works
 
 1. The Worker discovers the current lessons through `catalog/quests.json` → `quest.json` → `lesson.json`, and resolves worksheet IDs through `catalog/resources.json`. Only `student_material` resources with trusted official `published_url` Drive file URLs can be fetched in drive mode.
-2. **Everything is a checkbox, with the guide's defaults pre-ticked.** Only `GIVE` and `MORE` Teaching Flow rows create print entries, including within A/B options; linked `DO`, `SHOW`, `ASK` and other rows are instructions, not print requests. Unused `optional_prep` and `bonuses` still appear under Extras. `GIVE` and unreferenced preparation `core` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
+2. **Everything is a checkbox, with the guide's defaults pre-ticked.** Only `GIVE` and `MORE` Teaching Flow rows create print entries, including within A/B options; linked `DO`, `SHOW`, `ASK` and other rows are instructions, not print requests. Unused `optional_prep` and `bonuses` still appear under Extras. Preparation `core` entries do not create print items. `GIVE` worksheets start ticked; A/B options, `MORE` and bonus worksheets start unticked. Teachers may pick one option, both or none, and untick any core worksheet, for example to print only an extension they decided to add after printing the rest. A choice with nothing picked shows a **soft warning** that does not block the download. An empty pack cannot be downloaded.
 3. Steps whose worksheets and optional extras would otherwise appear twice share one heading.
 4. The teacher enters the class size once. Each printable resource shows its calculated quantity and a **Change** button. Per-student resources default to one copy per student; per-group resources use the chosen option's `group_size` from `lesson.json` when it sets one, otherwise the lesson's default students-per-group size (4 unless configured otherwise). Inside **Change**, teachers can enter any valid whole number for **Students per group**, or switch that resource to **Custom copy count** (including 0). Changing a group's size recalculates copies and clears previous custom quantities for that activity. Custom quantities stay fixed when class size changes; choosing Automatic again restores calculation. A worksheet selected both per student and per group prints only the student copies, since every student already has one; setting its student copies to 0 brings the group copies back.
 5. Download fetches each distinct selected file once and combines all copies into **one PDF**. Nothing is uploaded or stored. Class size and the double-sided preference are saved only in the browser.
@@ -66,7 +66,8 @@ The print builder reads only `lesson.json` worksheet links and `catalog/resource
 
 | Guide reference | Printing behavior |
 | --- | --- |
-| `GIVE` row or unreferenced preparation `core` | Ticked by default; can be unticked |
+| `GIVE` row | Ticked by default; can be unticked |
+| Preparation `core` entry | Ignored for print selection; teacher preparation only |
 | `MORE` row, optional preparation or bonus | Optional checkbox |
 | `bonuses[].print_materials` | Optional checkbox for each linked worksheet, even if the visible bonus is a teacher companion |
 | `DO`, `SHOW`, `ASK` and other flow links | No print entry |
@@ -74,6 +75,8 @@ The print builder reads only `lesson.json` worksheet links and `catalog/resource
 | `MORE` inside an option | Optional extension when that option is selected |
 | No guide source yet | Materials coming soon |
 | Guide without student worksheets | No student printing |
+
+If a preparation worksheet should be printed, reference it in a `GIVE` row (or `MORE` for optional printing). Merely placing it in lesson `core` does not add it to the Print Pack.
 
 A bonus can keep its teacher-facing `ref` and optionally expose different printable resources through hidden `print_materials` metadata. Each entry is a registered `student_material` `ref` with its own `quantity` (and an optional description). These appear as separate **Extras** checkboxes; the bonus's visible Teacher Guide link remains unchanged. For instance, a display activity can link to its companion while offering 2-per-page and 6-per-page slips. This metadata does not require `GIVE` or `MORE` flow rows.
 
@@ -88,7 +91,7 @@ Unpublished resources remain visible as unavailable; no Drive ID or URL is sent 
 | Lesson | Builder shows | Downloadable now |
 | --- | --- | --- |
 | Activate | No student printing needed | – |
-| Set the Table | KWLS Starter (Preparation); Small Bite 1 A School Song / B Mission Vocabulary (+ Our Vocabulary checkbox); Small Bite 2 A Which Word Fits? (Our Vocabulary) / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards, KWLS Starter (recorded published for audit testing; access not independently verified). School Song Activity and Our Vocabulary show "Coming soon" until published. |
+| Set the Table | KWLS Starter (Step 2 GIVE); Small Bite 1 A School Song / B Mission Vocabulary (+ Our Vocabulary checkbox); Small Bite 2 A Which Word Fits? (Our Vocabulary) / B Team Builder; Extras: Vocabulary Cards | Team Builder, Vocabulary Cards, KWLS Starter (recorded published for audit testing; access not independently verified). School Song Activity and Our Vocabulary show "Coming soon" until published. |
 | Secret Ingredients | Clue Tracker Core and Chapter Notes (included); Clue Tracker Extension (checkbox); Small Bite A Conflict Report / B Character Profile (+ Advanced checkbox) | All five |
 | The Showdown | Step 3 choose one: A Design, B Decorate, C Bake, D Mystery (team cards one per group, plus design sheet or recipe); Step 5 TASTE reflection checkbox | None yet: all its worksheets are unpublished placeholders, so it shows "Materials awaiting review" |
 | Chew On This, Plate It Forward, Celebrate | Materials coming soon (no `lesson.json` yet) | – |
