@@ -1,6 +1,6 @@
 ---
 id: ccc-q01-bakery-log-1958
-source: Full Guide.pdf, page 18
+source: draft transcription pending verification
 status: unapproved
 published_reference: ccc-q01-bakery-log-1958
 ---

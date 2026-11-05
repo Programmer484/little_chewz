@@ -4,7 +4,7 @@
 
 This guide owns the **editorial judgment** used to draft and revise Little Chewz Teacher Guides: what to say, how much detail to include, and how to make a lesson easy to teach. It applies to human editors, AI writers, and AI-assisted revisions.
 
-Use the **current accepted lesson source, approved lesson-specific slideshow, and relevant Teacher Guides and teacher companion resources** as the baseline for lesson content, terminology, activity choices, and level of detail. **Full Guide Revised.pdf** is the broader editorial and visual benchmark. Where examples differ, follow the current authoritative sources rather than older exported guides. Source precedence and file ownership are in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
+Use the **current accepted lesson source, approved lesson-specific slideshow, and relevant Teacher Guides and teacher companion resources** as the baseline for lesson content, terminology, activity choices, and level of detail. Where examples differ, follow the current authoritative sources rather than older exported guides. Source precedence and file ownership are in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
 
 Keep responsibilities separate: [EDIT.md](EDIT.md) governs editing, [WORKFLOW.md](WORKFLOW.md) governs review and checks, [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md) governs companions, and [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) governs slides. The [Teacher Guide template](../templates/teacher_guide/TEMPLATE.json) defines the starting data structure; the [renderer](../scripts/renderers/teacher_guide.py) owns visual layout.
 
@@ -91,6 +91,6 @@ Read the lesson once as a teacher preparing and once as a teacher delivering it.
 - Resource links, slide references, choices, and supporting materials are positioned where a teacher needs them.
 - Story details and approved language remain accurate.
 - Optional assessment adds practical evidence guidance, and extensions remain optional.
-- The resulting page feels consistent with the current Teacher Guides and **Full Guide Revised.pdf**.
+- The resulting page feels consistent with the current Teacher Guides and companion resources.
 
 For schema validation, PDF checks, review copies, and release safeguards, follow [WORKFLOW.md](WORKFLOW.md) and [PUBLISH.md](PUBLISH.md). Rendering and objective checks belong in code; this guide supplies the human editorial standard.

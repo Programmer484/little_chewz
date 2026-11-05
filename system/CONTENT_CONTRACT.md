@@ -72,8 +72,7 @@ Publishing and initial official-link authorization belong to [PUBLISH.md](PUBLIS
 1. Explicit human decisions within their stated scope, recorded in the owning source or instructions.
 2. Current accepted editable content and its quest/resource-catalog delivery records.
 3. Current reviewed lesson slides or media for slide-specific details.
-4. `Full Guide Revised.pdf` as editorial and visual benchmark, not automatic authority for current slide numbers.
-5. Older PDFs as recovery inputs only where editable sources are missing.
+4. Existing approved Teacher Guides and teacher companion resources for editorial and instructional patterns.
 
 A newer timestamp or extraction does not establish publication or content authority. Flag disagreements between records; do not silently choose the more permissive status. Historical reports and backlog proposals do not override current rules or establish implemented capabilities.
 

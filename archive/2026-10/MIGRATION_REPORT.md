@@ -5,7 +5,7 @@
 - User-provided Google Drive root and its visible immediate folder structure.
 - `Lesson_Plan_Template/`: editorial AGENTS, README, Python Teacher Guide generator, URL registry and one Activate JSON.
 - `Resource_Template.zip`: companion resource generator, companion editorial instructions and three resource JSON sources.
-- Attached `Full Guide Revised.pdf` (29 pages), `Full Guide.pdf` (109 pages), `Bake off Betrayal.pdf` (44-slide PDF), `Little Chewz Demo.pdf` (five-page outreach PDF).
+- Attached `Bake off Betrayal.pdf` (44-slide PDF) and `Little Chewz Demo.pdf` (five-page outreach PDF).
 - Live `Activate_Teacher_Guide.pdf` and the live seven-page `Activate_Slides.pdf`.
 
 ## Verified architectural findings
@@ -13,8 +13,8 @@
 1. Source types and generated PDFs are mixed in public-facing folders.
 2. The Teacher Guide has a JSON/PyMuPDF generator; companion questions have another JSON/ReportLab generator. Both are good reusable foundations.
 3. The original Teacher Guide instructions call the registry `Template/resources.json`; the current Drive folder contains `resource_links.json`. This draft standardizes one `catalog/resources.json`.
-4. Live `Activate_Slides.pdf` has seven pages: Tongsley video slide 4 and Callie slide 5. These match the newer Activate JSON, not the older Revised Guide's whole-deck positions.
-5. Source files for six other stages are not visible in the inspected Drive structure; their lesson text can be recovered from the Revised Guide in an *audited one-time migration*.
+4. Live `Activate_Slides.pdf` has seven pages: Tongsley video slide 4 and Callie slide 5. These match the newer Activate JSON.
+5. Source files for six other stages are not visible in the inspected Drive structure; authoritative lesson sources must be located and reviewed before migration.
 6. `passport` in current registry links to School Pass Instructions rather than the actual color/B&W passport sheets.
 7. The optional Songwriting Extension JSON exists in the source ZIP, but the observed public Drive folder contains a PDF and it should not be linked as newly published until approved.
 

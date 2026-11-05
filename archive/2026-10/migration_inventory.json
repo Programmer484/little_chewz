@@ -22,8 +22,7 @@
       "kind": "lesson",
       "stage": "01 through 06",
       "status": "migration_needed",
-      "source": "Full Guide Revised.pdf",
-      "note": "One-time extraction and editorial review needed before treating as source."
+      "note": "Authoritative editable lesson sources must be located and reviewed before migration."
     },
     {
       "kind": "teacher_companion",
@@ -34,12 +33,12 @@
     {
       "kind": "student_worksheet",
       "status": "migration_needed",
-      "note": "KWLS, Clue Tracker, Character Profile, etc. remain in long PDF and/or other live assets."
+      "note": "KWLS, Clue Tracker, Character Profile, etc. require verified editable sources or live assets."
     },
     {
       "kind": "story",
       "status": "draft_transcription",
-      "note": "Bakery Log and Mrs. Tongsley letter copied from original Full Guide text; review before release."
+      "note": "Bakery Log and Mrs. Tongsley letter are draft transcriptions requiring source verification before release."
     },
     {
       "kind": "media",

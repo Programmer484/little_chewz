@@ -19,7 +19,7 @@
       "title": "Activate",
       "source_note": "Current editable Activate lesson JSON and seven-slide Activate_Slides.pdf.",
       "cover": {
-        "source": "Full_Guide_v1.pdf page 1",
+        "source": "Existing committed cover.pdf artwork",
         "method": "lossless one-page PDF extraction (qpdf); vector text and original artwork preserved",
         "target_filename": "cover.pdf",
         "status": "committed",
@@ -29,7 +29,7 @@
     {
       "folder": "01-set-the-table",
       "title": "Set the Table",
-      "source_note": "Revised Guide pages 5–8; slideshow pages 8–13 in older continuous deck."
+      "source_note": "slideshow pages 8–13 in older continuous deck."
     },
     {
       "folder": "02-secret-ingredients",
@@ -39,26 +39,24 @@
     {
       "folder": "03-the-showdown",
       "title": "The Showdown",
-      "source_note": "Revised Guide pages 14–17; slideshow pages 19–21 in older continuous deck."
+      "source_note": "slideshow pages 19–21 in older continuous deck."
     },
     {
       "folder": "04-chew-on-this",
       "title": "Chew On This",
-      "source_note": "Revised Guide pages 18–21; slideshow pages 22–29 in older continuous deck."
+      "source_note": "slideshow pages 22–29 in older continuous deck."
     },
     {
       "folder": "05-plate-it-forward",
       "title": "Plate It Forward",
-      "source_note": "Revised Guide pages 22–25; slideshow pages 30–32 in older continuous deck."
+      "source_note": "slideshow pages 30–32 in older continuous deck."
     },
     {
       "folder": "06-celebrate",
       "title": "Celebrate",
-      "source_note": "Revised Guide pages 26–29; slideshow pages 33–44 in older continuous deck."
+      "source_note": "slideshow pages 33–44 in older continuous deck."
     }
   ],
-  "editorial_benchmark": "Full Guide Revised.pdf (29 pages)",
-  "legacy_reference": "Full Guide.pdf (109 pages)",
   "slide_conflict_note": "2026-10-19: future slides are generated and maintained per lesson, not as a full quest deck. The approved seven-slide Activate asset is unchanged; the old 44-slide global ranges are historical only.",
   "slideshow_policy": {
     "scope": "lesson",

@@ -1,5 +1,4 @@
 {
-
   "template": "teacher_companion",
   "title": "Songwriting Extension",
   "kind": "extension",
@@ -28,7 +27,7 @@
       ]
     }
   ],
-  "source_note": "Adapted from original Full Guide School Song teacher page (page 27), steps 4–6; original activity options preserved and made optional.",
+  "source_note": "Adapted from the School Song activity; original steps 4–6 are optional.",
   "resource_id": "ccc-q01-set-the-table-songwriting-extension",
   "resource_type": "teacher_companion",
   "audience": "teacher",

@@ -1,6 +1,6 @@
 ---
 id: ccc-q01-mrs-tongsleys-letter
-source: Full Guide.pdf, page 15
+source: draft transcription pending verification
 status: unapproved
 published_reference: ccc-q01-mrs-tongsleys-letter
 ---
