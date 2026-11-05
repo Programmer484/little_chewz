@@ -483,5 +483,11 @@
     "type": "classroom_slides",
     "published_url": null,
     "holding_url": null
+  },
+  "ccc-q01-celebrate-slides": {
+    "title": "Celebrate Classroom Slides",
+    "type": "classroom_slides",
+    "published_url": null,
+    "holding_url": null
   }
 }
