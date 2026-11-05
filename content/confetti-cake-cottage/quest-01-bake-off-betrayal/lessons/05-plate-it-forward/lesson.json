@@ -105,7 +105,8 @@
             {
               "kind": "GIVE",
               "ref": "ccc-q01-plate-it-forward-mission-log",
-              "description": "One per student"
+              "description": "One per student",
+              "quantity": "per_student"
             },
             {
               "kind": "DO",
