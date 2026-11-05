@@ -59,6 +59,21 @@ class SelectionTests(unittest.TestCase):
         self.assertTrue(all('status' not in target for target in self.targets.values()))
         self.assertNotIn('status', sb.selection('all'))
 
+    def test_teacher_guide_template_and_sources_have_no_duplicate_output(self):
+        template = sb.read_json('templates/teacher_guide/TEMPLATE.json')
+        self.assertNotIn('output', template)
+        for field in ('assessment', 'prep_heading', 'prep_note', 'flow_style',
+                      'bonuses', 'bonus_heading', 'bonus_rows', 'colored_section_titles'):
+            self.assertIn(field, template)
+
+        registry = sb.read_json('catalog/resources.json')
+        for name, target in self.targets.items():
+            if target['kind'] != 'teacher_guide':
+                continue
+            with self.subTest(source=target['source']):
+                self.assertNotIn('output', target['data'])
+                self.assertEqual(registry[target['resource_id']]['pdf']['output'], name)
+
     def test_renderer_consumers(self):
         for kind in {t['kind'] for t in self.targets.values()}:
             expected = sorted(n for n, t in self.targets.items() if t['kind'] == kind)

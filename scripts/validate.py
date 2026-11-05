@@ -167,7 +167,9 @@ for path in lesson_paths:
 
     if set(d) & {'review_status','preview_enabled','status','holding_url','published_url'}:
         errors.append(f'{path}: obsolete lesson publication/preview fields')
-    for field in ['key','goal','steps','outcomes','cover','output']:
+    if 'output' in d:
+        errors.append(f'{path}: lesson output is obsolete; use catalog/resources.json pdf.output')
+    for field in ['key','goal','steps','outcomes','cover']:
         if field not in d: errors.append(f'{path}: missing {field}')
     def check_quantity(link):
         ref = link.get('ref') if isinstance(link, dict) else None
