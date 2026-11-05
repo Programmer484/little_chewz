@@ -4,8 +4,8 @@ Prototype in chat, then follow the **independent workflow matching the action**.
 
 ## Choose a workflow
 
-- **[Edit](system/EDIT.md):** for new or existing resources. Check for an existing stable ID, edit the source, stage a review copy in holding and preserve the live release. Do not publish.
-- **[Publish](system/PUBLISH.md):** after explicit human authorization, deliver the exact reviewed resource, verify the official Drive file, then save the official URL and approved checksum; resource status derives automatically. Existing generated PDFs use a guarded release-PR merge within this workflow.
+- **[Edit](system/EDIT.md):** create or revise a resource in GitHub, using Actions previews to inspect generated PDFs. Holding remains useful for externally authored worksheets/slides, not generated PDFs.
+- **[Publish](system/PUBLISH.md):** after approval, upload a generated PDF directly into the official Drive folder, record its URL, then inspect. For revisions, replace the existing file in place; guarded release-PR automation is optional.
 
 Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unless you explicitly request a separate task branch. No chat slash-command integration exists; ordinary GitHub merges and previews do not publish.
 
@@ -46,8 +46,8 @@ Lesson folders run from `00-activate` through `06-celebrate`. Companions live un
 
 ## Current capabilities
 
-- Only resources with a `pdf` object (Teacher Guides, Python-rendered companions, Welcome) use editable GitHub branches and an authorized release-PR merge/checksum pipeline. First release needs manual destination setup.
-- Resources without `pdf` (including externally authored PDFs, posters, images, worksheets and slides) stay in holding until an agent manually publishes and verifies them. No automatic external release or checksum tracking.
+- Resources with a `pdf` object (Teacher Guides, Python-rendered companions, Welcome) are created and previewed through GitHub. First publication is a direct official upload; subsequent replacements may be manual or use the optional guarded merge Action.
+- Resources without `pdf` (worksheets, posters, images and slides) are authored externally. Holding is useful for in-progress external work; approved files may upload directly to official Drive. No automatic external release or checksum tracking.
 - [Drive holding](https://drive.google.com/drive/folders/1UJYL2ADO7_pfrLSK1BpzstaHCoBmx-jJ) now mirrors the official four categories: `01_TEACHER_GUIDES`, `02_CLASSROOM_SLIDES`, `03_STUDENT_MATERIALS`, `04_TEACHER_RESOURCES`. Existing subfolders retain their Drive IDs; legacy Slide PDF originals remain in their separate review folder. Holding is not publication.
 - Use Edit and Publish workflow documents directly; no chat slash commands are configured.
 

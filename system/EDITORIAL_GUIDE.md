@@ -1,96 +1,169 @@
-# Little Chewz — Teacher Guide editorial guide
+# Little Chewz — Teacher Guide Editorial Instructions
 
-## Purpose and source material
+**Scope:** These instructions apply to AI and editors creating or revising Little Chewz Teacher Guides, including AI working on the generator.
 
-This guide owns the **editorial judgment** used to draft and revise Little Chewz Teacher Guides: what to say, how much detail to include, and how to make a lesson easy to teach. It applies to human editors, AI writers, and AI-assisted revisions.
+Use existing approved Teacher Guides and teacher companion resources as the editorial baseline. Use the latest approved lesson content and lesson-specific slideshow for instructional accuracy.
 
-Use the **current accepted lesson source, approved lesson-specific slideshow, and relevant Teacher Guides and teacher companion resources** as the baseline for lesson content, terminology, activity choices, and level of detail. Where examples differ, follow the current authoritative sources rather than older exported guides. Source precedence and file ownership are in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
+This document governs editorial decisions not clearly enforced by code. Source authority, technical requirements, and workflow are defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md), [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md), and [WORKFLOW.md](WORKFLOW.md).
 
-Keep responsibilities separate: [EDIT.md](EDIT.md) governs editing, [WORKFLOW.md](WORKFLOW.md) governs review and checks, [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md) governs companions, and [SLIDE_CONVERSION.md](SLIDE_CONVERSION.md) governs slides. The [Teacher Guide template](../templates/teacher_guide/TEMPLATE.json) defines the starting data structure; the [renderer](../scripts/renderers/teacher_guide.py) owns visual layout.
+## 1. Primary editorial rule
 
-## 1. Editorial standard
+**Tell teachers only what they need to do next.**
 
-**Tell teachers what they need to do next.** A teacher should be able to scan the guide, prepare the lesson, and teach it without decoding long explanations.
+Write concise, practical, classroom-ready instructions consistent with approved guides. Prioritize clarity, usefulness, and ease of scanning. Preserve the established section structure, terminology, instructional approach, and tone.
 
-- Write in the practical, welcoming Little Chewz voice: clear, encouraging, and confident, with the story and student experience at the centre.
-- Prefer short, action-led directions. Retain detail when it changes preparation, teaching, a meaningful choice, or student understanding.
-- Use the existing Teacher Guides and companion resources as models for how much explanation an activity needs. Concise means complete enough to teach, rather than the fewest possible words.
-- Preserve approved story facts, character names, mission language, learning-cycle terminology, and the intended progression of the quest.
-- Keep the main guide focused on the teachable route. Supporting explanations, extended prompts, examples, and reference material belong in linked companion resources.
+Include information that helps teachers prepare, make decisions, or deliver the lesson. Use approved guides to judge the appropriate level of detail.
 
-## 2. Lesson framing
+## 2. Learning design: goal, outcomes, focus, and assessment
 
-Retain the familiar sections and their purposes: **At a Glance, Learning goal, Learning outcomes, Preparation, Teaching focus, Teaching Flow**, and useful optional extensions. **Assessment** is optional and, when useful, stands below Teaching focus.
+**Learning goal**
+- State the central educational purpose in one concise sentence.
+- Describe student learning rather than listing activities.
+- Align with the lesson's approved instructional intent.
 
-**At a Glance** gives a teacher the lesson's basic scope, audience, time, and practical setup needs. Match the approved lesson rather than adding generic context.
+**Learning outcomes**
+- Normally include three short, observable, student-centred statements.
+- Begin with meaningful action verbs.
+- Reflect learning students can demonstrate through the lesson's actual activities.
+- Match the lesson's scope and progression.
 
-**Learning goal** is one concise sentence describing the central learning purpose, not an inventory of activities.
+**Teaching focus**
+- Identify one central instructional priority in a short, direct sentence.
+- Give teachers a practical focus while delivering the lesson.
+- Complement the outcomes without repeating them.
 
-**Learning outcomes** are usually three short, student-centred statements describing observable learning. Choose verbs that fit what students actually do, and align the outcomes with the lesson's available evidence and level of demand.
+**Assessment — optional**
+- Include assessment when it adds useful guidance beyond Teaching focus.
+- Identify observable evidence from activities, discussions, or student materials already in the Teaching Flow.
+- For choice-based lessons, tailor indicators to the selected activities.
+- Keep guidance formative, concise, and proportionate to the lesson.
 
-**Preparation** identifies decisions and work that genuinely need to happen before class. Prioritize the lesson's slideshow, advance reading or setup, and selected printing. Let linked steps handle resources that can be opened while teaching. Make important constraints visible without turning preparation into a full materials inventory.
+Follow approved Teacher Guides for the appropriate depth and use of each section.
 
-**Teaching focus** is one clear instructional priority, phrased as useful guidance for what to notice or encourage during the lesson.
+## 3. Resources, descriptions, and preparation
 
-**Assessment**, when it adds value, points to evidence already produced through the Teaching Flow: student thinking, discussion, notes, work, or the selected challenge. Keep it brief, formative, and specific to the activity or resource. If Teaching focus already provides enough guidance, leave Assessment out. It is guidance for observing existing work, not an added lesson task.
+**Resource references**
+- Use approved resource titles and verified destinations from the resource catalogue.
+- Follow the established linked-title and short-description presentation.
+- Describe what the resource is for or what the teacher should do with it.
+- Place supporting materials in their companion resources and link them where used.
+- Verify slide references against the current approved lesson-specific slideshow.
 
-**Curriculum connections** should reflect actual opportunities in the lesson, using the program's established wording.
+**Preparation**
 
-## 3. Teaching Flow
+Preparation covers decisions and actions that need to happen before students arrive.
 
-The Teaching Flow is a workable classroom sequence, not a script for every moment.
+- Identify meaningful advance reading, setup, printing, materials, and safety considerations.
+- Link the approved lesson slideshow and relevant preparation resources.
+- Use brief, action-oriented descriptions.
+- Place in-class resources at the relevant Teaching Flow steps.
+- Keep preparation proportional to the lesson's complexity.
 
-- Keep each step's **number, title, and practical duration**, followed by only the action rows needed to run it. Use a sensible single time estimate where possible; use a range when choices meaningfully change timing.
-- Start directions with the teacher's action. Give the essential instruction, then any necessary prompt, resource, or transition.
-- Make each row earn its place. A short instruction or one strong discussion question is often enough; additional questions can be linked for teachers who want them.
-- Align wording with the actual slideshow and activity resources. Slides provide the student-facing content; the guide tells the teacher what to do with it.
-- Respect the lesson's intended choices and pacing. For Small Bites or other alternatives, present clear option labels and enough information to choose and run one path. Follow established lesson-source patterns rather than inventing a new format.
-- Use the repository's defined Teaching Flow action labels and row types in [action_labels.json](action_labels.json). Choose labels for their instructional meaning; the validator and renderer own the allowable values and formatting.
-- Keep any significant slide-continuity instruction, reading or listening alternative, and classroom transition clear. Verify slide references against the current lesson-specific deck under the source rules in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md).
+Use the established Core Resources and Print Your Choices structure where applicable.
 
-Preserve a clear distinction between **core teaching steps**, **choices**, and **optional extensions**. Make the default path easy to follow without burying useful alternatives.
+## 4. Teaching Flow action labels
 
-## 4. Resources and preparation links
+Use the approved action vocabulary defined in [action_labels.json](action_labels.json).
 
-Resource links should help a teacher reach the right material at the moment it is needed.
+| Label | Editorial purpose |
+| --- | --- |
+| **SHOW** | Display slides or slide-based media. |
+| **KEEP** | Maintain a slide during a related action. |
+| **READ** | Direct a reading or read-aloud. |
+| **LISTEN** | Use a standalone audio resource. |
+| **ASK** | Present a focused discussion question. |
+| **DO** | Give a practical classroom direction. |
+| **GIVE** | Direct students to a resource or material. |
+| **MORE** | Provide optional supporting resources. |
 
-- Use the approved resource identities and destinations in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) and the catalogue. Resource titles should match their linked materials.
-- Pair a linked title with a short functional description when it helps: for example, a reading, printable student page, question bank, or teacher reference. The renderer owns link typography and visual presentation.
-- Place advance-review and setup resources in Preparation; place activity-specific readings, handouts, media alternatives, and supporting references at their Teaching Flow steps.
-- Keep full chapters, extended questions, answer keys, student materials, and detailed activity instructions in their own resources. Link to them from the relevant lesson step.
-- Refer to the current printing workflow in [content/AGENTS.md](../content/AGENTS.md) for how linked worksheets and options feed the Print Pack Builder.
-- Treat a slideshow as the lesson's teaching companion: note what the teacher needs to show or play, while relying on the slide itself for visual and student-facing explanation.
+Choose the label that best describes the teacher's action. Follow established patterns for slide continuity, reading alternatives, and activity choices. Keep labelled instructions brief and purposeful.
 
-Use concise resource descriptions consistently across the guide. Check whether a teacher can locate every necessary item without searching through unrelated sections.
+## 5. Writing Teaching Flow steps
 
-## 5. Activities, choices, and companion material
+Follow the structure and instructional style of approved Teacher Guides.
 
-Little Chewz lessons offer teacher choice while maintaining the same learning purpose. Make choices understandable without presenting every possible extension as required work.
+**Step structure**
+- Use the established step number, title, duration, and labelled action rows.
+- Present actions in classroom sequence.
+- Begin instructions with clear, practical verbs.
+- Give one meaningful direction per row.
+- Use realistic, rounded time estimates.
+- Keep steps easy to scan while teaching.
 
-For each activity, provide its purpose through the surrounding lesson context, then its classroom action, timing, and materials at the level the teacher needs. Where an option has substantial setup or specialized instructions, link the relevant teacher companion rather than expanding the core flow.
+**Instructional content**
+- Include the essential information needed to conduct each activity.
+- Choose focused discussion questions suited to the learning goal.
+- Reference approved slides, readings, student materials, and companion resources at their point of use.
+- Maintain a natural progression between activities.
+- Let the slideshow and supporting resources carry details already available there.
 
-Use existing [companion guidance](RESOURCE_GUIDELINES.md) and comparable approved resources for question sets, activity guides, answer keys, and option overviews. The Teacher Guide provides the route; companion materials provide the depth.
+**Choice-based activities**
+- Preserve the established choice structure and presentation.
+- Make alternatives easy to distinguish and follow.
+- Give each choice the instructions and resources relevant to that activity.
+- Refer to approved guides and companion activity resources for the right level of detail.
 
-Optional extensions should be inviting, clearly additional, and relevant to the lesson goal. Choose a few valuable options over a long catalogue of ideas.
+**Timing and flow**
+- Fit activities to the intended lesson duration.
+- Balance instructional time across the lesson.
+- Clarify transitions when they change what the teacher needs to do.
 
-## 6. Story, read-alouds, and excerpts
+## 6. Reading passages and excerpts
 
-The Chewlandia story is part of the learning experience. Preserve approved narration, dialogue, lore, and character intent when using an excerpt.
+Use the established Teacher Guide approach to readings and excerpts.
 
-A short, purposeful read-aloud can appear in the Teaching Flow when it helps a teacher lead the moment. Longer readings belong in a linked source. Use the existing guide's passage treatment and preserve natural paragraph breaks; the renderer handles its visual style.
+- Include short approved passages where access within the guide supports teaching.
+- Link longer readings to their complete resources.
+- Preserve approved wording, story details, characters, and terminology.
+- Retain meaningful paragraph breaks and selective emphasis.
+- Follow existing approved excerpt formatting conventions.
 
-Teacher prompts should invite observation, evidence, curiosity, interpretation, perspective-taking, and reflection as appropriate to the lesson. They should draw on information students have encountered rather than imply a predetermined answer.
+The Teacher Guide supports classroom delivery; companion resources carry fuller material.
 
-## 7. Final editorial check
+## 7. MORE resources and companion materials
 
-Read the lesson once as a teacher preparing and once as a teacher delivering it. Check that:
+Use **MORE** for optional resources that support, extend, or provide alternatives to the main Teaching Flow.
 
-- The goal, outcomes, focus, and Teaching Flow describe the same learning experience.
-- Preparation makes the necessary decisions and setup apparent.
-- The main route is easy to scan, with concise, actionable steps and useful timings.
-- Resource links, slide references, choices, and supporting materials are positioned where a teacher needs them.
-- Story details and approved language remain accurate.
-- Optional assessment adds practical evidence guidance, and extensions remain optional.
-- The resulting page feels consistent with the current Teacher Guides and companion resources.
+- Place resources beside the activity they support.
+- Group related resources for convenient access.
+- Use approved resource titles and concise, functional descriptions.
+- Distinguish optional resources from the main classroom sequence.
+- Link companion materials for detailed instructions, question banks, extensions, and supporting content.
 
-For schema validation, PDF checks, review copies, and release safeguards, follow [WORKFLOW.md](WORKFLOW.md) and [PUBLISH.md](PUBLISH.md). Rendering and objective checks belong in code; this guide supplies the human editorial standard.
+Follow [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md) and approved companion resources for their editorial content and organization.
+
+## 8. Editorial and engineering responsibilities
+
+**Editorial instructions govern**
+- Tone, clarity, and concision.
+- Instructional priorities and learning alignment.
+- Selection and organization of teaching content.
+- Appropriate detail for goals, outcomes, focus, and assessment.
+- Practical classroom directions.
+- Resource descriptions and editorial consistency.
+- Faithfulness to approved learning materials.
+
+**Generator code governs**
+- PDF layout, typography, colours, and spacing.
+- Rendering and pagination.
+- Hyperlinks and resource resolution.
+- Supported data structures and technical validation.
+- Other requirements explicitly implemented in code.
+
+Use existing source structures and shared rendering conventions. Keep editorial instructions focused on written content and teacher usefulness.
+
+## 9. Editorial review
+
+Before finalizing, confirm that:
+- The guide follows established Little Chewz editorial conventions.
+- Goals, outcomes, and Teaching focus align with the actual lesson.
+- Assessment, when included, identifies useful evidence from existing activities.
+- Preparation names meaningful advance requirements.
+- Teaching Flow is concise, practical, and easy to follow.
+- Instructions and resources appear where teachers need them.
+- Choices and alternatives are clear.
+- Resource titles, slide references, and supporting content are accurate.
+- Approved story details, terminology, and educational intent are preserved.
+- The result is consistent with approved Teacher Guides and teacher companion resources.
+
+**Final editorial standard:** A teacher should be able to follow the guide confidently, with enough information to deliver the lesson and minimal unnecessary reading.
