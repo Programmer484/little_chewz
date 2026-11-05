@@ -248,6 +248,47 @@ class InspectionTests(unittest.TestCase):
     def test_unpublished_skipped(self):
         self.assertEqual(audit.audit({"x": {"published_url": None}})["resources"], [])
 
+    def test_published_parent_fails_for_unpublished_explicit_dependency(self):
+        registry = {"guide": item(dependencies=["worksheet"]),
+                    "worksheet": {"holding_url": V, "published_url": None}}
+        drive = Drive()
+        report = audit.audit(registry, service=drive)
+        self.assertEqual(report["result"], audit.FAIL)
+        self.assertEqual([r["resource_id"] for r in report["resources"]], ["guide"])
+        self.assertEqual(drive.requests, [A])
+        self.assertIn("Unpublished dependency: worksheet", str(report["resources"][0]["issues"]))
+        self.assertIn("Unpublished dependency", audit.summary_table(report))
+
+    def test_published_parent_fails_for_missing_source_dependency(self):
+        registry = {"guide": item(pdf={"renderer": "teacher_guide",
+                                       "output": "guide.pdf"}),
+                    "worksheet": {"published_url": None, "holding_url": V}}
+        targets = {"guide.pdf": {
+            "kind": "teacher_guide", "data": {"flow": [{"ref": "worksheet"}]}}}
+        report = audit.audit(registry, service=Drive(), source_targets=targets)
+        self.assertEqual(report["result"], audit.FAIL)
+        self.assertEqual(len(report["resources"]), 1)
+
+    def test_published_dependency_passes_even_when_staged_new_version(self):
+        registry = {"guide": item(dependencies=["worksheet"]),
+                    "worksheet": item(V, holding_url=U)}
+        report = audit.audit(registry, service=Drive(), only="guide")
+        self.assertEqual(report["result"], audit.PASS)
+        self.assertEqual([r["resource_id"] for r in report["resources"]], ["guide"])
+
+    def test_only_targets_published_files_and_never_checks_holding(self):
+        drive = Drive()
+        registry = {"draft": {"holding_url": U, "published_url": None},
+                    "live": item(V, holding_url=U)}
+        report = audit.audit(registry, service=drive)
+        self.assertEqual([r["resource_id"] for r in report["resources"]], ["live"])
+        self.assertEqual(drive.requests, [B])
+
+    def test_missing_dependency_id_is_failure(self):
+        report = audit.audit({"guide": item(dependencies=["no-such-id"])}, service=Drive())
+        self.assertEqual(report["result"], audit.FAIL)
+
+
 
 if __name__ == "__main__":
     unittest.main()
