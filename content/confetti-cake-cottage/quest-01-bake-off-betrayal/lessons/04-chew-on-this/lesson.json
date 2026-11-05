@@ -103,7 +103,19 @@
   "bonuses": [
     {
       "ref": "ccc-q01-chew-on-this-graffiti-wall",
-      "description": "Optional teamwork display. Adds 5–10 minutes."
+      "description": "Optional teamwork display. Adds 5–10 minutes.",
+      "print_materials": [
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-large",
+          "quantity": "per_student",
+          "description": "Strong Teammate Wall · Large slips (2 per page)"
+        },
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-small",
+          "quantity": "per_student",
+          "description": "Strong Teammate Wall · Small slips (6 per page)"
+        }
+      ]
     }
   ]
 }
