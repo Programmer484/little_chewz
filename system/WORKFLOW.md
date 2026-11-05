@@ -4,7 +4,7 @@ Use alongside [Edit](EDIT.md) for new and existing resources. This file owns com
 
 ## Source and branch hygiene
 
-- Read the applicable folder `AGENTS.md` and task guide, then verify the current stable ID, GitHub revision, catalogue record and Drive metadata before writing.
+- Read the applicable folder `AGENTS.md` and task guide, then check the relevant editable source, ID and GitHub branch. Drive metadata checks belong at publication, not before a new draft.
 - Default to a shared remote `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch for all work on that lesson. Reuse it across chats and resources; reconcile concurrent changes against its latest head and `main`, without force-pushing. **Only create a separate task branch when the user explicitly requests it.** Commit required images separately from text.
 - Externally authored resources stay in their own creation tool and save catalogue changes on the lesson branch, not the generated-PDF pipeline. Non-lesson resources retain their established owner branch.
 - Commit source changes, verify remote state and exclude secrets, temporary transfers and generated exports. Preserve unrelated work.

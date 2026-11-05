@@ -2,12 +2,12 @@
 
 **Creating or revising is review work, never publication.** Read [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) for source, asset, status and URL rules; [WORKFLOW.md](WORKFLOW.md) for checks and previews. Official delivery always uses [PUBLISH.md](PUBLISH.md).
 
-## Identify and save the source
+## Create or revise the source
 
-1. Check `catalog/resources.json`, the lesson/quest source, and existing Drive IDs first. If the resource or stable ID already exists, **update it**; never create a duplicate.
-2. Reuse the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch. Create it from current `main` only if absent; reconcile remote edits without force-pushing. For non-lesson resources, reuse their established owner branch or use a dedicated branch.
-3. Edit the authoritative JSON, text or original external authoring file; keep necessary artwork as separate repository files. Preserve existing lesson/quest source paths and stable IDs.
-4. Validate, run relevant checks, inspect rendered pages/links, and save via the existing review PR. Share the actual GitHub Actions preview. A generated PDF does not need a Drive holding review copy. **Stop before official publication.**
+1. **Start with the editable file.** For a new Teacher Guide or companion, use the matching GitHub JSON template. For an existing resource, edit its source. Keep any necessary artwork as separate repository assets.
+2. Check the relevant `catalog/resources.json` ID and lesson path so a revision reuses its identity rather than creating a duplicate. **No Drive verification is needed to begin editing.**
+3. Work on the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch, creating it from current `main` if absent. For non-lesson work, use its existing owner branch or a dedicated branch. Reconcile remote edits without force-pushing.
+4. Commit, inspect the automatically generated GitHub PDF preview, and revise as needed. Share the GitHub Actions link. **Stop before official publication.**
 
 ## Python-generated PDF (Teacher Guides, companions and Welcome)
 
