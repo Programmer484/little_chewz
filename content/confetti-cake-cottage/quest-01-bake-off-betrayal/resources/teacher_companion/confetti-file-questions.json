@@ -19,10 +19,6 @@
       ]
     }
   ],
-  "source_note": "Five original Zenix Observations, retained without additions.",
   "resource_id": "ccc-q01-activate-confetti-questions",
-  "resource_type": "teacher_companion",
-  "audience": "teacher",
-  "stage": "00-activate",
-  "published_ref": "ccc-q01-activate-confetti-questions"
+  "stage": "00-activate"
 }

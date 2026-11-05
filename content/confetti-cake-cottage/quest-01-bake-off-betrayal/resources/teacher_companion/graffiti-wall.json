@@ -1,7 +1,6 @@
 {
   "template": "teacher_companion",
   "resource_id": "ccc-q01-chew-on-this-graffiti-wall",
-  "resource_type": "teacher_companion",
   "title": "Graffiti Wall",
   "kind": "extension",
   "stage": "04-chew-on-this",
@@ -54,6 +53,5 @@
         }
       ]
     }
-  ],
-  "source_note": "Optional More Time? You Chewz! activity from Part 04, lesson-local Slide 8 and original student-facing Bulletin Board slips. Shared teacher companion masthead and layout. Release dependency refresh: student printouts verified in official Drive."
+  ]
 }

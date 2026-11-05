@@ -40,10 +40,6 @@ A previous **seven-page** Set the Table benchmark took approximately **1.1 secon
 
 **Read-back scope:** On 2026-10-25, Drive returned each of these six exact IDs with the expected MIME type (`application/pdf` for PDFs; `application/vnd.openxmlformats-officedocument.presentationml.presentation` for PPTX). This metadata check does **not** independently reapprove artwork, slide content, presenter-mode links, external access, or PDF/PPTX content parity. Verify those afresh before every new publication. Preserve the file IDs, destination folders and sharing on replacements.
 
-**Set the Table historical details (2026-10-22):** Human selected the seven-slide edition: slide 6 “Which Word Fits?” and slide 7 “Friendship Mystery #1”; the original six-page PDF's other pages stayed visually unchanged. The approved upload included two audio URL links on slide 4. Drive read-back sizes for the published PDF and PPTX are 11,933,343 and 5,034,225 bytes respectively. Unauthenticated viewer access has not been independently confirmed; do not change permissions without approval.
-
-**Activate update:** An older note from 2026-10-22 said its PPTX destination was not located. That is superseded by the verified existing PPTX file ID above and the current resource catalogue. The Activate PDF remains the original published seven-slide asset; no new approval or upload is implied by locating the PPTX.
-
 ## Future editable slides
 
 Editable slide-JSON generation remains **unimplemented** (see [SYS-002](../SYSTEM_IMPROVEMENTS.md#sys-002--editable-lesson-slide-generation)). This utility only packages an approved PDF into a PowerPoint and restores PDF link annotations; it is not a slide editor, an automatic GitHub preview target, or an autonomous Drive publisher.

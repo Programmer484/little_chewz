@@ -4,9 +4,8 @@ Follow the relevant guide below for the file being edited. Source JSON carries c
 
 | Editing | Read first |
 | --- | --- |
-| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states). It owns lesson sequence and provenance, not publication status. Derive each lesson's state from its registered Teacher Guide resource. |
+| `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states). It owns the ordered lesson list and quest facts, not publication status. Derive each lesson's state from its registered Teacher Guide resource. |
 | `lessons/<stage>/lesson.json` | [EDITORIAL_GUIDE.md](../system/EDITORIAL_GUIDE.md), then [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) |
-| `lessons/<stage>/stage.json` | Provenance only. To convert a lesson, start from [templates/teacher_guide/TEMPLATE.json](../templates/teacher_guide/TEMPLATE.json). |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](../system/RESOURCE_GUIDELINES.md) |
 | `story/*.md` | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md); approved text only, wording preserved |
 | `welcome/` (registry-built documents) | [templates/welcome/README.md](../templates/welcome/README.md) |

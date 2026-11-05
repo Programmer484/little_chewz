@@ -1,7 +1,6 @@
 {
   "template": "teacher_companion",
   "resource_id": "ccc-q01-chew-on-this-role-play-extension",
-  "resource_type": "teacher_companion",
   "title": "Role-play Extension",
   "kind": "extension",
   "stage": "04-chew-on-this",
@@ -44,6 +43,5 @@
       ]
     }
   ],
-  "source_note": "Additional role-play for original Part 04 conflict scenario slides. No new scenarios or additional student worksheets; teacher companion, not a core DO step. Release dependency refresh: student printouts verified in official Drive.",
   "intro": "Use a conflict scenario to practise responses that help or harm teamwork."
 }

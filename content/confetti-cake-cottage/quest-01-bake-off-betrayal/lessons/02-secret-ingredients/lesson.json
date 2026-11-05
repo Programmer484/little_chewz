@@ -185,10 +185,5 @@
       ]
     }
   ],
-  "bonuses": [],
-  "migration_review": {
-    "notes": "Verified the five published student worksheet links against the official 03_STUDENT_MATERIALS/02_Secret_Ingredients Drive folder on 2026-11-02: Clue Tracker Core, Clue Tracker Extension, Chapter Notes, Character Profile Core, and Character Profile Advanced. The nonexistent legacy full tracker has been removed from the catalogue.",
-    "unresolved": "The current five-slide Secret Ingredients deck supplies slides 1–2 for clue investigation, slide 3 for Chapter 1, and slides 4–5 for Conflict Report / Zenix Debrief. Verify that the published PPTX still matches the supplied five-page PDF.",
-    "source": "Notion Secret Ingredients actionables."
-  }
+  "bonuses": []
 }

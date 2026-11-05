@@ -20,10 +20,6 @@
       ]
     }
   ],
-  "source_note": "Six original Zenix Observations, retained without additions.",
   "resource_id": "ccc-q01-activate-video-questions",
-  "resource_type": "teacher_companion",
-  "audience": "teacher",
-  "stage": "00-activate",
-  "published_ref": "ccc-q01-activate-video-questions"
+  "stage": "00-activate"
 }

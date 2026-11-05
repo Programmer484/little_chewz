@@ -12,7 +12,6 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | --- | --- |
 | Quest facts and ordered lesson list (no publication status) | `content/<school>/<quest>/quest.json` |
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
-| Unconverted lesson provenance | Optional, short `lessons/<stage>/stage.json`; never owns status, teaching content, or preview switches |
 | Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
 | Raw stories and letters | `story/*.md` within the quest |
@@ -21,6 +20,8 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
+
+Keep active JSON limited to current content, resource identities, and fields needed to build or publish. Do not store migration logs or source-page crosswalks in lesson or quest data.
 
 Each resource has one content owner. Teacher Guides reference resources by stable ID; they do not copy whole resource text. Keep templates and renderers shared, outside quests.
 
@@ -63,7 +64,7 @@ Compare holding and published **Drive file IDs**, not incidental sharing URL par
 
 **Human approval remains mandatory for publication.** Staging or a checksum change never publishes a resource. The generated-PDF publisher retains the established official Drive file ID, verifies checksum read-back, then writes `pdf.approved_md5` and `pdf.revision` automatically. At first-time manual publication, record the official URL after direct upload, run inspection, and record the approved checksum only after exact Drive/source byte parity is verified. For legacy generated PDFs without a verified checksum, leave it absent and let inspection report NEEDS REVIEW. External publication records only the official link after verification; do not invent content parity.
 
-**Lesson publication is derived from its Teacher Guide.** `quest.json.learning_sequence[]` owns only lesson order, title and provenance—no status or URLs. For each lesson folder, resolve the existing registered generated-PDF `pdf.output` named `<folder>-teacher-guide.pdf` in `catalog/resources.json` and apply the same `publication_state.py` URL/checksum rules. No Guide or no official Guide URL means `unpublished`; a current Guide checksum differing from the approved MD5 means `pending_publish`. A missing checksum remains a verification uncertainty, not proof of parity. Run `python scripts/publication_state.py --lessons` for the source-built lesson report. Linked worksheets, slides and companions retain their independent derived publication states.
+**Lesson publication is derived from its Teacher Guide.** `quest.json.learning_sequence[]` owns only lesson order (folder and title)—no status or URLs. For each lesson folder, resolve the existing registered generated-PDF `pdf.output` named `<folder>-teacher-guide.pdf` in `catalog/resources.json` and apply the same `publication_state.py` URL/checksum rules. No Guide or no official Guide URL means `unpublished`; a current Guide checksum differing from the approved MD5 means `pending_publish`. A missing checksum remains a verification uncertainty, not proof of parity. Run `python scripts/publication_state.py --lessons` for the source-built lesson report. Linked worksheets, slides and companions retain their independent derived publication states.
 
 Publishing and initial official-link authorization belong to [PUBLISH.md](PUBLISH.md). Generated guides/companions require every linked resource to have an official URL, even if its next version is pending. Inspection checks the existing published destination independently of whether a newer version is staged. There is no external auto-publisher or scheduled inspector.
 

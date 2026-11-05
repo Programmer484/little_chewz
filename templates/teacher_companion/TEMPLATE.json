@@ -1,7 +1,6 @@
 {
   "template": "teacher_companion",
   "resource_id": "REPLACE-WITH-STABLE-ID",
-  "resource_type": "teacher_companion",
   "title": "Untitled Teacher Resource",
   "kind": "instructions",
   "option": "",
@@ -29,6 +28,5 @@
     {"type": "paragraph", "text": "Plain body text."},
     {"type": "note", "text": "Small grey note."},
     {"type": "links", "items": [{"ref": "REGISTRY-ID", "description": "One per team"}]}
-  ],
-  "source_note": "Populate only from verified material; follow system/RESOURCE_GUIDELINES.md. Delete every block you do not use; there is no required order. Leave option empty except for a Showdown-style option guide (A, B, C, D)."
+  ]
 }

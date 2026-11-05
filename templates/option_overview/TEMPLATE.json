@@ -1,7 +1,6 @@
 {
   "template": "option_overview",
   "resource_id": "REPLACE-WITH-STABLE-ID",
-  "resource_type": "teacher_companion",
   "title": "Untitled Challenges",
   "kind": "overview",
   "meta": [
@@ -79,6 +78,5 @@
       "title": "Safety first",
       "text": "Only when an option involves food, ovens or hot equipment: the checks to make before choosing it. Delete otherwise."
     }
-  ],
-  "source_note": "Option overview skeleton: one page that helps a teacher choose between a lesson's lettered options. Holds only restrictions, prep and choosing notes; how each option runs lives in its activity guide. See the Option overviews section of system/RESOURCE_GUIDELINES.md."
+  ]
 }
