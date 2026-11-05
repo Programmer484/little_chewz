@@ -1,7 +1,7 @@
 {
   "template": "teacher_companion",
   "resource_id": "ccc-q01-chew-on-this-graffiti-wall",
-  "title": "Graffiti Wall",
+  "title": "Strong Teammate Wall",
   "kind": "extension",
   "stage": "04-chew-on-this",
   "meta": [
@@ -17,7 +17,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Choose one slip size and print one slip per student. These printouts are separate from the Print Pack."
+      "text": "Choose one slip size and print one slip per student, or select the size in the Print Pack Builder."
     },
     {
       "type": "links",
@@ -41,7 +41,7 @@
       "items": [
         {
           "title": "Show",
-          "text": "Display Slide 8 to introduce the Graffiti Wall."
+          "text": "Display Slide 8 to introduce the Strong Teammate Wall."
         },
         {
           "title": "Respond",
@@ -49,7 +49,7 @@
         },
         {
           "title": "Display",
-          "text": "Collect and display the responses together as a class Graffiti Wall."
+          "text": "Collect and display the responses together as a class Strong Teammate Wall."
         }
       ]
     }
