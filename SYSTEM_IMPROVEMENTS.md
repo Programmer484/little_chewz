@@ -1,6 +1,6 @@
 # System improvements
 
-This file tracks **active** work; repository instructions and publication authority live in [WORKFLOW.md](system/WORKFLOW.md) and [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Backlog entries never authorize publication.
+This file tracks **active** work; repository instructions and publication authority live in [WORKFLOW.md](system/EDIT.md) and [CONTENT_CONTRACT.md](system/CONTENT_CONTRACT.md). Backlog entries never authorize publication.
 
 ## Implemented — two resource workflows (2026-10-25)
 
@@ -52,5 +52,5 @@ The [Print Pack Builder](apps/AGENTS.md) prefills each group activity's **Groups
 
 ## Previously implemented
 
-- Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews).
+- Targeted PDF validations and durable preview history: [WORKFLOW.md](system/EDIT.md#validation-and-previews).
 - Human-reviewed slide PDF to linked PPTX conversion: [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).

@@ -1,5 +1,5 @@
-# Editing system rules
+# System instructions
 
-Each guide owns one subject: [EDIT.md](EDIT.md) (draft/revision), [PUBLISH.md](PUBLISH.md) (official delivery), [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) (data/status), [WORKFLOW.md](WORKFLOW.md) (review/CI), and the specialized editorial/slide/transfer guides.
+Load the relevant lifecycle guide: [Create](CREATE.md) → [Edit](EDIT.md) → [Publish](PUBLISH.md). Only **explicitly directed** IDs may be published. [Content contract](CONTENT_CONTRACT.md) owns stable data/status/source rules. [Inspection](INSPECTION.md) owns the one manual **published-only** read-only audit, including rejection of unpublished dependencies—not a release gate or scheduled auditor.
 
-Update the owning guide once; link to it instead of copying its rules. Check nearby references and templates for contradictions. Root [AGENTS.md](../AGENTS.md) owns only universal agent boundaries and routing; edit it directly when those change. Keep objective checks in `scripts/validate.py`, not duplicate prompt text in data files.
+Load specialist instructions as needed: [Teacher Guide](EDITORIAL_GUIDE.md), [Companions](RESOURCE_GUIDELINES.md), [Slides](SLIDE_CONVERSION.md), [Binary transfers](BINARY_TRANSFER.md). Keep objective checks in Python and tests, not duplicated in prose. Root `AGENTS.md` owns universal guardrails.

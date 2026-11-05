@@ -1,14 +1,14 @@
 # Classroom slide PDF → PowerPoint
 
-Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [WORKFLOW.md](WORKFLOW.md). Human review is separate from derived publication state; nothing here publishes without authorization. Record the approved PDF source in `pdf_url`; use `holding_url` only for a *new revision* awaiting release. Clear that pending-update pointer after publication.
+Owns the slide PDF review, PPTX conversion, and in-place Drive replacement routine. Status rules belong to [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md); general saving and reporting follow [EDIT.md](EDIT.md). Human review is separate from derived publication state. New slides start in Holding; the agent publishes only IDs expressly authorized by the human. Record the approved PDF source in `pdf_url`; use `holding_url` only for a *new revision* awaiting release. Clear that pending-update pointer after publication.
 
 ## Routine
 
 1. **Iterate on the PDF.** A human downloads the **lesson-specific PDF** from the [Slide PDFs Drive folder](https://drive.google.com/drive/u/0/folders/1Qryh6aiuHsZqiTpzP_BvulK-W43EK45g). Human and AI iterate on that PDF (page order, content, clickable links). It is the review artifact; the PowerPoint is never the editing source. Keep each lesson's slides separate. Do not update Drive while iterating.
 2. **Approval gate.** The human must explicitly approve the **exact final PDF** and intended lesson. A past approval, GitHub merge, generated PPTX, or passing conversion check does not approve a changed PDF. The approved PDF's actual page count and order are authoritative: lesson metadata and outlines are context, never a slide-count requirement, so do not add or remove slides to match them. Ask only when the approved artifact itself is ambiguous.
 3. **Convert and check** (below).
-4. **Replace both existing Drive files in place:** the PDF and its paired existing binary `.pptx` (not a copy, new file, or native Google Slides conversion). A missing PPTX destination is a blocker, not permission to create one. Stage and check both deliverables before replacing either.
-5. **Read back and report** the exact file IDs and approval scope. Only the exact reviewed version, replaced and verified, may become `published`; uploading alone never advances status.
+4. **On explicit publication instruction:** move first-time approved Holding files to Public without changing their IDs. For a revision, replace both existing public Drive files in place: the PDF and its paired binary `.pptx`. Missing existing revision targets are blockers; stage/check both deliverables before replacing either.
+5. **Read back and report** the exact file IDs, public sharing and approval scope. Only the exact reviewed version, moved or replaced and verified, may become published; uploading alone never advances status.
 
 ## Conversion
 

@@ -4,7 +4,7 @@
 
 Use existing approved Teacher Guides and teacher companion resources as the editorial baseline. Use the latest approved lesson content and lesson-specific slideshow for instructional accuracy.
 
-This document governs editorial decisions not clearly enforced by code. Source authority, technical requirements, and workflow are defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md), [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md), and [WORKFLOW.md](WORKFLOW.md).
+This document governs editorial decisions not clearly enforced by code. Source authority, technical requirements, and workflow are defined in [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md), [RESOURCE_GUIDELINES.md](RESOURCE_GUIDELINES.md), and [EDIT.md](EDIT.md).
 
 ## 1. Primary editorial rule
 
