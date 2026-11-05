@@ -2,19 +2,19 @@
 
 **Creating or revising is review work, never publication.** Read [CONTENT_CONTRACT.md](CONTENT_CONTRACT.md) for source, asset, status and URL rules; [WORKFLOW.md](WORKFLOW.md) for checks and previews. Official delivery always uses [PUBLISH.md](PUBLISH.md).
 
-## Identify and save the source
+## Create or revise the source
 
-1. Check `catalog/resources.json`, the lesson/quest source, and existing Drive IDs first. If the resource or stable ID already exists, **update it**; never create a duplicate.
-2. Reuse the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch. Create it from current `main` only if absent; reconcile remote edits without force-pushing. For non-lesson resources, reuse their established owner branch or use a dedicated branch.
-3. Edit the authoritative JSON, text or original external authoring file; keep necessary artwork as separate repository files. Preserve existing lesson/quest source paths and stable IDs.
-4. Validate, run relevant checks, inspect rendered pages/links, and save via the existing review PR. Share the actual GitHub Actions run and any verified holding review copy. **Stop before official publication.**
+1. **Start with the editable file.** For a new Teacher Guide or companion, use the matching GitHub JSON template. For an existing resource, edit its source. Keep any necessary artwork as separate repository assets.
+2. Check the relevant `catalog/resources.json` ID and lesson path so a revision reuses its identity rather than creating a duplicate. **No Drive verification is needed to begin editing.**
+3. Work on the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch, creating it from current `main` if absent. For non-lesson work, use its existing owner branch or a dedicated branch. Reconcile remote edits without force-pushing.
+4. Commit, inspect the automatically generated GitHub PDF preview, and revise as needed. Share the GitHub Actions link. **Stop before official publication.**
 
-## Python-generated PDF
+## Python-generated PDF (Teacher Guides, companions and Welcome)
 
-- **New:** choose a supported renderer, output/source, and unused stable ID. Copy the appropriate `templates/<type>/TEMPLATE.json` and keep its `template` field. Register `pdf.renderer` and `pdf.output` or `pdf.source` under the resource in `catalog/resources.json`, with `holding_url` and `published_url: null`. No separate dependency registration is needed.
-- **Existing:** edit its source/assets and preserve its current official Drive file ID, `published_url`, `pdf.approved_md5`, and `pdf.revision`. Never replace the published PDF as part of an edit.
-- Generate with the existing repository renderer. Stage new or revised **review** PDFs in the configured holding folder: Teacher Guides under `01_TEACHER_GUIDES/PDF-generated resources`, companions under `04_TEACHER_RESOURCES/Other resources`; Welcome retains its established routing. Read back the file ID and URL, reusing the holding file ID when possible.
-- Review PDFs may link to already staged resources through verified permanent Drive IDs; official release requires all referenced resources to have approved official URLs.
+- **New:** create the editable source from the matching `templates/<type>/TEMPLATE.json`, retaining its `template` field. Add a stable resource ID, `pdf.renderer` and `pdf.output` or `pdf.source` to the catalogue, with `holding_url: null` and `published_url: null`. GitHub renderers can build a **new file**, not just update an existing one.
+- **Existing:** revise the authoritative GitHub source; preserve its established published Drive ID, URL and verified checksum/revision. Never modify the live Drive file during editing.
+- **Review in GitHub, not Drive holding.** Every PR edit generates a PDF preview. Inspect its content, page layout and resource links; iterate until approved. The GitHub preview is the draft. There is no need to stage a Python-generated PDF in Drive.
+- **After approval:** follow [PUBLISH.md](PUBLISH.md) for direct official upload or an in-place update. Ensure the final linked resources have the intended official catalogue destinations.
 
 ## Externally authored worksheet, slides, artwork or media
 
@@ -26,4 +26,4 @@
 
 ## Handoff
 
-Report reviewed source, PR/preview, holding location and any blockers. A successful upload, preview or merge **does not** authorize an official Drive move or replacement; wait for explicit authorization, then use [PUBLISH.md](PUBLISH.md).
+Report reviewed source, PR/preview, any external-resource holding location and blockers. A successful upload, preview or merge **does not** authorize an official Drive move or replacement; wait for explicit authorization, then use [PUBLISH.md](PUBLISH.md).
