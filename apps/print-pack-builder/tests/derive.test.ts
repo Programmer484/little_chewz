@@ -85,6 +85,27 @@ describe("deriveManifest", () => {
     expect(choice.options[1]).toMatchObject({ summary: "Nothing to print.", materials: [] });
   });
 
+  it("does not print DO-linked worksheets inside a choice or duplicate reused pages under Extras", () => {
+    const source: LessonSource = {
+      optional_prep: [{ ref: "sheet", quantity: "per_student", description: "Reuse the earlier pages" }],
+      steps: [{
+        id: 3,
+        title: "Choose One Reflection",
+        options: [
+          { label: "A", title: "Reuse KWLS", rows: [{ kind: "DO", ref: "sheet", quantity: "per_student" }] },
+          { label: "B", title: "New Reflection", rows: [{ kind: "GIVE", ref: "ext", quantity: "per_student" }] },
+        ],
+      }],
+    };
+    const result = deriveManifest({ questId: "q", folder: "05-test", title: "Test", order: 5, source }, reg);
+    expect(result.sections).toHaveLength(1);
+    const choice = result.sections[0];
+    if (choice.kind !== "choice") throw new Error("expected a choice");
+    expect(choice.options[0]).toMatchObject({ summary: "Nothing to print.", materials: [] });
+    expect(choice.options[1].materials).toMatchObject([{ resourceId: "ext", rule: "per_student" }]);
+    expect(allMaterials(result).map((material) => material.resourceId)).toEqual(["ext"]);
+  });
+
   it("never offers slides, teacher pages or other non-student links", () => {
     const ids = allMaterials(m).map((x) => x.resourceId);
     expect(ids).not.toContain("slides");
