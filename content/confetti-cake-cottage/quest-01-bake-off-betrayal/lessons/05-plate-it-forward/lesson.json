@@ -25,13 +25,8 @@
   ],
   "optional_prep": [
     {
-      "ref": "ccc-q01-set-the-table-kwls-starter",
-      "description": "Reuse Part 1 pages if choosing KWLS",
-      "quantity": "per_student"
-    },
-    {
-      "ref": "ccc-q01-plate-it-forward-mission-log",
-      "description": "Print one per student if chosen"
+      "ref": "ccc-q01-plate-it-forward-print-pack",
+      "description": "Choose activities, print once"
     }
   ],
   "prep_heading": "PRINT YOUR CHOICES",
