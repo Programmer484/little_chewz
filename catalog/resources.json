@@ -399,8 +399,8 @@
   "ccc-q01-chew-on-this-teacher-guide": {
     "title": "Chew On This Teacher Guide",
     "type": "teacher_guide",
-    "published_url": null,
-    "holding_url": "https://drive.google.com/file/d/17AA9YPJ48Bzkst6QfseOGTIVKP3gA21e/view?usp=drivesdk",
+    "published_url": "https://drive.google.com/file/d/17AA9YPJ48Bzkst6QfseOGTIVKP3gA21e/view?usp=drivesdk",
+    "holding_url": null,
     "pdf": {
       "renderer": "teacher_guide",
       "output": "04-chew-on-this-teacher-guide.pdf"
