@@ -484,5 +484,27 @@
     "published_url": "https://docs.google.com/presentation/d/1eWujS1yKYfYBDyG7WPMCa9CwhrDdT6Ni/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true",
     "holding_url": null,
     "pdf_url": "https://drive.google.com/file/d/1JFKea_OTEXevmXN96mOhON19ZB2r0DlV/view?usp=drivesdk"
+  },
+  "ccc-q01-plate-it-forward-mission-log": {
+    "title": "Mission Log",
+    "type": "teacher_resource",
+    "published_url": "https://drive.google.com/file/d/1UVJ6CROHndLZnolLPP7ANNNjHOX1TbAG/view?usp=drivesdk",
+    "holding_url": null
+  },
+  "ccc-q01-plate-it-forward-investigation-notes": {
+    "title": "Zenix Investigation Notes",
+    "type": "student_material",
+    "published_url": null,
+    "holding_url": null
+  },
+  "ccc-q01-plate-it-forward-teacher-guide": {
+    "title": "Plate It Forward Teacher Guide",
+    "type": "teacher_guide",
+    "published_url": null,
+    "holding_url": null,
+    "pdf": {
+      "renderer": "teacher_guide",
+      "output": "05-plate-it-forward-teacher-guide.pdf"
+    }
   }
 }
