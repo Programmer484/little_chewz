@@ -54,4 +54,3 @@ The [Print Pack Builder](apps/AGENTS.md) prefills each group activity's **Groups
 
 - Targeted PDF validations and durable preview history: [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews).
 - Human-reviewed slide PDF to linked PPTX conversion: [SLIDE_CONVERSION.md](system/SLIDE_CONVERSION.md).
-- Historical backlog: [archive/2026-10/](archive/2026-10/README.md).

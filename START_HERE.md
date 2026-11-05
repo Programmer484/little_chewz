@@ -74,4 +74,3 @@ Lato and the other fonts are bundled under `templates/`, so renders match CI. `s
 
 Every PR update and push to `main` runs validation and tests. The selector renders affected registered PDFs, with a safe full-build fallback when impact is uncertain; documentation-only changes produce validation-only runs. Review links, retention, and manual runs follow [WORKFLOW.md](system/WORKFLOW.md#validation-and-previews). [Browse PDF previews runs](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml).
 
-The original inventories and superseded slideshow decisions are in [archive/2026-10/](archive/2026-10/README.md); they are not operating instructions.
