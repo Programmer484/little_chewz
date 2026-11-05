@@ -254,6 +254,13 @@
       "revision": "0084238e7b3a5ba60839a1c0b3e64064038044db"
     }
   },
+  "ccc-q01-chew-on-this-slides": {
+    "title": "Chew On This Classroom Slides",
+    "type": "classroom_slides",
+    "pdf_url": "https://drive.google.com/file/d/1n1g9Mip8SJSHGLV1kvM6JTc_I6jR6zr8/view?usp=drivesdk",
+    "holding_url": null,
+    "published_url": "https://docs.google.com/presentation/d/1NPjoaNyrP-BwYwbG0GnlHLnMwTnYw9J0/edit?usp=drivesdk&ouid=105887528399758299833&rtpof=true&sd=true"
+  },
   "ccc-q01-showdown-slides": {
     "title": "Showdown Slides",
     "type": "classroom_slides",
@@ -388,5 +395,87 @@
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-the-showdown",
     "holding_url": null,
     "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-the-showdown"
+  },
+  "ccc-q01-chew-on-this-teacher-guide": {
+    "title": "Chew On This Teacher Guide",
+    "type": "teacher_guide",
+    "published_url": null,
+    "holding_url": "https://drive.google.com/file/d/17AA9YPJ48Bzkst6QfseOGTIVKP3gA21e/view?usp=drivesdk",
+    "pdf": {
+      "renderer": "teacher_guide",
+      "output": "04-chew-on-this-teacher-guide.pdf"
+    }
+  },
+  "ccc-q01-chew-on-this-team-talk-questions": {
+    "title": "Team Talk Questions",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": "https://drive.google.com/file/d/1J6cOCs_wkZuwc3OKoT3cZaJYr-MuFuFO/view?usp=drivesdk",
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "team-talk-questions.pdf"
+    }
+  },
+  "ccc-q01-chew-on-this-team-talk-cards": {
+    "title": "Team Talk Cards",
+    "type": "student_material",
+    "published_url": "https://drive.google.com/file/d/1Bbv3TIK9DzE8THMoj1HKTJR5DqJXnNoo/view?usp=drivesdk",
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 4
+    }
+  },
+  "ccc-q01-chew-on-this-scenario-cards": {
+    "title": "Conflict Scenario Cards",
+    "type": "student_material",
+    "published_url": "https://drive.google.com/file/d/1MUAOAm3sDyIznj_IMFuieUrK6Osmt6P2/view?usp=drivesdk",
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 4
+    }
+  },
+  "ccc-q01-chew-on-this-bulletin-large": {
+    "title": "Bulletin Board Slips — Large",
+    "type": "student_material",
+    "published_url": "https://drive.google.com/file/d/16p1W20LbEYSxNmjP5k-yDxwVOPAokRdo/view?usp=drivesdk",
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 2
+    }
+  },
+  "ccc-q01-chew-on-this-bulletin-small": {
+    "title": "Bulletin Board Slips — Small",
+    "type": "student_material",
+    "published_url": "https://drive.google.com/file/d/1km1z0WnVL4NwwGe1rLGiANDFo74jm8V0/view?usp=drivesdk",
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 6
+    }
+  },
+  "ccc-q01-chew-on-this-print-pack": {
+    "title": "Build Print Pack",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": null
+  },
+  "ccc-q01-chew-on-this-role-play-extension": {
+    "title": "Role-play Extension",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": "https://drive.google.com/file/d/1C8CUewj5Gi9ye8AQfzoohZTVEVmfGipg/view?usp=drivesdk",
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "role-play-extension.pdf"
+    }
+  },
+  "ccc-q01-chew-on-this-graffiti-wall": {
+    "title": "Graffiti Wall",
+    "type": "teacher_resource",
+    "published_url": null,
+    "holding_url": "https://drive.google.com/file/d/1BK4xqEReQ0NBoxC40YV7IOGd9p_D5ARE/view?usp=drivesdk",
+    "pdf": {
+      "renderer": "teacher_companion",
+      "output": "graffiti-wall.pdf"
+    }
   }
 }

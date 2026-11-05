@@ -1,0 +1,59 @@
+{
+  "template": "teacher_companion",
+  "resource_id": "ccc-q01-chew-on-this-graffiti-wall",
+  "resource_type": "teacher_companion",
+  "title": "Graffiti Wall",
+  "kind": "extension",
+  "stage": "04-chew-on-this",
+  "meta": [
+    "Optional",
+    "Adds about 5–10 minutes",
+    "Follows Conflict Scenarios"
+  ],
+  "intro": "Create a shared classroom display of what makes a strong teammate.",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Before class"
+    },
+    {
+      "type": "paragraph",
+      "text": "Choose one slip size and print one slip per student. These printouts are separate from the Print Pack."
+    },
+    {
+      "type": "links",
+      "items": [
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-large",
+          "description": "2 slips per page"
+        },
+        {
+          "ref": "ccc-q01-chew-on-this-bulletin-small",
+          "description": "6 slips per page"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Run the activity"
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "title": "Show",
+          "text": "Display Slide 8 to introduce the Graffiti Wall."
+        },
+        {
+          "title": "Respond",
+          "text": "Students complete “A strong teammate is someone who…” on their slips."
+        },
+        {
+          "title": "Display",
+          "text": "Collect and display the responses together as a class Graffiti Wall."
+        }
+      ]
+    }
+  ],
+  "source_note": "Optional More Time? You Chewz! activity from Part 04, lesson-local Slide 8 and original student-facing Bulletin Board slips. Shared teacher companion masthead and layout. Release dependency refresh: student printouts verified in official Drive."
+}

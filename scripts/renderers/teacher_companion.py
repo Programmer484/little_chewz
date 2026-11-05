@@ -535,7 +535,7 @@ def counted_canvas(header):
     return Counted
 
 
-def generator(data, output, registry=None):
+def generator(data, output, registry=None, release=False):
     fonts()
     registry = registry or {}
     label, quest_line, accent = section_info(data)
@@ -682,14 +682,24 @@ def generator(data, output, registry=None):
                 entry = registry.get(item.get("ref", ""), {})
                 url = entry.get("url") if item.get("ref") in registry else item.get("url")
                 name = item.get("title") or entry.get("title")
-                if not url or not name:
-                    raise ValueError(f"Missing link URL/title: {item}")
-                if not url.startswith("https://"):
-                    raise ValueError("Links must be approved HTTPS URLs")
-                text = (f'<link href="{html.escape(url, quote=True)}"><u><font name="LC-Bold">'
-                        f'{safe(name)}</font></u></link>')
-                if item.get("description"):
-                    text += f'<font color="{MID.hexval()}">  — {safe(item["description"])}</font>'
+                if not name:
+                    raise ValueError(f"Missing link title: {item}")
+                if not url:
+                    if release:
+                        raise ValueError(f"Missing approved link URL for release: {item}")
+                    # Draft only. Do not make pending/unpublished resources appear clickable.
+                    text = f'<font name="LC-Bold">{safe(name)}</font>'
+                    description = item.get("description")
+                    if description:
+                        text += f'<font color="{MID.hexval()}">  — {safe(description)}</font>'
+                    text += f'<font color="{MID.hexval()}">  ·  Link pending</font>'
+                else:
+                    if not url.startswith("https://"):
+                        raise ValueError("Links must be approved HTTPS URLs")
+                    text = (f'<link href="{html.escape(url, quote=True)}"><u><font name="LC-Bold">'
+                            f'{safe(name)}</font></u></link>')
+                    if item.get("description"):
+                        text += f'<font color="{MID.hexval()}">  — {safe(item["description"])}</font>'
                 story.append(Paragraph(text, styles["body"]))
         else:
             raise ValueError(f"Unsupported block type: {typ}")
@@ -719,7 +729,7 @@ def main():
     registry = (resolved_registry(json.loads(args.registry.read_text()), release=args.release)
                 if args.registry else {})
     output = args.output or args.content.with_suffix(".pdf")
-    generator(data, output, registry)
+    generator(data, output, registry, release=args.release)
     print(output)
 
 

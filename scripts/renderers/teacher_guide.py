@@ -160,9 +160,9 @@ def lines(p,s,x,baseline,w,size,lh,font='regular',color=BLACK):
 def label(p,title,x,baseline,color=DEEP,size=LABEL_SIZE):
     return at(p,title,x,baseline,size,'heavy',color)
 
-def section(p,title,x,cap_top,accent):
+def section(p,title,x,cap_top,accent,colored=False):
     """Section title with a short accent bar. Returns the cap-top for body text."""
-    b=at(p,title,x,cap_to_base(cap_top,SEC_SIZE),SEC_SIZE,'bold')
+    b=at(p,title,x,cap_to_base(cap_top,SEC_SIZE),SEC_SIZE,'bold',accent if colored else BLACK)
     bar=b+7.5
     line(p,bar,x,x+BAR_W,accent,2.)
     return bar+15.
@@ -238,9 +238,9 @@ def normalized_assessment(value):
         return entries or None
     raise ValueError('Assessment must be a string, list of strings, null, or omitted')
 
-def prose_section(p,title,text,cap_top,accent):
+def prose_section(p,title,text,cap_top,accent,colored=False):
     """Full-width section; returns the last baseline."""
-    c=section(p,title,L,cap_top,accent)
+    c=section(p,title,L,cap_top,accent,colored)
     return lines(p,text,L,cap_to_base(c,BODY),PAGE_W,BODY,BODY_LH)
 
 def meta_row(p,items,baseline):
@@ -253,7 +253,7 @@ def meta_row(p,items,baseline):
     if x>R:raise LayoutError('Overview meta row is too long')
 
 def overview(doc,d,reg):
-    p=newp(doc);accent=section_accent(d['key'])
+    p=newp(doc);accent=section_accent(d['key']);colored=bool(d.get('colored_section_titles',False))
     if d['key'].startswith('p') and d['key'][1:].isdigit():
         part,topic=d['title'].split(' / ',1)
         rule=hdr(p,part+' / TEACHER GUIDE',topic+' / AT A GLANCE',accent)
@@ -264,18 +264,18 @@ def overview(doc,d,reg):
     meta_row(p,[f"GRADES {d['grade']}",d['duration'].upper(),d['print_note'].upper()],meta_b)
     rule=meta_b+17;line(p,rule)
 
-    b=prose_section(p,'Learning goal',d['goal'],rule+OV_GAP,accent)
+    b=prose_section(p,'Learning goal',d['goal'],rule+OV_GAP,accent,colored)
     rule=b+OV_GAP;line(p,rule);top=rule
 
     # Two equal columns joined to the rules above and below by a vertical divider.
-    c=section(p,'Learning outcomes',L,top+OV_GAP,accent)
+    c=section(p,'Learning outcomes',L,top+OV_GAP,accent,colored)
     lb=cap_to_base(c,BODY)-FLOW_LH-9
     for i,value in enumerate(d['outcomes'],1):
         lb+=FLOW_LH+9
         at(p,f'{i:02d}',L,lb,10.4,'bold',accent)
         lb=lines(p,value,L+26,lb,COL_W-26,10.9,FLOW_LH)
 
-    c=section(p,'Preparation',COL2_X,top+OV_GAP,accent)
+    c=section(p,'Preparation',COL2_X,top+OV_GAP,accent,colored)
     rb=label(p,'CORE RESOURCES',COL2_X,cap_to_base(c,LABEL_SIZE),MID)
     for it in d['core']:
         rb=resource_line(p,it,reg,COL2_X,rb+19,COL_W,size=10.4,strict=True,description_size=9.6)
@@ -289,21 +289,21 @@ def overview(doc,d,reg):
     vline(p,L+COL_W+GUTTER/2,top,bottom)
     line(p,bottom)
 
-    b=prose_section(p,'Teaching focus',d['focus'],bottom+OV_GAP,accent)
+    b=prose_section(p,'Teaching focus',d['focus'],bottom+OV_GAP,accent,colored)
     assessment=normalized_assessment(d.get('assessment'))
     # Assessment is optional and never adds a Teaching Flow activity.
     if assessment:
         rule=b+OV_GAP;line(p,rule)
         if isinstance(assessment,str):
-            b=prose_section(p,'Assessment',assessment,rule+OV_GAP,accent)
+            b=prose_section(p,'Assessment',assessment,rule+OV_GAP,accent,colored)
         else:
-            c=section(p,'Assessment',L,rule+OV_GAP,accent);b=cap_to_base(c,10.6)-15.2-5
+            c=section(p,'Assessment',L,rule+OV_GAP,accent,colored);b=cap_to_base(c,10.6)-15.2-5
             for item in assessment:
                 b+=15.2+5
                 at(p,'•',L,b,10.6,'bold',accent)
                 b=lines(p,item,L+14,b,PAGE_W-14,10.6,15.2)
     rule=b+OV_GAP;line(p,rule)
-    b=prose_section(p,'Curriculum connections',' · '.join(d['curriculum']),rule+OV_GAP,accent)
+    b=prose_section(p,'Curriculum connections',' · '.join(d['curriculum']),rule+OV_GAP,accent,colored)
     if b>806:raise LayoutError(f'{d["key"]} overview exceeds page at baseline {b:.1f}')
     return p
 
@@ -408,6 +408,13 @@ def bonuses(p,items,cap_top,reg,title):
         last=max(last,b)
     return last
 
+def bonus_actions(p,rows,cap_top,reg,title,accent):
+    """Optional extension with the normal SHOW / DO / MORE action-row grid."""
+    b=at(p,title,L,cap_to_base(cap_top,11.2),11.2,'bold')
+    for i,row in enumerate(grouped_more_rows(rows)):
+        b=draw_row(p,row,b+(25 if i==0 else ROW_STEP),reg,accent)
+    return b
+
 def flow(doc,d,reg):
     """Flow complete steps onto pages; never split a step."""
     accent=section_accent(d['key'])
@@ -436,8 +443,13 @@ def flow(doc,d,reg):
         last=draw_fn(cap)
     for st in d['steps']:
         place(lambda:draw_step(None,st,0,reg,accent),lambda c:draw_step(p,st,c,reg,accent),2)
+    bonus_rows=d.get('bonus_rows',[])
     its=d.get('bonuses',[])
-    if its:
+    if bonus_rows and its:raise ValueError('Use bonus_rows or bonuses, not both')
+    if bonus_rows:
+        title=d.get('bonus_heading','MORE TIME?  YOU CHEWZ!')
+        place(lambda:bonus_actions(None,bonus_rows,0,reg,title,accent),lambda c:bonus_actions(p,bonus_rows,c,reg,title,accent),2)
+    elif its:
         title=d.get('bonus_heading','MORE TIME?  YOU CHEWZ!')
         place(lambda:bonuses(None,its,0,reg,title),lambda c:bonuses(p,its,c,reg,title),2)
     return pages

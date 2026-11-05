@@ -1,0 +1,57 @@
+{
+  "template": "teacher_companion",
+  "resource_id": "ccc-q01-chew-on-this-team-talk-questions",
+  "resource_type": "teacher_companion",
+  "title": "Team Talk Questions",
+  "kind": "questions",
+  "stage": "04-chew-on-this",
+  "meta": [
+    "Core activity",
+    "About 20 minutes",
+    "Teacher Guide step 01"
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Display and discuss"
+    },
+    {
+      "type": "paragraph",
+      "text": "Copy your chosen questions into a Google Doc and project it, or share printed prompts with pairs or small groups. Invite students to discuss and support their ideas with story evidence."
+    },
+    {
+      "type": "heading",
+      "text": "Discussion questions"
+    },
+    {
+      "type": "questions",
+      "items": [
+        "Why do you think Zoe decided to switch teams?",
+        "Do you think Zoe should have spoken to Maddie before changing the team arrangement? Why or why not?",
+        "Which character do you understand the most? Explain.",
+        "Have you ever been left out of a group, team, or activity? How did it feel?",
+        "Can a friendship still be strong when plans suddenly change?",
+        "What is the difference between choosing what is popular and choosing what is right?",
+        "When someone feels disappointed, what are healthy ways to respond?",
+        "What do you think lies ahead for Maddie and Zoe?",
+        "What makes a team successful besides talent or skill?",
+        "What clue from this quest do you think might help restore the sparkle later in the mission?"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Optional printout"
+    },
+    {
+      "type": "links",
+      "items": [
+        {
+          "ref": "ccc-q01-chew-on-this-team-talk-cards",
+          "description": "Discussion prompt cards, 4 per page"
+        }
+      ]
+    }
+  ],
+  "source_note": "One-page question bank. Canonical shared teacher-companion template: crest, Part 04 accent, QUESTIONS tag, meta line, and numbered prompts. Display guidance stays here, not in the Teacher Guide. Release dependency refresh: student printouts verified in official Drive.",
+  "intro": "Select three questions to discuss friendship and teamwork."
+}

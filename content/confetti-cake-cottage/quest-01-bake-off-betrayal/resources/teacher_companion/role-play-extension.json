@@ -1,0 +1,49 @@
+{
+  "template": "teacher_companion",
+  "resource_id": "ccc-q01-chew-on-this-role-play-extension",
+  "resource_type": "teacher_companion",
+  "title": "Role-play Extension",
+  "kind": "extension",
+  "stage": "04-chew-on-this",
+  "meta": [
+    "Optional",
+    "Adds about 15–25 minutes",
+    "Follows Conflict Scenarios"
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Run the role-play"
+    },
+    {
+      "type": "steps",
+      "items": [
+        {
+          "title": "Choose a scenario",
+          "text": "Keep each group’s assigned conflict or let them select a new one from slides 3–6."
+        },
+        {
+          "title": "Prepare two responses",
+          "text": "Groups assign roles and rehearse one reaction that worsens the conflict and one that communicates respectfully."
+        },
+        {
+          "title": "Perform and compare",
+          "text": "Groups present both versions. Discuss which response helps the team move forward and why."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Debrief"
+    },
+    {
+      "type": "questions",
+      "items": [
+        "How did the characters’ feelings shape their responses?",
+        "What did the more respectful response change?"
+      ]
+    }
+  ],
+  "source_note": "Additional role-play for original Part 04 conflict scenario slides. No new scenarios or additional student worksheets; teacher companion, not a core DO step. Release dependency refresh: student printouts verified in official Drive.",
+  "intro": "Use a conflict scenario to practise responses that help or harm teamwork."
+}

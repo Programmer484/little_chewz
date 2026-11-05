@@ -1,0 +1,110 @@
+{
+  "template": "teacher_guide",
+  "key": "p4",
+  "title": "PART 4 / CHEW ON THIS",
+  "grade": "4–6",
+  "duration": "about 40 minutes",
+  "print_note": "PRINT ONLY CHOSEN ACTIVITIES",
+  "goal": "Use story evidence and shared experiences to explore different perspectives, respond to conflict, and strengthen teamwork.",
+  "outcomes": [
+    "Support ideas with story evidence.",
+    "Compare perspectives and responses to conflict.",
+    "Identify qualities of a strong teammate."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-chew-on-this-slides",
+      "description": "Review slides 1–8"
+    }
+  ],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-chew-on-this-print-pack",
+      "description": "Choose activities, print once"
+    }
+  ],
+  "focus": "Encourage students to consider different perspectives and support their thinking with evidence.",
+  "assessment": "Team Talk: Listen for explanations supported by story evidence. Conflict Scenarios: Look for respectful responses that consider different perspectives.",
+  "curriculum": [
+    "English Language Arts",
+    "Health / SEL",
+    "Critical Thinking"
+  ],
+  "cover": "cover.pdf",
+  "output": "04-chew-on-this-teacher-guide.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Team Talk",
+      "mins": "20",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 1 — Introduce the lesson."
+        },
+        {
+          "kind": "DO",
+          "ref": "ccc-q01-chew-on-this-team-talk-questions",
+          "description": "Select three prompts and display them."
+        },
+        {
+          "kind": "DO",
+          "text": "Students discuss in pairs or small groups, using story evidence to support their ideas."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-chew-on-this-team-talk-cards",
+          "description": "Optional printed discussion prompts",
+          "quantity": "per_group"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Conflict Scenarios",
+      "mins": "20",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slides 2–6 — Introduce the four scenarios and assign one to each group."
+        },
+        {
+          "kind": "DO",
+          "text": "Groups consider different perspectives, agree on a respectful response, and share briefly."
+        },
+        {
+          "kind": "ASK",
+          "text": "What would an assertive response sound like?"
+        },
+        {
+          "kind": "SHOW",
+          "text": "Slide 7 — Revisit Maddie’s changing perspective on Leila."
+        },
+        {
+          "kind": "MORE",
+          "links": [
+            {
+              "ref": "ccc-q01-chew-on-this-scenario-cards",
+              "description": "Optional group cards",
+              "quantity": "per_group"
+            },
+            {
+              "ref": "ccc-q01-chew-on-this-role-play-extension",
+              "description": "Add 15–25 min"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flow_style": "compact",
+  "source_note": "Draft revision 2026-11-04: Team Talk opens with Slide 1; no Wrap-Up; Print Pack in Preparation; role-play is a linked MORE extension; optional Graffiti Wall details live in a one-page companion. Slides are lesson-local 1–8.",
+  "prep_heading": "PRINT YOUR CHOICES",
+  "bonus_heading": "MORE TIME? YOU CHEWZ!",
+  "bonuses": [
+    {
+      "ref": "ccc-q01-chew-on-this-graffiti-wall",
+      "description": "Optional teamwork display. Adds 5–10 minutes."
+    }
+  ]
+}
