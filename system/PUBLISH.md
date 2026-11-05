@@ -4,13 +4,15 @@
 
 ## Safe publication order
 
-1. Read each requested catalogue entry and actual Holding/Public Drive metadata. Match ID, MIME type, verified folder, expected version/MD5 (where available), and the human-approved candidate. If its bytes/version changed after approval, stop.
+1. Read each requested catalogue entry; for Drive-managed files inspect actual Holding/Public Drive metadata, and for externally hosted URLs verify their exact approved destination. Match ID, MIME type, verified folder, expected version/MD5 (where available), and the human-approved candidate. If its bytes/version changed after approval, stop.
 2. Reject missing and **unpublished dependencies**. A resource can become public only when every referenced dependency already has `published_url`, or is **explicitly named in the same approved batch and successfully published first**. Resolve generated-PDF source refs and any declared catalogue `dependencies`. Reject cycles. Official PDFs must never embed Holding-only links.
 3. For generated PDFs, ensure the intended GitHub revision is accepted and render release output using published destinations. Do not assume GitHub preview links are official.
 
 ## First publication
 
-**Move** the exact existing Holding Drive file to the correct Public folder; never copy or reupload it as a new ID. Re-read its ID, destination folder, MIME and sharing. A folder move preserves the file ID/link but does **not** prove anonymous access; confirm public sharing. After success, put the **same URL** into `published_url` and clear `holding_url`. For generated PDFs, record approved MD5 and revision only after published-byte parity is verified.
+For **Drive-managed files**, **move** the exact existing Holding Drive file to the correct Public folder; never copy or reupload it as a new ID. Re-read its ID, destination folder, MIME and sharing. A folder move preserves the file ID/link but does **not** prove anonymous access; confirm public sharing. After success, put the **same URL** into `published_url` and clear `holding_url`. For generated PDFs, record approved MD5 and revision only after published-byte parity is verified.
+
+**Externally hosted URLs** (YouTube, web apps) have no Drive move. The human approves the exact URL and content; the agent records that URL as `published_url` and `human_reviewed_url` only when explicitly told to publish its resource ID. No fake Holding file is created.
 
 ## Updating an existing publication
 
