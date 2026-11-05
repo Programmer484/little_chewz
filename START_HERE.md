@@ -15,7 +15,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 | --- | --- |
 | [AGENTS.md](AGENTS.md) | Small agent entry point: universal safeguards and task routing; edited directly. |
 | Each folder's `AGENTS.md` | Which instructions apply to the files in that folder |
-| `content/` | Lesson order, source notes, wording, companions, stories and artwork (no stored lesson publication status) |
+| `content/` | Lesson order, wording, companions, stories and artwork (no stored lesson publication status) |
 | `catalog/quests.json` | Navigation to quest manifests |
 | `catalog/resources.json` | Stable IDs, production classification, holding/published URLs, builds and publication records |
 | `catalog/drive_folders.json` | Verified holding folders (including separate Slide PDFs) and official folder configuration |
@@ -40,7 +40,7 @@ Use one `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch per lesson unl
 
 ## Find a lesson
 
-Follow `catalog/quests.json` → the quest's `quest.json` (lesson order and folder) → `lessons/<stage>/lesson.json` when it exists. Derive each lesson's publication state from its registered Teacher Guide in `catalog/resources.json`, using `python scripts/publication_state.py --lessons`. An optional short `stage.json` is historical provenance only, never a status owner. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
+Follow `catalog/quests.json` → the quest's `quest.json` (lesson order and folder) → `lessons/<stage>/lesson.json` when it exists. Derive each lesson's publication state from its registered Teacher Guide in `catalog/resources.json`, using `python scripts/publication_state.py --lessons`. The current quest lives at `content/confetti-cake-cottage/quest-01-bake-off-betrayal/`.
 
 Lesson folders run from `00-activate` through `06-celebrate`. Companions live under `resources/teacher_companion/`; raw stories and letters live under `story/`. Derive lifecycle status from official URL / holding URL or generated checksum before publishing: a folder or URL does not prove its latest source is live.
 

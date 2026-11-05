@@ -137,21 +137,15 @@ else:
 
 for path in R.glob('content/**/lessons/**/lesson.draft.json'):
     errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
-for path in R.glob('content/**/lessons/**/stage.json'):
-    stage=json.loads(path.read_text())
-
-    duplicate=set(stage) & {'id','title','status','preview_enabled','lesson_source','required_fields','guide_metadata','slide_sequence','activity_decision'}
-    if duplicate: errors.append(f'{path}: duplicated stage fields {sorted(duplicate)}')
-
 guide_outputs = generated_outputs(registry)
 for school in read_json('catalog/quests.json')['school_index']:
     quest_path=R / school['quest_manifest']
     quest=json.loads(quest_path.read_text())
 
     for lesson in quest['learning_sequence']:
-        redundant = set(lesson) & {'status','published_url','holding_url','publication'}
-        if redundant:
-            errors.append(f'{quest_path}: lesson {lesson["folder"]} has redundant publication fields {sorted(redundant)}')
+        extra = set(lesson) - {'folder', 'title'}
+        if extra:
+            errors.append(f'{quest_path}: lesson {lesson["folder"]} has unexpected metadata fields {sorted(extra)}')
         folder=quest_path.parent/'lessons'/lesson['folder']
         guide_id=guide_outputs.get(f"{lesson['folder']}-teacher-guide.pdf")
         if guide_id and registry[guide_id].get('published_url') and not (folder/'lesson.json').is_file():
