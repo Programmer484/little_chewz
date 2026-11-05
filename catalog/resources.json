@@ -455,8 +455,9 @@
   "ccc-q01-chew-on-this-print-pack": {
     "title": "Build Print Pack",
     "type": "teacher_resource",
-    "published_url": null,
-    "holding_url": null
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-chew-on-this",
+    "holding_url": null,
+    "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-chew-on-this"
   },
   "ccc-q01-chew-on-this-role-play-extension": {
     "title": "Role-play Extension",
@@ -469,7 +470,7 @@
     }
   },
   "ccc-q01-chew-on-this-graffiti-wall": {
-    "title": "Strong Teammate Wall",
+    "title": "Graffiti Wall",
     "type": "teacher_resource",
     "published_url": "https://drive.google.com/file/d/1BK4xqEReQ0NBoxC40YV7IOGd9p_D5ARE/view?usp=drivesdk",
     "holding_url": null,
@@ -518,6 +519,7 @@
     "title": "Build Print Pack",
     "type": "teacher_resource",
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-plate-it-forward",
-    "holding_url": null
+    "holding_url": null,
+    "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-plate-it-forward"
   }
 }
