@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build one registered document and replace its Drive file in place.
+"""Agent-invoked explicit-ID replacement of an established generated PDF.
 
 The registry entry in catalog/resources.json names the Drive destination
 (`published_url`) and the generated PDF details (`pdf`):
@@ -7,6 +7,8 @@ The registry entry in catalog/resources.json names the Drive destination
     "pdf": {"renderer": "welcome", "source": "content/.../welcome.json"}
     "pdf": {"renderer": "teacher_guide", "output": "00-activate-teacher-guide.pdf"}   # select_builds target
 
+Only an explicit human publish instruction authorizes running this helper.
+It has no GitHub Action trigger and is not a publication audit.
 Publishing replaces the file's contents through the Drive API, so the file
 ID, link, name, folder, and sharing stay the same and Drive keeps the old
 version in its history. After Drive reports the same MD5 as the local PDF,
@@ -166,44 +168,21 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
         if name not in targets():
             raise PublishError(f"{resource_id}: unregistered generated PDF output {name}")
     from select_builds import targets
-    from publication_checks import referenced_resources, unpublished_references
-    render_target = targets().get(output_name(resource_id, build))
-    if render_target:
-        blocked = unpublished_references(render_target, registry)
-        if blocked:
-            raise PublishError(f"{resource_id}: unpublished linked resources: {', '.join(blocked)}")
+    from publication_checks import unpublished_dependencies
+    blocked = unpublished_dependencies(resource_id, registry, targets())
+    if blocked:
+        raise PublishError(f"{resource_id}: unpublished linked resources: {', '.join(blocked)}")
     pdf = builder(resource_id, build)
     assert_revision(revision)
     local_md5 = md5(pdf)
     service = service or drive_service()
     before = check_destination(service, file_id)
 
-    # Fail closed before any Drive mutation: inspect the published destinations of
-    # only this PDF's referenced resources, plus the target's existing public URL.
-    # The target's approved MD5 deliberately does not apply before replacement;
-    # exact new bytes are verified by the Drive read-back below.
-    from inspect_publications import PASS, audit
-    dependencies = referenced_resources(render_target)
-    inspected = {rid: registry[rid] for rid in sorted(dependencies)}
-    inspected[resource_id] = {**entry, "pdf": None}
-    inspection = audit(inspected, service=service)
-    if inspection["result"] != PASS:
-        issues = [
-            f"{item['resource_id']}: {issue['status']} ({issue['reason']})"
-            for item in inspection["resources"] for issue in item["issues"]
-        ]
-        raise PublishError(
-            f"{resource_id}: pre-publication inspection blocked: "
-            + "; ".join(issues or [inspection["result"]])
-        )
-
     report = {"resource_id": resource_id, "file_id": file_id, "name": before.get("name"),
               "local_md5": local_md5, "previous_md5": before.get("md5Checksum"),
               "previous_version": before.get("version"), "bytes": pdf.stat().st_size,
               "dry_run": dry_run, "status_before": publication_status(entry, local_md5),
-              "release_revision": revision,
-              "prepublication_inspection": {"result": inspection["result"],
-                                             "resource_ids": sorted(inspected)}}
+              "release_revision": revision}
     if dry_run:
         report["result"] = "dry run: built and checked access; Drive not changed"
         return report

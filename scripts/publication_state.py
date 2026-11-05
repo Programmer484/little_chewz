@@ -31,14 +31,13 @@ def has_official_version(resource: dict | None) -> bool:
 def publication_status(resource: dict | None, current_md5: str | None = None) -> str:
     if not has_official_version(resource):
         return "unpublished"
+    holding = identity(resource.get("holding_url"))
+    published = identity(resource.get("published_url"))
+    if holding is not None and holding != published:
+        return "pending_publish"
     if resource.get("pdf"):
         approved = (resource.get("pdf") or {}).get("approved_md5")
         if approved and current_md5 and current_md5 != approved:
-            return "pending_publish"
-    else:
-        holding = identity(resource.get("holding_url"))
-        published = identity(resource.get("published_url"))
-        if holding is not None and holding != published:
             return "pending_publish"
     return "published"
 
@@ -63,6 +62,7 @@ def status_report(registry: dict, *, only: str | None = None, builder=None) -> l
         if resource.get("pdf") and has_official_version(resource):
             approved = (resource.get("pdf") or {}).get("approved_md5")
             if not approved:
+                item["verification"] = "unknown"
                 item["checksum_evidence"] = "NEEDS REVIEW: approved MD5 unavailable"
             else:
                 try:
@@ -73,8 +73,10 @@ def status_report(registry: dict, *, only: str | None = None, builder=None) -> l
                         source = builder(rid, resource["pdf"])
                     actual = md5(Path(source).read_bytes()).hexdigest()
                     item["status"] = publication_status(resource, actual)
-                    item["checksum_evidence"] = "match" if actual == approved else "changed"
+                    item["verification"] = "match" if actual == approved else "changed"
+                    item["checksum_evidence"] = item["verification"]
                 except Exception as exc:
+                    item["verification"] = "unknown"
                     item["checksum_evidence"] = "NEEDS REVIEW: " + str(exc)
         result.append(item)
     return result

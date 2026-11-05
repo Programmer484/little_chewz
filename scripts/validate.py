@@ -30,7 +30,7 @@ FOLDERS={'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'te
 PDF_RENDERERS={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
                'welcome': 'welcome'}
 FIELDS={'title', 'type', 'published_url', 'holding_url', 'pdf',
-        'pdf_url', 'human_reviewed_url', 'print'}
+        'pdf_url', 'human_reviewed_url', 'print', 'dependencies'}
 for ref,item in registry.items():
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', ref):
         errors.append(f'{ref}: resource ID must be stable lowercase kebab-case')
@@ -51,6 +51,17 @@ for ref,item in registry.items():
             errors.append(f'{ref}: explicit {role} required (null if absent)')
         elif url is not None and (not isinstance(url,str) or not url.startswith('https://')):
             errors.append(f'{ref}: {role} must be HTTPS or null')
+    if 'dependencies' in item:
+        deps = item['dependencies']
+        if (not isinstance(deps, list) or any(not isinstance(d, str) for d in deps)
+                or len(deps) != len(set(d for d in deps if isinstance(d, str)))):
+            errors.append(f'{ref}: dependencies must be unique resource-ID strings')
+        else:
+            for dep in deps:
+                if dep == ref:
+                    errors.append(f'{ref}: resource cannot depend on itself')
+                elif dep not in registry:
+                    errors.append(f'{ref}: unknown dependency {dep}')
     pdf = item.get('pdf')
     if pdf is not None:
         if not isinstance(pdf,dict):
