@@ -477,5 +477,11 @@
       "renderer": "teacher_companion",
       "output": "graffiti-wall.pdf"
     }
+  },
+  "ccc-q01-plate-it-forward-slides": {
+    "title": "Plate It Forward (Reflect) Classroom Slides",
+    "type": "classroom_slides",
+    "published_url": null,
+    "holding_url": null
   }
 }
