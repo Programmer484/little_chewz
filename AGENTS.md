@@ -10,4 +10,4 @@ Read the nearest folder `AGENTS.md` and task-relevant guides only. [Start here](
 
 Routes: [content](content/AGENTS.md), [catalog](catalog/AGENTS.md), [scripts](scripts/AGENTS.md), [templates](templates/AGENTS.md), [apps](apps/AGENTS.md), [Teacher Guide](system/EDITORIAL_GUIDE.md), [Companions](system/RESOURCE_GUIDELINES.md), [Slides](system/SLIDE_CONVERSION.md), [Binary transfer](system/BINARY_TRANSFER.md).
 
-Run `python scripts/validate.py` and relevant tests; review affected PDFs and human-facing destinations. Report checks, exact file IDs and URLs, unresolved blockers, and whether publication actually occurred. For generated-PDF review give the verified Actions preview link first.
+**No regression testing:** do not add or run regression test suites, baseline/snapshot comparisons, or regression coverage checks in this repository. Use `python scripts/validate.py`, relevant typechecking/lint/build checks, and manual review of affected PDFs and human-facing destinations. Report checks, exact file IDs and URLs, unresolved blockers, and whether publication actually occurred. For generated-PDF review give the verified Actions preview link first.

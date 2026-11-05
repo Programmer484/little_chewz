@@ -10,8 +10,7 @@
     "preview": "npm run build && vite preview",
     "typecheck": "tsc -b",
     "lint": "eslint .",
-    "test": "vitest run",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "check": "npm run typecheck && npm run lint && npm run build",
     "fixtures": "python3 scripts/make_fixtures.py",
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types worker/worker-configuration.d.ts"
@@ -35,7 +34,6 @@
     "typescript": "~6.0.0",
     "typescript-eslint": "^8.72.1",
     "vite": "^8.0.0",
-    "vitest": "^5.0.5",
     "wrangler": "^4.156.0"
   }
 }

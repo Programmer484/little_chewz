@@ -5,3 +5,7 @@ Start with [START_HERE.md](START_HERE.md). AI editors follow [AGENTS.md](AGENTS.
 Teaching content lives in `content/`; resource links live in `catalog/`; shared rules live in `system/`. Templates cover the supported source types, and scripts validate sources and generate PDF previews. To create, revise or publish a resource, follow [Edit](system/EDIT.md) (new or existing) or [Publish](system/PUBLISH.md). Approved generated-PDF release PRs use guarded Drive automation; ordinary merges do not publish.
 
 See the [editing workflow](system/EDIT.md) and [tooling backlog](SYSTEM_IMPROVEMENTS.md).
+
+## Testing policy
+
+**This repository does not use regression testing.** Do not add or run automated regression suites, snapshot/golden comparisons, or regression-coverage requirements. GitHub Actions and local development use source validation, typechecking, linting, builds, and targeted human review instead. The on-demand published-resource inspection remains a read-only audit, not a regression test or publication gate.

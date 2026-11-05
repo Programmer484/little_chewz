@@ -22,10 +22,11 @@ Use the shared lesson branch for its resources. `exports/` contains generated fi
 
 ```bash
 python scripts/validate.py
-python -m unittest discover -s tests -v
 python -m pip install -r requirements.txt
 python scripts/select_builds.py --all --output /tmp/selection.json
 python scripts/build_selected.py --manifest /tmp/selection.json
 ```
 
 [PDF preview Action](https://github.com/Programmer484/little_chewz/actions/workflows/build-resources.yml). `scripts/publish_to_drive.py` is a manual, explicit-ID helper for already-published generated PDFs only.
+
+**Testing policy:** this GitHub repository does not use regression testing. Use source validation, build checks, and human review instead; see [README](README.md#testing-policy).

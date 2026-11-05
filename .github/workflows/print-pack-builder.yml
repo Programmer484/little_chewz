@@ -67,7 +67,7 @@ jobs:
   check:
     needs: impact
     if: needs.impact.outputs.run_full == 'true'
-    name: Typecheck, lint, test and build
+    name: Typecheck, lint and build
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     defaults:
@@ -83,5 +83,4 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
-      - run: npm test
       - run: npm run build

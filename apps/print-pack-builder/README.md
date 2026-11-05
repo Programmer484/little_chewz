@@ -13,7 +13,6 @@ A small web app for Grade 4–6 teachers: choose a lesson, pick the activities y
 | API and secure Drive proxy | Cloudflare Worker (Static Assets + Vite plugin) | `worker/` |
 | Demo lesson and its synthetic files | JSON + generated fixtures | `config/demo/`, `worker/demo/` |
 | PDF assembly | `pdf-lib`, in the browser | `src/lib/assemble.ts` |
-| Tests | Vitest | `tests/` |
 
 ## Quick start: local demo (no credentials)
 
@@ -30,14 +29,16 @@ In demo mode the app shows a **Sample Lesson** built from synthetic PDF, PNG and
 
 ## Commands
 
+Regression testing is not used in this repository. The app is checked through TypeScript compilation, linting, production builds, and manual end-to-end review; no automated test suite or regression coverage target is run.
+
+
 | Command | What it does |
 | --- | --- |
 | `npm run dev` | Vite dev server; the Worker runs in the real Workers runtime (workerd) |
-| `npm run typecheck` | TypeScript project build check (app, Worker, tests) |
+| `npm run typecheck` | TypeScript project build check (app and Worker) |
 | `npm run lint` | ESLint |
-| `npm test` | Unit and integration tests |
 | `npm run build` | Production build into `dist/` |
-| `npm run check` | All four above, as CI runs them |
+| `npm run check` | Typecheck, lint and build, as CI runs them |
 | `npm run preview` | Build, then serve the production build locally in workerd |
 | `npm run deploy` | Build and `wrangler deploy` (needs a Cloudflare login) |
 | `npm run fixtures` | Regenerate the synthetic demo files (`python3`, with the repo's `reportlab` and `Pillow`) |

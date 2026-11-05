@@ -31,7 +31,7 @@ jobs:
       - name: Check out proposed commit
         uses: actions/checkout@v5
 
-      - name: Shared PDF setup, validation, and tests
+      - name: Shared PDF setup and source validation
         uses: ./.github/actions/pdf-setup
 
       - name: Determine affected PDF outputs

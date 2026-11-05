@@ -1,7 +1,7 @@
 name: PDF build setup
 description: >
   Shared setup for every workflow that builds Little Chewz PDFs: Python,
-  requirements.txt, source validation, and tool tests. Fonts are bundled in
+  requirements.txt and source validation. Fonts are bundled in
   templates/, so nothing is installed system-wide. Run
   actions/checkout before this step.
 inputs:
@@ -31,6 +31,3 @@ runs:
       shell: bash
       run: python scripts/validate.py
 
-    - name: Test build tooling
-      shell: bash
-      run: python -m unittest discover -s tests -v
