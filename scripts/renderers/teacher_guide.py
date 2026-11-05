@@ -454,11 +454,27 @@ def flow(doc,d,reg):
         place(lambda:bonuses(None,its,0,reg,title),lambda c:bonuses(p,its,c,reg,title),2)
     return pages
 
+def registered_output(content:Path,registry:dict) -> Path:
+    """Use the catalogue's PDF filename when --output is not supplied."""
+    expected=f'{content.parent.name}-teacher-guide.pdf'
+    matches=[]
+    for record in registry.values():
+        pdf=record.get('pdf') or {}
+        if pdf.get('renderer')=='teacher_guide' and pdf.get('output')==expected:
+            matches.append(pdf['output'])
+    if len(matches)!=1:
+        raise ValueError(
+            f'{content}: expected exactly one catalogue Teacher Guide pdf.output '
+            f'for {expected!r}; register the guide or supply --output'
+        )
+    return content.parent/matches[0]
+
 def build(content:Path,registry:dict,output:Path|None=None):
     global AUDIT
     AUDIT=[];d=json.loads(content.read_text(encoding='utf8'))
     # Paths in lesson JSON are relative to that lesson's own directory.
-    out=output or content.parent/d['output'];out.parent.mkdir(parents=True,exist_ok=True)
+    out=output if output is not None else registered_output(content,registry)
+    out.parent.mkdir(parents=True,exist_ok=True)
     cover=content.parent/d['cover']
     if not cover.exists():raise FileNotFoundError(cover)
     doc=fitz.open()
