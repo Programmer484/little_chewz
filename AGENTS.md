@@ -6,7 +6,7 @@ Read the nearest folder `AGENTS.md` for changed files, then only guides relevant
 
 - Edit authoritative JSON, text and assets—not generated PDFs. Preserve verified canon, approved stories and working links; never invent facts, file IDs, Drive URLs or approvals.
 - `catalog/resources.json` owns resource identities, URLs and publication evidence. Status is **derived**, not stored ([contract](system/CONTENT_CONTRACT.md)).
-- **Editing, holding uploads, previews and ordinary merges never publish.** Official Drive changes require human approval of the exact version and checks in [PUBLISH.md](system/PUBLISH.md). Never replace live files while editing.
+- **Editing, holding uploads, previews and ordinary merges never publish.** Review generated PDFs in GitHub, without mandatory holding copies. After explicit approval, use direct official upload or in-place version replacement under [PUBLISH.md](system/PUBLISH.md). Never replace live files while editing.
 - Reuse the shared `lesson/<quest-id>-<two-digit-stage>-<stage-slug>` branch unless told otherwise. Reconcile remote work; never force-push, overwrite unrelated edits, expose secrets or upload unapproved content.
 
 ## Read for the task
