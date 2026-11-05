@@ -27,10 +27,6 @@
       ]
     }
   ],
-  "source_note": "Adapted from the School Song activity; original steps 4–6 are optional.",
   "resource_id": "ccc-q01-set-the-table-songwriting-extension",
-  "resource_type": "teacher_companion",
-  "audience": "teacher",
-  "stage": "01-set-the-table",
-  "published_ref": null
+  "stage": "01-set-the-table"
 }
