@@ -513,5 +513,11 @@
       "renderer": "teacher_guide",
       "output": "05-plate-it-forward-teacher-guide.pdf"
     }
+  },
+  "ccc-q01-plate-it-forward-print-pack": {
+    "title": "Build Print Pack",
+    "type": "teacher_resource",
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-plate-it-forward",
+    "holding_url": null
   }
 }
