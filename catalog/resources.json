@@ -569,5 +569,11 @@
       "renderer": "teacher_guide",
       "output": "06-celebrate-teacher-guide.pdf"
     }
+  },
+  "ccc-q01-celebrate-chewlandia-mail": {
+    "title": "Chewlandia Mail — Quest 2",
+    "type": "teacher_resource",
+    "holding_url": null,
+    "published_url": "https://drive.google.com/file/d/1smX2dPZgxf_n2cLG5exS4qyLsiBS7Vg4/view"
   }
 }
