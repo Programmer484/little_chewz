@@ -1,0 +1,153 @@
+{
+  "template": "teacher_guide",
+  "key": "celebrate",
+  "title": "CELEBRATE / AFTER THE QUEST ENDS",
+  "grade": "4–6",
+  "duration": "5–45 minutes",
+  "print_note": "PRINT ONLY YOUR CHOICES",
+  "goal": "Celebrate the effort, teamwork, and growth students showed during Quest One.",
+  "outcomes": [
+    "Name one accomplishment from the quest.",
+    "Recognize a classmate's contribution.",
+    "Take part in a shared class celebration."
+  ],
+  "core": [
+    {
+      "ref": "ccc-q01-celebrate-slides",
+      "description": "Slides 1–12"
+    }
+  ],
+  "optional_prep": [
+    {
+      "ref": "ccc-q01-celebrate-print-pack",
+      "description": "Choose and print"
+    }
+  ],
+  "prep_heading": "PRINT YOUR CHOICES",
+  "focus": "Help every student see what they accomplished.",
+  "curriculum": [
+    "Health / SEL",
+    "English Language Arts",
+    "Arts"
+  ],
+  "cover": "cover.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Sing the School Song",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 3 — Play “Triple C.”"
+        },
+        {
+          "kind": "DO",
+          "text": "Invite students to stand, sing, and dance."
+        },
+        {
+          "kind": "MORE",
+          "links": [
+            {
+              "ref": "ccc-q01-set-the-table-triple-c-audio",
+              "description": "Direct audio"
+            },
+            {
+              "ref": "ccc-q01-celebrate-school-playlist",
+              "description": "More Confetti Cake Cottage songs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Rally and Party",
+      "mins": "10–30",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 2 — Show the rally look: school colours and accessories."
+        },
+        {
+          "kind": "DO",
+          "text": "Hold the party you planned: dress-up, snacks, or a potluck."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Photo Booth",
+      "mins": "10",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slides 4–11 — Choose a backdrop."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-q01-celebrate-photo-booth-props",
+          "description": "One complete three-page set per team; optional",
+          "quantity": "per_group"
+        },
+        {
+          "kind": "DO",
+          "text": "Take a photo of every team."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Award the Quest Badge",
+      "mins": "5",
+      "rows": [
+        {
+          "kind": "SHOW",
+          "text": "Slide 12 — Present the Quest One “Discover” badge."
+        },
+        {
+          "kind": "ASK",
+          "text": "What is one thing your team accomplished?"
+        },
+        {
+          "kind": "GIVE",
+          "ref": "ccc-q01-celebrate-quest-one-badges",
+          "description": "One badge per student; 20 colour badges per sheet",
+          "quantity": "per_student"
+        },
+        {
+          "kind": "DO",
+          "text": "Add the badge to a passport, a notebook, or the success wall."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Passport Entry",
+      "mins": "5–10",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Complete the Quest One page and glue in the badge. Save the mission-complete page until all four quests are finished."
+        },
+        {
+          "kind": "MORE",
+          "ref": "ccc-school-pass-instructions",
+          "description": "Passport setup and printing"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Close or Continue",
+      "mins": "OPTIONAL",
+      "rows": [
+        {
+          "kind": "DO",
+          "text": "Quest One can end here. When continuing, read the next-quest letter together."
+        }
+      ]
+    }
+  ],
+  "bonuses": []
+}
