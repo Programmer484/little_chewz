@@ -241,6 +241,10 @@ for path in lesson_paths:
             size=option.get('group_size')
             if size is not None and (not isinstance(size,int) or isinstance(size,bool) or not 1<=size<=200):
                 errors.append(f'{path}: option group_size must be a whole number of students from 1 to 200')
+        for unit in [st]+options:
+            kinds=[row.get('kind','').upper() for row in unit.get('rows',[])]
+            if 'MORE' in kinds and any(k!='MORE' for k in kinds[kinds.index('MORE'):]):
+                errors.append(f'{path}: step {st.get("id")}: MORE rows must come last')
         rows=st.get('rows',[])+[row for option in options for row in option.get('rows',[])]
         for row in rows:
             check_quantity(row)

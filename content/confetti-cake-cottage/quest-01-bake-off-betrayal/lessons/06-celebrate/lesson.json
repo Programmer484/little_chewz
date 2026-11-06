@@ -41,7 +41,7 @@
     },
     {
       "ref": "ccc-school-pass-instructions",
-      "description": "M and L, if using"
+      "description": "If using passports"
     }
   ],
   "prep_heading": "PRINT YOUR CHOICES",
@@ -64,8 +64,8 @@
       "label": "M",
       "title": "Full plate",
       "time": "15–20 MIN",
-      "text": "Add a passport entry and Chewlandia Mail.",
-      "steps": "Steps 1, 4, 5, 6"
+      "text": "Add Chewlandia Mail to welcome the next quest.",
+      "steps": "Steps 1, 4, 5"
     },
     {
       "label": "L",
@@ -142,21 +142,21 @@
           "text": "Slides 4–11 — Choose a backdrop."
         },
         {
+          "kind": "DO",
+          "text": "Take a photo of every team."
+        },
+        {
           "kind": "MORE",
           "ref": "ccc-q01-celebrate-photo-booth-props",
           "description": "One complete three-page set per team; optional",
           "quantity": "per_group"
-        },
-        {
-          "kind": "DO",
-          "text": "Take a photo of every team."
         }
       ]
     },
     {
       "id": 4,
       "title": "Award the Quest Badge",
-      "mins": "5",
+      "mins": "5–10",
       "sizes": [
         "S",
         "M",
@@ -179,22 +179,7 @@
         },
         {
           "kind": "DO",
-          "text": "Add the badge to a passport, a notebook, or the success wall."
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Passport Entry",
-      "mins": "5–10",
-      "sizes": [
-        "M",
-        "L"
-      ],
-      "rows": [
-        {
-          "kind": "DO",
-          "text": "Complete the Quest One page and glue in the badge. Save the mission-complete page until all four quests are finished."
+          "text": "Glue the badge into the passport or a notebook. Save the passport's mission-complete page for the end of the mission."
         },
         {
           "kind": "MORE",
@@ -204,7 +189,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": 5,
       "title": "Chewlandia Mail",
       "mins": "5–10",
       "sizes": [
@@ -213,17 +198,13 @@
       ],
       "rows": [
         {
+          "kind": "DO",
+          "text": "Print both pages and seal them in an envelope for the classroom door. Read the letters aloud to welcome Quest 2: The Sprinkle Overload."
+        },
+        {
           "kind": "MORE",
           "ref": "ccc-q01-celebrate-chewlandia-mail",
           "description": "Two-page read-aloud letter"
-        },
-        {
-          "kind": "DO",
-          "text": "Print both Chewlandia Mail pages. Place them in an envelope and arrange for it to arrive at the classroom door. Open it and read the letters aloud to welcome Quest 2: The Sprinkle Overload."
-        },
-        {
-          "kind": "ASK",
-          "text": "What do you think will happen in Quest 2?"
         }
       ]
     }

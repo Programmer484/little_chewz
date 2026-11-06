@@ -124,7 +124,7 @@ The Teacher Guide supports classroom delivery; companion resources carry fuller 
 
 Use **MORE** for optional resources that support, extend, or provide alternatives to the main Teaching Flow.
 
-- Place resources beside the activity they support.
+- Place resources beside the activity they support, as the **last** row of that step or option: MORE always comes after every other action row. `scripts/validate.py` enforces this.
 - Group related resources for convenient access.
 - Use approved resource titles and concise, functional descriptions.
 - Distinguish optional resources from the main classroom sequence.
