@@ -247,31 +247,31 @@
               "number": "02",
               "label": "Part Two",
               "title": "Secret Ingredients",
-              "resource": null
+              "resource": "ccc-q01-secret-ingredients-teacher-guide"
             },
             {
               "number": "03",
               "label": "Part Three",
               "title": "The Showdown",
-              "resource": null
+              "resource": "ccc-q01-showdown-teacher-guide"
             },
             {
               "number": "04",
               "label": "Part Four",
               "title": "Chew On This",
-              "resource": null
+              "resource": "ccc-q01-chew-on-this-teacher-guide"
             },
             {
               "number": "05",
               "label": "Part Five",
               "title": "Plate It Forward",
-              "resource": null
+              "resource": "ccc-q01-plate-it-forward-teacher-guide"
             },
             {
               "number": "06",
               "label": "After the Quest",
               "title": "Celebrate",
-              "resource": null
+              "resource": "ccc-q01-celebrate-teacher-guide"
             },
             {
               "number": "",
