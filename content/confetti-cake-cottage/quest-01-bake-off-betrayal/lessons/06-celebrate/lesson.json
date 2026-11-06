@@ -21,6 +21,10 @@
     {
       "ref": "ccc-q01-celebrate-print-pack",
       "description": "Choose and print"
+    },
+    {
+      "ref": "ccc-school-pass-instructions",
+      "description": "M and L, if using"
     }
   ],
   "prep_heading": "PRINT YOUR CHOICES",
