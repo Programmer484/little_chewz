@@ -531,5 +531,33 @@
     "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-plate-it-forward",
     "holding_url": null,
     "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-plate-it-forward"
+  },
+  "ccc-q01-celebrate-photo-booth-props": {
+    "title": "Photo Booth Props",
+    "type": "student_material",
+    "published_url": "https://drive.google.com/file/d/1IlF3QC8oUJ7S8V61sNdpZezwTGc56n_g/view",
+    "holding_url": null
+  },
+  "ccc-q01-celebrate-quest-one-badges": {
+    "title": "Quest One Badges — Colour",
+    "type": "student_material",
+    "published_url": "https://drive.google.com/file/d/1y3_2FKymfU7pMD9hkPbWF50YTbsvz1To/view",
+    "holding_url": null,
+    "print": {
+      "cards_per_sheet": 20
+    }
+  },
+  "ccc-q01-celebrate-print-pack": {
+    "title": "Print Packet — Choose Your Printables",
+    "type": "teacher_resource",
+    "published_url": "https://drive.google.com/drive/folders/1F_EWfnVNz9UzqcAqZcqphiGqapdhsGkG",
+    "holding_url": null
+  },
+  "ccc-q01-celebrate-school-playlist": {
+    "title": "School Playlist",
+    "type": "teacher_resource",
+    "published_url": "https://drive.google.com/drive/folders/1UBcj50vBy2OBEZKsyTrAajBP3UAgysaD",
+    "holding_url": null,
+    "human_reviewed_url": "https://drive.google.com/drive/folders/1UBcj50vBy2OBEZKsyTrAajBP3UAgysaD"
   }
 }
