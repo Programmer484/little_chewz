@@ -162,8 +162,8 @@
     "pdf": {
       "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json",
-      "approved_md5": "f580361687172d6b0da5dbae7cc67414",
-      "revision": "685df51222da6f50e726e4229b39a8b5f948a0ca"
+      "approved_md5": "de159963933be5a6d88da038e31ad211",
+      "revision": "5207f9c83c28e5591d401c4747e4621fa460da70"
     }
   },
   "ccc-q01-secret-ingredients-clue-video": {
@@ -504,7 +504,7 @@
   "ccc-q01-plate-it-forward-mission-log": {
     "title": "Mission Log",
     "type": "student_material",
-    "published_url": "https://drive.google.com/file/d/1UVJ6CROHndLZnolLPP7ANNNjHOX1TbAG/view?usp=drivesdk",
+    "published_url": "https://drive.google.com/file/d/1Ty-q3fYNEA9E6EzQFGYGR6YikHXzABnM/view",
     "holding_url": null
   },
   "ccc-q01-plate-it-forward-investigation-notes": {
@@ -569,8 +569,8 @@
     "pdf": {
       "renderer": "celebrate",
       "output": "06-celebrate-teacher-guide.pdf",
-      "approved_md5": "6b8c66150422ebf32953cdf6ca0d6f2a",
-      "revision": "779f85f6f146bc9559ed74fc503c5bc85dbbf8ee"
+      "approved_md5": "dd4d90baf780976879ddd452564edc71",
+      "revision": "5207f9c83c28e5591d401c4747e4621fa460da70"
     }
   },
   "ccc-q01-celebrate-chewlandia-mail": {

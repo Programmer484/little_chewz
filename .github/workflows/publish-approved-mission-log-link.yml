@@ -1,0 +1,71 @@
+name: Publish approved Mission Log link (one-time)
+
+# Scoped to this exact human-approved Mission Log replacement, not a general
+# publish-on-merge mechanism. Never overwrite the other approved Drive PDFs.
+on:
+  push:
+    branches: [main]
+    paths:
+      - catalog/resources.json
+      - .github/workflows/publish-approved-mission-log-link.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: approved-mission-log-link-publication
+  cancel-in-progress: false
+
+jobs:
+  publish-plate-guide:
+    if: contains(github.event.head_commit.message, '[publish-mission-log-link-20261106]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out merge commit
+        uses: actions/checkout@v5
+
+      - name: Validate content and prepare PDF publisher
+        uses: ./.github/actions/pdf-setup
+        with:
+          extra-packages: "google-api-python-client>=2.100,<3 google-auth>=2.20,<3"
+
+      - name: Verify this exact approved link change
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          catalog = json.loads(Path("catalog/resources.json").read_text())
+          mission = catalog["ccc-q01-plate-it-forward-mission-log"]
+          guide = catalog["ccc-q01-plate-it-forward-teacher-guide"]
+          assert mission["published_url"] == "https://drive.google.com/file/d/1Ty-q3fYNEA9E6EzQFGYGR6YikHXzABnM/view"
+          assert guide["published_url"].split("/d/")[1].split("/")[0] == "1Oy0IqEoZBN51YlkDK9A8nq12fcA0FORv"
+          assert guide["pdf"]["output"] == "05-plate-it-forward-teacher-guide.pdf"
+          PY
+
+      - name: Publish only the link-corrected Plate It Forward Teacher Guide
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          python scripts/publish_to_drive.py ccc-q01-plate-it-forward-teacher-guide --expected-revision "${GITHUB_SHA}" --result-json publication-report.json
+
+      - name: Record verified PDF checksum and publication revision
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog/resources.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: record verified Plate It Forward PDF publication"
+            git push origin HEAD:main
+          fi
+
+      - name: Attach publication evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: approved-mission-log-publication
+          path: publication-report.json
+          if-no-files-found: ignore
+          retention-days: 30
