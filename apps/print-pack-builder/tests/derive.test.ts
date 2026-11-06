@@ -240,7 +240,7 @@ describe("the real Teacher Guides", () => {
     expect(lessons.get("ccc-q01-activate")).toMatchObject({ status: "no_student_printing", printable: false });
     expect(lessons.get("ccc-q01-secret-ingredients")).toMatchObject({ status: "ready", printable: true });
     expect(lessons.get("ccc-q01-set-the-table")).toMatchObject({ status: "ready", printable: true });
-    expect(lessons.get("ccc-q01-celebrate")).toMatchObject({ status: "in_progress", printable: false });
+    expect(lessons.get("ccc-q01-celebrate")).toMatchObject({ status: "ready", printable: true });
     expect(catalog.lessons("disabled").some((l) => l.printable && !l.demo)).toBe(false);
   });
 
