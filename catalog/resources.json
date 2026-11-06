@@ -559,5 +559,15 @@
     "published_url": "https://drive.google.com/drive/folders/1UBcj50vBy2OBEZKsyTrAajBP3UAgysaD",
     "holding_url": null,
     "human_reviewed_url": "https://drive.google.com/drive/folders/1UBcj50vBy2OBEZKsyTrAajBP3UAgysaD"
+  },
+  "ccc-q01-celebrate-teacher-guide": {
+    "title": "Celebrate Teacher Guide",
+    "type": "teacher_guide",
+    "published_url": null,
+    "holding_url": "https://drive.google.com/file/d/11CsI71fJlDz4XCwD356LHjB_Nrd6tAs-/view",
+    "pdf": {
+      "renderer": "teacher_guide",
+      "output": "06-celebrate-teacher-guide.pdf"
+    }
   }
 }
