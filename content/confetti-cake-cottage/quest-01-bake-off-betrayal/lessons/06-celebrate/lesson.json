@@ -142,14 +142,14 @@
           "text": "Slides 4–11 — Choose a backdrop."
         },
         {
+          "kind": "DO",
+          "text": "Take a photo of every team."
+        },
+        {
           "kind": "MORE",
           "ref": "ccc-q01-celebrate-photo-booth-props",
           "description": "One complete three-page set per team; optional",
           "quantity": "per_group"
-        },
-        {
-          "kind": "DO",
-          "text": "Take a photo of every team."
         }
       ]
     },
@@ -213,17 +213,13 @@
       ],
       "rows": [
         {
+          "kind": "DO",
+          "text": "Print both pages and seal them in an envelope for the classroom door. Read the letters aloud to welcome Quest 2: The Sprinkle Overload."
+        },
+        {
           "kind": "MORE",
           "ref": "ccc-q01-celebrate-chewlandia-mail",
           "description": "Two-page read-aloud letter"
-        },
-        {
-          "kind": "DO",
-          "text": "Print both Chewlandia Mail pages. Place them in an envelope and arrange for it to arrive at the classroom door. Open it and read the letters aloud to welcome Quest 2: The Sprinkle Overload."
-        },
-        {
-          "kind": "ASK",
-          "text": "What do you think will happen in Quest 2?"
         }
       ]
     }
