@@ -521,8 +521,8 @@
     "pdf": {
       "renderer": "teacher_guide",
       "output": "05-plate-it-forward-teacher-guide.pdf",
-      "approved_md5": "81828f7be83208cb3f5db2b8ff8576d6",
-      "revision": "0fc79bd7e4ef4741e6708cba60b8b76a5b2fbd61"
+      "approved_md5": "03780072f45ddc4654cfaca3c23ba799",
+      "revision": "f88d36cc00f56308ddb4d299960760de6ea5245c"
     }
   },
   "ccc-q01-plate-it-forward-print-pack": {
