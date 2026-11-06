@@ -548,10 +548,11 @@
     }
   },
   "ccc-q01-celebrate-print-pack": {
-    "title": "Print Packet",
+    "title": "Build Print Pack",
     "type": "teacher_resource",
-    "published_url": "https://drive.google.com/drive/folders/1F_EWfnVNz9UzqcAqZcqphiGqapdhsGkG",
-    "holding_url": null
+    "published_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-celebrate",
+    "holding_url": null,
+    "human_reviewed_url": "https://print.littlechewz.workers.dev/lesson/ccc-q01-celebrate"
   },
   "ccc-q01-celebrate-school-playlist": {
     "title": "School Playlist",
