@@ -41,7 +41,7 @@
     },
     {
       "ref": "ccc-school-pass-instructions",
-      "description": "M and L, if using"
+      "description": "If using passports"
     }
   ],
   "prep_heading": "PRINT YOUR CHOICES",
@@ -64,8 +64,8 @@
       "label": "M",
       "title": "Full plate",
       "time": "15–20 MIN",
-      "text": "Add a passport entry and Chewlandia Mail.",
-      "steps": "Steps 1, 4, 5, 6"
+      "text": "Add Chewlandia Mail to welcome the next quest.",
+      "steps": "Steps 1, 4, 5"
     },
     {
       "label": "L",
@@ -156,7 +156,7 @@
     {
       "id": 4,
       "title": "Award the Quest Badge",
-      "mins": "5",
+      "mins": "5–10",
       "sizes": [
         "S",
         "M",
@@ -179,22 +179,7 @@
         },
         {
           "kind": "DO",
-          "text": "Add the badge to a passport, a notebook, or the success wall."
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Passport Entry",
-      "mins": "5–10",
-      "sizes": [
-        "M",
-        "L"
-      ],
-      "rows": [
-        {
-          "kind": "DO",
-          "text": "Complete the Quest One page and glue in the badge. Save the mission-complete page until all four quests are finished."
+          "text": "Glue the badge into the passport, a notebook, or onto the success wall. Save the passport's mission-complete page for the end of the mission."
         },
         {
           "kind": "MORE",
@@ -204,7 +189,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": 5,
       "title": "Chewlandia Mail",
       "mins": "5–10",
       "sizes": [
