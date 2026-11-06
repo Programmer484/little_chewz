@@ -16,7 +16,7 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
 | Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, builds and publication evidence | `catalog/resources.json` |
-| Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides), `option_overview` (choosing between options) and `welcome` (clean page style and quest navigation) |
+| Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides), `option_overview` (choosing between options), `celebrate` (end-of-quest Celebrate guide) and `welcome` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
 | Shared document generation | `scripts/renderers/` |
 | Generated PDFs | `exports/` only |
@@ -44,7 +44,7 @@ The folder category is the only audience/content classification. No `audience`, 
 ## Production workflows and delivery states
 
 Generation is inferred from the presence of `pdf` in `catalog/resources.json` (no redundant `production_type`, `pdf_template`, `source`, `build` or `url`). The object contains:
-- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion` or `welcome`. It is not the *template*. Every generated-PDF source declares its template (the content structure it follows) as its first key, `"template": "<name>"`, copied from `templates/<name>/TEMPLATE.json`. One renderer can serve several templates: `teacher_companion` builds both `teacher_companion` and `activity_guide` sources. `scripts/validate.py` (`TEMPLATE_RENDERER`) checks each source's template against its `pdf.renderer`.
+- `renderer`: the Python renderer that builds the PDF: `teacher_guide`, `teacher_companion`, `celebrate` or `welcome`. It is not the *template*. Every generated-PDF source declares its template (the content structure it follows) as its first key, `"template": "<name>"`, copied from `templates/<name>/TEMPLATE.json`. One renderer can serve several templates: `teacher_companion` builds both `teacher_companion` and `activity_guide` sources. `scripts/validate.py` (`TEMPLATE_RENDERER`) checks each source's template against its `pdf.renderer`.
 - `output`: registered PDF filename for guide/companion; alternatively `source`: explicit editable GitHub JSON path for the standalone Welcome renderer.
 - `approved_md5` and `revision`: written only after verifying that the official Drive bytes match the accepted GitHub-generated PDF. Keep the local MD5 as a **source baseline** in the handoff until then. A missing checksum is **unknown parity**; never infer equality from the official URL.
 

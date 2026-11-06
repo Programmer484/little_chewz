@@ -5,6 +5,7 @@
 | `renderers/teacher_guide.py` | Teacher Guide PDF layout | [EDITORIAL_GUIDE.md §7](../system/EDITORIAL_GUIDE.md#7-generator-engineering-boundaries) |
 | `renderers/teacher_companion.py` | Companion PDF layout | [RESOURCE_GUIDELINES.md](../system/RESOURCE_GUIDELINES.md#presentation) |
 | `renderers/welcome.py` | Welcome page style | [templates/welcome/README.md](../templates/welcome/README.md) |
+| `renderers/celebrate.py` | Celebrate Teacher Guide (invitation, party sizes, finale) | [templates/celebrate/README.md](../templates/celebrate/README.md) |
 | `select_builds.py`, `build_selected.py` | Explicit generated-PDF output mappings and previews | [Edit](../system/EDIT.md) |
 | `validate.py` | Objective source, template, and registry checks | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) |
 | `publication_state.py` | One derived publication-state rule and read-only resource/lesson reports (`python scripts/publication_state.py --lessons`) | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) |

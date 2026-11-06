@@ -26,9 +26,25 @@ allowed=set(actions['teacher_guide_actions']+actions['internal_row_types'])
 errors=[]; warnings=[]
 def check_ref(ref,source):
     if ref not in registry: errors.append(f'{source}: missing catalog resource ref {ref}')
+def celebrate_errors(doc):
+    """Lessons with "template": "celebrate" keep templates/celebrate/TEMPLATE.json's party sizes and finale."""
+    if doc.get('template')!='celebrate': return []
+    errs=[]
+    labels=[size.get('label') for size in doc.get('sizes',[])]
+    if not labels or len(labels)!=len(set(labels)) or not all(isinstance(x,str) and len(x)==1 for x in labels):
+        errs.append('celebrate guide needs party sizes with unique one-letter labels')
+    if not (doc.get('invitation') or {}).get('headline'):
+        errs.append('celebrate guide needs an invitation headline')
+    for step in doc.get('steps',[]):
+        unknown=set(step.get('sizes',[]))-set(labels)
+        if unknown: errs.append(f'celebrate step {step.get("id")} names undefined sizes {sorted(unknown)}')
+    count=(doc.get('finale') or {}).get('step_count',0)
+    if not isinstance(count,int) or isinstance(count,bool) or not 0<=count<len(doc.get('steps',[])):
+        errs.append('celebrate finale step_count must leave at least one Teaching Flow step')
+    return errs
 FOLDERS={'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}
 PDF_RENDERERS={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',
-               'welcome': 'welcome'}
+               'welcome': 'welcome', 'celebrate': 'teacher_guide'}
 FIELDS={'title', 'type', 'published_url', 'holding_url', 'pdf',
         'pdf_url', 'human_reviewed_url', 'print', 'dependencies'}
 for ref,item in registry.items():
@@ -87,7 +103,7 @@ for ref,item in registry.items():
                 errors.append(f'{ref}: PDF source must be a valid repository file')
         if renderer == 'welcome' and not source:
             errors.append(f'{ref}: Welcome renderer needs a source')
-        if renderer in {'teacher_guide','teacher_companion'} and not output:
+        if renderer in {'teacher_guide','teacher_companion','celebrate'} and not output:
             errors.append(f'{ref}: guide/companion needs an output mapping')
         approved=pdf.get('approved_md5')
         revision=pdf.get('revision')
@@ -243,6 +259,7 @@ for path in lesson_paths:
         if row.get('ref'): check_ref(row['ref'],path)
         for link in row.get('links',[]): check_ref(link['ref'],path)
     if ids!=list(range(1,len(ids)+1)): errors.append(f'{path}: step IDs not consecutive')
+    errors.extend(f'{path}: {e}' for e in celebrate_errors(d))
     if len(d.get('outcomes',[]))!=3: warnings.append(f'{path}: guide convention normally uses three outcomes')
 ACTIVITY_SECTIONS=('Before class','Choose one','How it runs','Tips')
 def activity_guide_errors(doc):
@@ -298,7 +315,8 @@ for ref,item in registry.items():
 # Content templates (the structure a source follows) and the renderer that builds each one.
 # One renderer may serve several templates; the catalogue records the renderer as pdf.renderer.
 TEMPLATE_RENDERER={'teacher_guide':'teacher_guide','teacher_companion':'teacher_companion',
-                   'activity_guide':'teacher_companion','option_overview':'teacher_companion','welcome':'welcome'}
+                   'activity_guide':'teacher_companion','option_overview':'teacher_companion','welcome':'welcome',
+                   'celebrate':'celebrate'}
 for folder in sorted(p for p in (R/'templates').glob('*') if (p/'TEMPLATE.json').is_file()):
     path=folder.relative_to(R)/'TEMPLATE.json'; doc=json.loads((R/path).read_text())
     if folder.name not in TEMPLATE_RENDERER:

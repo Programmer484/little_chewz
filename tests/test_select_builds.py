@@ -54,7 +54,7 @@ class SelectionTests(unittest.TestCase):
                 if (sb.ROOT / source).is_file():
                     expected[f"{lesson['folder']}-teacher-guide.pdf"] = source.as_posix()
         actual = {name: target['source'] for name, target in self.targets.items()
-                  if target['kind'] == 'teacher_guide'}
+                  if target['kind'] in ('teacher_guide', 'celebrate')}
         self.assertEqual(actual, expected)
         self.assertTrue(all('status' not in target for target in self.targets.values()))
         self.assertNotIn('status', sb.selection('all'))
@@ -85,7 +85,7 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(set(mapping), set(self.targets))
         for output, resource_id in mapping.items():
             self.assertEqual(self.targets[output]['resource_id'], resource_id)
-            self.assertIn(records[resource_id]['pdf']['renderer'], {'teacher_guide', 'teacher_companion', 'welcome'})
+            self.assertIn(records[resource_id]['pdf']['renderer'], {'teacher_guide', 'teacher_companion', 'welcome', 'celebrate'})
         self.assertTrue(all('pdf' not in item
                             for item in records.values() if item.get('pdf') is None))
 
@@ -109,14 +109,20 @@ class SelectionTests(unittest.TestCase):
             'templates/teacher_guide/TEMPLATE.json': set(),
             'templates/teacher_companion/TEMPLATE.json': set(),
             'templates/welcome/TEMPLATE.json': set(),
-            'templates/fonts/Lato-Regular.ttf': {'teacher_guide', 'teacher_companion'},
+            'templates/celebrate/TEMPLATE.json': set(),
+            'templates/fonts/Lato-Regular.ttf': {'teacher_guide', 'teacher_companion', 'celebrate'},
             'templates/welcome/assets/crest.png': {'welcome', 'teacher_companion'},
-            'templates/welcome/assets/little-chewz-logo.png': {'welcome'},
+            'templates/welcome/assets/little-chewz-logo.png': {'welcome', 'celebrate'},
             'templates/welcome/assets/fonts/Outfit-Regular.ttf': {'welcome'},
+            'templates/welcome/assets/fonts/Lobster-Regular.ttf': {'welcome', 'celebrate'},
+            'templates/celebrate/assets/celebrate-stamp.png': {'celebrate'},
         }
         for path, kinds in cases.items():
             with self.subTest(path=path):
                 expected = sorted(n for n, t in self.targets.items() if t['kind'] in kinds)
+                if kinds and not expected:
+                    # No source uses this renderer yet: its assets are unattributed, so rebuild all.
+                    expected = sorted(self.targets)
                 self.assertEqual(sb.select([path]), expected)
 
     def test_draft_validation_catches_invalid_inputs(self):
