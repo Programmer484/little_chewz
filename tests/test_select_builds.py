@@ -120,6 +120,9 @@ class SelectionTests(unittest.TestCase):
         for path, kinds in cases.items():
             with self.subTest(path=path):
                 expected = sorted(n for n, t in self.targets.items() if t['kind'] in kinds)
+                if kinds and not expected:
+                    # No source uses this renderer yet: its assets are unattributed, so rebuild all.
+                    expected = sorted(self.targets)
                 self.assertEqual(sb.select([path]), expected)
 
     def test_draft_validation_catches_invalid_inputs(self):
