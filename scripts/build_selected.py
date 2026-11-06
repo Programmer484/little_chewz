@@ -37,6 +37,11 @@ def render(manifest, release=False):
                    "--output", str(output)]
             if release:
                 cmd.append("--release")
+        elif registered[name]["kind"] == "celebrate":
+            cmd = [sys.executable, str(ROOT / "scripts/renderers/celebrate.py"),
+                   str(source), "--root", str(ROOT), "--output", str(output)]
+            if release:
+                cmd.append("--release")
         elif registered[name]["kind"] == "teacher_companion":
             cmd = [sys.executable, str(ROOT / "scripts/renderers/teacher_companion.py"),
                    str(source), "-o", str(output), "--registry",
@@ -59,7 +64,7 @@ def render(manifest, release=False):
             for link in links:
                 if link["kind"] == fitz.LINK_URI and not link.get("uri", "").startswith("https://"):
                     raise ValueError(f"Invalid external link in {name}: {link}")
-            if registered[name]["kind"] == "teacher_guide" and not any(link["kind"] == fitz.LINK_URI for link in links):
+            if registered[name]["kind"] in ("teacher_guide", "celebrate") and not any(link["kind"] == fitz.LINK_URI for link in links):
                 raise ValueError(f"Guide lost resource hyperlinks: {name}")
             print(f"PASS {name}: {pdf.page_count} pages, {len(links)} links, {file.stat().st_size} bytes")
     if not names:

@@ -48,7 +48,7 @@ def unpublished_dependencies(resource_id: str, registry: dict, source_targets=No
 
 def unpublished_references(target: dict, registry: dict) -> list[str]:
     """Backwards-compatible generated-source check with human-friendly details."""
-    if target.get("kind") not in {"teacher_guide", "teacher_companion", "welcome"}:
+    if target.get("kind") not in {"teacher_guide", "teacher_companion", "welcome", "celebrate"}:
         return []
     return [f"{rid} ({publication_status(registry.get(rid)) if rid in registry else 'missing'})"
             for rid in sorted(referenced_resources(target))

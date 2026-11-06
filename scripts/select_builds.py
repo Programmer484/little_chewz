@@ -67,8 +67,10 @@ def targets():
             name = f"{lesson['folder']}-teacher-guide.pdf"
             if name in result:
                 raise ValueError(f'Duplicate output: {name}')
+            # Lessons build with the Teacher Guide renderer unless their template has its own.
+            kind = 'celebrate' if data.get('template') == 'celebrate' else 'teacher_guide'
             result[name] = dict(
-                source=source.as_posix(), kind='teacher_guide',
+                source=source.as_posix(), kind=kind,
                 data=data, cover=(folder / data['cover']).as_posix()
             )
         for source in sorted((ROOT / root / 'resources/teacher_companion').glob('*.json')):

@@ -67,7 +67,7 @@ def check_entry(resource_id: str, entry: dict | None) -> tuple[str, dict]:
     if not entry.get("published_url"):
         raise PublishError(f"{resource_id} has no established official destination; initial publication is agent-managed")
     pdf = entry.get("pdf")
-    if not isinstance(pdf, dict) or pdf.get("renderer") not in {"teacher_guide", "teacher_companion", "welcome"}:
+    if not isinstance(pdf, dict) or pdf.get("renderer") not in {"teacher_guide", "teacher_companion", "welcome", "celebrate"}:
         raise PublishError(f"{resource_id} is external or lacks PDF generation metadata")
     if not (pdf.get("source") or pdf.get("output")):
         raise PublishError(f"{resource_id} has no PDF build source/output")

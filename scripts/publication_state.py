@@ -92,7 +92,7 @@ def lesson_status_report(registry: dict, quest_index: dict, read_quest, builder=
     guides = {}
     for rid, resource in registry.items():
         build = resource.get("pdf") or {}
-        output = build.get("output") if build.get("renderer") == "teacher_guide" else None
+        output = build.get("output") if build.get("renderer") in ("teacher_guide", "celebrate") else None
         if output:
             if output in guides:
                 raise ValueError(f"Duplicate generated PDF output: {output}")

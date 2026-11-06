@@ -1,0 +1,60 @@
+{
+  "template": "celebrate",
+  "key": "celebrate",
+  "title": "CELEBRATE",
+  "grade": "4–6",
+  "duration": "5–45 minutes",
+  "print_note": "Print only your choices",
+  "invitation": {
+    "headline": "You're invited to celebrate",
+    "rows": [
+      ["When", "After Part 5, or at the end of the mission"],
+      ["How long", "You chewz: 5, 15, or 45 minutes"],
+      ["Must-do", "Award the quest badge"]
+    ]
+  },
+  "goal": "One sentence: what this celebration recognizes.",
+  "outcomes": [
+    "Observable student outcome one.",
+    "Observable student outcome two.",
+    "Observable student outcome three."
+  ],
+  "focus": "One short teaching priority.",
+  "curriculum": ["Health / SEL", "English Language Arts", "Arts"],
+  "size_intro": "Every size ends with the quest badge. Choose before class so you print only what you need.",
+  "sizes": [
+    {"label": "S", "title": "Small bite", "time": "5–10 MIN", "text": "What the short celebration includes.", "steps": "Steps 1, 2"},
+    {"label": "M", "title": "Full plate", "time": "15–20 MIN", "text": "What the medium size adds.", "steps": "Steps 1, 2, 3"},
+    {"label": "L", "title": "The whole party", "time": "30–45 MIN", "text": "What the full party adds.", "steps": "Every step"}
+  ],
+  "size_tip": "",
+  "core": [
+    {"ref": "REPLACE-WITH-SLIDES-ID", "description": "Slides 1–N"}
+  ],
+  "optional_prep": [],
+  "prep_heading": "PREPARE YOUR CHOICES",
+  "spot_art": {
+    "images": [],
+    "caption": ""
+  },
+  "cover": "cover.pdf",
+  "steps": [
+    {
+      "id": 1,
+      "title": "Step Title",
+      "mins": "5",
+      "sizes": ["S", "M", "L"],
+      "rows": [
+        {"kind": "SHOW", "text": "Slide N — What to show."},
+        {"kind": "DO", "text": "One concrete classroom direction."}
+      ]
+    }
+  ],
+  "finale": {
+    "headline": "Mission complete",
+    "kicker": "MISSION NAME · QUEST NUMBER",
+    "badge": "",
+    "line": "",
+    "step_count": 0
+  }
+}
