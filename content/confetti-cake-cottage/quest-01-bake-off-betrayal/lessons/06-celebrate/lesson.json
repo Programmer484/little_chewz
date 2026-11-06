@@ -139,12 +139,21 @@
     },
     {
       "id": 6,
-      "title": "Close or Continue",
-      "mins": "OPTIONAL",
+      "title": "Chewlandia Mail",
+      "mins": "5–10",
       "rows": [
         {
+          "kind": "MORE",
+          "ref": "ccc-q01-celebrate-chewlandia-mail",
+          "description": "Two-page read-aloud letter"
+        },
+        {
           "kind": "DO",
-          "text": "Quest One can end here. When continuing, read the next-quest letter together."
+          "text": "Print both Chewlandia Mail pages. Place them in an envelope and arrange for it to arrive at the classroom door. Open it and read the letters aloud to welcome Quest 2: The Sprinkle Overload."
+        },
+        {
+          "kind": "ASK",
+          "text": "What do you think will happen in Quest 2?"
         }
       ]
     }
