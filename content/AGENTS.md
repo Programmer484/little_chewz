@@ -7,7 +7,6 @@ Follow the relevant guide below for the file being edited. Source JSON carries c
 | `<school>/<quest>/quest.json` | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md#production-workflows-and-delivery-states). It owns the ordered lesson list and quest facts, not publication status. Derive each lesson's state from its registered Teacher Guide resource. |
 | `lessons/<stage>/lesson.json` | [EDITORIAL_GUIDE.md](../system/EDITORIAL_GUIDE.md), then [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md) |
 | `resources/teacher_companion/*.json` | [RESOURCE_GUIDELINES.md](../system/RESOURCE_GUIDELINES.md) |
-| `story/*.md` | [CONTENT_CONTRACT.md](../system/CONTENT_CONTRACT.md); approved text only, wording preserved |
 | `welcome/` (registry-built documents) | [templates/welcome/README.md](../templates/welcome/README.md) |
 | Lesson slides (Drive PDFs, not stored here) | [SLIDE_CONVERSION.md](../system/SLIDE_CONVERSION.md) |
 | Covers, icons, artwork | [Asset rules](../system/CONTENT_CONTRACT.md#resources-slides-and-assets): separate image files, covers as cut `cover.pdf` |

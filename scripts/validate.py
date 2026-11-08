@@ -305,9 +305,6 @@ for path in R.glob('content/**/resources/**/*.json'):
     if not has_official_version(registry.get(d.get('resource_id'), {})):
         warnings.append(f'{path.name}: unpublished companion; preview only')
     errors.extend(f'{path}: {e}' for e in activity_guide_errors(d))
-for path in R.glob('content/**/story/*.md'):
-    if not path.read_text().startswith('---\n'):
-        errors.append(f'{path}: missing story frontmatter')
 for ref,item in registry.items():
     build=item.get('pdf') or {}
     if build.get('source'):
