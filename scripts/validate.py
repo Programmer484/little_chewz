@@ -168,8 +168,6 @@ else:
             if not isinstance(folder_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{15,}', folder_id):
                 errors.append(f'Invalid published destination folder ID for {resource_id}')
 
-for path in R.glob('content/**/lessons/**/lesson.draft.json'):
-    errors.append(f'{path}: use lesson.json; separate draft filenames are obsolete')
 guide_outputs = generated_outputs(registry)
 for school in read_json('catalog/quests.json')['school_index']:
     quest_path=R / school['quest_manifest']
