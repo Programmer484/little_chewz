@@ -218,6 +218,9 @@ class Guide:
             count = finale.get('step_count', 0)
             if not isinstance(count, int) or isinstance(count, bool) or not 0 <= count < len(d['steps']):
                 raise ValueError(f'{self.path}: finale step_count must leave at least one Teaching Flow step')
+            note = finale.get('teacher_note')
+            if note is not None and not all(isinstance(note, dict) and note.get(k) for k in ('label', 'headline', 'text', 'ref')):
+                raise ValueError(f'{self.path}: finale teacher_note needs label, headline, text and ref')
 
     def resolve(self, item):
         ref = item['ref']
@@ -482,12 +485,41 @@ class Guide:
         for step in self.finale_steps:
             rule = last + GAP + 2; p.rule(rule)
             last = self.draw_step(p, step, rule + GAP)
+        if f.get('teacher_note'):
+            last = self.teacher_note(p, f['teacher_note'], last + GAP + 4)
         with Image.open(LOGO) as im:
             lw, lh = im.size
         logo_h, logo_top = 46., 762.
         if last + 20 > logo_top:
             raise LayoutError(f'Finale content reaches the logo at {last:.1f}; move a step back to Teaching Flow')
         p.image(LOGO, (W - lw * logo_h / lh) / 2, logo_top, height=logo_h)
+
+    def teacher_note(self, p, note, top):
+        """Tinted teacher-only card under the finale steps: label, headline, text, one link."""
+        pad_x, pad_top, pad_bottom = 20., 17., 17.
+        x, width = L + pad_x, PAGE_W - 2 * pad_x
+
+        def body(page):
+            b = page.text(note['label'].upper(), x, cap_to_base(top + pad_top, 8.6), 8.6, 'heavy', ACCENT)
+            b = page.lines(note['headline'], x, b + 21, width, 12.6, 17., 'bold')
+            b = page.lines(note['text'], x, b + 19, width, 10.6, 15.5)
+            name, url = self.resolve(note)
+            name = note.get('link_text') or name
+            arrow = '  →'
+            b += 23
+            name_w = tw(name, 10.9, 'semibold')
+            page.text(name, x, b, 10.9, 'semibold', BLACK, x + width)
+            page.rule(b + 2.2, x, x + name_w, BLACK, .5)
+            page.text(arrow, x + name_w, b, 10.9, 'semibold', ACCENT, x + width)
+            page.link(url, x, b - 10.9, x + name_w + tw(arrow, 10.9, 'semibold'), b + 4)
+            return b
+
+        bottom = body(Page()) + pad_bottom
+        if p.c:
+            p.c.setFillColorRGB(*TINT)
+            p.c.roundRect(L, H - bottom, PAGE_W, bottom - top, 9, stroke=0, fill=1)
+        body(p)
+        return bottom
 
     # -- document ----------------------------------------------------------
     def render(self, output: Path):

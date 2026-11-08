@@ -87,6 +87,19 @@ class CelebrateRendererTests(unittest.TestCase):
         self.assertEqual(pages, 3)
         self.assertIn('01 / 03', pdf.pages[0].extract_text())
 
+    def test_finale_teacher_note_renders_with_its_link(self):
+        survey = 'ccc-q01-post-pilot-survey'
+        data = lesson()
+        data['finale']['teacher_note'] = {'label': 'Pilot teachers · One final step', 'headline': 'Thank you!',
+                                          'text': 'Please share your experience.', 'ref': survey,
+                                          'link_text': 'Complete the Survey'}
+        pdf, _ = self.render(data)
+        text = pdf.pages[4].extract_text()
+        self.assertIn('PILOT TEACHERS', text)
+        self.assertIn('Complete the Survey', text)
+        uris = {annot.get_object()['/A']['/URI'] for annot in pdf.pages[4].get('/Annots') or []}
+        self.assertIn(self.registry[survey]['url'], uris)
+
     def test_source_errors_fail_loudly(self):
         cases = {
             'undefined sizes': lambda d: d['steps'][0].update(sizes=['XL']),
@@ -94,6 +107,7 @@ class CelebrateRendererTests(unittest.TestCase):
             'unknown resource': lambda d: d['core'].append({'ref': 'not-a-resource'}),
             'action label': lambda d: d['steps'][0]['rows'].append({'kind': 'NOTE', 'text': 'x'}),
             'consecutive': lambda d: d['steps'][1].update(id=7),
+            'teacher_note': lambda d: d['finale'].update(teacher_note={'label': 'x', 'ref': SLIDES}),
         }
         for message, mutate in cases.items():
             with self.subTest(message=message):
