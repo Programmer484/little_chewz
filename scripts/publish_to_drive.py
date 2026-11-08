@@ -7,8 +7,10 @@ The registry entry in catalog/resources.json names the Drive destination
     "pdf": {"renderer": "welcome", "source": "content/.../welcome.json"}
     "pdf": {"renderer": "teacher_guide", "output": "00-activate-teacher-guide.pdf"}   # select_builds target
 
-Only an explicit human publish instruction authorizes running this helper.
-It has no GitHub Action trigger and is not a publication audit.
+Only an explicit human publish instruction authorizes running this helper:
+an agent run, Actions -> Publish (named IDs), or a merged PR that added a
+release marker .github/resource-releases/<PR>.json ({"resource_ids": [...]}).
+It is not a publication audit.
 Publishing replaces the file's contents through the Drive API, so the file
 ID, link, name, folder, and sharing stay the same and Drive keeps the old
 version in its history. After Drive reports the same MD5 as the local PDF,
@@ -20,7 +22,10 @@ the service account's email as an Editor.
 
 Usage:
     python scripts/publish_to_drive.py ccc-q01-welcome --dry-run
-    python scripts/publish_to_drive.py ccc-q01-welcome
+    python scripts/publish_to_drive.py ccc-q01-welcome ccc-q01-activate-teacher-guide
+    python scripts/publish_to_drive.py --marker .github/resource-releases/160.json
+
+Several IDs publish in the order given and stop at the first failure.
 """
 from __future__ import annotations
 
@@ -40,6 +45,7 @@ REGISTRY = ROOT / "catalog" / "resources.json"
 OUT = ROOT / "exports" / "publish"
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 DRIVE_ID = re.compile(r"/d/([A-Za-z0-9_-]{20,})")
+RESOURCE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
 class PublishError(Exception):
@@ -218,32 +224,72 @@ def publish(resource_id: str, dry_run: bool = False, service=None,
     return report
 
 
+def parse_ids(values: list[str]) -> list[str]:
+    """Accept space- or comma-separated IDs; reject malformed or repeated IDs."""
+    ids = [part for value in values for part in re.split(r"[\s,]+", value) if part]
+    bad = [i for i in ids if not RESOURCE_ID.fullmatch(i)]
+    if bad:
+        raise PublishError(f"Malformed resource IDs: {', '.join(bad)}")
+    if len(ids) != len(set(ids)):
+        raise PublishError("Each resource ID may appear only once")
+    if not ids:
+        raise PublishError("No resource IDs given")
+    return ids
+
+
+def marker_ids(marker: Path) -> list[str]:
+    """Resource IDs authorized by a merged PR's release marker."""
+    try:
+        document = json.loads(marker.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise PublishError(f"Unreadable release marker {marker}: {exc}") from exc
+    ids = document.get("resource_ids") if isinstance(document, dict) else None
+    if not isinstance(ids, list) or not all(isinstance(i, str) for i in ids):
+        raise PublishError(f"{marker}: expected {{\"resource_ids\": [\"...\"]}}")
+    return parse_ids(ids)
+
+
+def publish_many(ids: list[str], dry_run: bool = False,
+                 expected_revision: str | None = None, **kwargs) -> list[dict]:
+    """Publish in order; stop at the first failure so dependants never go out alone."""
+    reports = []
+    for resource_id in ids:
+        try:
+            reports.append(publish(resource_id, dry_run=dry_run,
+                                   expected_revision=expected_revision, **kwargs))
+        except (PublishError, subprocess.CalledProcessError) as exc:
+            reason = (f"build step exited with {exc.returncode}"
+                      if isinstance(exc, subprocess.CalledProcessError) else str(exc))
+            reports.append({"resource_id": resource_id, "result": "FAILED", "error": reason})
+            remaining = ids[len(reports):]
+            if remaining:
+                reports.append({"result": "not attempted", "resource_ids": remaining})
+            break
+    return reports
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("resource_id", help="registry ID, for example ccc-q01-welcome")
+    parser.add_argument("resource_ids", nargs="*",
+                        help="registry IDs, for example ccc-q01-welcome (space or comma separated)")
+    parser.add_argument("--marker", type=Path, help="publish the IDs listed in a release marker")
     parser.add_argument("--dry-run", action="store_true", help="build and check access without uploading")
     parser.add_argument("--expected-revision", help="Reject a stale or unexpected main HEAD")
     parser.add_argument("--result-json", type=Path, help="Write verified publication report as JSON")
     args = parser.parse_args()
     try:
-        report = publish(args.resource_id, dry_run=args.dry_run,
-                         expected_revision=args.expected_revision)
-        if args.result_json:
-            args.result_json.parent.mkdir(parents=True, exist_ok=True)
-            args.result_json.write_text(json.dumps(report, indent=2) + "\n")
-    except subprocess.CalledProcessError as exc:
-        print(f"PUBLISH FAILED: build step exited with {exc.returncode}; see the error above", file=sys.stderr)
-        sys.exit(1)
+        ids = marker_ids(args.marker) if args.marker else parse_ids(args.resource_ids)
     except PublishError as exc:
         print(f"PUBLISH FAILED: {exc}", file=sys.stderr)
         sys.exit(1)
-    print(json.dumps(report, indent=2))
-    summary = os.environ.get("GITHUB_STEP_SUMMARY")
-    if summary:
-        with open(summary, "a", encoding="utf-8") as fh:
-            fh.write(f"### Drive publish: `{report['resource_id']}`\n\n")
-            for key, value in report.items():
-                fh.write(f"- **{key}**: {value}\n")
+    reports = publish_many(ids, dry_run=args.dry_run, expected_revision=args.expected_revision)
+    if args.result_json:
+        args.result_json.parent.mkdir(parents=True, exist_ok=True)
+        args.result_json.write_text(json.dumps(reports, indent=2) + "\n")
+    print(json.dumps(reports, indent=2))
+    if any(r.get("result") == "FAILED" for r in reports):
+        print("PUBLISH FAILED: see the report above; later IDs were not attempted", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

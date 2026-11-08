@@ -22,6 +22,6 @@ The Canva originals (Better Faster, Glacial Indifference) are only partially emb
 
 ## Status and builds
 
-A document using this style is registered in `catalog/resources.json` with `"pdf": {"renderer": "welcome", "source": "<path to its JSON>"}`; its editable JSON declares `"template": "welcome"`. The preview output is `<resource-id>.pdf`. The selector finds local file references in the JSON automatically, rebuilds for renderer/shared-asset changes, and safely rebuilds when an input cannot be attributed. The same renderer feeds **Publish to Drive** ([PUBLISH.md](../../system/PUBLISH.md)); rendering alone never publishes.
+A document using this style is registered in `catalog/resources.json` with `"pdf": {"renderer": "welcome", "source": "<path to its JSON>"}`; its editable JSON declares `"template": "welcome"`. The preview output is `<resource-id>.pdf`. The selector finds local file references in the JSON automatically, rebuilds for renderer/shared-asset changes, and safely rebuilds when an input cannot be attributed. The same renderer feeds **Actions → Publish** ([PUBLISH.md](../../system/PUBLISH.md)); rendering alone never publishes.
 
 Current consumer: the Quest One Welcome PDF (`ccc-q01-welcome`).
