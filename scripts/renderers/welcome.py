@@ -12,6 +12,8 @@ pages; each page has a header (mark, eyebrow, title) and blocks:
   paragraphs  optional coral label plus paragraphs
   list        numbered rows: title, text, optional note {label, text}
   callout     coral bar with a short statement and optional subtext
+  founder     round portrait (an image file in templates/welcome/assets/),
+              name, credential lines, signed letter, contact rows
   nav         quest navigation rows; each row links to a registry
               resource (catalog/resources.json) when a live Drive version exists (published or
               pending_publish), otherwise shows the pending label
@@ -282,9 +284,73 @@ def block_nav(c, b, y, flex, registry):
             c.linkURL(url, (MARGIN - 8, bottom + 3, right + 8, top - 3), relative=0, thickness=0)
         else:
             spaced(c, right, mid - 4, pending, BODY, 8.5, 1.3, MUTED, align="right")
-        hairline(c, bottom)
+        if item is not b["items"][-1]:  # the footer rule closes the last row
+            hairline(c, bottom)
         y = bottom
     return y - 2
+
+
+PHOTO = 112  # founder portrait diameter
+
+
+def block_founder(c, b, y, flex):
+    """Founder note: round portrait beside name and credentials, then a
+    signed letter and contact rows (an optional https `url` makes a row
+    clickable; the builder rejects other link schemes). The portrait is a separate image file in
+    templates/welcome/assets/ (b["photo"] names it)."""
+    top = y - 4
+    cx, cy, r = MARGIN + PHOTO / 2, top - PHOTO / 2, PHOTO / 2
+    c.saveState()
+    clip = c.beginPath()
+    clip.circle(cx, cy, r)
+    c.clipPath(clip, stroke=0, fill=0)
+    c.drawImage(ImageReader(str(ASSETS / b["photo"])), MARGIN, top - PHOTO, PHOTO, PHOTO)
+    c.restoreState()
+    c.setStrokeColor(CORAL)
+    c.setLineWidth(2.2)
+    c.circle(cx, cy, r - 1.1, stroke=1, fill=0)
+
+    # Name and credential lines, centred vertically against the portrait.
+    tx = MARGIN + PHOTO + 26
+    tw_ = PAGE_W - MARGIN - tx
+    lines = [ln for line in b.get("credentials", []) for ln in wrap(line, BODY, 10.5, tw_)]
+    block_h = 30 + 8 + len(lines) * 15
+    base = cy + block_h / 2 - 26
+    c.setFillColor(INK)
+    c.setFont(HEADLINE, 30)
+    c.drawString(tx, base, b["name"])
+    c.setFont(BODY, 10.5)
+    c.setFillColor(MUTED)
+    for i, line in enumerate(lines):
+        c.drawString(tx, base - 24 - i * 15, line)
+
+    y = top - PHOTO - 14 - flex * 0.5
+    for i, para in enumerate(b.get("paragraphs", [])):
+        if i:
+            y -= 9 + flex * 0.3
+        last = text_block(c, MARGIN, y - 12, para, BODY, 11.5, 16.5, CONTENT_W, BODY_INK)
+        y = last - 4
+    if b.get("signature"):
+        c.setFillColor(CORAL)
+        c.setFont(HEADLINE, 30)
+        c.drawString(MARGIN, y - 34, b["signature"])
+        y -= 34 + 8
+    contact = b.get("contact", [])
+    if contact:
+        y -= 14 + flex * 0.3
+        hairline(c, y)
+        for row in contact:
+            y -= 22
+            lw = spaced(c, MARGIN, y, row["label"].upper(), BOLD, 8.5, 1.3, CORAL)
+            x = MARGIN + max(lw + 12, 150)
+            c.setFillColor(INK)
+            c.setFont(BOLD, 11.5)
+            c.drawString(x, y, row["text"])
+            if row.get("url"):
+                w = width(row["text"], BOLD, 11.5)
+                c.linkURL(row["url"], (x, y - 4, x + w, y + 12), relative=0, thickness=0)
+        y -= 6
+    return y
 
 
 BLOCKS = {
@@ -292,6 +358,7 @@ BLOCKS = {
     "paragraphs": block_paragraphs,
     "list": block_list,
     "callout": block_callout,
+    "founder": block_founder,
 }
 
 

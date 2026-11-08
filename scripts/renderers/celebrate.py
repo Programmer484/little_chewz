@@ -39,6 +39,7 @@ from reportlab.pdfgen import canvas
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from resource_links import resolved_registry  # noqa: E402
+from notices import CLASSROOM_NOTICE  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[2]
 LATO = REPO / 'templates' / 'fonts'
@@ -78,6 +79,7 @@ STEP_NUM, STEP_TITLE, STEP_TITLE_LH = 17.5, 15.5, 19.
 TIME_SIZE = 9.2
 CHIP_R, CHIP_STEP = 6.6, 16.5
 FLOW_FIRST_CAP, FLOW_LIMIT, CUE_BASELINE, PAGE_LIMIT = HDR_RULE + 30., 772., 800., 806.
+NOTICE_BASELINE = 816.
 
 
 class LayoutError(ValueError):
@@ -241,6 +243,9 @@ class Guide:
                 p.c.setFillColorRGB(*colour); p.c.rect(i * seg, H - BAND_H, seg + .5, BAND_H, stroke=0, fill=1)
         counter = f'{number:02d} / {total:02d}'
         p.text(counter, R - tw(counter, 9.1, 'semibold'), HDR_EYEBROW, 9.1, 'semibold', MID)
+        if p.c:  # copyright line below PAGE_LIMIT, outside the content area
+            p.c.setFillColorRGB(*MID); p.c.setFont(font('regular'), 7.4)
+            p.c.drawString(L, H - NOTICE_BASELINE, CLASSROOM_NOTICE)
         if title:
             p.text(eyebrow, L, HDR_EYEBROW, 9.1, 'heavy', MID, R - 60)
             size = min(24., PAGE_W / tw(title, 24., 'heavy') * 24.)

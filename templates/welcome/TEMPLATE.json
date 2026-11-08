@@ -1,9 +1,25 @@
 {
   "template": "welcome",
   "title": "Untitled Document",
-  "footer": "CONFETTI FILE  •  CCC-2025",
+  "footer": "CONFETTI FILE  •  CCC-2026",
   "cover": "cover.pdf",
   "pages": [
+    {
+      "mark": "logo",
+      "eyebrow": "Section context",
+      "title": "A Note from the Founder",
+      "blocks": [
+        {
+          "type": "founder",
+          "photo": "lisa-trout.jpg",
+          "name": "Founder Name",
+          "credentials": ["Founder of Little Chewz", "Teacher  ·  Author"],
+          "paragraphs": ["Letter paragraph."],
+          "signature": "First name",
+          "contact": [{"label": "Email", "text": "name@littlechewz.ca"}]
+        }
+      ]
+    },
     {
       "mark": "crest",
       "eyebrow": "Section context",

@@ -15,6 +15,7 @@ or LITTLE_CHEWZ_FONT_DIR points elsewhere.
 from __future__ import annotations
 import argparse
 from resource_links import resolved_registry
+from notices import CLASSROOM_NOTICE
 import json
 import os
 from pathlib import Path
@@ -136,6 +137,7 @@ OPTION_RULE=(.87,.85,.83)
 FLOW_FIRST_CAP=HDR_RULE+30.    # cap-top of the first step on a flow page
 FLOW_LIMIT=772.                # last allowed content baseline on a flow page
 CUE_BASELINE=800.
+NOTICE_BASELINE=816.             # copyright line: the lowest baseline txt() allows
 
 def line(p,y,x=L,x2=R,c=SOFT,thick=.6):
     if p is not None:p.draw_line((x,y),(x2,y),color=c,width=thick)
@@ -490,6 +492,7 @@ def build(content:Path,registry:dict,output:Path|None=None):
     for pn in range(1,len(doc)):
         p=doc[pn];counter=f'{pn+1:02d} / {len(doc):02d}'
         at(p,counter,R-tw(counter,9.1,'semibold'),HDR_EYEBROW,9.1,'semibold',MID)
+        at(p,CLASSROOM_NOTICE,L,NOTICE_BASELINE,7.4,'regular',MID)
     doc.set_metadata({'title':'Little Chewz | '+d['title'],'creator':'Little Chewz reusable PyMuPDF teacher template'})
     doc.subset_fonts()
     doc.save(out,garbage=4,deflate=True,no_new_id=True)  # Do not generate a run-specific PDF ID.
