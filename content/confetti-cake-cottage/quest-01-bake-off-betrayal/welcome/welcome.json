@@ -1,9 +1,45 @@
 {
   "template": "welcome",
   "title": "Confetti Cake Cottage School: Restore the Sparkle",
-  "footer": "CONFETTI FILE  •  CCC-2025",
+  "footer": "CONFETTI FILE  •  CCC-2026",
   "cover": "cover.pdf",
   "pages": [
+    {
+      "mark": "logo",
+      "eyebrow": "Little Chewz Pilot",
+      "title": "A Note from Lisa",
+      "blocks": [
+        {
+          "type": "founder",
+          "photo": "lisa-trout.jpg",
+          "name": "Lisa Trout",
+          "credentials": [
+            "Founder of Little Chewz and The Shared Experience Method™",
+            "Teacher  ·  Author  ·  Health Coach",
+            "Based in Canada"
+          ],
+          "paragraphs": [
+            "Hi, I'm Lisa! After 20 years of teaching in Alberta classrooms, I created Little Chewz because I believe belonging begins with shared experiences.",
+            "Food, storytelling, and creative activities bring students together in ways that spark conversation, curiosity, and connection. Through these meaningful moments, children naturally practice collaboration, empathy, and playful thinking while building a classroom culture where everyone feels they belong.",
+            "Thank you for being one of our very first pilot classrooms! Your feedback will help shape what Little Chewz becomes, so please tell us what works, what doesn't, and what your students loved.",
+            "I hope you find this resource useful in your classroom. Reach out anytime if you have questions or comments!"
+          ],
+          "signature": "Lisa",
+          "contact": [
+            {
+              "label": "Email",
+              "text": "lisa@littlechewz.ca",
+              "url": "mailto:lisa@littlechewz.ca"
+            },
+            {
+              "label": "Website",
+              "text": "littlechewz.ca",
+              "url": "https://www.littlechewz.ca/"
+            }
+          ]
+        }
+      ]
+    },
     {
       "mark": "crest",
       "eyebrow": "Confetti Cake Cottage School",
@@ -279,6 +315,35 @@
               "title": "Next Quest or Mission",
               "resource": null
             }
+          ]
+        }
+      ]
+    },
+    {
+      "mark": "logo",
+      "eyebrow": "Little Chewz Pilot",
+      "title": "Using These Materials",
+      "blocks": [
+        {
+          "type": "paragraphs",
+          "label": "Your Pilot License",
+          "paragraphs": [
+            "This pilot edition is provided free for use with your own students during the Little Chewz pilot. You may print and copy student pages for your class and share them in your class's private online space, such as Google Classroom.",
+            "Please don't share, sell, or post any part of it publicly or with other teachers."
+          ]
+        },
+        {
+          "type": "paragraphs",
+          "label": "Sharing With a Colleague?",
+          "paragraphs": [
+            "If a colleague would like to try Little Chewz, send them to www.littlechewz.ca and we'll get them set up."
+          ]
+        },
+        {
+          "type": "paragraphs",
+          "label": "Copyright",
+          "paragraphs": [
+            "© 2026 Little Chewz. All rights reserved."
           ]
         }
       ]

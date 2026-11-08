@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 
 from resource_links import resolved_registry
+from notices import CLASSROOM_NOTICE
 from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.utils import ImageReader, simpleSplit
@@ -567,7 +568,7 @@ def generator(data, output, registry=None, release=False):
             tracked(c, L, PAGE_H - 40, f"{label}  ·  {title.upper()}", "LC-Heavy", 7.6, accent, 1.0)
             c.setStrokeColor(HAIR); c.setLineWidth(0.6); c.line(L, PAGE_H - 50, R, PAGE_H - 50)
         c.setStrokeColor(HAIR); c.setLineWidth(0.5); c.line(L, 40, R, 40)
-        tracked(c, L, 27, "LITTLE CHEWZ  ·  CHEWLANDIA ACADEMY", "LC-Bold", 6.8, MID, 1.0)
+        tracked(c, L, 27, CLASSROOM_NOTICE.upper(), "LC-Bold", 6.8, MID, 1.0)
         tracked(c, R, 27, f"{page} / {total}", "LC-Bold", 6.8, MID, 1.0, right=True)
 
     def background(c, doc):

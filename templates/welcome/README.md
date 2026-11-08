@@ -2,9 +2,9 @@
 
 A left-aligned A4 page style for Little Chewz documents, matching the Confetti Cake Cottage School look: cream page, crest or Little Chewz logo, brush headline, coral numbers and labels, hairline dividers. It includes a quest navigation page that links each stage to its Teacher Guide.
 
-- `TEMPLATE.json`: skeleton document showing every block type (`lede`, `paragraphs`, `list`, `callout`, `nav`).
+- `TEMPLATE.json`: skeleton document showing every block type (`lede`, `paragraphs`, `list`, `callout`, `founder`, `nav`).
 - Renderer: [`scripts/renderers/welcome.py`](../../scripts/renderers/welcome.py), with ReportLab and pypdf. Each page's spacing stretches to fill the page; a page that overflows fails loudly.
-- `assets/`: school crest and Little Chewz logo (extracted from the Welcome PDF) and open-licensed fonts. New artwork goes here as separate files, never as a pre-rendered full page ([asset rule](../../system/CONTENT_CONTRACT.md#resources-slides-and-assets)).
+- `assets/`: school crest, Little Chewz logo and founder portrait (`lisa-trout.jpg`, used by the `founder` block's `photo`), extracted from the original Welcome PDF, and open-licensed fonts. New artwork goes here as separate files, never as a pre-rendered full page ([asset rule](../../system/CONTENT_CONTRACT.md#resources-slides-and-assets)).
 
 ```bash
 python scripts/renderers/welcome.py \
