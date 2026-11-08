@@ -294,7 +294,8 @@ PHOTO = 112  # founder portrait diameter
 
 def block_founder(c, b, y, flex):
     """Founder note: round portrait beside name and credentials, then a
-    signed letter and contact rows. The portrait is a separate image file in
+    signed letter and contact rows (an optional https `url` makes a row
+    clickable; the builder rejects other link schemes). The portrait is a separate image file in
     templates/welcome/assets/ (b["photo"] names it)."""
     top = y - 4
     cx, cy, r = MARGIN + PHOTO / 2, top - PHOTO / 2, PHOTO / 2

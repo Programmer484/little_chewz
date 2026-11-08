@@ -16,7 +16,7 @@
           "credentials": ["Founder of Little Chewz", "Teacher  ·  Author"],
           "paragraphs": ["Letter paragraph."],
           "signature": "First name",
-          "contact": [{"label": "Email", "text": "name@littlechewz.ca", "url": "mailto:name@littlechewz.ca"}]
+          "contact": [{"label": "Email", "text": "name@littlechewz.ca"}]
         }
       ]
     },
