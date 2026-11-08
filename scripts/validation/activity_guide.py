@@ -16,7 +16,7 @@ def validate(ctx, source, doc):
         if typ != "heading":
             continue
         seen_heading = True
-        title = block.get("text", "")
+        title = block.get("text") or ""
         rank = next((i for i, name in enumerate(SECTIONS)
                      if title == name or (name == "Choose one" and title.startswith(name))), None)
         if rank is None:
