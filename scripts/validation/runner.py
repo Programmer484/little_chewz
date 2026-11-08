@@ -4,12 +4,13 @@ The routing table is authoritative: a Celebrate lesson runs Teacher Guide +
 Celebrate only, while Welcome and companion types never inherit guide checks.
 """
 from dataclasses import dataclass
+from importlib import import_module
 from pathlib import Path
 import json
 
-from select_builds import targets, generated_outputs, read_json, resource_refs
+from select_builds import targets, generated_outputs, resource_refs
 from publication_state import has_official_version
-from . import activity_guide, catalog, celebrate, companion, teacher_guide, welcome
+from . import catalog
 from .common import Context, read_registry, validate_references
 
 
@@ -21,17 +22,17 @@ class Rule:
 
 
 RULES = {
-    "teacher_guide": Rule("lesson", "teacher_guide", (teacher_guide.validate,)),
-    "celebrate": Rule("lesson", "celebrate", (teacher_guide.validate, celebrate.validate)),
-    "teacher_companion": Rule("companion", "teacher_companion", (companion.validate,)),
-    "activity_guide": Rule("companion", "teacher_companion", (companion.validate, activity_guide.validate)),
-    "option_overview": Rule("companion", "teacher_companion", (companion.validate,)),
-    "welcome": Rule("standalone", "welcome", (welcome.validate,)),
+    "teacher_guide": Rule("lesson", "teacher_guide", ("teacher_guide",)),
+    "celebrate": Rule("lesson", "celebrate", ("teacher_guide", "celebrate")),
+    "teacher_companion": Rule("companion", "teacher_companion", ("companion",)),
+    "activity_guide": Rule("companion", "teacher_companion", ("companion", "activity_guide")),
+    "option_overview": Rule("companion", "teacher_companion", ("companion",)),
+    "welcome": Rule("standalone", "welcome", ("welcome",)),
 }
 BASE_CHECKS = {
-    "lesson": (teacher_guide.validate,),
-    "companion": (companion.validate,),
-    "standalone": (welcome.validate,),
+    "lesson": ("teacher_guide",),
+    "companion": ("companion",),
+    "standalone": ("welcome",),
 }
 
 
@@ -48,12 +49,13 @@ def validate_source(ctx, source, doc, owner):
         checks = BASE_CHECKS[owner]
     else:
         checks = rule.checks
-    for validate in checks:
-        validate(ctx, source, doc)
+    for module_name in checks:
+        import_module(f"validation.{module_name}").validate(ctx, source, doc)
 
 
 def validate_quest_manifests(ctx, guide_outputs):
-    for school in read_json("catalog/quests.json")["school_index"]:
+    quest_index = json.loads((ctx.root / "catalog/quests.json").read_text())
+    for school in quest_index["school_index"]:
         quest_path = ctx.root / school["quest_manifest"]
         quest = json.loads(quest_path.read_text())
         for lesson in quest["learning_sequence"]:
@@ -79,7 +81,7 @@ def validate_templates(ctx):
         if doc.get("template") != folder.name:
             ctx.error(path, f'must declare "template": "{folder.name}"')
         if folder.name == "activity_guide":
-            activity_guide.validate(ctx, path, doc)
+            "activity_guide"(ctx, path, doc)
 
 
 def validate_pdf_targets(ctx):
@@ -134,7 +136,7 @@ def run(root):
             checked.add(source.resolve())
 
     for source in root.glob("content/**/story/*.md"):
-        if not source.read_text().startswith("---\\n"):
+        if not source.read_text().startswith("---\n"):
             ctx.error(source, "missing story frontmatter")
 
     # Standalone generated sources (normally Welcome) are not lesson or companion files.
@@ -149,6 +151,8 @@ def run(root):
                 or not (root / f"scripts/renderers/{renderer}.py").is_file()):
             ctx.error(ref, f"unknown PDF renderer {renderer}")
             continue
+        if not isinstance(build["source"], str):
+            continue  # Invalid source type is reported by catalogue validation.
         source = root / build["source"]
         if not source.is_file():
             continue  # Reported by catalogue source-path validation.
