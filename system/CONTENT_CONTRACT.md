@@ -14,7 +14,6 @@ Current school: Confetti Cake Cottage School (`ccc`). Current quest: Quest 01, T
 | Lesson wording and teaching steps | `lessons/<stage>/lesson.json` within the quest |
 | Draft and accepted lesson source | The same `lessons/<stage>/lesson.json` path; drafts do not need a separate filename |
 | Companion blocks | `resources/teacher_companion/*.json` within the quest; resource delivery is derived from publication evidence |
-| Raw stories and letters | `story/*.md` within the quest |
 | Stable IDs, production method, holding/published URLs, builds and publication evidence | `catalog/resources.json` |
 | Shared starting structures | `templates/<template>/TEMPLATE.json`: `teacher_guide`, `teacher_companion`, `activity_guide` (option activity guides), `option_overview` (choosing between options), `celebrate` (end-of-quest Celebrate guide) and `welcome` (clean page style and quest navigation) |
 | Verified review and official Drive folder configuration | `catalog/drive_folders.json` |
