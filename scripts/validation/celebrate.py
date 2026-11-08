@@ -3,8 +3,8 @@
 
 def validate(ctx, source, doc):
     labels = [size.get("label") for size in doc.get("sizes", [])]
-    if (not labels or len(labels) != len(set(labels))
-            or not all(isinstance(label, str) and len(label) == 1 for label in labels)):
+    if (not labels or not all(isinstance(label, str) and len(label) == 1 for label in labels)
+            or len(labels) != len(set(labels))):
         ctx.error(source, "celebrate guide needs party sizes with unique one-letter labels")
     if not (doc.get("invitation") or {}).get("headline"):
         ctx.error(source, "celebrate guide needs an invitation headline")
