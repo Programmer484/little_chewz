@@ -284,7 +284,8 @@ def block_nav(c, b, y, flex, registry):
             c.linkURL(url, (MARGIN - 8, bottom + 3, right + 8, top - 3), relative=0, thickness=0)
         else:
             spaced(c, right, mid - 4, pending, BODY, 8.5, 1.3, MUTED, align="right")
-        hairline(c, bottom)
+        if item is not b["items"][-1]:  # the footer rule closes the last row
+            hairline(c, bottom)
         y = bottom
     return y - 2
 
