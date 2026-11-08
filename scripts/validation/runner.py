@@ -81,7 +81,7 @@ def validate_templates(ctx):
         if doc.get("template") != folder.name:
             ctx.error(path, f'must declare "template": "{folder.name}"')
         if folder.name == "activity_guide":
-            "activity_guide"(ctx, path, doc)
+            import_module("validation.activity_guide").validate(ctx, path, doc)
 
 
 def validate_pdf_targets(ctx):
