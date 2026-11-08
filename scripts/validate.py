@@ -41,6 +41,12 @@ def celebrate_errors(doc):
     count=(doc.get('finale') or {}).get('step_count',0)
     if not isinstance(count,int) or isinstance(count,bool) or not 0<=count<len(doc.get('steps',[])):
         errs.append('celebrate finale step_count must leave at least one Teaching Flow step')
+    note=(doc.get('finale') or {}).get('teacher_note')
+    if note is not None:
+        if not (isinstance(note,dict) and all(note.get(k) for k in ('label','headline','text','ref'))):
+            errs.append('celebrate finale teacher_note needs label, headline, text and ref')
+        elif note['ref'] not in registry:
+            errs.append(f'missing catalog resource ref {note["ref"]}')
     return errs
 FOLDERS={'welcome', 'teacher_guide', 'classroom_slides', 'student_material', 'teacher_resource'}
 PDF_RENDERERS={'teacher_guide': 'teacher_guide', 'teacher_companion': 'teacher_resource',

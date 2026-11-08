@@ -37,6 +37,7 @@ Celebrate additions:
 | `steps[].sizes` | Labels of the sizes that include the step; drawn as chips. |
 | `spot_art` | `images` (paths) and an optional `caption`, shown under Preparation. Optional `height` (pt). |
 | `finale` | `headline`, `kicker`, `badge` (image path), `line`, and `step_count`: how many of the **last** steps move to the finale page. Omit `finale` for no finale page. |
+| `finale.teacher_note` | Optional teacher-only card below the finale steps, on a tinted panel: `label` (drawn in caps), `headline`, `text`, `ref` (catalogue ID of its one link) and optional `link_text` (defaults to the resource title). The renderer fails if it would reach the logo; lower `step_count` to make room. |
 
 All steps stay in `steps`, so the Print Pack Builder and validation read them as usual. Resources use catalogue `ref` IDs, never URLs.
 

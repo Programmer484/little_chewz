@@ -224,6 +224,13 @@
     "kicker": "Restore the Sparkle · Quest One",
     "badge": "assets/quest-one-badge.png",
     "line": "Confetti Cake Cottage survives because strong teams learn, adapt, and rebuild.",
-    "step_count": 2
+    "step_count": 1,
+    "teacher_note": {
+      "label": "Pilot teachers · One final step",
+      "headline": "Thank you for bringing Little Chewz into your classroom!",
+      "text": "Once you've completed Quest 1, please take approximately 5 minutes to share your experience. Your feedback will help us improve future quests.",
+      "ref": "ccc-q01-post-pilot-survey",
+      "link_text": "Complete the Post-Pilot Survey"
+    }
   }
 }

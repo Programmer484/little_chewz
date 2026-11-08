@@ -578,5 +578,11 @@
     "type": "teacher_resource",
     "holding_url": null,
     "published_url": "https://drive.google.com/file/d/1smX2dPZgxf_n2cLG5exS4qyLsiBS7Vg4/view"
+  },
+  "ccc-q01-post-pilot-survey": {
+    "title": "Post-Pilot Survey",
+    "type": "teacher_resource",
+    "published_url": "https://forms.gle/LY4KyeczkyGbQTax5",
+    "holding_url": null
   }
 }
