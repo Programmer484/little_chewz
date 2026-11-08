@@ -137,7 +137,7 @@ OPTION_RULE=(.87,.85,.83)
 FLOW_FIRST_CAP=HDR_RULE+30.    # cap-top of the first step on a flow page
 FLOW_LIMIT=772.                # last allowed content baseline on a flow page
 CUE_BASELINE=800.
-NOTICE_BASELINE=821.             # copyright line below the content area
+NOTICE_BASELINE=816.             # copyright line: the lowest baseline txt() allows
 
 def line(p,y,x=L,x2=R,c=SOFT,thick=.6):
     if p is not None:p.draw_line((x,y),(x2,y),color=c,width=thick)
