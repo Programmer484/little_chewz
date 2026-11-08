@@ -38,7 +38,7 @@ Catalogue `type` mirrors the **five published Drive folders**. It represents the
 | `student_material` | `03_STUDENT_MATERIALS` | Student-facing worksheets and activity cards |
 | `teacher_resource` | `04_TEACHER_RESOURCES` | Teacher companions, answer keys, references, letters, media, posters, and print-pack links |
 
-The folder category is the only audience/content classification. No `audience`, free-form `tags`, `story` type or duplicate source flags are stored. Python-generated resources carry a `pdf` object; all other resources omit it. A `story/*.md` directory is an editable content source, not a resource type. Source JSON for companions may still use its own `kind` (`questions`, `extension`, `answer_key`) for its printed masthead.
+The folder category is the only audience/content classification. No `audience`, free-form `tags` or duplicate source flags are stored. Python-generated resources carry a `pdf` object; all other resources omit it. Source JSON for companions may still use its own `kind` (`questions`, `extension`, `answer_key`) for its printed masthead.
 
 ## Production workflows and delivery states
 
