@@ -4,9 +4,9 @@ The resource lifecycle has **three explicit actions**: [Create](system/CREATE.md
 
 **Create:** register a real Holding Drive file of the right format and its stable catalogue ID; contents may be a prototype. Externally hosted URLs (YouTube/web apps) have catalogue identities but no Drive file to stage or move.
 
-**Edit:** iterate generated PDFs from editable JSON in GitHub Actions previews; other files in chat/native tools. Stage the final exact candidate back in Holding and have a human review content/links. Don't modify live resources while editing.
+**Edit:** iterate generated PDFs from editable JSON in GitHub Actions previews; other files in chat/native tools. The GitHub preview is the review copy for generated PDFs; stage other files' final candidate in Holding for human review of content/links. Don't modify live resources while editing.
 
-**Publish:** only when the human explicitly names exact IDs. First-time Drive files move Holding → Public **with the same Drive ID and URL**; external URLs are recorded only after exact-link approval. Revisions replace the established public file in place. Publish all dependencies first; never publish a PDF that references an unpublished resource. No automatic merges, scheduling, or catalogue-based publication.
+**Publish:** merging a PR into `main` automatically republishes every already-live generated PDF it affects (`[no publish]` in the title skips this); anything else only when the human names exact IDs, in chat or **Actions → Publish**. First-time Drive files move Holding → Public **with the same Drive ID and URL**; external URLs are recorded only after exact-link approval. Revisions replace the established public file in place. Publish all dependencies first; never publish a PDF that references an unpublished resource. No scheduled or catalogue-based publication.
 
 **Audit:** the existing [Inspect Action](https://github.com/Programmer484/little_chewz/actions/workflows/inspect-publications.yml) is on demand and read-only. It checks published resources only, rejecting unpublished dependencies of a published parent. It does not replace human destination review or gate publication.
 
@@ -18,7 +18,7 @@ The resource lifecycle has **three explicit actions**: [Create](system/CREATE.md
 - `templates/`, `scripts/renderers/`: shared generated-PDF source and layout.
 - [Editorial](system/EDITORIAL_GUIDE.md), [Companions](system/RESOURCE_GUIDELINES.md), [Slides](system/SLIDE_CONVERSION.md), [Binary transfer](system/BINARY_TRANSFER.md): specialist runbooks.
 
-Use the shared lesson branch for its resources. `exports/` contains generated files, not editable source. GitHub PRs and main updates run validation and affected PDF previews, **never publish**.
+Use the shared lesson branch for its resources. `exports/` contains generated files, not editable source. GitHub PRs and main updates run validation and affected PDF previews; previews **never publish**. Only the **Publish** Action (on merge, or for human-named IDs) changes live files.
 
 ```bash
 python scripts/validate.py
