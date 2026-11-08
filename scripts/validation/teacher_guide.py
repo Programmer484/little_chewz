@@ -51,7 +51,8 @@ def validate(ctx, source, doc):
         if options and doc.get("flow_style") != "compact":
             ctx.error(source, "structured options require flow_style: compact")
         labels = [option.get("label") for option in options]
-        if (len(labels) != len(set(labels)) or any(label not in OPTION_LABELS for label in labels)):
+        if (any(not isinstance(label, str) or label not in OPTION_LABELS for label in labels)
+                or len(labels) != len(set(labels))):
             ctx.error(source, "option labels must be unique A/B/C/D")
         for option in options:
             if not option.get("title") or not option.get("rows"):
