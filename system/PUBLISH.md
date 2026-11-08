@@ -1,13 +1,13 @@
-# Publish — explicit, human-directed delivery
+# Publish — on merge or by explicit request
 
-An agent publishes **only resource IDs the human names**. Naming can happen in chat, in **Actions → Publish**, or in a release marker added to a PR before merge. Nothing publishes on a schedule, from catalogue detection or checksum differences, or from a merge without a marker.
+**Merging a PR into `main` publishes it**: every already-live generated PDF the merge affects is republished automatically, so merge only what the human has approved in the preview. Put `[no publish]` in the PR title to merge without publishing. Otherwise an agent publishes only resource IDs the human names (in chat or **Actions → Publish**). Nothing publishes on a schedule or from catalogue detection, and files with no live Drive destination are never published automatically.
 
 ## Generated PDFs (Teacher Guides, companions, Welcome, Celebrate)
 
-**The GitHub Actions preview is the review copy; a Drive Holding copy is optional.** When the human approves what they see in the preview, publish from accepted `main` in one of two ways:
+**The GitHub Actions preview is the review copy; a Drive Holding copy is optional.** Live files update in one of two ways:
 
-- **Publish on merge.** Before merging, add `.github/resource-releases/<PR-number>.json` to the PR: `{"resource_ids": ["ccc-q01-welcome", "..."]}`, listing dependencies first. When that PR merges into `main`, the **Publish** Action builds those IDs from the merge commit and replaces each live file. Use this when the human asks to "merge with publish on merge" or to publish what a PR changed; list the published generated resources whose outputs the PR affects (`python scripts/select_builds.py`).
-- **Publish directly.** **Actions → Publish → Run workflow** on `main` with the IDs; dry run first (the default), then a real run. An agent may instead run `python scripts/publish_to_drive.py <ids>` where `GOOGLE_SERVICE_ACCOUNT_JSON` is available.
+- **Publish on merge (automatic).** When a PR merges into `main`, the **Publish** Action builds from the merge commit, finds every generated PDF the merge may affect (`scripts/select_builds.py` against the commit before the merge) that already has a `published_url`, and replaces those files: companions first, then guides, then the Welcome. Files whose bytes are already identical on Drive are left alone. Before merging, check the preview of every live PDF the PR changes; if something is not ready to go live, keep it unmerged or title the PR `[no publish]`.
+- **Publish directly.** **Actions → Publish → Run workflow** on `main` with named IDs; dry run first (the default), then a real run. Use it after a `[no publish]` merge or to retry. An agent may instead run `python scripts/publish_to_drive.py <ids>` where `GOOGLE_SERVICE_ACCOUNT_JSON` is available.
 
 Both paths use `scripts/publish_to_drive.py`. It handles only **established** destinations (an existing `published_url`): builds with published links only, rejects unpublished dependencies, replaces the Drive file in place (same ID, link, folder and sharing; Drive keeps the old version), verifies the MD5 read-back, then records `pdf.approved_md5` and `pdf.revision`. IDs publish in the order given and **stop at the first failure**. A first-time official file still needs the Drive file created first ([Create](CREATE.md)), then the move or upload below.
 

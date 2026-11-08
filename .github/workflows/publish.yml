@@ -1,10 +1,11 @@
 name: Publish
 
 # Replaces established generated-PDF Drive files in place (same file ID, link,
-# folder and sharing; Drive keeps the old version). Two explicit triggers only:
+# folder and sharing; Drive keeps the old version). Triggers:
+#   - Every PR merged into main: republishes each already-live generated PDF
+#     the merge affected. "[no publish]" in the PR title skips it.
 #   - Actions -> Publish -> Run workflow, naming resource IDs (dry run by default).
-#   - Merging a PR into main that added .github/resource-releases/<PR>.json.
-# Ordinary merges without a marker never publish. See system/PUBLISH.md.
+# PDFs with no live Drive file are never touched. See system/PUBLISH.md.
 on:
   workflow_dispatch:
     inputs:
@@ -23,7 +24,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: read
 
 concurrency:
   group: little-chewz-publish
@@ -41,27 +41,19 @@ jobs:
           echo "Publishing runs only from main (got ${GITHUB_REF})." >&2
           exit 1
 
-      - name: Find the release marker added by the merged PR
+      - name: Honour [no publish]
         id: request
         env:
-          GH_TOKEN: ${{ github.token }}
           EVENT: ${{ github.event_name }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          TITLE: ${{ github.event.pull_request.title }}
         shell: bash
         run: |
-          set -euo pipefail
-          if [[ "$EVENT" == "workflow_dispatch" ]]; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          marker=".github/resource-releases/${PR_NUMBER}.json"
-          if gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" \
-              --jq '.[] | select(.status != "removed") | .filename' | grep -Fxq "$marker"; then
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-            echo "marker=$marker" >> "$GITHUB_OUTPUT"
-          else
-            echo "No release marker in PR #${PR_NUMBER}; nothing to publish."
+          shopt -s nocasematch
+          if [[ "$EVENT" != "workflow_dispatch" && "$TITLE" == *"[no publish]"* ]]; then
+            echo "PR title contains [no publish]; nothing published."
             echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Check out the accepted revision
@@ -85,15 +77,16 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           RESOURCE_IDS: ${{ inputs.resource_ids }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
-          MARKER: ${{ steps.request.outputs.marker }}
+          EVENT: ${{ github.event_name }}
         shell: bash
         run: |
           set -euo pipefail
           revision=$(git rev-parse HEAD)
           args=(--expected-revision "$revision" --result-json publication-report.json)
           [[ "$DRY_RUN" == "true" ]] && args+=(--dry-run)
-          if [[ -n "$MARKER" ]]; then
-            python scripts/publish_to_drive.py --marker "$MARKER" "${args[@]}"
+          if [[ "$EVENT" != "workflow_dispatch" ]]; then
+            # The merge commit's first parent is main just before this PR.
+            python scripts/publish_to_drive.py --changed-since HEAD^1 "${args[@]}"
           else
             python scripts/publish_to_drive.py $RESOURCE_IDS "${args[@]}"
           fi
@@ -121,7 +114,9 @@ jobs:
         if: always() && steps.request.outputs.enabled == 'true'
         shell: bash
         run: |
-          if [[ -f publication-report.json ]]; then
+          if [[ -f publication-report.json && "$(cat publication-report.json)" == "[]" ]]; then
+            echo "No live generated PDF was affected; nothing published." >> "$GITHUB_STEP_SUMMARY"
+          elif [[ -f publication-report.json ]]; then
             python - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
           import json
           print("| Resource | Result | Drive file |\n| --- | --- | --- |")

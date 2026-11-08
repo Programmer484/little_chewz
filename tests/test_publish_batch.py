@@ -1,4 +1,4 @@
-"""Checks for multi-ID publishing and merged-PR release markers."""
+"""Checks for multi-ID publishing and automatic publish-on-merge selection."""
 import json
 import sys
 import tempfile
@@ -21,22 +21,24 @@ class ParseIdsTests(unittest.TestCase):
                 pub.parse_ids(values)
 
 
-class MarkerTests(unittest.TestCase):
-    def write(self, document) -> Path:
-        folder = Path(tempfile.mkdtemp())
-        path = folder / "160.json"
-        path.write_text(json.dumps(document) if not isinstance(document, str) else document)
-        return path
+class LiveIdsTests(unittest.TestCase):
+    REGISTRY = {
+        "ccc-q01-welcome": {"published_url": "u", "pdf": {"renderer": "welcome", "source": "w.json"}},
+        "ccc-q01-guide": {"published_url": "u", "pdf": {"renderer": "teacher_guide", "output": "00-guide.pdf"}},
+        "ccc-q01-key": {"published_url": "u", "pdf": {"renderer": "teacher_companion", "output": "key.pdf"}},
+        "ccc-q01-draft": {"published_url": None, "pdf": {"renderer": "teacher_companion", "output": "draft.pdf"}},
+        "ccc-q01-sheet": {"published_url": "u"},
+        "ccc-q01-untouched": {"published_url": "u", "pdf": {"renderer": "teacher_guide", "output": "01-guide.pdf"}},
+    }
 
-    def test_marker_lists_ids(self):
-        path = self.write({"resource_ids": ["ccc-q01-welcome", "ccc-q01-a"]})
-        self.assertEqual(pub.marker_ids(path), ["ccc-q01-welcome", "ccc-q01-a"])
+    def test_affected_live_pdfs_publish_companions_first_and_welcome_last(self):
+        outputs = ["ccc-q01-welcome.pdf", "00-guide.pdf", "key.pdf", "draft.pdf"]
+        live, skipped = pub.live_ids_for_outputs(outputs, self.REGISTRY)
+        self.assertEqual(live, ["ccc-q01-key", "ccc-q01-guide", "ccc-q01-welcome"])
+        self.assertEqual(skipped, ["ccc-q01-draft"])
 
-    def test_invalid_markers_fail_closed(self):
-        for document in ("not json", {"resource_ids": "ccc-q01-welcome"}, {"ids": ["a"]},
-                         {"resource_ids": []}, ["ccc-q01-welcome"]):
-            with self.subTest(document=document), self.assertRaises(pub.PublishError):
-                pub.marker_ids(self.write(document))
+    def test_nothing_affected_publishes_nothing(self):
+        self.assertEqual(pub.live_ids_for_outputs([], self.REGISTRY), ([], []))
 
 
 class PublishManyTests(unittest.TestCase):

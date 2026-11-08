@@ -7,10 +7,10 @@ The registry entry in catalog/resources.json names the Drive destination
     "pdf": {"renderer": "welcome", "source": "content/.../welcome.json"}
     "pdf": {"renderer": "teacher_guide", "output": "00-activate-teacher-guide.pdf"}   # select_builds target
 
-Only an explicit human publish instruction authorizes running this helper:
-an agent run, Actions -> Publish (named IDs), or a merged PR that added a
-release marker .github/resource-releases/<PR>.json ({"resource_ids": [...]}).
-It is not a publication audit.
+Runs on an explicit human instruction (an agent run or Actions -> Publish
+with named IDs) and automatically when a PR merges into main: every
+already-published generated PDF the merge affected is republished, unless
+the PR title contains [no publish]. It is not a publication audit.
 Publishing replaces the file's contents through the Drive API, so the file
 ID, link, name, folder, and sharing stay the same and Drive keeps the old
 version in its history. After Drive reports the same MD5 as the local PDF,
@@ -23,7 +23,7 @@ the service account's email as an Editor.
 Usage:
     python scripts/publish_to_drive.py ccc-q01-welcome --dry-run
     python scripts/publish_to_drive.py ccc-q01-welcome ccc-q01-activate-teacher-guide
-    python scripts/publish_to_drive.py --marker .github/resource-releases/160.json
+    python scripts/publish_to_drive.py --changed-since HEAD^   # what a merge affected
 
 Several IDs publish in the order given and stop at the first failure.
 """
@@ -237,16 +237,34 @@ def parse_ids(values: list[str]) -> list[str]:
     return ids
 
 
-def marker_ids(marker: Path) -> list[str]:
-    """Resource IDs authorized by a merged PR's release marker."""
-    try:
-        document = json.loads(marker.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise PublishError(f"Unreadable release marker {marker}: {exc}") from exc
-    ids = document.get("resource_ids") if isinstance(document, dict) else None
-    if not isinstance(ids, list) or not all(isinstance(i, str) for i in ids):
-        raise PublishError(f"{marker}: expected {{\"resource_ids\": [\"...\"]}}")
-    return parse_ids(ids)
+RELEASE_ORDER = {"teacher_companion": 0, "teacher_guide": 1, "celebrate": 1, "welcome": 2}
+
+
+def live_ids_for_outputs(outputs: list[str], registry: dict) -> tuple[list[str], list[str]]:
+    """Map affected PDF outputs to (live IDs to republish, unpublished IDs to skip).
+
+    Companions go before the guides that link to them, and the Welcome last."""
+    live, skipped = [], []
+    for rid, entry in registry.items():
+        build = entry.get("pdf")
+        if not isinstance(build, dict) or not build.get("renderer"):
+            continue
+        try:
+            name = output_name(rid, build)
+        except PublishError:
+            continue
+        if name in outputs:
+            (live if entry.get("published_url") else skipped).append(rid)
+    live.sort(key=lambda rid: RELEASE_ORDER.get(registry[rid]["pdf"]["renderer"], 1))
+    return live, sorted(skipped)
+
+
+def changed_since(base: str) -> tuple[list[str], list[str]]:
+    """Live and skipped IDs whose generated PDF a change since `base` may affect."""
+    from select_builds import select
+    changed = subprocess.check_output(["git", "diff", "--name-only", base, "HEAD"],
+                                      cwd=ROOT, text=True).splitlines()
+    return live_ids_for_outputs(select(changed, base_ref=base), load_registry())
 
 
 def publish_many(ids: list[str], dry_run: bool = False,
@@ -272,17 +290,26 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("resource_ids", nargs="*",
                         help="registry IDs, for example ccc-q01-welcome (space or comma separated)")
-    parser.add_argument("--marker", type=Path, help="publish the IDs listed in a release marker")
+    parser.add_argument("--changed-since", metavar="BASE",
+                        help="publish every live generated PDF affected by changes since BASE")
     parser.add_argument("--dry-run", action="store_true", help="build and check access without uploading")
     parser.add_argument("--expected-revision", help="Reject a stale or unexpected main HEAD")
     parser.add_argument("--result-json", type=Path, help="Write verified publication report as JSON")
     args = parser.parse_args()
+    skipped = []
     try:
-        ids = marker_ids(args.marker) if args.marker else parse_ids(args.resource_ids)
-    except PublishError as exc:
+        if args.changed_since:
+            ids, skipped = changed_since(args.changed_since)
+        else:
+            ids = parse_ids(args.resource_ids)
+    except (PublishError, subprocess.CalledProcessError) as exc:
         print(f"PUBLISH FAILED: {exc}", file=sys.stderr)
         sys.exit(1)
-    reports = publish_many(ids, dry_run=args.dry_run, expected_revision=args.expected_revision)
+    reports = publish_many(ids, dry_run=args.dry_run, expected_revision=args.expected_revision) if ids else []
+    if skipped:
+        reports.append({"result": "skipped: no live Drive file yet", "resource_ids": skipped})
+    if not ids:
+        print("No live generated PDF was affected; nothing to publish.")
     if args.result_json:
         args.result_json.parent.mkdir(parents=True, exist_ok=True)
         args.result_json.write_text(json.dumps(reports, indent=2) + "\n")
