@@ -53,7 +53,7 @@
       "renderer": "teacher_companion",
       "output": "mission-video-questions.pdf",
       "approved_md5": "58ef0b9b522c699c47aba67eb5bb1931",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-activate-confetti-questions": {
@@ -65,7 +65,7 @@
       "renderer": "teacher_companion",
       "output": "confetti-file-questions.pdf",
       "approved_md5": "02182e5208036f90db3acde076eb6d81",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-activate-teacher-guide": {
@@ -77,7 +77,7 @@
       "renderer": "teacher_guide",
       "output": "00-activate-teacher-guide.pdf",
       "approved_md5": "cbcdbe220d9af704c068f755473b19a0",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-set-the-table-slides": {
@@ -96,7 +96,7 @@
       "renderer": "teacher_companion",
       "output": "songwriting-extension.pdf",
       "approved_md5": "8a007b0aeb177d58a2904448f3533bd9",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-set-the-table-kwls-starter": {
@@ -133,7 +133,7 @@
       "renderer": "teacher_guide",
       "output": "01-set-the-table-teacher-guide.pdf",
       "approved_md5": "f0493d4fe9375dc572c8c4ae21d2d06d",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-set-the-table-vocabulary-cards": {
@@ -163,7 +163,7 @@
       "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json",
       "approved_md5": "4043edf76893681e2a0c7e3eefb4a5dc",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-secret-ingredients-clue-video": {
@@ -207,7 +207,7 @@
       "renderer": "teacher_companion",
       "output": "clue-tracker-answer-key.pdf",
       "approved_md5": "38a97845139901837bd79a66dd96d423",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-secret-ingredients-chapter-notes": {
@@ -251,7 +251,7 @@
       "renderer": "teacher_guide",
       "output": "02-secret-ingredients-teacher-guide.pdf",
       "approved_md5": "b7732037159b28c2245032acd43e96eb",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-chew-on-this-slides": {
@@ -277,7 +277,7 @@
       "renderer": "teacher_companion",
       "output": "showdown-overview.pdf",
       "approved_md5": "59dbdbf5901ffa868fa28af6ca7f1cfd",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-showdown-design-guide": {
@@ -289,7 +289,7 @@
       "renderer": "teacher_companion",
       "output": "showdown-design-guide.pdf",
       "approved_md5": "6b6418df9410554818a03214acfa3763",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-showdown-decorate-guide": {
@@ -301,7 +301,7 @@
       "renderer": "teacher_companion",
       "output": "showdown-decorate-guide.pdf",
       "approved_md5": "9d4e2c536fd87dc68631bc81870db84b",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-showdown-bake-mystery-guide": {
@@ -313,7 +313,7 @@
       "renderer": "teacher_companion",
       "output": "showdown-bake-mystery-guide.pdf",
       "approved_md5": "aa05c7361fc12bcd893bfd5582d0d1b3",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-showdown-design-sheet": {
@@ -337,7 +337,7 @@
       "renderer": "teacher_guide",
       "output": "03-the-showdown-teacher-guide.pdf",
       "approved_md5": "49ff1fbff6f938389fdbf21917bcbe37",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-showdown-design-card": {
@@ -405,7 +405,7 @@
       "renderer": "teacher_guide",
       "output": "04-chew-on-this-teacher-guide.pdf",
       "approved_md5": "adc01aa843aaf8886d2404767f14f2e5",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-chew-on-this-team-talk-questions": {
@@ -417,7 +417,7 @@
       "renderer": "teacher_companion",
       "output": "team-talk-questions.pdf",
       "approved_md5": "ae6d7cd87eb43e8711c63c4a6c6fc729",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-chew-on-this-team-talk-cards": {
@@ -472,7 +472,7 @@
       "renderer": "teacher_companion",
       "output": "role-play-extension.pdf",
       "approved_md5": "2c0b11c083a5944880e26fb33c8e62ed",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-chew-on-this-graffiti-wall": {
@@ -484,7 +484,7 @@
       "renderer": "teacher_companion",
       "output": "graffiti-wall.pdf",
       "approved_md5": "45a5da186777fd8bb6e72913214d4fdf",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-plate-it-forward-slides": {
@@ -522,7 +522,7 @@
       "renderer": "teacher_guide",
       "output": "05-plate-it-forward-teacher-guide.pdf",
       "approved_md5": "6a57db2155b1b1d74f2c285b7f6742dc",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-plate-it-forward-print-pack": {
@@ -569,8 +569,8 @@
     "pdf": {
       "renderer": "celebrate",
       "output": "06-celebrate-teacher-guide.pdf",
-      "approved_md5": "300521c343c4caf9fc310fb211b5cad6",
-      "revision": "9c39afed2e172d68bfffe6e49349994889cc3226"
+      "approved_md5": "68c77541a401627728c93ad65121f7f4",
+      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
     }
   },
   "ccc-q01-celebrate-chewlandia-mail": {
