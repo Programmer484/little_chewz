@@ -335,8 +335,12 @@
           "type": "paragraphs",
           "label": "Sharing With a Colleague?",
           "paragraphs": [
-            "If a colleague would like to try Little Chewz, send them to www.littlechewz.ca and we'll get them set up."
-          ]
+            "Know a teacher who would love to try Little Chewz? Invite them to join our pilot by completing our Pre-Pilot Questionnaire, and we’ll get them set up!"
+          ],
+          "link": {
+            "text": "Pre-Pilot Questionnaire",
+            "url": "https://forms.gle/GkwBH7WpVPPw3Lin9"
+          }
         },
         {
           "type": "paragraphs",
