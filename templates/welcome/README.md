@@ -12,6 +12,10 @@ python scripts/renderers/welcome.py \
   --output exports/01-welcome.pdf
 ```
 
+## Inline paragraph links
+
+A `paragraphs` block may include `"link": {"text": "Exact phrase", "url": "https://example.com"}`. The phrase in its paragraph is underlined and clickable, including across line breaks. Use the human-approved HTTPS destination for non-Drive links.
+
 ## Navigation links
 
 `nav` rows name a stable resource ID from `catalog/resources.json`. A row shows **Open Guide** and becomes clickable only when that entry has an official HTTPS `published_url`; otherwise it shows **Coming Soon**. Never put Drive URLs in the document JSON.
