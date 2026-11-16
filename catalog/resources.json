@@ -162,8 +162,8 @@
     "pdf": {
       "renderer": "welcome",
       "source": "content/confetti-cake-cottage/quest-01-bake-off-betrayal/welcome/welcome.json",
-      "approved_md5": "4043edf76893681e2a0c7e3eefb4a5dc",
-      "revision": "2edf1467f79d18689028ff4eb94062cdabd20694"
+      "approved_md5": "54b42f7ea99d8a916b31e2ef12c0e83b",
+      "revision": "a59b1abbe9b6047392274362835b5bcd99ff0cdf"
     }
   },
   "ccc-q01-secret-ingredients-clue-video": {
