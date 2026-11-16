@@ -149,6 +149,32 @@ def block_lede(c, b, y, flex):
     return last - 6
 
 
+def underline_link(c, text, link, x, y, font, size, leading, max_width):
+    """Underline and link the named phrase, including any wrapped segments."""
+    if not isinstance(link.get("url"), str) or not link["url"].startswith("https://"):
+        raise ValueError("Welcome paragraph links must use HTTPS")
+    normalized = " ".join(text.split())
+    phrase = " ".join(link["text"].split())
+    start = normalized.index(phrase)
+    end = start + len(phrase)
+    offset = 0
+    c.saveState()
+    c.setStrokeColor(BODY_INK)
+    c.setLineWidth(0.6)
+    for i, line in enumerate(wrap(text, font, size, max_width)):
+        left = max(start - offset, 0)
+        right = min(end - offset, len(line))
+        if left < right:
+            x0 = x + width(line[:left], font, size)
+            x1 = x + width(line[:right], font, size)
+            baseline = y - i * leading
+            c.line(x0, baseline - 2, x1, baseline - 2)
+            c.linkURL(link["url"], (x0, baseline - 3, x1, baseline + size),
+                      relative=0, thickness=0)
+        offset += len(line) + 1
+    c.restoreState()
+
+
 def block_paragraphs(c, b, y, flex):
     if b.get("label"):
         label(c, MARGIN, y - 9, b["label"])
@@ -157,6 +183,9 @@ def block_paragraphs(c, b, y, flex):
         if i:
             y -= 9 + flex * 0.3
         last = text_block(c, MARGIN, y - 12, para, BODY, 11.5, 16.5, CONTENT_W, BODY_INK)
+        link = b.get("link")
+        if link and link["text"] in para:
+            underline_link(c, para, link, MARGIN, y - 12, BODY, 11.5, 16.5, CONTENT_W)
         y = last - 4
     return y
 
